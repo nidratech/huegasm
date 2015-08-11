@@ -1,5 +1,10 @@
+
+{{#each lightsList as |light|}}
+    <img width="40" src="assets/images/lights/{{light}}.svg">
+{{/each}}
+
 <div class="controlTxt">Lights:</div>
 {{#paper-switch checked=lightsOn}} {{lightsOnTxt}} {{/paper-switch}}
 
 <div class="controlTxt">Brightness:</div>
-{{paper-slider flex=true min='0' max='255' value=lightsBrightness}}
+{{paper-slider flex=true min='1' max='254' value=lightsBrightness disabled=brightnessControlDisabled}}

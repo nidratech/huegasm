@@ -1,0 +1,20 @@
+@import 'ember-paper';
+
+#pressButtonBridgeImg {
+  width: 200px;
+  margin: 0 auto 0 auto;
+  display: inherit;
+}
+
+.noTextDecoration {
+  text-decoration: none;
+}
+
+md-switch {
+  display: inline-flex;
+  margin: 0;
+}
+
+.controlTxt {
+  margin-top: 20px;
+}

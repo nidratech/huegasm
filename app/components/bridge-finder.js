@@ -22,7 +22,9 @@ export default Em.Component.extend({
   },
 
   // find the bridge ip here
-  didInsertElement: function () {
+  init: function () {
+    this._super();
+
     if(this.get('bridgeIp') === null){
       var self = this;
 

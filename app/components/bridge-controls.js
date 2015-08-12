@@ -5,7 +5,9 @@ export default Em.Component.extend({
 
   bridgeUsername: null,
 
+  groupsData: null,
   lightsData: null,
+  activeLights: null,
 
   numLights: function(){
     var lightsData = this.get('lightsData'), numLights = 0;
@@ -19,18 +21,27 @@ export default Em.Component.extend({
     return numLights;
   }.property('lightsData'),
 
-  lightsApiURL: function(){
-      return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername') + '/lights';
+  apiURL: function(){
+      return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
   }.property('bridgeIp', 'bridgeUsername'),
 
-  didInsertElement: function() {
+  init: function() {
+    this._super();
+    var self = this;
+
+    Em.$.get(this.get('apiURL') + '/groups', function (result, status) {
+      if (status === 'success' ) {
+        self.set('groupsData', result);
+      }
+    });
+
     this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
   },
 
   updateLightData: function(){
     var self = this;
 
-    Em.$.get(this.get('lightsApiURL'), function (result, status) {
+    Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
       if (status === 'success' && JSON.stringify(self.get('lightsData')) !== JSON.stringify(result) ) {
         self.set('lightsData', result);
       } else if(status !== 'success' ) {

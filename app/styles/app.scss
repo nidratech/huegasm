@@ -1,4 +1,6 @@
 @import 'ember-paper';
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
 
 #pressButtonBridgeImg {
   width: 200px;
@@ -8,12 +10,6 @@
 
 .noTextDecoration {
   text-decoration: none;
-}
-
-.md-subheader-content {
-  max-width: 500px;
-  margin-right: auto;
-  margin-left: auto;
 }
 
 md-list {
@@ -26,4 +22,29 @@ md-list {
   max-width: 400px;
   margin-right: auto;
   margin-left: auto;
+}
+
+img.hueLight.active {
+  border-radius: 50%;
+  border: #94ffa0 2px solid;
+}
+
+img.hueLight.inactive {
+  border-radius: 50%;
+  border: #d2d3d6 2px solid;
+}
+
+
+.hueLight:hover {
+  cursor: pointer;
+  -webkit-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+  -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+  transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+}
+
+.ember-modal-overlay.translucent {
+  background-color: #000000;
 }

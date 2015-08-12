@@ -1,9 +1,9 @@
 {{#paper-list}}
 
-  {{controls/lights-control lightsApiURL=lightsApiURL lightsData=lightsData}}
+  {{controls/lights-control apiURL=apiURL lightsData=lightsData groupsData=groupsData activeLights=activeLights}}
 
   {{paper-divider}}
 
-  {{controls/party-control lightsApiURL=lightsApiURL lightsData=lightsData numLights=numLights}}
+  {{controls/party-control apiURL=apiURL lightsData=lightsData numLights=numLights  activeLights=activeLights}}
 
 {{/paper-list}}

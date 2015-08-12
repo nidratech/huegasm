@@ -8,6 +8,7 @@ export default Em.Component.extend({
 
   numLights: 0,
   lightsData: null,
+  activeLights: null,
 
   strobeOnInervalHandle: null,
   strobeSat: 0,
@@ -37,21 +38,21 @@ export default Em.Component.extend({
 
       this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 200));
     } else { // revert the light system to pre-strobe
-      var preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache');
+      var preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = function (lightIndx) {
+        Em.$.ajax(self.get('lightsApiURL') + '/' + lightIndx + '/state', {
+          data: JSON.stringify({
+            'on': preStrobeOnLightsDataCache[lightIndx].state.on,
+            'sat': preStrobeOnLightsDataCache[lightIndx].state.sat,
+            'bri': preStrobeOnLightsDataCache[lightIndx].state.bri
+          }),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      };
 
       for (let key in lightsData) {
         if (lightsData.hasOwnProperty(key)) {
-          setTimeout(function () {
-            Em.$.ajax(self.get('lightsApiURL') + '/' + key + '/state', {
-              data: JSON.stringify({
-                'on': preStrobeOnLightsDataCache[key].state.on,
-                'sat': preStrobeOnLightsDataCache[key].state.sat,
-                'bri': preStrobeOnLightsDataCache[key].state.bri
-              }),
-              contentType: 'application/json',
-              type: 'PUT'
-            });
-          }, 2000);
+          setTimeout(updateLight(key), 2000);
         }
       }
 
@@ -60,7 +61,7 @@ export default Em.Component.extend({
   }.observes('strobeOn'),
 
   strobeStep: function () {
-    var lightsData = this.get('lightsData'), lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('numLights') + 1), self = this;
+    var lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('numLights') + 1), self = this;
 
     Em.$.ajax(this.get('lightsApiURL') + '/' + lastStrobeLight + '/state', {
       data: JSON.stringify({'on': true, 'transitiontime': 0, 'alert': 'select'}),

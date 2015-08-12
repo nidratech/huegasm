@@ -4,9 +4,37 @@ export default Em.Component.extend({
 
   lightsDataIntervalHandle: null,
 
-  lightsApiURL: null,
+  apiURL: null,
 
   lightsData: null,
+  activeLights: null,
+
+  groupSelection: null,
+  groupsData: null,
+  groupsArrData: function(){
+    var groupsData = this.get('groupsData'), groupsArrData = [];
+
+    for (var key in groupsData) {
+      if (groupsData.hasOwnProperty(key)) {
+        groupsArrData.push({name: groupsData[key].name, id: key});
+      }
+    }
+
+    return groupsArrData;
+  }.property('groupsData'),
+
+  onGroupSelectionChange: function(){
+    debugger;
+  }.observes('groupSelection'),
+
+  modalData: null,
+  isShowingLightsModal: false,
+  actions: {
+    clickLight: function(id, data){
+      this.set('modalData', {data:data, id:id});
+      this.toggleProperty('isShowingLightsModal');
+    }
+  },
 
   // determines whether the lights are on/off for the lights switch
   lightsOn: function(){
@@ -43,43 +71,43 @@ export default Em.Component.extend({
       if (lightsData.hasOwnProperty(key)) {
         switch(lightsData[key].modelid){
           case 'LCT001':
-            lightsList.push('a19');
+            lightsList.push({type: 'a19', name: lightsData[key].name, id: key, data: lightsData[key] });
             break;
           case 'LCT002':
-            lightsList.push('br30');
+            lightsList.push({type: 'br30', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LCT003':
-            lightsList.push('gu10');
+            lightsList.push({type: 'gu10', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LST001':
-            lightsList.push('lightstrip');
+            lightsList.push({type: 'lightstrip', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC010':
-            lightsList.push('lc_iris');
+            lightsList.push({type: 'lc_iris', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC011':
-            lightsList.push('lc_bloom');
+            lightsList.push({type: 'lc_bloom', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC012':
-            lightsList.push('lc_bloom');
+            lightsList.push({type: 'lc_bloom', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC006':
-            lightsList.push('lc_iris');
+            lightsList.push({type: 'lc_iris', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC007':
-            lightsList.push('lc_aura');
+            lightsList.push({type: 'lc_aura', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC013':
-            lightsList.push('storylight');
+            lightsList.push({type: 'storylight', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LWB004':
-            lightsList.push('a19');
+            lightsList.push({type: 'a19', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           case 'LLC020':
-            lightsList.push('huego');
+            lightsList.push({type: 'huego', name: lightsData[key].name, id: key, data: lightsData[key]});
             break;
           default:
-            lightsList.push('a19');
+            lightsList.push({type: 'a19', name: lightsData[key].name, id: key, data: lightsData[key]});
         }
       }
     }
@@ -104,7 +132,7 @@ export default Em.Component.extend({
     // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
     if(lightsOn !== lightsOnSystem){
       for (let key in lightsData) {
-        Em.$.ajax(this.get('lightsApiURL') + '/' + key + '/state', {
+        Em.$.ajax(this.get('apiURL')  + '/lights/' + key + '/state', {
           data: JSON.stringify({"on": lightsOn}),
           contentType: 'application/json',
           type: 'PUT'
@@ -126,7 +154,7 @@ export default Em.Component.extend({
     // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
     if(lightsBrightness !== lightsBrightnessSystem){
       for (let key in lightsData) {
-        Em.$.ajax(this.get('lightsApiURL') + '/' + key + '/state', {
+        Em.$.ajax(this.get('apiURL')  + '/lights/' + key + '/state', {
           data: JSON.stringify({"bri": lightsBrightness}),
           contentType: 'application/json',
           type: 'PUT'

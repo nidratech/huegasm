@@ -10,11 +10,20 @@
   text-decoration: none;
 }
 
-md-switch {
-  display: inline-flex;
-  margin: 0;
+.md-subheader-content {
+  max-width: 500px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-.controlTxt {
-  margin-top: 20px;
+md-list {
+  max-width: 600px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.item {
+  max-width: 400px;
+  margin-right: auto;
+  margin-left: auto;
 }

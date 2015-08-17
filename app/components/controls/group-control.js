@@ -38,7 +38,7 @@ export default Em.Component.extend({
 
   onGroupSelectionChanged: function(){
     var groupSelection = this.get('groupSelection');
-    debugger;
+
     if(!Em.isNone(groupSelection)){
       this.set('activeLights', groupSelection.lights);
     }

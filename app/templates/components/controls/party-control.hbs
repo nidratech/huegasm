@@ -1,13 +1,15 @@
-{{#paper-subheader class="md-no-sticky"}}Party{{/paper-subheader}}
+{{#paper-list}}
 
-{{#paper-item class="item"}}
-  {{paper-icon icon="flare"}}
-  <p>Strobe</p>
-  {{#paper-switch checked=strobeOn}} {{strobeOnTxt}} {{/paper-switch}}
-{{/paper-item}}
+  {{#paper-item class="item"}}
+    {{paper-icon icon="flare"}}
+    <p>Strobe</p>
+    {{#paper-switch checked=strobeOn}} {{strobeOnTxt}} {{/paper-switch}}
+  {{/paper-item}}
 
-{{#paper-item class="item"}}
-  {{paper-icon icon="music-note"}}
-    <p>Music</p>
-    {{#paper-button raised=true primary=true}}UPLOAD{{/paper-button}}
-{{/paper-item}}
+  {{#paper-item class="item"}}
+    {{paper-icon icon="music-note"}}
+      <p>Music</p>
+      {{#paper-button raised=true primary=true}}UPLOAD{{/paper-button}}
+  {{/paper-item}}
+
+{{/paper-list}}

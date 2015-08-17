@@ -1,9 +1,30 @@
-{{#paper-list}}
+{{#paper-nav-container open=drawerOpen class="ember-app"}}
+  {{#paper-content flex-layout="column" flex=true}}
+      <ul class="nav nav-tabs">
+        {{#each tabData as |tab|}}
+            <li role="presentation" class="{{if tab.selected "active" ""}}"><a
+                    href="#" {{action "changeTab" tab.name}}>{{tab.name}}</a></li>
+        {{/each}}
+      </ul>
 
-  {{controls/lights-control apiURL=apiURL lightsData=lightsData groupsData=groupsData activeLights=activeLights}}
+      {{#liquid-if lightsTabSelected class="tabSwitch"}}
+        {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
+      {{/liquid-if}}
 
-  {{paper-divider}}
+      {{#liquid-if scenesTabSelected class="tabSwitch"}}
+        {{controls/scene-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
+      {{/liquid-if}}
 
-  {{controls/party-control apiURL=apiURL lightsData=lightsData numLights=numLights  activeLights=activeLights}}
+      {{#liquid-if partyTabSelected class="tabSwitch"}}
+        {{controls/party-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
+      {{/liquid-if}}
+  {{/paper-content}}
 
-{{/paper-list}}
+  {{#paper-sidenav-toggle class="menu-sidenav-toggle"}}
+    {{paper-icon icon="menu" size="lg"}}
+  {{/paper-sidenav-toggle}}
+
+  {{#paper-sidenav class="md-sidenav-right md-whiteframe-z2" flex-layout="column" flex=true}}
+    {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights}}
+  {{/paper-sidenav}}
+{{/paper-nav-container}}

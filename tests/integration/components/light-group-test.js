@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('controls/lights-modal-control', 'Integration | Component | controls/lights modal control', {
+moduleForComponent('light-group', 'Integration | Component | light group', {
   integration: true
 });
 
@@ -11,15 +11,15 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{controls/lights-modal-control}}`);
+  this.render(hbs`{{light-group}}`);
 
   assert.equal(this.$().text().trim(), '');
 
   // Template block usage:
   this.render(hbs`
-    {{#controls/lights-modal-control}}
+    {{#light-group}}
       template block text
-    {{/controls/lights-modal-control}}
+    {{/light-group}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text');

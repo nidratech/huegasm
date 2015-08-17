@@ -1,5 +1,5 @@
-{{#if bridgeUsername}}
+{{#liquid-if bridgeUsername}}
   {{bridge-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername}}
 {{else}}
   {{bridge-finder bridgeIp=bridgeIp bridgeUsername=bridgeUsername}}
-{{/if}}
+{{/liquid-if}}

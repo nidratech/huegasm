@@ -1,0 +1,14 @@
+{{#if isShowingAddGroupsModal}}
+  {{#modal-dialog close="close"
+  alignment="center"
+  translucentOverlay=true}}
+
+    {{light-group lightsData=lightsData activeLights=activeLights selectLight=(action 'selectLight') apiURL=apiURL}}
+
+    {{paper-input label="Group name" value=groupName max="32" max-errortext="The group name cannot exceed 32 characters"}}
+
+    <button {{action 'close'}}>Close</button>
+    <button {{action 'save'}} disabled={{saveDisabled}}>Save</button>
+
+  {{/modal-dialog}}
+{{/if}}

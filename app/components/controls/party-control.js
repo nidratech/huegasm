@@ -2,11 +2,10 @@ import Em from 'ember';
 
 export default Em.Component.extend({
 
-  lightsApiURL: null,
+  apiURL: null,
 
   strobeOn: false,
 
-  numLights: 0,
   lightsData: null,
   activeLights: null,
 
@@ -20,7 +19,7 @@ export default Em.Component.extend({
 
     if (this.get('strobeOn')) {
       this.set('preStrobeOnLightsDataCache', lightsData);
-      var stobeInitRequestData = {'sat': this.get('strobeSat'), 'bri': 254, 'transitiontime': 0};
+      var stobeInitRequestData = {'sat': this.get('strobeSat'), 'transitiontime': 0};
 
       for (let key in lightsData) {
         if (lightsData.hasOwnProperty(key)) {
@@ -28,7 +27,7 @@ export default Em.Component.extend({
             stobeInitRequestData.on = false;
           }
 
-          Em.$.ajax(this.get('lightsApiURL') + '/' + key + '/state', {
+          Em.$.ajax(this.get('apiURL') + '/lights/' + key + '/state', {
             data: JSON.stringify(stobeInitRequestData),
             contentType: 'application/json',
             type: 'PUT'
@@ -39,11 +38,10 @@ export default Em.Component.extend({
       this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 200));
     } else { // revert the light system to pre-strobe
       var preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = function (lightIndx) {
-        Em.$.ajax(self.get('lightsApiURL') + '/' + lightIndx + '/state', {
+        Em.$.ajax(self.get('apiURL') + '/lights/' + lightIndx + '/state', {
           data: JSON.stringify({
             'on': preStrobeOnLightsDataCache[lightIndx].state.on,
-            'sat': preStrobeOnLightsDataCache[lightIndx].state.sat,
-            'bri': preStrobeOnLightsDataCache[lightIndx].state.bri
+            'sat': preStrobeOnLightsDataCache[lightIndx].state.sat
           }),
           contentType: 'application/json',
           type: 'PUT'
@@ -52,7 +50,7 @@ export default Em.Component.extend({
 
       for (let key in lightsData) {
         if (lightsData.hasOwnProperty(key)) {
-          setTimeout(updateLight(key), 2000);
+          setTimeout(updateLight, 2000, key);
         }
       }
 
@@ -61,14 +59,14 @@ export default Em.Component.extend({
   }.observes('strobeOn'),
 
   strobeStep: function () {
-    var lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('numLights') + 1), self = this;
+    var lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('activeLights').length + 1), self = this;
 
-    Em.$.ajax(this.get('lightsApiURL') + '/' + lastStrobeLight + '/state', {
+    Em.$.ajax(this.get('apiURL') + '/lights/' + lastStrobeLight + '/state', {
       data: JSON.stringify({'on': true, 'transitiontime': 0, 'alert': 'select'}),
       contentType: 'application/json',
       type: 'PUT'
     });
-    Em.$.ajax(self.get('lightsApiURL') + '/' + lastStrobeLight + '/state', {
+    Em.$.ajax(self.get('apiURL') + '/lights/' + lastStrobeLight + '/state', {
       data: JSON.stringify({'on': false, 'transitiontime': 0}),
       contentType: 'application/json',
       type: 'PUT'

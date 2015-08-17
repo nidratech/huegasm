@@ -1,6 +1,11 @@
 @import 'ember-paper';
-@import "ember-modal-dialog/ember-modal-structure";
-@import "ember-modal-dialog/ember-modal-appearance";
+@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
+@import 'ember-modal-dialog/ember-modal-structure';
+@import 'ember-modal-dialog/ember-modal-appearance';
+
+body, html {
+  height: 100%;
+}
 
 #pressButtonBridgeImg {
   width: 200px;
@@ -13,29 +18,19 @@
 }
 
 md-list {
-  max-width: 600px;
-  margin-right: auto;
-  margin-left: auto;
+  max-width: 800px;
 }
 
-.item {
-  max-width: 400px;
-  margin-right: auto;
-  margin-left: auto;
+.hueLight {
+  margin-right: 10px;
+  border-radius: 20px;
 }
 
-img.hueLight.active {
-  border-radius: 50%;
-  border: #94ffa0 2px solid;
+.hueLight.inactive {
+  background-color: rgba(255, 0, 0, 0.7);
 }
 
-img.hueLight.inactive {
-  border-radius: 50%;
-  border: #d2d3d6 2px solid;
-}
-
-
-.hueLight:hover {
+.hueLight.active:hover {
   cursor: pointer;
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
@@ -47,4 +42,35 @@ img.hueLight.inactive {
 
 .ember-modal-overlay.translucent {
   background-color: #000000;
+}
+
+md-icon {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+md-icon.menu {
+  margin-top: 10px;
+}
+
+.addButton {
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+.removeButton {
+  cursor: pointer;
+  margin: 0 0 0 auto !important;
+}
+
+.sideNavTitle {
+  margin-left: 10px;
+}
+
+md-toolbar {
+  background-color: inherit !important;
+}
+
+.innerControlFrame {
+  background-color: mintcream;
+  height: 100vh;
 }

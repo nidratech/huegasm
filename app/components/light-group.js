@@ -1,13 +1,17 @@
 import Em from 'ember';
 
-export default Em.Component.extend(Em.TargetActionSupport, {
+export default Em.Component.extend({
 
   actions: {
     clickLight: function(id, data){
-      this.attrs.selectLight(id, data);
+      this.sendAction('action', id, data);
     },
     lightStartHover: function(id){
-      if(this.get('activeLights').contains(id)){
+      var hoveredLight = this.get('lightsList').filter(function(light){
+        return light.activeClass !== 'unreachable' && light.id === id[0];
+      });
+
+      if(!Em.isEmpty(hoveredLight) && this.get('noHover') !== true){
         Em.$.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
           data: JSON.stringify({"alert": "lselect"}),
           contentType: 'application/json',
@@ -16,7 +20,11 @@ export default Em.Component.extend(Em.TargetActionSupport, {
       }
     },
     lightStopHover: function(id){
-      if(this.get('activeLights').contains(id)){
+      var hoveredLight = this.get('lightsList').filter(function(light){
+        return light.activeClass !== 'unreachable' && light.id === id[0];
+      });
+
+      if(!Em.isEmpty(hoveredLight) && this.get('noHover') !== true){
         Em.$.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
           data: JSON.stringify({"alert": "none"}),
           contentType: 'application/json',
@@ -74,10 +82,18 @@ export default Em.Component.extend(Em.TargetActionSupport, {
             type = 'a19';
         }
 
-        lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: this.get('activeLights').contains(key) ? 'active' : 'inactive' });
+        var activeClass = 'active';
+
+        if(!this.get('activeLights').contains(key)){
+          activeClass = 'inactive';
+        } else if(!lightsData[key].state.reachable){
+          activeClass = 'unreachable';
+        }
+
+        lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass});
       }
     }
 
     return lightsList;
-  }.property('lightsData', 'activeLights')
+  }.property('lightsData', 'activeLights.[]')
 });

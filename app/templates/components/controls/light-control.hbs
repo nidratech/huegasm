@@ -1,7 +1,7 @@
 {{#paper-list}}
 
   {{#paper-item class="item"}}
-    {{light-group lightsData=lightsData activeLights=activeLights selectLight=(action 'selectLight') apiURL=apiURL}}
+    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL}}
   {{/paper-item}}
 
   {{#paper-item class="item"}}
@@ -16,6 +16,12 @@
     {{paper-slider flex=true min='1' max='254' value=lightsBrightness disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
-  {{modals/light-control-modal modalData=modalData apiURL=apiURL action="toggleLightModal" isShowingLightsModal=isShowingLightsModal}}
+  {{#paper-item class="item"}}
+    {{paper-icon icon="flare"}}
+    <p>Strobe</p>
+    {{#paper-switch checked=strobeOn}} {{strobeOnTxt}} {{/paper-switch}}
+  {{/paper-item}}
+
+  {{modals/light-control-modal modalData=modalData apiURL=apiURL action="selectLight" isShowingLightsModal=isShowingLightsModal}}
 
 {{/paper-list}}

@@ -15,8 +15,8 @@
         {{controls/scene-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
       {{/liquid-if}}
 
-      {{#liquid-if partyTabSelected class="tabSwitch"}}
-        {{controls/party-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
+      {{#liquid-if musicTabSelected class="tabSwitch"}}
+        {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
       {{/liquid-if}}
   {{/paper-content}}
 
@@ -25,6 +25,6 @@
   {{/paper-sidenav-toggle}}
 
   {{#paper-sidenav class="md-sidenav-right md-whiteframe-z2" flex-layout="column" flex=true}}
-    {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights}}
+    {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
   {{/paper-sidenav}}
 {{/paper-nav-container}}

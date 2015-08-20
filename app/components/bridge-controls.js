@@ -5,9 +5,10 @@ export default Em.Component.extend({
 
   bridgeUsername: null,
 
+  updateGroupsData: true,
   groupsData: null,
   lightsData: null,
-  activeLights: [],
+  activeLights: Em.A(),
 
   apiURL: function(){
       return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
@@ -15,6 +16,19 @@ export default Em.Component.extend({
 
   init: function() {
     this._super();
+    this.doUpdateGroupsData();
+
+    this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
+  },
+
+  onUpdateGroupsDataChange: function(){
+    if(this.get('updateGroupsData')){
+      var self = this;
+      setTimeout(function(){ self.doUpdateGroupsData(); }, 1000);
+    }
+  }.observes('updateGroupsData'),
+
+  doUpdateGroupsData: function(){
     var self = this;
 
     Em.$.get(this.get('apiURL') + '/groups', function (result, status) {
@@ -23,10 +37,10 @@ export default Em.Component.extend({
       }
     });
 
-    this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
+    this.toggleProperty('updateGroupsData');
   },
 
-  tabList: ["Lights", "Scenes", "Party"],
+  tabList: ["Lights", "Scenes", "Music"],
   selectedTab: 0,
   tabData: function(){
     var tabData = [], selectedTab = this.get('selectedTab');
@@ -46,7 +60,7 @@ export default Em.Component.extend({
 
   lightsTabSelected: Em.computed.equal('selectedTab', 0),
   scenesTabSelected: Em.computed.equal('selectedTab', 1),
-  partyTabSelected: Em.computed.equal('selectedTab', 2),
+  musicTabSelected: Em.computed.equal('selectedTab', 2),
 
   actions: {
     changeTab: function(tabName){
@@ -70,15 +84,13 @@ export default Em.Component.extend({
         }
 
         self.set('lightsData', result);
-      } else if(status !== 'success' ) {
+      } else if(status !== 'success') {
         // something went terribly wrong ( user got unauthenticated? ) and we'll need to start all over
         clearInterval(self.get('lightsDataIntervalHandle'));
         this.setProperties({
           bridgeIp: null,
           bridgeUsername: null
         });
-
-        console.error(status + ': ' + result);
       }
     });
   }

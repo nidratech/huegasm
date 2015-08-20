@@ -5,42 +5,61 @@ export default Em.Component.extend({
 
   tagName: null,
 
-  groupSelection: null,
+  groupIdSelection: '0',
 
   actions: {
     selectGroup: function(selection){
-      this.set('groupSelection', selection);
+      this.set('groupIdSelection', selection);
     },
-
+    toggleConfirmDeleteGroupsModal: function(groupName, groupId){
+      this.setProperties({
+        deleteGroupName: groupName,
+        deleteGroupId: groupId
+      });
+      this.toggleProperty('isShowingConfirmDeleteModal');
+    },
     toggleAddGroupsModal: function(){
       this.toggleProperty('isShowingAddGroupsModal');
     }
   },
 
   groupsArrData: function(){
-    var groupsData = this.get('groupsData'), lightsData = this.get('lightsData'), groupsArrData = [], ids = [];
+    var groupsData = this.get('groupsData'), lightsData = this.get('lightsData'), groupsArrData = [], ids = [], groupIdSelection = this.get('groupIdSelection');
 
     for (let key in lightsData) {
       if(lightsData.hasOwnProperty(key) && lightsData[key].state.reachable){
         ids.push(key);
       }
     }
-    groupsArrData.push({name: 'All', data: {lights: ids}});
+    groupsArrData.push({name: 'All', data: {lights: ids, key: '0' }, rowClass: groupIdSelection === '0' ? 'groupRow selectedRow' : 'groupRow', deletable: false});
 
     for (let key in groupsData) {
       if (groupsData.hasOwnProperty(key)) {
-        groupsArrData.push({name: groupsData[key].name, data: {lights: groupsData[key].lights, key: key}});
+        var rowClass = 'groupRow';
+
+        if(key === groupIdSelection){
+          rowClass += ' selectedRow';
+        }
+
+        groupsArrData.push({name: groupsData[key].name, data: {lights: groupsData[key].lights, key: key}, rowClass: rowClass, deletable: true});
       }
     }
 
     return groupsArrData;
-  }.property('groupsData', 'lightsData'),
+  }.property('groupsData', 'lightsData', 'groupSelection'),
 
-  onGroupSelectionChanged: function(){
-    var groupSelection = this.get('groupSelection');
+  onGroupIdSelectionChanged: function(){
+    var groupIdSelection = this.get('groupIdSelection'), lights = [];
 
-    if(!Em.isNone(groupSelection)){
-      this.set('activeLights', groupSelection.lights);
+    this.get('groupsArrData').some(function(group){
+      if(group.data.key === groupIdSelection){
+        lights = group.data.lights;
+        return true;
+      }
+    });
+
+    if(!Em.isNone(groupIdSelection)){
+      this.set('activeLights', lights);
     }
-  }.observes('groupSelection')
+  }.observes('groupIdSelection')
 });

@@ -40,7 +40,13 @@ export default Em.Component.extend({
   selectedLights: [],
 
   onIsShowingAddGroupsModalChange: function(){
-    this.set('selectedLights', []);
+    if(this.get('isShowingAddGroupsModal')){
+
+    }
+    this.setProperties({
+      selectedLights: [],
+      groupName: null
+    });
   }.observes('isShowingAddGroupsModal'),
 
   saveDisabled: function(){

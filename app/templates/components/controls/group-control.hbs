@@ -4,7 +4,7 @@
     {{#paper-list}}
       {{#each groupsArrData as |group|}}
         {{#paper-item class=group.rowClass}}
-          <div class="groupSelect" {{action "selectGroup" group.data.key}}>{{group.name}}</div> {{#if group.deletable}}<span title="Remove Group" class="removeButton" {{action "toggleConfirmDeleteGroupsModal" group.name group.data.key}}>{{paper-icon icon="remove"}}</span>{{/if}}
+          <div class="groupSelect" {{action "selectGroup" group.data.key}}>{{group.name}}</div> {{#if group.deletable}}<span title="Remove Group" class="removeButton" {{action "toggleConfirmDeleteGroupsModal" group.name group.data.key}}>{{paper-icon icon="close"}}</span>{{/if}}
         {{/paper-item}}
       {{/each}}
     {{/paper-list}}
@@ -13,4 +13,4 @@
 {{modals/add-group-modal lightsData=lightsData groupsData=groupsData isShowingAddGroupsModal=isShowingAddGroupsModal apiURL=apiURL updateGroupsData=updateGroupsData
 action="toggleAddGroupsModal"}}
 
-{{modals/confirm-delete-modal groupName=deleteGroupName groupId=deleteGroupId groupsData=groupsData isShowingConfirmDeleteModal=isShowingConfirmDeleteModal apiURL=apiURL updateGroupsData=updateGroupsData action="toggleConfirmDeleteGroupsModal"}}
+{{modals/confirm-delete-modal groupName=deleteGroupName groupId=deleteGroupId groupsData=groupsData isShowingConfirmDeleteModal=isShowingConfirmDeleteModal apiURL=apiURL updateGroupsData=updateGroupsData groupIdSelection=groupIdSelection action="toggleConfirmDeleteGroupsModal"}}

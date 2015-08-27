@@ -8,7 +8,8 @@ export default Em.Component.extend({
   updateGroupsData: true,
   groupsData: null,
   lightsData: null,
-  activeLights: Em.A(),
+
+  activeLights: [],
 
   apiURL: function(){
       return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
@@ -41,7 +42,7 @@ export default Em.Component.extend({
   },
 
   tabList: ["Lights", "Scenes", "Music"],
-  selectedTab: 0,
+  selectedTab: 2,
   tabData: function(){
     var tabData = [], selectedTab = this.get('selectedTab');
 
@@ -73,16 +74,6 @@ export default Em.Component.extend({
 
     Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
       if (status === 'success' && JSON.stringify(self.get('lightsData')) !== JSON.stringify(result) ) {
-        if(self.get('activeLights').length === 0){
-          var ids = [];
-          for (let key in result) {
-            if(result.hasOwnProperty(key) && result[key].state.reachable){
-              ids.push(key);
-            }
-          }
-          self.set('activeLights', ids);
-        }
-
         self.set('lightsData', result);
       } else if(status !== 'success') {
         // something went terribly wrong ( user got unauthenticated? ) and we'll need to start all over

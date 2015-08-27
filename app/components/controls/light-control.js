@@ -4,13 +4,16 @@ export default Em.Component.extend({
 
   classNames: ['innerControlFrame'],
 
+  activeLights: [],
+  lightsData: null,
+
   lightsDataIntervalHandle: null,
 
   modalData: null,
   isShowingLightsModal: false,
   isShowingAddGroupsModal: false,
   actions: {
-    selectLight: function(id, data){
+    clickLight: function(id, data){
       if(this.get('isShowingLightsModal')){
         this.set('modalData', {data:data, id:id});
       }

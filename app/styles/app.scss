@@ -3,10 +3,7 @@
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
 
-body, html {
-  height: 100%;
-}
-
+// BRIDGE FINDER
 #pressButtonBridgeImg {
   width: 200px;
   margin: 0 auto 0 auto;
@@ -17,8 +14,41 @@ body, html {
   text-decoration: none;
 }
 
-md-list {
+md-content {
   max-width: 800px;
+}
+
+// BRIDGE CONTROLS
+.navigation {
+  margin: 0 auto 0 auto;
+  padding: 30px 0 30px 0;
+}
+
+.navigationItem {
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: 'Slabo 27px', serif;
+  font-size: 18px;
+  padding: 0 10px 0 10px;
+}
+
+.navigationItem:hover{
+  text-decoration: underline;
+}
+
+.navigationItem.active {
+  font-weight: bold;
+  cursor: default;
+}
+
+.navigationItem.active:hover {
+  color: #000;
+  text-decoration: none;
+}
+
+// LIGHT GROUP
+.lightGroup {
+  margin: 0 auto 0 auto;
 }
 
 .hueLight {
@@ -54,7 +84,7 @@ md-icon {
 }
 
 md-icon.menu {
-  margin: 10px 16px 0 0;
+  margin: 30px 0 0 16px;
 }
 
 .addButton {
@@ -70,6 +100,7 @@ md-icon.menu {
 
 .sideNavTitle {
   margin-left: 16px;
+  font-family: 'Slabo 27px', serif;
 }
 
 md-toolbar {
@@ -77,20 +108,85 @@ md-toolbar {
 }
 
 .innerControlFrame {
-  background-color: mintcream;
   height: 100vh;
 }
 
-.groupRow.selectedRow{
-  background-color: lightgrey !important;
+// GROUP CONTROL
+.groupRow.selectedRow {
+  background-color: #7F7F7F !important;
+  color: white;
 }
 
 .groupRow:hover {
-  background-color: #E6E6E6;
+  background-color: #c3c3c3;
+}
+
+.groupRow.selectedRow .groupSelect {
+  cursor: default;
 }
 
 .groupSelect {
   padding: 10px 0 10px 0;
   cursor: pointer;
   width: 70%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.groupRow:hover * .close {
+  display: block;
+}
+
+.groupRow:hover * .close {
+  display: block;
+}
+
+.selectedRow * .close {
+  color: white !important;
+}
+
+.selectedRow.groupRow * .close:hover {
+  color: darken(white, 20%) !important;
+}
+
+.groupRow  * .close:hover {
+  color: darken(#333333, 20%) !important;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+.close {
+  color: rgb(51, 51, 51);
+  display: none;
+  opacity: 1;
+  text-shadow: none;
+}
+
+// MUSIC CONTROL
+#playListContainer {
+  height: 600px;
+  width: 200px;
+  color: red;
+}
+
+.playerControllIcon {
+  color: white !important;
+  cursor: pointer;
+}
+
+.playerControllIcon:hover {
+  color: darken(white, 20%) !important;
+}
+
+#playerArea {
+  height: 200px;
+  background-color: black;
+  display: inline-block;
+}
+
+#playlist {
+  height: 200px;
+  background-color: grey;
+  display: inline-block;
 }

@@ -1,30 +1,37 @@
-{{#paper-nav-container open=drawerOpen class="ember-app"}}
-  {{#paper-content flex-layout="column" flex=true}}
-      <ul class="nav nav-tabs">
-        {{#each tabData as |tab|}}
-            <li role="presentation" class="{{if tab.selected "active" ""}}"><a
-                    href="#" {{action "changeTab" tab.name}}>{{tab.name}}</a></li>
-        {{/each}}
-      </ul>
+{{#liquid-if lightsData}}
 
-      {{#liquid-if lightsTabSelected class="tabSwitch"}}
-        {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
-      {{/liquid-if}}
+  {{#paper-nav-container open=drawerOpen class="ember-app"}}
 
-      {{#liquid-if scenesTabSelected class="tabSwitch"}}
-        {{controls/scene-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
-      {{/liquid-if}}
+    {{#paper-sidenav class="md-sidenav-left md-whiteframe-z2" flex-layout="column" flex=true}}
 
-      {{#liquid-if musicTabSelected class="tabSwitch"}}
-        {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
-      {{/liquid-if}}
-  {{/paper-content}}
+      {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
+    {{/paper-sidenav}}
 
-  {{#paper-sidenav-toggle class="menu-sidenav-toggle"}}
-    {{paper-icon icon="menu" size="lg"}}
-  {{/paper-sidenav-toggle}}
+    {{#paper-sidenav-toggle class="menu-sidenav-toggle"}}
+      {{paper-icon icon="menu" size="lg"}}
+    {{/paper-sidenav-toggle}}
 
-  {{#paper-sidenav class="md-sidenav-right md-whiteframe-z2" flex-layout="column" flex=true}}
-    {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
-  {{/paper-sidenav}}
-{{/paper-nav-container}}
+    {{#paper-content flex-layout="column" flex=true}}
+        <div class="navigation">
+          {{#each tabData as |tab|}}
+              <span class="navigationItem {{if tab.selected "active" ""}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+          {{/each}}
+        </div>
+
+        {{#liquid-if lightsTabSelected class="tabSwitch"}}
+          {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
+        {{/liquid-if}}
+
+        {{#liquid-if scenesTabSelected class="tabSwitch"}}
+          {{controls/scene-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
+        {{/liquid-if}}
+
+        {{#liquid-if musicTabSelected class="tabSwitch"}}
+          {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
+        {{/liquid-if}}
+
+    {{/paper-content}}
+
+  {{/paper-nav-container}}
+
+{{/liquid-if}}

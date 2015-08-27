@@ -5,7 +5,7 @@ export default Em.Component.extend({
 
   tagName: null,
 
-  groupIdSelection: '0',
+  groupIdSelection: null,
 
   actions: {
     selectGroup: function(selection){
@@ -58,8 +58,20 @@ export default Em.Component.extend({
       }
     });
 
-    if(!Em.isNone(groupIdSelection)){
+    localStorage.setItem('huegasm.selectedGroup', groupIdSelection);
+
+    if(!Em.isNone(groupIdSelection) && !Em.isEmpty(lights)){
       this.set('activeLights', lights);
     }
-  }.observes('groupIdSelection')
+  }.observes('groupIdSelection', 'groupsArrData'),
+
+  didInsertElement: function(){
+    var selectGroup = '0', storageItem = localStorage.getItem('huegasm.selectedGroup');
+
+    if(storageItem){
+      selectGroup = storageItem;
+    }
+
+    this.set('groupIdSelection', selectGroup);
+  }
 });

@@ -6,7 +6,9 @@ export default Em.Component.extend({
       this.sendAction();
     },
     delete: function(){
-      Em.$.ajax(this.get('apiURL') + '/groups/' + this.get('groupId'), {
+      var groupId = this.get('groupId');
+
+      Em.$.ajax(this.get('apiURL') + '/groups/' + groupId, {
         contentType: 'application/json',
         type: 'DELETE'
       });
@@ -16,6 +18,10 @@ export default Em.Component.extend({
         if(groupsData.hasOwnProperty(key) && groupsData[key].name !== this.get('groupName') ){
           newGroupsData[key] = groupsData[key];
         }
+      }
+
+      if(groupId === this.get('groupIdSelection')){
+        this.set('groupIdSelection', '0');
       }
 
       this.setProperties({

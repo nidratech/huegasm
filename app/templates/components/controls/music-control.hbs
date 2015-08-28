@@ -1,1 +1,29 @@
-{{controls/music-control/music-player}}
+<div class="row">
+    <div id="playerArea" class="col-xs-8">
+
+        <div id="playerControls">
+            {{#if nextPrevEnabled}}
+            <span {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}} </span>`
+            {{/if}}
+
+          <span {{action "play"}}>{{paper-icon icon=playButton class="playerControllIcon"}}</span>
+
+          {{#if nextPrevEnabled}}
+          <span {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span>
+          {{/if}}
+
+          {{paper-icon icon="volume-up"  class="playerControllIcon"}}
+
+          <span id="playerTimeControls">{{timeElapsed}} / {{timeRemaining}}</span>
+
+          <span id="playerControlsRight">
+            <span {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
+            </span>
+          </span>
+        </div>
+    </div>
+
+    <div id="playlist" class="col-xs-4">
+        <input id="audio_file" type="file" accept="audio/*" />
+    </div>
+</div>

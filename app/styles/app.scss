@@ -25,7 +25,6 @@ md-content {
 }
 
 .navigationItem {
-  text-transform: uppercase;
   cursor: pointer;
   font-family: 'Slabo 27px', serif;
   font-size: 18px;
@@ -170,6 +169,28 @@ md-toolbar {
   color: red;
 }
 
+#playerControls {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  width: 100%;
+  color: white !important;
+}
+
+#playerTimeControls {
+  position: relative;
+  font-size: 12px;
+  top: 2px;
+  margin-left: 10px;
+}
+
+#playerControlsRight {
+  float: right;
+}
+
 .playerControllIcon {
   color: white !important;
   cursor: pointer;
@@ -180,13 +201,17 @@ md-toolbar {
 }
 
 #playerArea {
-  height: 200px;
+  height: 300px;
   background-color: black;
   display: inline-block;
 }
 
+#playerArea:hover #playerControls {
+  opacity: 1;
+}
+
 #playlist {
-  height: 200px;
+  height: 300px;
   background-color: grey;
   display: inline-block;
 }

@@ -14,7 +14,7 @@
     {{#paper-content flex-layout="column" flex=true}}
         <div class="navigation">
           {{#each tabData as |tab|}}
-              <span class="navigationItem {{if tab.selected "active" ""}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+              <span class="navigationItem {{if tab.selected "active" ""}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
           {{/each}}
         </div>
 

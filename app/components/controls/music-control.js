@@ -1,12 +1,58 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  didInsertElement: function () {
+  dancer: null,
+
+  classNames: ['container-fluid'],
+
+  actions: {
+    play: function(){
+      if(this.get('status') === 'playing'){
+        this.get('dancer').pause();
+        this.set('status', 'paused');
+      } else if(this.get('status') === 'paused'){
+        this.get('dancer').play();
+        this.set('status', 'playing');
+      }
+    },
+    next : function(){
+
+    },
+    previous: function(){
+
+    },
+
+    fullscreen: function(){
+
+    }
+  },
+
+  nextPrevEnabled: function(){
+    return this.get('playQueue').length > 1;
+  }.property('playQueue.[]'),
+
+  status: null,
+
+  playQueue: [],
+  timeElapsed: '0:00',
+  timeRemaining: '0:00',
+
+  playButton: function(){
+    if(this.get('status') === 'playing'){
+      return 'pause';
+    } else {
+      return 'play-arrow';
+    }
+  }.property('status'),
+
+  init: function(){
+    this._super();
+
     var dancer = new Dancer(),
       self = this,
       briOff  = function(i){
         Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-          data: JSON.stringify({'on': 1, 'transitiontime': 0}),
+          data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
           contentType: 'application/json',
           type: 'PUT'
         });
@@ -35,18 +81,24 @@ export default Em.Component.extend({
           }
 
         }
-      }),
-      a = new Audio();
+      });
 
     kick.on();
 
+    this.setProperties({
+      dancer: dancer,
+      kick: kick
+    });
+  },
+
+  didInsertElement: function () {
+    var dancer = this.get('dancer'), self = this;
     audio_file.onchange = function(){
-      var files = this.files;
+      var files = this.files, a = new Audio();
       var file = URL.createObjectURL(files[0]);
       a.src = file;
       dancer.load(a);
-
-      dancer.play();
+      self.set('status', 'paused');
     };
   },
 

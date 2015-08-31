@@ -15,6 +15,10 @@ export default Em.Component.extend({
         this.set('status', 'playing');
       }
     },
+    volumeSliderChanged: function(){
+
+    },
+
     next : function(){
 
     },
@@ -36,6 +40,7 @@ export default Em.Component.extend({
   playQueue: [],
   timeElapsed: '0:00',
   timeRemaining: '0:00',
+  volume: 100,
 
   playButton: function(){
     if(this.get('status') === 'playing'){
@@ -84,6 +89,10 @@ export default Em.Component.extend({
       });
 
     kick.on();
+
+    if(localStorage.getItem('huegasm.volume')){
+      this.set('volume', localStorage.getItem('huegasm.volume'));
+    }
 
     this.setProperties({
       dancer: dancer,

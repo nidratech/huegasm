@@ -12,7 +12,8 @@
           <span {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span>
           {{/if}}
 
-          {{paper-icon icon="volume-up"  class="playerControllIcon"}}
+          {{paper-icon icon="volume-up"  class="playerControllIcon volumeButton"}}
+          {{range-slider start=volume min=0 max=100 change="volumeSliderChanged"}}
 
           <span id="playerTimeControls">{{timeElapsed}} / {{timeRemaining}}</span>
 

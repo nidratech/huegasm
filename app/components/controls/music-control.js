@@ -15,8 +15,9 @@ export default Em.Component.extend({
         this.set('status', 'playing');
       }
     },
-    volumeSliderChanged: function(){
-
+    volumeSliderChanged: function(volume){
+      this.set('volume', volume);
+      localStorage.setItem('huegasm.volume', volume);
     },
 
     next : function(){
@@ -28,8 +29,31 @@ export default Em.Component.extend({
 
     fullscreen: function(){
 
+    },
+
+    seekChanged: function() {
+
+    },
+
+    toggleMute: function() {
+      this.toggleProperty('volumeMuted');
     }
   },
+
+  volumeMuted: false,
+  volumeClass: function(){
+    var volume = this.get('volume');
+
+    if(this.get('volumeMuted')){
+      return "volume-off";
+    } else if(volume >= 70){
+      return "volume-up";
+    } else if(volume > 10){
+      return "volume-down";
+    } else {
+      return 'volume-mute';
+    }
+  }.property('volumeMuted', 'volume'),
 
   nextPrevEnabled: function(){
     return this.get('playQueue').length > 1;
@@ -38,8 +62,10 @@ export default Em.Component.extend({
   status: null,
 
   playQueue: [],
-  timeElapsed: '0:00',
-  timeRemaining: '0:00',
+  timeElapsed: 0,
+  timeReamining: 0,
+  timeElapsedTxt: '0:00',
+  timeRemainingTxt: '0:00',
   volume: 100,
 
   playButton: function(){

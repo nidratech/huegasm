@@ -1,7 +1,9 @@
-<div class="row">
+<div class="row" xmlns="http://www.w3.org/1999/html">
     <div id="playerArea" class="col-xs-8">
 
         <div id="playerControls">
+          {{range-slider start=0 min=0 max=100 id="seekSlider" change="seekChanged" }}
+
             {{#if nextPrevEnabled}}
             <span {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}} </span>`
             {{/if}}
@@ -12,10 +14,10 @@
           <span {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span>
           {{/if}}
 
-          {{paper-icon icon="volume-up"  class="playerControllIcon volumeButton"}}
-          {{range-slider start=volume min=0 max=100 change="volumeSliderChanged"}}
+            <span {{action "toggleMute"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span>
+          {{range-slider start=volume min=0 max=100 change="volumeSliderChanged" id="volumeBar"}}
 
-          <span id="playerTimeControls">{{timeElapsed}} / {{timeRemaining}}</span>
+          <span id="playerTimeControls">{{timeElapsedTxt}} / {{timeRemainingTxt}}</span>
 
           <span id="playerControlsRight">
             <span {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
@@ -26,5 +28,11 @@
 
     <div id="playlist" class="col-xs-4">
         <input id="audio_file" type="file" accept="audio/*" />
+
+        <span {{action "toggleShuffle"}}>{{paper-icon icon="shuffle" class="playerControllIcon"}}</span>
+
+        <span {{action "toggleRepeat"}}>{{paper-icon icon="repeat" class="playerControllIcon"}}</span>
+
+        <span {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
     </div>
 </div>

@@ -1,14 +1,28 @@
-{{#unless bridgeUsername}}
-  {{#if bridgeIp}}
+<div id="finderContainer" class="center-block">
+  {{#unless bridgeUsername}}
+    {{#if bridgeIp}}
       <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
       {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
       {{#if isAuthenticating}}
-          <p>Press the button on your bridge to authenticate this application.</p>
+        <p>Your bridge IP is <b>{{bridgeIp}}</b></p>
+        <p>Press the button on your bridge to authenticate this application.</p>
       {{else}}
-          <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
+        <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
       {{/if}}
-  {{else}}
-    {{paper-progress-circular}}
-    <p>Trying to find your bridge's IP.</p>
-  {{/if}}
-{{/unless}}
+    {{else}}
+      {{#unless bridgeFindStatus}}
+        {{paper-progress-circular}}
+        <p>Trying to find your bridge's IP.</p>
+      {{/unless}}
+
+      {{#if bridgeFindMultiple}}
+        <p>Found multiple bridge IPs.</p>
+      {{else}}
+        {{#if bridgeFindFail}}
+          {{paper-progress-circular}}
+          <p>Trying to find your bridge's IP.</p>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{/unless}}
+</div>

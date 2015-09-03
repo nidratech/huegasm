@@ -1,11 +1,15 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
+  classNames: ['container'],
   bridgeIp: null,
 
   bridgeUsername: null,
 
   bridgeFindStatus: null,
+  bridgeFindSuccess: Em.computed.equal('bridgeFindStatus', 'success'),
+  bridgeFindMultiple: Em.computed.equal('bridgeFindStatus', 'multiple'),
+  bridgeFindFail: Em.computed.equal('bridgeFindStatus', 'fail'),
 
   // 30 seconds
   bridgeUsernamePingMaxTime: 30000,
@@ -29,12 +33,19 @@ export default Em.Component.extend({
       var self = this;
 
       Em.$.get('https://www.meethue.com/api/nupnp', function (result, status) {
-        if (status === 'success') {
+        var bridgeFindStatus = 'fail';
+
+        if (status === 'success' && result.length === 1) {
           self.set('bridgeIp', result[0].internalipaddress);
           localStorage.setItem('huegasm.bridgeIp', result[0].internalipaddress);
+          bridgeFindStatus = 'success';
+        } else if(result.length > 1) {
+          bridgeFindStatus = 'multiple';
+        } else {
+          bridgeFindStatus = 'fail';
         }
 
-        self.set('bridgeFindStatus', status);
+        self.set('bridgeFindStatus', bridgeFindStatus);
       });
     }
   },

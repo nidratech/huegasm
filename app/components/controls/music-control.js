@@ -40,6 +40,18 @@ export default Em.Component.extend({
     }
   },
 
+  volumeTooltipTxt: function() {
+    var tooltipTxt = 'Mute';
+
+    if(this.get('volumeMuted')) {
+      tooltipTxt = 'Unmute';
+    }
+
+    // change the tooltip text if it's already visible
+    Em.$('#volumeTooltip + .tooltip .tooltip-inner').html(tooltipTxt);
+    //change the tooltip text for hover
+    Em.$('#volumeTooltip').attr('data-original-title', tooltipTxt);
+  }.observes('volumeMuted'),
   volumeMuted: false,
   volumeClass: function(){
     var volume = this.get('volume');
@@ -67,6 +79,14 @@ export default Em.Component.extend({
   timeElapsedTxt: '0:00',
   timeRemainingTxt: '0:00',
   volume: 100,
+
+  playButtonTooltipTxt: function() {
+    if(this.get('status') === 'playing'){
+      return 'Pause';
+    } else {
+      return 'Play';
+    }
+  }.property('status'),
 
   playButton: function(){
     if(this.get('status') === 'playing'){
@@ -128,13 +148,15 @@ export default Em.Component.extend({
 
   didInsertElement: function () {
     var dancer = this.get('dancer'), self = this;
-    audio_file.onchange = function(){
-      var files = this.files, a = new Audio();
-      var file = URL.createObjectURL(files[0]);
-      a.src = file;
-      dancer.load(a);
-      self.set('status', 'paused');
-    };
+    /*audio_file.onchange = function(){
+     var files = this.files, a = new Audio();
+     var file = URL.createObjectURL(files[0]);
+     a.src = file;
+     dancer.load(a);
+     self.set('status', 'paused');
+     };*/
+
+    Em.$('[data-toggle="tooltip"]').tooltip();
   },
 
   paused: false

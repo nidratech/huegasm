@@ -4,35 +4,41 @@
         <div id="playerControls">
           {{range-slider start=0 min=0 max=100 id="seekSlider" change="seekChanged" }}
 
-            {{#if nextPrevEnabled}}
-            <span {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}} </span>`
-            {{/if}}
-
-          <span {{action "play"}}>{{paper-icon icon=playButton class="playerControllIcon"}}</span>
-
           {{#if nextPrevEnabled}}
-          <span {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span>
+              <span {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}} </span>`
           {{/if}}
 
-            <span {{action "toggleMute"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span>
+            <span data-toggle="tooltip" data-placement="top auto" title={{playButtonTooltipTxt}} {{action "play"}}>{{paper-icon icon=playButton class="playerControllIcon"}}</span>
+
+          {{#if nextPrevEnabled}}
+              <span data-toggle="tooltip" data-placement="top auto" title="Next song"  {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span>
+          {{/if}}
+
+            <span data-toggle="tooltip" data-placement="top auto" title="Mute" id="volumeTooltip" {{action "toggleMute"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span>
           {{range-slider start=volume min=0 max=100 change="volumeSliderChanged" id="volumeBar"}}
 
-          <span id="playerTimeControls">{{timeElapsedTxt}} / {{timeRemainingTxt}}</span>
+            <span id="playerTimeControls">{{timeElapsedTxt}} / {{timeRemainingTxt}}</span>
 
           <span id="playerControlsRight">
-            <span {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
+            <span data-toggle="tooltip" data-placement="top auto" title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
             </span>
           </span>
         </div>
     </div>
 
     <div id="playlist" class="col-xs-4">
-        <input id="audio_file" type="file" accept="audio/*" />
+        <!--<input id="audio_file" type="file" accept="audio/*" />-->
 
-        <span {{action "toggleShuffle"}}>{{paper-icon icon="shuffle" class="playerControllIcon"}}</span>
+      <div id="playListControls">
+          <span data-toggle="tooltip" data-placement="bottom auto" title="Shuffle" class="smallMarginRight" {{action "toggleShuffle"}}>{{paper-icon icon="shuffle" class="playerControllIcon"}}</span>
 
-        <span {{action "toggleRepeat"}}>{{paper-icon icon="repeat" class="playerControllIcon"}}</span>
+          <span data-toggle="tooltip" data-placement="bottom auto" title="Repeat playlist" {{action "toggleRepeat"}}>{{paper-icon icon="repeat" class="playerControllIcon"}}</span>
 
-        <span {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
+          <span data-toggle="tooltip" data-placement="bottom auto" title="Add new music" id="addMusicIcon" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon" }}</span>
+      </div>
+
+        <div id="playListArea">
+
+        </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['innerControlFrame'],
+  classNames: ['innerControlFrame', 'groupPanel'],
 
   tagName: null,
 

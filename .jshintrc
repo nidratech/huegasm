@@ -3,7 +3,8 @@
     "document",
     "window",
     "-Promise",
-    "Dancer"
+    "Dancer",
+    "id3"
   ],
   "browser": true,
   "boss": true,

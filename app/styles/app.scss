@@ -8,9 +8,30 @@ $playerHeight: 400px;
 $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 
-  // BRIDGE FINDER
+// BRIDGE FINDER
 #finderContainer {
+  text-align: center;
+  margin-top: 40px;
+}
 
+#finderContainer .title {
+  font-family: 'Slabo 27px', serif;
+  font-size: 22px;
+}
+
+#bridgeInput {
+  md-input-container {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+#finderContainer p {
+  padding-top: 50px;
+}
+
+md-progress-circular {
+  margin: 0 auto;
 }
 
 #pressButtonBridgeImg {

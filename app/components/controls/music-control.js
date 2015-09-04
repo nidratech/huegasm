@@ -248,7 +248,8 @@ export default Em.Component.extend({
 
     Em.$('#fileInput').on('change', function () {
       var files = this.files,
-        updatePlayQueue = function(err, tags){
+        updatePlayQueue = function(){
+          var tags = ID3.getAllTags("local");
           playQueue.push({filaneme: this.name, url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
 
           self.notifyPropertyChange('playQueue');
@@ -258,11 +259,11 @@ export default Em.Component.extend({
         if (files.hasOwnProperty(key)) {
           var file = files[key];
 
-          id3(file,  updatePlayQueue.bind(file) );
+          ID3.loadTags("local",  updatePlayQueue.bind(file),{
+            dataReader: FileAPIReader(file)
+          });
         }
       }
-
-
     });
 
     Em.$('[data-toggle="tooltip"]').tooltip();

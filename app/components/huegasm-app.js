@@ -5,6 +5,8 @@ export default Em.Component.extend({
 
   bridgeUsername: null,
 
+  trial: false,
+
   init: function(){
     this._super();
 

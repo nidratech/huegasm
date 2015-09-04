@@ -1,28 +1,32 @@
-<div id="finderContainer" class="center-block">
-  {{#unless bridgeUsername}}
-    {{#if bridgeIp}}
-      <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
-      {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
-      {{#if isAuthenticating}}
-        <p>Your bridge IP is <b>{{bridgeIp}}</b></p>
-        <p>Press the button on your bridge to authenticate this application.</p>
-      {{else}}
-        <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
-      {{/if}}
+<span class="title">Huegasm</span>
+{{#unless bridgeUsername}}
+  {{#if bridgeIp}}
+    <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
+    {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
+    {{#if isAuthenticating}}
+      <p>Your bridge IP is <b>{{bridgeIp}}</b>
+        Press the button on your bridge to authenticate this application.</p>
     {{else}}
-      {{#unless bridgeFindStatus}}
-        {{paper-progress-circular}}
-        <p>Trying to find your bridge's IP.</p>
-      {{/unless}}
+      <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
+    {{/if}}
+  {{else}}
+    {{#unless bridgeFindStatus}}
+      {{paper-progress-circular}}
+      <p>Trying to find your bridge's IP.</p>
+    {{/unless}}
 
-      {{#if bridgeFindMultiple}}
-        <p>Found multiple bridge IPs.</p>
-      {{else}}
-        {{#if bridgeFindFail}}
-          {{paper-progress-circular}}
-          <p>Trying to find your bridge's IP.</p>
-        {{/if}}
+    {{#if bridgeFindMultiple}}
+      <p>Found multiple hue bridges.</p>
+    {{else}}
+      {{#if bridgeFindFail}}
+        <p>A hue bridge was not found on your network :( <br>
+          Enter one manually?</p>
+
+        <span id="bridgeInput">
+          {{paper-input label="Hue Bridge IP Address" value=manualBridgeIp}}
+          {{#paper-button action="findBridgeByIp" primary=true }}Find{{/paper-button}}
+        </span>
       {{/if}}
     {{/if}}
-  {{/unless}}
-</div>
+  {{/if}}
+{{/unless}}

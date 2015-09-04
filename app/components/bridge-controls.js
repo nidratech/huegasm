@@ -2,7 +2,7 @@ import Em from 'ember';
 
 export default Em.Component.extend({
   bridgeIp: null,
-
+  manualBridgeIp: null,
   bridgeUsername: null,
 
   updateGroupsData: true,
@@ -17,9 +17,11 @@ export default Em.Component.extend({
 
   init: function() {
     this._super();
-    this.doUpdateGroupsData();
 
-    this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
+    if(!this.get('trial')) {
+      this.doUpdateGroupsData();
+      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
+    }
   },
 
   onUpdateGroupsDataChange: function(){

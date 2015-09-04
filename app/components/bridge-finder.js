@@ -1,9 +1,11 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['container'],
-  bridgeIp: null,
+  classNames: ['container', 'center-block'],
+  elementId: 'finderContainer',
 
+  bridgeIp: null,
+  trial: false,
   bridgeUsername: null,
 
   bridgeFindStatus: null,
@@ -22,6 +24,16 @@ export default Em.Component.extend({
   actions: {
     retry: function(){
       this.onBridgeIpChange();
+    },
+
+    findBridgeByIp: function() {
+      if (this.get('manualBridgeIp').toLowerCase() === 'trial') {
+        this.setProperties({
+          trial: true,
+          bridgeIp: 'trial',
+          bridgeUsername: 'trial'
+        });
+      }
     }
   },
 
@@ -52,10 +64,12 @@ export default Em.Component.extend({
 
   // try to authenticate against the bridge here
   onBridgeIpChange: function () {
-    this.setProperties({
-      bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
-      bridgeUserNamePingIntervalProgress: 0
-    });
+    if(!this.get('trial')) {
+      this.setProperties({
+        bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
+        bridgeUserNamePingIntervalProgress: 0
+      });
+    }
   }.observes('bridgeIp'),
 
   pingBridgeUser: function () {

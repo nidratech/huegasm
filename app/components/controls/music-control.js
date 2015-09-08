@@ -20,7 +20,7 @@ export default Em.Component.extend({
       }
     },
     decay: {
-      range: {min: 0.01, max: 0.1},
+      range: {min: 0, max: 0.1},
       step: 0.01,
       defaultValue: 0.02,
       pips: {

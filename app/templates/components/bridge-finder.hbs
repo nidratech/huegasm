@@ -1,10 +1,10 @@
-<span class="title">Huegasm</span>
+<div class="title">Huegasm</div>
 {{#unless bridgeUsername}}
   {{#if bridgeIp}}
     <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
     {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
     {{#if isAuthenticating}}
-      <p>Your bridge IP is <b>{{bridgeIp}}</b>
+      <p>Your bridge IP is <b>{{bridgeIp}}</b> <br>
         Press the button on your bridge to authenticate this application.</p>
     {{else}}
       <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>

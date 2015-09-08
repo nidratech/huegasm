@@ -5,62 +5,57 @@ export default Em.Component.extend({
 
   classNames: ['container-fluid'],
 
-  actions: {
-    play: function () {
-      if (this.get('playing')) {
-        this.get('dancer').pause();
-      } else {
-        this.get('dancer').play();
+  beatOptions: {
+    threshold: {
+      range: {min: 0.1, max: 0.6},
+      defaultValue: 0.3,
+      pips: {
+        mode: 'positions',
+        values: [0,20,40,60,80,100],
+        density: 3,
+        format: {
+          to: function ( value ) {return value;},
+          from: function ( value ) { return value; }
+        }
       }
-      this.toggleProperty('playing');
     },
-    volumeSliderChanged: function (volume) {
-      this.set('volume', volume);
-      localStorage.setItem('huegasm.volume', volume);
-    },
-
-    next: function () {
-
-    },
-    previous: function () {
-
-    },
-
-    fullscreen: function () {
-
-    },
-
-    seekChanged: function () {
-
-    },
-
-    toggleMute: function () {
-      this.toggleProperty('volumeMuted');
-
-      if(this.get('volumeMuted')){
-        dancer.setVolume(0);
-      } else {
-        dancer.setVolume(this.get('volume')/100);
+    decay: {
+      range: {min: 0.01, max: 0.1},
+      step: 0.01,
+      defaultValue: 0.02,
+      pips: {
+        mode: 'positions',
+        values: [0,20,40,60,80,100],
+        density: 3,
+        format: {
+          to: function ( value ) {return value;},
+          from: function ( value ) { return value; }
+        }
       }
-
-      localStorage.setItem('huegasm.volumeMuted', this.get('volumeMuted'));
     },
-
-    toggleShuffle: function () {
-      this.toggleProperty('shuffle');
-      localStorage.setItem('huegasm.shuffle', this.get('shuffle'));
-    },
-
-    toggleRepeat: function () {
-      var repeat = (this.get('repeat') + 1) % 3;
-      this.set('repeat', repeat);
-      localStorage.setItem('huegasm.repeat', repeat);
-    },
-
-    addAudio: function () {
-      Em.$('#fileInput').click();
+    frequency: {
+      range:  {min: 0, max: 10},
+      step: 1,
+      defaultValue: [0,5],
+      pips: {
+        mode: 'values',
+        values: [0,2,4,6,8,10],
+        density: 10,
+        format: {
+          to: function ( value ) {return value;},
+          from: function ( value ) { return value; }
+        }
+      }
     }
   },
+
+  threshold: 0.3,
+  decay: 0.02,
+  frequency: [0,5],
+
+  playQueue: [],
+  timeElapsed: 0,
+  timeTotal: 0,
 
   // 0 - no repeat, 1 - repeat all, 2 - repeat one
   repeat: 0,
@@ -69,6 +64,110 @@ export default Em.Component.extend({
   volume: 100,
   paused: false,
   playing: false,
+
+  incrementElapseTimeHandle: null,
+  incrementElapseTime: function(){
+      this.incrementProperty('timeElapsed');
+  },
+
+  actions: {
+    defaultControls: function(){
+      var beatOptions = this.get('beatOptions');
+
+      this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true);
+      this.changePlayerControl('decay', beatOptions.decay.defaultValue, true);
+      this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true);
+    },
+    clickLight:function() {
+      debugger;
+    },
+    play: function () {
+      var dancer = this.get('dancer'),
+        playQueue = this.get('playQueue');
+
+      if (this.get('playing')) {
+        dancer.pause();
+        clearInterval(this.get('incrementElapseTimeHandle'));
+        this.toggleProperty('playing');
+        this.set('timeElapsed', Math.floor(dancer.getTime()));
+      } else if(playQueue.length > 0) {
+        if(this.get('volumeMuted')) {
+          dancer.setVolume(0);
+        } else {
+          dancer.setVolume(this.get('volume')/100);
+        }
+
+        dancer.play();
+        this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
+        this.toggleProperty('playing');
+      }
+    },
+    volumeChanged: function (value) {
+      this.changePlayerControl('volume', value);
+      if(this.get('playing')) {
+        this.get('dancer').setVolume(value/100);
+      }
+    },
+    next: function () {
+
+    },
+    previous: function () {
+
+    },
+    fullscreen: function () {
+
+    },
+    seekChanged: function () {
+
+    },
+    volumeMutedChanged: function (value) {
+      var dancer = this.get('dancer'),
+        volumeMuted = Em.isNone(value) ? !this.get('volumeMuted') : value;
+
+      this.changePlayerControl('volumeMuted', volumeMuted);
+
+      if(this.get('playing')){
+        if(volumeMuted){
+          dancer.setVolume(0);
+        } else {
+          dancer.setVolume(this.get('volume')/100);
+        }
+      }
+    },
+    shuffleChanged: function (value) {
+      this.changePlayerControl('shuffle', Em.isNone(value) ? !this.get('shuffle') : value);
+    },
+    repeatChanged: function (value) {
+      this.changePlayerControl('repeat', Em.isNone(value) ? (this.get('repeat') + 1) % 3 : value);
+    },
+    thresholdChanged: function(value) {
+      this.changePlayerControl('threshold', value, true);
+    },
+    decayChanged: function(value){
+      this.changePlayerControl('decay', value, true);
+    },
+    frequencyChanged: function(value){
+      this.changePlayerControl('frequency', value, true);
+    },
+    addAudio: function () {
+      Em.$('#fileInput').click();
+    },
+    clickSpeaker: function(){
+      // simulate the speaker vibration by running a CSS animation on it
+      Em.$('#beatSpeakerCenter').removeClass('pop').prop('offsetWidth', Em.$('#beatSpeakerCenter').prop('offsetWidth')).addClass('pop');
+    }
+  },
+
+  changePlayerControl: function(name, value, isOption){
+    if(isOption){
+      var options = {};
+      options[name] = value;
+      this.get('kick').set(options);
+    }
+
+    this.set(name, value);
+    localStorage.setItem('huegasm.' + name, value);
+  },
 
   repeatIcon: function () {
     if (this.get('repeat') === 2) {
@@ -159,12 +258,6 @@ export default Em.Component.extend({
     this.changeTooltipText(type, tooltipTxt);
   }.observes('playing').on('init'),
 
-  onVolumeChange: function(){
-    if(this.get('playing')){
-      this.get('dancer').setVolume(this.get('volume')/100);
-    }
-  }.observes('volume').on('init'),
-
   changeTooltipText: function (type, text) {
     // change the tooltip text if it's already visible
     Em.$('#' + type + 'Tooltip + .tooltip .tooltip-inner').html(text);
@@ -177,45 +270,57 @@ export default Em.Component.extend({
     return this.get('playQueue').length > 1;
   }.property('playQueue.[]'),
 
-  playQueue: [],
-  timeElapsed: 0,
-  timeReamining: 0,
-  timeElapsedTxt: '0:00',
-  timeRemainingTxt: '0:00',
+  timeElapsedTxt: function(){
+    return this.formatTime(this.get('timeElapsed'));
+  }.property('timeElapsed'),
+  timeTotalTxt: function() {
+    return this.formatTime(this.get('timeTotal'));
+  }.property('timeTotal'),
+
+  formatTime: function(time){
+    return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);
+  },
+  pad: function(num, size){ return ('000000000' + num).substr(-size); },
 
   init: function () {
     this._super();
 
     var dancer = new Dancer(),
       self = this,
-      briOff = function (i) {
-        Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-          data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      },
+      threshold = this.get('threshold'),
+      decay = this.get('decay'),
+      frequency = this.get('frequency'),
+      //briOff = function (i) {
+      //  Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
+      //    data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
+      //    contentType: 'application/json',
+      //    type: 'PUT'
+      //  });
+      //},
       kick = dancer.createKick({
-        threshold: 0.45,
-        frequency: [0, 3],
+        threshold: threshold,
+        decay: decay,
+        frequency: frequency,
         onKick: function (mag) {
 
           if (self.get('paused') === false) {
-            for (let i = 1; i <= 1; i++) {
-              Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-                data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
-                contentType: 'application/json',
-                type: 'PUT'
-              });
-
-              setTimeout(briOff, 50, i);
-            }
+            //for (let i = 1; i <= 1; i++) {
+            //  Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
+            //    data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
+            //    contentType: 'application/json',
+            //    type: 'PUT'
+            //  });
+            //
+            //  setTimeout(briOff, 50, i);
+            //}
 
             self.set('paused', true);
 
             setTimeout(function () {
               self.set('paused', false);
             }, 150);
+
+            self.send('clickSpeaker');
 
             console.log('Kick at ' + mag);
           }
@@ -225,42 +330,57 @@ export default Em.Component.extend({
 
     kick.on();
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted'].forEach(function (item) {
-      if (localStorage.getItem('huegasm.' + item)) {
-        var itemVal = localStorage.getItem('huegasm.' + item);
-        if (item === 'repeat' || item === 'volume') {
-          itemVal = Number(itemVal);
-        } else {
-          itemVal = (itemVal === 'true');
-        }
-        self.set(item, itemVal);
-      }
+    dancer.bind('loaded', function(){
+      self.set('timeTotal', dancer.audio.duration);
     });
 
     this.setProperties({
       dancer: dancer,
       kick: kick
     });
+
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency'].forEach(function (item) {
+      if (localStorage.getItem('huegasm.' + item)) {
+        var itemVal = localStorage.getItem('huegasm.' + item);
+        if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold') {
+          itemVal = Number(itemVal);
+        } else if(item === 'frequency') {
+          itemVal = itemVal.split(',').map(function(val){return Number(val);});
+        } else {
+          itemVal = (itemVal === 'true');
+        }
+
+        self.send(item+'Changed', itemVal);
+      }
+    });
   },
 
   didInsertElement: function () {
-    var dancer = this.get('dancer'), self = this, playQueue = this.get('playQueue');
+    var self = this, playQueue = this.get('playQueue');
 
     Em.$('#fileInput').on('change', function () {
       var files = this.files,
         updatePlayQueue = function(){
           var tags = ID3.getAllTags("local");
-          playQueue.push({filaneme: this.name, url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
+          playQueue.push({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
 
+          ID3.clearAll();
           self.notifyPropertyChange('playQueue');
+
+          // make sure to init the first song
+          if(playQueue.length > 0 && !self.get('dancer').isLoaded()){
+            var a = new Audio();
+            a.src = playQueue[0].url;
+            self.get('dancer').load(a);
+          }
         };
 
       for (var key in files) {
         if (files.hasOwnProperty(key)) {
           var file = files[key];
 
-          ID3.loadTags("local",  updatePlayQueue.bind(file),{
-            dataReader: FileAPIReader(file)
+          ID3.loadTags("local", updatePlayQueue.bind(file),{
+            dataReader: new FileAPIReader(file)
           });
         }
       }

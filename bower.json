@@ -14,6 +14,7 @@
     "JavaScript-ID3-Reader": "https://github.com/aadsm/JavaScript-ID3-Reader.git",
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#3.2.0",
+    "material-design-icons": "~2.0.0",
     "nouislider": "^8.0.1",
     "qunit": "~1.18.0"
   }

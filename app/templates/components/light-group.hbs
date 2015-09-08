@@ -1,3 +1,5 @@
 {{#each lightsList as |light|}}
-    <img class="hueLight light.id {{light.activeClass}}" {{action "clickLight" light.id light.data}} {{action "lightStartHover" light.id on="mouseEnter"}} {{action "lightStopHover" light.id on="mouseLeave"}} width="40" title="{{light.name}}" src="assets/images/lights/{{light.type}}.svg">
+    <span class="{{light.activeClass}}" data-toggle="tooltip" data-placement="top auto" title="{{light.name}}" {{action "clickLight" light.id light.data}} {{action "lightStartHover" light.id on="mouseEnter"}} {{action "lightStopHover" light.id on="mouseLeave"}}>
+          <img class="hueLight" width="40" src="assets/images/lights/{{light.type}}.svg">
+  </span>
 {{/each}}

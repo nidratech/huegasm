@@ -46,7 +46,7 @@ export default Em.Component.extend({
     }
 
     return groupsArrData;
-  }.property('groupsData', 'lightsData', 'groupSelection'),
+  }.property('groupsData', 'lightsData', 'groupIdSelection'),
 
   onGroupIdSelectionChanged: function(){
     var groupIdSelection = this.get('groupIdSelection'), lights = [];

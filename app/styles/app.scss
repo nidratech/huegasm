@@ -5,10 +5,21 @@
 
 $playerBackColor: #F12B24;
 $playerHeight: 400px;
+$playerBeatAreaHeight: 320px;
 $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 
 // BRIDGE FINDER
+.footer .container {
+  padding-left: 0;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.cursorPointer {
+  cursor: pointer;
+}
+
 #finderContainer {
   text-align: center;
   margin-top: 40px;
@@ -16,7 +27,8 @@ $playerDefaultIconColor: #BBBBBB;
 
 #finderContainer .title {
   font-family: 'Slabo 27px', serif;
-  font-size: 22px;
+  font-size: 30px;
+  margin-bottom: 30px;
 }
 
 #bridgeInput {
@@ -55,7 +67,6 @@ md-content {
 }
 
 .navigationItem {
-  cursor: pointer;
   font-family: 'Slabo 27px', serif;
   font-size: 18px;
   padding: 0 10px 0 10px;
@@ -76,6 +87,10 @@ md-content {
 }
 
 // LIGHT GROUP
+.paper-sidenav {
+  overflow: visible;
+}
+
 .groupPanel {
   //border-right: 1px solid black;
 }
@@ -87,18 +102,31 @@ md-content {
 .hueLight {
   margin-right: 10px;
   border-radius: 20px;
+  background-color: white;
 }
 
-.hueLight.inactive {
+.lightInactive {
   cursor: pointer;
-  background-color: rgba(192, 192, 192, 0.7);
+  position: relative;
+
 }
 
-.hueLight.unreachable {
+.lightInactive::before {
+  font-weight: bold;
+  position: absolute;
+  content: "X";
+  top: -20px;
+  left: 6px;
+  font-size: 40px;
+  color: rgba(255, 0, 0, 0.37);
+  font-family: cursive;
+}
+
+.lightUnreachable {
   background-color: rgba(255, 0, 0, 0.7);
 }
 
-.hueLight.active:hover {
+.lightActive:hover {
   cursor: pointer;
   -webkit-transition-duration: 0.5s;
   transition-duration: 0.5s;
@@ -120,13 +148,15 @@ md-icon.menu {
   margin: 30px 0 0 16px;
 }
 
-.addButton {
-  cursor: pointer;
+.addButton .group-add {
   margin-right: 16px;
 }
 
+.addButton .group-add:hover {
+  color: darken(#333333, 20%) !important;
+}
+
 .removeButton {
-  cursor: pointer;
   margin: 10px 0 10px auto;
 }
 
@@ -159,7 +189,6 @@ md-toolbar {
 
 .groupSelect {
   padding: 10px 0 10px 0;
-  cursor: pointer;
   width: 70%;
   font-family: 'Open Sans', sans-serif;
 }
@@ -218,9 +247,9 @@ md-toolbar {
 
 .playerControllIcon {
   color: $playerDefaultIconColor !important;
-  cursor: pointer;
   transition-duration: 0.1s;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .playerControllIcon.active {
@@ -246,15 +275,19 @@ md-toolbar {
   background-color: $playListBackgroundColor;
 }
 
-.noUi-origin {
+#playerArea * .noUi-origin {
   background-color: black;
   border-radius: 5px;
 }
 
-.noUi-base {
+#playerArea * .noUi-base {
   background-color: $playerBackColor;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.noUi-connect {
+  background-color: $playerBackColor;
 }
 
 #volumeBar {
@@ -263,12 +296,15 @@ md-toolbar {
   display: inline-block;
 }
 
+.noUi-handle {
+  cursor: pointer;
+}
+
 .noUi-horizontal .noUi-handle {
   width: 7px;
   height: 21px;
   left: -1px;
   top: -8px;
-  cursor: pointer;
   transition-duration: 0.1s;
   background: $playerDefaultIconColor !important;
 }
@@ -277,7 +313,7 @@ md-toolbar {
   background: white !important;
 }
 
-.noUi-handle:after, .noUi-handle:before {
+#playerArea * .noUi-handle:after, #playerArea * .noUi-handle:before {
   content: none;
 }
 
@@ -330,5 +366,83 @@ md-toolbar {
 
 .playlistItem {
   color: darken(white, 20%);
-  margin: 10px 5px 10px 5px;
+  margin: 0.714em 0.357em 0.714em 0.357em;
+}
+
+#beatArea {
+  position: relative;
+  height: $playerBeatAreaHeight;
+}
+
+#beatArea * .noUi-target {
+  margin: 0 auto;
+}
+
+#beatArea * .noUi-base, #beatArea * .noUi-background {
+  background-color: #3F3F3F;
+}
+
+#beatArea * .noUi-vertical  {
+  height: 150px;
+  margin-top: 20px;
+}
+
+.beatOption {
+  display: inline-block;
+  margin-left: 0.714em;
+}
+
+#playerBottom {
+  background-color: grey;
+}
+
+#beatSpeakerContainer {
+  position: relative;
+  height: $playerBeatAreaHeight;
+}
+
+#beatSpeaker {
+  margin: 20px auto 0 auto;
+  background-image: url('images/speaker-outer.png');
+  width: 284px;
+  height: 283px;
+}
+
+#beatSpeakerCenter {
+  width: 188px;
+  height: 186px;
+  background-image: url('images/speaker-inner.png');
+  position: absolute;
+  top: 21%;
+  left: 22%;
+}
+
+.pop {
+  animation-name: pop;
+  animation-duration: 0.1s;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+#beatArea .lightGroup {
+  margin: 10px 0 20px 40px;
+}
+
+#playerButtonGroup {
+  margin-top: 10px;
+}
+
+#vertDivider {
+  position: absolute;
+  right: 40px;
+  top: 25%;
+  width: 1px;
+  height: 50%;
+  background-color: white;
 }

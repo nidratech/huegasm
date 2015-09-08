@@ -82,12 +82,12 @@ export default Em.Component.extend({
             type = 'a19';
         }
 
-        var activeClass = 'active';
+        var activeClass = 'lightActive';
 
         if(!this.get('activeLights').contains(key)){
-          activeClass = 'inactive';
+          activeClass = 'lightInactive';
         } else if(!lightsData[key].state.reachable){
-          activeClass = 'unreachable';
+          activeClass = 'lightUnreachable';
         }
 
         lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass});

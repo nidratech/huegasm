@@ -43,8 +43,8 @@ export default Em.Component.extend({
     this.toggleProperty('updateGroupsData');
   },
 
-  tabList: ["Lights", "Scenes", "Music"],
-  selectedTab: 2,
+  tabList: ["Music", "Lights"],
+  selectedTab: 0,
   tabData: function(){
     var tabData = [], selectedTab = this.get('selectedTab');
 
@@ -61,9 +61,8 @@ export default Em.Component.extend({
     return tabData;
   }.property('tabList', 'selectedTab'),
 
-  lightsTabSelected: Em.computed.equal('selectedTab', 0),
-  scenesTabSelected: Em.computed.equal('selectedTab', 1),
-  musicTabSelected: Em.computed.equal('selectedTab', 2),
+  lightsTabSelected: Em.computed.equal('selectedTab', 1),
+  musicTabSelected: Em.computed.equal('selectedTab', 0),
 
   actions: {
     changeTab: function(tabName){

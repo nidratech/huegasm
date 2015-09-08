@@ -4,7 +4,8 @@
     "window",
     "-Promise",
     "Dancer",
-    "ID3"
+    "ID3",
+    "FileAPIReader"
   ],
   "browser": true,
   "boss": true,

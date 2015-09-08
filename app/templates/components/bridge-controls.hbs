@@ -1,8 +1,8 @@
 {{#liquid-if lightsData}}
 
-  {{#paper-nav-container open=drawerOpen class="ember-app"}}
+  {{#paper-nav-container class="ember-app"}}
 
-    {{#paper-sidenav class="md-sidenav-left md-whiteframe-z2" flex-layout="column" flex=true}}
+    {{#paper-sidenav class="md-sidenav-left md-whiteframe-z2" flex-layout="column" flex=true locked-open="lg"}}
 
       {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
     {{/paper-sidenav}}
@@ -14,16 +14,12 @@
     {{#paper-content flex-layout="column" flex=true}}
         <div class="navigation">
           {{#each tabData as |tab|}}
-              <span class="navigationItem {{if tab.selected "active" ""}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+              <span class="navigationItem cursorPointer {{if tab.selected "active" ""}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
           {{/each}}
         </div>
 
         {{#liquid-if lightsTabSelected class="tabSwitch"}}
           {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
-        {{/liquid-if}}
-
-        {{#liquid-if scenesTabSelected class="tabSwitch"}}
-          {{controls/scene-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
         {{/liquid-if}}
 
         {{#liquid-if musicTabSelected class="tabSwitch"}}
@@ -34,4 +30,5 @@
 
   {{/paper-nav-container}}
 
+  {{huegasm-footer}}
 {{/liquid-if}}

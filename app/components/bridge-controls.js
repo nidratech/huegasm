@@ -85,5 +85,9 @@ export default Em.Component.extend({
         });
       }
     });
-  }
+  },
+
+  ready: function() {
+    return this.get('trial') || !Em.isNone(this.get('lightsData'));
+  }.property('lightsData', 'trial')
 });

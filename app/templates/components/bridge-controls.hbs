@@ -1,4 +1,4 @@
-{{#liquid-if lightsData}}
+{{#if ready}}
 
   {{#paper-nav-container class="ember-app"}}
 
@@ -19,16 +19,13 @@
         </div>
 
         {{#liquid-if lightsTabSelected class="tabSwitch"}}
-          {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights}}
+          {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial}}
         {{/liquid-if}}
 
         {{#liquid-if musicTabSelected class="tabSwitch"}}
           {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
         {{/liquid-if}}
-
+        {{huegasm-footer}}
     {{/paper-content}}
-
   {{/paper-nav-container}}
-
-  {{huegasm-footer}}
-{{/liquid-if}}
+{{/if}}

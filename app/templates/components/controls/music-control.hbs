@@ -2,7 +2,7 @@
     <div id="playerArea" class="col-xs-8">
 
         <div id="playerControls">
-          {{range-slider start=0 min=0 max=100 id="seekSlider" slide="seekChanged" }}
+          {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
           {{#if nextPrevEnabled}}
               <span data-toggle="tooltip" data-placement="top" title="Previous"

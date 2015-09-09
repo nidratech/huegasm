@@ -23,9 +23,15 @@
           Enter one manually?</p>
 
         <span id="bridgeInput">
-          {{paper-input label="Hue Bridge IP Address" value=manualBridgeIp}}
+          {{paper-input label="Hue bridge IP address" value=manualBridgeIp}}
           {{#paper-button action="findBridgeByIp" primary=true}}Find{{/paper-button}}
         </span>
+
+        {{#liquid-if manualBridgeIpNotFound}}
+          <p class="bg-danger">
+            Could not find a bridge with that IP address.
+          </p>
+        {{/liquid-if}}
       {{/if}}
     {{/if}}
   {{/if}}

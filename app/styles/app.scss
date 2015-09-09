@@ -236,7 +236,7 @@ md-toolbar {
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 10px;
+  padding: 0.714em;
   width: 100%;
   color: white !important;
   z-index: 20;
@@ -246,14 +246,14 @@ md-toolbar {
 #playerTimeControls {
   position: relative;
   font-size: 12px;
-  top: 2px;
-  margin-left: 10px;
+  top: 0.167em;
+  margin-left: 0.833em;
 }
 
 .playerControllIcon {
   color: $playerDefaultIconColor !important;
   transition-duration: 0.1s;
-  margin-right: 5px;
+  margin-right: 0.208em;
   cursor: pointer;
 }
 
@@ -298,8 +298,8 @@ md-toolbar {
 }
 
 #volumeBar {
-  width: 100px;
-  height: 8px;
+  width: 7.143em;
+  height: 0.571em;
   display: inline-block;
 }
 
@@ -308,10 +308,10 @@ md-toolbar {
 }
 
 .noUi-horizontal .noUi-handle {
-  width: 7px;
-  height: 21px;
-  left: -1px;
-  top: -8px;
+  width: 0.500em;
+  height: 1.500em;
+  left: -0.071em;
+  top: -0.571em;
   transition-duration: 0.1s;
   background: $playerDefaultIconColor !important;
 }
@@ -406,6 +406,7 @@ md-toolbar {
 #beatSpeakerContainer {
   position: relative;
   height: $playerBeatAreaHeight;
+  padding: 0;
 }
 
 #beatSpeaker {
@@ -421,7 +422,7 @@ md-toolbar {
   background-image: url('images/speaker-inner.png');
   position: absolute;
   top: 21%;
-  left: 22%;
+  left: 18%;
 }
 
 .pop {

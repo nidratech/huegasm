@@ -35,6 +35,16 @@ export default Em.Component.extend({
     }
   },
 
+  didInsertElement: function() {
+    var self = this;
+
+    Em.$(document).keypress(function(event) {
+      if(!self.get('saveDisabled') && event.which === 13) {
+        self.send('save');
+      }
+    });
+  },
+
   groupName: null,
 
   selectedLights: [],

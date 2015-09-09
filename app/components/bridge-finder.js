@@ -21,20 +21,47 @@ export default Em.Component.extend({
   bridgePingIntervalHandle: null,
   bridgeAuthenticateReachedStatus: null,
 
+  manualBridgeIp: null,
+  manualBridgeIpNotFound: false,
+
   actions: {
     retry: function(){
       this.onBridgeIpChange();
     },
 
     findBridgeByIp: function() {
-      if (this.get('manualBridgeIp').toLowerCase() === 'trial') {
+      var manualBridgeIp = this.get('manualBridgeIp'), self = this;
+
+      if (manualBridgeIp.toLowerCase() === 'trial') {
         this.setProperties({
           trial: true,
           bridgeIp: 'trial',
           bridgeUsername: 'trial'
         });
+      } else {
+        Em.$.ajax('http://' + manualBridgeIp + '/api', {
+          data: JSON.stringify({"devicetype": "huegasm"}),
+          contentType: 'application/json',
+          type: 'POST'
+        }).fail(function () {
+          self.set('manualBridgeIpNotFound', true);
+          setTimeout(function(){ self.set('manualBridgeIpNotFound', false); }, 5000);
+        }).then(function () {
+          debugger;
+          self.set('bridgeIp', manualBridgeIp);
+        });
       }
     }
+  },
+
+  didInsertElement: function() {
+    var self = this;
+
+    Em.$(document).keypress(function(event) {
+      if(!Em.isNone(self.get('manualBridgeIp')) && event.which === 13) {
+        self.send('findBridgeByIp');
+      }
+    });
   },
 
   // find the bridge ip here
@@ -73,7 +100,8 @@ export default Em.Component.extend({
   }.observes('bridgeIp'),
 
   pingBridgeUser: function () {
-    var bridgeIp = this.get('bridgeIp'), self = this, bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'), bridgeUsernamePingMaxTime = this.get('bridgeUsernamePingMaxTime');
+    var bridgeIp = this.get('bridgeIp'), self = this, bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'),
+      bridgeUsernamePingMaxTime = this.get('bridgeUsernamePingMaxTime');
 
     if (bridgeIp !== null && bridgeUserNamePingIntervalProgress < 100) {
       Em.$.ajax('http://' + bridgeIp + '/api', {

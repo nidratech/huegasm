@@ -1,74 +1,8 @@
 import Em from 'ember';
+import musicControlMixin from '../mixins/music-control';
 
-export default Em.Component.extend({
-  dancer: null,
-
+export default Em.Component.extend(musicControlMixin, {
   classNames: ['container-fluid', 'innerControlFrame'],
-
-  beatOptions: {
-    threshold: {
-      range: {min: 0.1, max: 0.6},
-      defaultValue: 0.3,
-      pips: {
-        mode: 'positions',
-        values: [0,20,40,60,80,100],
-        density: 3,
-        format: {
-          to: function ( value ) {return value;},
-          from: function ( value ) { return value; }
-        }
-      }
-    },
-    decay: {
-      range: {min: 0, max: 0.1},
-      step: 0.01,
-      defaultValue: 0.02,
-      pips: {
-        mode: 'positions',
-        values: [0,20,40,60,80,100],
-        density: 3,
-        format: {
-          to: function ( value ) {return value;},
-          from: function ( value ) { return value; }
-        }
-      }
-    },
-    frequency: {
-      range:  {min: 0, max: 10},
-      step: 1,
-      defaultValue: [0,5],
-      pips: {
-        mode: 'values',
-        values: [0,2,4,6,8,10],
-        density: 10,
-        format: {
-          to: function ( value ) {return value;},
-          from: function ( value ) { return value; }
-        }
-      }
-    }
-  },
-
-  threshold: 0.3,
-  decay: 0.02,
-  frequency: [0,5],
-
-  playQueue: [],
-  timeElapsed: 0,
-  timeTotal: 0,
-
-  // 0 - no repeat, 1 - repeat all, 2 - repeat one
-  repeat: 0,
-  shuffle: false,
-  volumeMuted: false,
-  volume: 100,
-  paused: false,
-  playing: false,
-
-  incrementElapseTimeHandle: null,
-  incrementElapseTime: function(){
-      this.incrementProperty('timeElapsed');
-  },
 
   actions: {
     defaultControls: function(){
@@ -168,119 +102,6 @@ export default Em.Component.extend({
     this.set(name, value);
     localStorage.setItem('huegasm.' + name, value);
   },
-
-  repeatIcon: function () {
-    if (this.get('repeat') === 2) {
-      return 'repeat-one';
-    }
-
-    return 'repeat';
-  }.property('repeat'),
-
-  playingIcon: function () {
-    if (this.get('playing')) {
-      return 'pause';
-    } else {
-      return 'play-arrow';
-    }
-  }.property('playing'),
-
-  repeatClass: function () {
-    return this.get('repeat') !== 0 ? 'playerControllIcon active' : 'playerControllIcon';
-  }.property('repeat'),
-
-  shuffleClass: function () {
-    return this.get('shuffle') ? 'playerControllIcon active' : 'playerControllIcon';
-  }.property('shuffle'),
-
-  volumeClass: function () {
-    var volume = this.get('volume');
-
-    if (this.get('volumeMuted')) {
-      return "volume-off";
-    } else if (volume >= 70) {
-      return "volume-up";
-    } else if (volume > 10) {
-      return "volume-down";
-    } else {
-      return 'volume-mute';
-    }
-  }.property('volumeMuted', 'volume'),
-
-  onRepeatChange: function () {
-    var tooltipTxt = 'Repeat all', type = 'repeat';
-
-    if (this.get(type) === 1) {
-      tooltipTxt = 'Repeat one';
-    } else if (this.get(type) === 2) {
-      tooltipTxt = 'Repeat off';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  }.observes('repeat').on('init'),
-
-  onShuffleChange: function () {
-    var tooltipTxt = 'Shuffle', type = 'shuffle';
-
-    if (this.get(type)) {
-      tooltipTxt = 'Unshuffle';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  }.observes('shuffle').on('init'),
-
-  onVolumeMutedChange: function () {
-    var tooltipTxt = 'Mute', type = 'volumeMuted',
-      volumeMuted = this.get(type), dancer = this.get('dancer'),
-      volume=0;
-
-    if (volumeMuted) {
-      tooltipTxt = 'Unmute';
-      volume = 0;
-    } else {
-      volume = this.get('volume')/100;
-    }
-
-    if(this.get('playing')){
-      dancer.setVolume(volume);
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  }.observes('volumeMuted').on('init'),
-
-  onPlayingChange: function () {
-    var tooltipTxt = 'Play', type = 'playing';
-
-    if (this.get(type)) {
-      tooltipTxt = 'Pause';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  }.observes('playing').on('init'),
-
-  changeTooltipText: function (type, text) {
-    // change the tooltip text if it's already visible
-    Em.$('#' + type + 'Tooltip + .tooltip .tooltip-inner').html(text);
-    //change the tooltip text for hover
-    Em.$('#' + type + 'Tooltip').attr('data-original-title', text).attr('title', text);
-    this.set(type + 'TooltipTxt', text);
-  },
-
-  nextPrevEnabled: function () {
-    return this.get('playQueue').length > 1;
-  }.property('playQueue.[]'),
-
-  timeElapsedTxt: function(){
-    return this.formatTime(this.get('timeElapsed'));
-  }.property('timeElapsed'),
-  timeTotalTxt: function() {
-    return this.formatTime(this.get('timeTotal'));
-  }.property('timeTotal'),
-
-  formatTime: function(time){
-    return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);
-  },
-  pad: function(num, size){ return ('000000000' + num).substr(-size); },
 
   init: function () {
     this._super();
@@ -388,6 +209,10 @@ export default Em.Component.extend({
     });
 
     Em.$('[data-toggle="tooltip"]').tooltip();
+    // prevent space/text selection when the user repeatedly clicks on the center
+    Em.$('#beatSpeakerCenter').mousedown(function(event) {
+      event.preventDefault();
+    });
   },
 
   // component clean up

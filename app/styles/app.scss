@@ -10,6 +10,10 @@ $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 
 // BRIDGE FINDER
+.footerFixed {
+  position: static !important;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -171,7 +175,7 @@ md-toolbar {
 }
 
 .innerControlFrame {
-  height: 100vh;
+  height: 80vh;
 }
 
 // GROUP CONTROL
@@ -274,6 +278,8 @@ md-toolbar {
 #playlist {
   height: $playerHeight;
   background-color: $playListBackgroundColor;
+  padding-left: 0.625em;
+  padding-right: 0.625em;
 }
 
 #playerArea * .noUi-origin {

@@ -1,5 +1,4 @@
 {{#if ready}}
-
   {{#paper-nav-container class="ember-app"}}
 
     {{#paper-sidenav class="md-sidenav-left md-whiteframe-z2" flex-layout="column" flex=true locked-open="lg"}}
@@ -25,7 +24,7 @@
         {{#liquid-if musicTabSelected class="tabSwitch"}}
           {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
         {{/liquid-if}}
-        {{huegasm-footer}}
+        {{huegasm-footer classNames="footerFixed"}}
     {{/paper-content}}
   {{/paper-nav-container}}
 {{/if}}

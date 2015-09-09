@@ -3,7 +3,7 @@ import Em from 'ember';
 export default Em.Component.extend({
   dancer: null,
 
-  classNames: ['container-fluid'],
+  classNames: ['container-fluid', 'innerControlFrame'],
 
   beatOptions: {
     threshold: {
@@ -285,7 +285,7 @@ export default Em.Component.extend({
   init: function () {
     this._super();
 
-    var dancer = new Dancer(),
+    var dancer = window.dancer || new Dancer(),
       self = this,
       threshold = this.get('threshold'),
       decay = this.get('decay'),
@@ -334,6 +334,7 @@ export default Em.Component.extend({
       self.set('timeTotal', dancer.audio.duration);
     });
 
+    window.dancer = dancer;
     this.setProperties({
       dancer: dancer,
       kick: kick
@@ -387,5 +388,12 @@ export default Em.Component.extend({
     });
 
     Em.$('[data-toggle="tooltip"]').tooltip();
+  },
+
+  // component clean up
+  destroy: function(){
+    //this.get('dancer').audioAdapter.context.close();
+    this.get('dancer').unbind('loaded');
+    this._super();
   }
 });

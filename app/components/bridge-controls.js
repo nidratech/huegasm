@@ -1,6 +1,8 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
+  classNames: ['bridgeControls', 'maxHeight'],
+
   bridgeIp: null,
   manualBridgeIp: null,
   bridgeUsername: null,
@@ -21,6 +23,10 @@ export default Em.Component.extend({
     if(!this.get('trial')) {
       this.doUpdateGroupsData();
       this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
+    }
+
+    if (localStorage.getItem('huegasm.selectedTab')) {
+      this.set('selectedTab', Number(localStorage.getItem('huegasm.selectedTab')));
     }
   },
 
@@ -43,7 +49,7 @@ export default Em.Component.extend({
     this.toggleProperty('updateGroupsData');
   },
 
-  tabList: ["Music", "Lights"],
+  tabList: ["Lights", "Music"],
   selectedTab: 0,
   tabData: function(){
     var tabData = [], selectedTab = this.get('selectedTab');
@@ -61,12 +67,14 @@ export default Em.Component.extend({
     return tabData;
   }.property('tabList', 'selectedTab'),
 
-  lightsTabSelected: Em.computed.equal('selectedTab', 1),
-  musicTabSelected: Em.computed.equal('selectedTab', 0),
+  lightsTabSelected: Em.computed.equal('selectedTab', 0),
+  musicTabSelected: Em.computed.equal('selectedTab', 1),
 
   actions: {
     changeTab: function(tabName){
-      this.set('selectedTab', this.get('tabList').indexOf(tabName));
+      var index = this.get('tabList').indexOf(tabName)
+      this.set('selectedTab', index);
+      localStorage.setItem('huegasm.selectedTab', index);
     }
   },
 

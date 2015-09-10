@@ -1,7 +1,11 @@
+// TODO: more elegant way to disable the automatic colapsing?
+$locked-breakpoint: 800px !important;
+
 @import 'ember-paper';
 @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
+
 
 $playerBackColor: #F12B24;
 $playerHeight: 400px;
@@ -10,8 +14,18 @@ $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 
 // BRIDGE FINDER
-.footerFixed {
-  position: static !important;
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.maxHeight {
+  height: 100%
+}
+
+.ember-app {
+  padding-bottom: 50px;
 }
 
 .footer {
@@ -22,7 +36,7 @@ $playerDefaultIconColor: #BBBBBB;
 
 .footer .text-muted {
   padding-left: 0;
-  margin-top: 30px;
+  margin-top: 10px;
   text-align: center;
 }
 
@@ -62,10 +76,15 @@ md-progress-circular {
 }
 
 md-content {
-  max-width: 800px;
+  margin: 0 auto 0 auto;
+  max-width: 1000px;
 }
 
 // BRIDGE CONTROLS
+.bridgeControls {
+  position: relative;
+}
+
 .navigation {
   margin: 0 auto 0 auto;
   padding: 30px 0 30px 0;
@@ -174,9 +193,9 @@ md-toolbar {
   background-color: inherit !important;
 }
 
-.innerControlFrame {
-  height: 80vh;
-}
+//.innerControlFrame {
+//  height: 100vh;
+//}
 
 // GROUP CONTROL
 .groupRow.selectedRow {

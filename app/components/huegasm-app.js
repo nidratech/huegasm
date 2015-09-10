@@ -1,6 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
+  classNames: ['maxHeight'],
   bridgeIp: null,
 
   bridgeUsername: null,

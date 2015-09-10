@@ -17,14 +17,14 @@
           {{/each}}
         </div>
 
-        {{#liquid-if lightsTabSelected class="tabSwitch"}}
+        {{#if lightsTabSelected class="tabSwitch"}}
           {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial}}
-        {{/liquid-if}}
+        {{/if}}
 
-        {{#liquid-if musicTabSelected class="tabSwitch"}}
+        {{#if musicTabSelected class="tabSwitch"}}
           {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
-        {{/liquid-if}}
-        {{huegasm-footer classNames="footerFixed"}}
+        {{/if}}
     {{/paper-content}}
   {{/paper-nav-container}}
+  {{huegasm-footer}}
 {{/if}}

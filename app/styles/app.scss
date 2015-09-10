@@ -1,11 +1,7 @@
-// TODO: more elegant way to disable the automatic colapsing?
-$locked-breakpoint: 800px !important;
-
 @import 'ember-paper';
 @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
-
 
 $playerBackColor: #F12B24;
 $playerHeight: 400px;
@@ -76,13 +72,16 @@ md-progress-circular {
 }
 
 md-content {
-  margin: 0 auto 0 auto;
   max-width: 1000px;
 }
 
 // BRIDGE CONTROLS
 .bridgeControls {
   position: relative;
+}
+
+.groupControl {
+
 }
 
 .navigation {
@@ -115,7 +114,7 @@ md-content {
   overflow: visible;
 }
 
-.groupPanel {
+.groupControl {
   //border-right: 1px solid black;
 }
 

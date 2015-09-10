@@ -1,30 +1,20 @@
 {{#if ready}}
-  {{#paper-nav-container class="ember-app"}}
 
-    {{#paper-sidenav class="md-sidenav-left md-whiteframe-z2" flex-layout="column" flex=true locked-open="lg"}}
+  {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
+  
+  <div class="navigation">
+    {{#each tabData as |tab|}}
+        <span class="navigationItem cursorPointer {{if tab.selected "active" ""}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+    {{/each}}
+  </div>
 
-      {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
-    {{/paper-sidenav}}
+  {{#if lightsTabSelected class="tabSwitch"}}
+    {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial}}
+  {{/if}}
 
-    {{#paper-sidenav-toggle class="menu-sidenav-toggle"}}
-      {{paper-icon icon="menu" size="lg"}}
-    {{/paper-sidenav-toggle}}
+  {{#if musicTabSelected class="tabSwitch"}}
+    {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
+  {{/if}}
 
-    {{#paper-content flex-layout="column" flex=true}}
-        <div class="navigation">
-          {{#each tabData as |tab|}}
-              <span class="navigationItem cursorPointer {{if tab.selected "active" ""}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
-          {{/each}}
-        </div>
-
-        {{#if lightsTabSelected class="tabSwitch"}}
-          {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial}}
-        {{/if}}
-
-        {{#if musicTabSelected class="tabSwitch"}}
-          {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
-        {{/if}}
-    {{/paper-content}}
-  {{/paper-nav-container}}
   {{huegasm-footer}}
 {{/if}}

@@ -2,7 +2,7 @@ import Em from 'ember';
 import musicControlMixin from '../mixins/music-control';
 
 export default Em.Component.extend(musicControlMixin, {
-  classNames: ['container-fluid', 'innerControlFrame'],
+  classNames: ['innerControlFrame'],
 
   actions: {
     defaultControls: function(){

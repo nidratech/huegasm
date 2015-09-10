@@ -8,16 +8,18 @@ $playerHeight: 400px;
 $playerBeatAreaHeight: 320px;
 $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
+$footerHeight: 40px;
 
 // BRIDGE FINDER
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+html {
+  min-height: 100%;
+  height: auto;
 }
 
-.maxHeight {
-  height: 100%
+body {
+  margin-bottom: $footerHeight;
+  position: static;
+  height: auto;
 }
 
 .ember-app {
@@ -28,6 +30,7 @@ html, body {
   position: absolute;
   bottom: 0;
   width: 100%;
+  height: $footerHeight;
 }
 
 .footer .text-muted {
@@ -40,12 +43,12 @@ html, body {
   cursor: pointer;
 }
 
-#finderContainer {
+.bridgeFinder {
   text-align: center;
   padding-top: 20px;
 }
 
-#finderContainer .title {
+.bridgeFinder .title {
   font-family: 'Slabo 27px', serif;
   font-size: 30px;
   margin-bottom: 30px;
@@ -69,10 +72,6 @@ md-progress-circular {
 
 .noTextDecoration {
   text-decoration: none;
-}
-
-md-content {
-  max-width: 1000px;
 }
 
 // BRIDGE CONTROLS

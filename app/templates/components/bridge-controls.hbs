@@ -1,7 +1,7 @@
 {{#if ready}}
 
   {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
-  
+
   <div class="navigation">
     {{#each tabData as |tab|}}
         <span class="navigationItem cursorPointer {{if tab.selected "active" ""}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
@@ -15,6 +15,4 @@
   {{#if musicTabSelected class="tabSwitch"}}
     {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
   {{/if}}
-
-  {{huegasm-footer}}
 {{/if}}

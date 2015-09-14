@@ -5,6 +5,20 @@ export default Em.Component.extend(musicControlMixin, {
   classNames: ['innerControlFrame'],
 
   actions: {
+    goToSong: function(index){
+      var a = new Audio();
+      a.src = this.get('playQueue')[index].url;
+      this.get('dancer').load(a);
+      this.set('playQueuePointer', index);
+      this.send('play');
+    },
+    removeAudio: function(index){
+      this.get('playQueue').removeAt(index);
+
+      //if(index === this.get('playQueuePointer')){
+      //  this.get('dancer')
+      //}
+    },
     defaultControls: function(){
       var beatOptions = this.get('beatOptions');
 
@@ -14,6 +28,11 @@ export default Em.Component.extend(musicControlMixin, {
     },
     clickLight:function() {
       debugger;
+    },
+    playerAreaPlay: function(){
+      if(Em.isEmpty(Em.$('#playerControls:hover'))){
+        this.send('play');
+      }
     },
     play: function () {
       var dancer = this.get('dancer'),
@@ -35,6 +54,8 @@ export default Em.Component.extend(musicControlMixin, {
         this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
         this.toggleProperty('playing');
       }
+
+      Em.$('#playerArea').removeClass('material-icons').prop('offsetWidth', Em.$('#playerArea').prop('offsetWidth')).addClass('material-icons');
     },
     volumeChanged: function (value) {
       this.changePlayerControl('volume', value);
@@ -51,9 +72,12 @@ export default Em.Component.extend(musicControlMixin, {
     fullscreen: function () {
 
     },
-    seekChanged: function () {
-
+    seekChanged: function (position) {
+      var audioPosition = Math.floor(this.get('timeTotal') * position / 100);
+      this.get('dancer').source.currentTime = audioPosition;
+      this.set('timeElapsed', audioPosition);
     },
+
     volumeMutedChanged: function (value) {
       var dancer = this.get('dancer'),
         volumeMuted = Em.isNone(value) ? !this.get('volumeMuted') : value;
@@ -85,6 +109,14 @@ export default Em.Component.extend(musicControlMixin, {
     },
     addAudio: function () {
       Em.$('#fileInput').click();
+    },
+    playListAreaAddAudio: function(){
+      if(this.get('playQueue').length === 0){
+        this.send('addAudio');
+      }
+    },
+    speakerViewedChanged: function(value){
+      this.set('speakerViewed', value);
     },
     clickSpeaker: function(){
       // simulate the speaker vibration by running a CSS animation on it
@@ -141,9 +173,16 @@ export default Em.Component.extend(musicControlMixin, {
               self.set('paused', false);
             }, 150);
 
-            self.send('clickSpeaker');
-
-            console.log('Kick at ' + mag);
+            if(self.get('speakerViewed')){
+              self.send('clickSpeaker');
+            } else {
+              var beatHistory = self.get('beatHistory'),
+                maxSize = self.get('maxBeatHistorySize');
+              beatHistory.unshiftObjects('Beat strength of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
+              if(beatHistory.length > maxSize){
+                beatHistory.popObject();
+              }
+            }
           }
 
         }
@@ -161,7 +200,7 @@ export default Em.Component.extend(musicControlMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold') {
@@ -191,9 +230,7 @@ export default Em.Component.extend(musicControlMixin, {
 
           // make sure to init the first song
           if(playQueue.length > 0 && !self.get('dancer').isLoaded()){
-            var a = new Audio();
-            a.src = playQueue[0].url;
-            self.get('dancer').load(a);
+            self.send('goToSong', 0);
           }
         };
 
@@ -208,9 +245,19 @@ export default Em.Component.extend(musicControlMixin, {
       }
     });
 
+    // initialize bootstrap tooltips
     Em.$('[data-toggle="tooltip"]').tooltip();
     // prevent space/text selection when the user repeatedly clicks on the center
-    Em.$('#beatSpeakerCenter').mousedown(function(event) {
+    Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenter', function(event) {
+      event.preventDefault();
+    });
+    Em.$('#playerArea').on('mousewheel', function(event) {
+      var scrollSize = 5;
+
+      if(event.deltaY < 0) {
+        scrollSize *= -1;
+      }
+      self.send('volumeChanged', self.get('volume') + scrollSize);
       event.preventDefault();
     });
   },

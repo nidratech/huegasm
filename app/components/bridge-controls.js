@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['bridgeControls'],
+  classNames: ['bridgeControls', 'container-fluid'],
 
   bridgeIp: null,
   manualBridgeIp: null,
@@ -12,6 +12,19 @@ export default Em.Component.extend({
   lightsData: null,
 
   activeLights: [],
+  groupControlDisplayed: false,
+
+  actions: {
+    changeTab: function(tabName){
+      var index = this.get('tabList').indexOf(tabName);
+      this.set('selectedTab', index);
+      localStorage.setItem('huegasm.selectedTab', index);
+    },
+
+    toggleGroupControl: function(){
+      this.toggleProperty('groupControlDisplayed');
+    }
+  },
 
   apiURL: function(){
       return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
@@ -69,14 +82,6 @@ export default Em.Component.extend({
 
   lightsTabSelected: Em.computed.equal('selectedTab', 0),
   musicTabSelected: Em.computed.equal('selectedTab', 1),
-
-  actions: {
-    changeTab: function(tabName){
-      var index = this.get('tabList').indexOf(tabName)
-      this.set('selectedTab', index);
-      localStorage.setItem('huegasm.selectedTab', index);
-    }
-  },
 
   updateLightData: function(){
     var self = this;

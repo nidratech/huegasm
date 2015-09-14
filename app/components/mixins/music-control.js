@@ -51,9 +51,19 @@ export default Em.Mixin.create({
   decay: 0.02,
   frequency: [0,5],
 
-  playQueue: [],
+  playQueuePointer: 0,
+  playQueue: Em.A(),
+  beatHistory: Em.A(),
+  maxBeatHistorySize: 30,
   timeElapsed: 0,
   timeTotal: 0,
+
+  playQueueEmpty: Ember.computed.empty('playQueue'),
+  playQueueNotEmpty: Ember.computed.notEmpty('playQueue'),
+  playQueueMultiple: function(){
+    return this.get('playQueue.length') > 1;
+  }.property('playQueue'),
+
   seekPosition: function() {
     var timeTotal = this.get('timeTotal'), timeElapsed = this.get('timeElapsed');
 
@@ -69,8 +79,19 @@ export default Em.Mixin.create({
   shuffle: false,
   volumeMuted: false,
   volume: 100,
+  // beat detection related pausing
   paused: false,
+  // audio: playing or paused
   playing: false,
+
+  speakerViewed: true,
+  speakerLabel: function() {
+    if(this.get('speakerViewed')){
+      return 'Speaker View';
+    } else {
+      return 'Debug View';
+    }
+  }.property('speakerViewed'),
 
   incrementElapseTimeHandle: null,
   incrementElapseTime: function(){
@@ -114,6 +135,11 @@ export default Em.Mixin.create({
       return 'volume-mute';
     }
   }.property('volumeMuted', 'volume'),
+
+  onSpeakerViewedChange: function(){
+    localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));
+    this.get('beatHistory').clear();
+  }.observes('speakerViewed'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';
@@ -174,10 +200,6 @@ export default Em.Mixin.create({
     this.set(type + 'TooltipTxt', text);
   },
 
-  nextPrevEnabled: function () {
-    return this.get('playQueue').length > 1;
-  }.property('playQueue.[]'),
-
   timeElapsedTxt: function(){
     return this.formatTime(this.get('timeElapsed'));
   }.property('timeElapsed'),
@@ -190,5 +212,5 @@ export default Em.Mixin.create({
     return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);
   },
 
-  pad: function(num, size){ return ('000000000' + num).substr(-size); },
+  pad: function(num, size){ return ('000000000' + num).substr(-size); }
 });

@@ -1,15 +1,16 @@
 <div class="row">
-    <div id="playerArea" class="col-xs-8">
+    <div id="playerArea" class="col-xs-8 material-icons {{if playing "play-arrow" "pause"}} {{if playQueueEmpty "blockAnimation"}}" {{action "playerAreaPlay"}}>
 
         <div id="playerControls">
           {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
-          {{#if nextPrevEnabled}}
+          {{#if playQueueMultiple}}
               <span data-toggle="tooltip" data-placement="top" title="Previous"
-                    id="prevTooltip" {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span>{{/if}}<!--
+                    id="prevTooltip" {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
+          -->{{/if}}<!--
                     --><span data-toggle="tooltip" data-placement="top"
                              title={{playingTooltipTxt}} id="playingTooltip" {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
-                  -->{{#if nextPrevEnabled}}<!--
+                  -->{{#if playQueueMultiple}}<!--
                 --><span data-toggle="tooltip" data-placement="top"
                   title="Next song"  {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
                   -->{{/if}}<!--
@@ -41,14 +42,21 @@
                   class="pull-right" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon" }}</span>
         </div>
 
-        <div id="playListArea">
-          {{#each playQueue as |item|}}
-              <div class="playlistItem">
+        <div id="playListArea" class={{if playQueueEmpty "cursorPointer"}} {{action "playListAreaAddAudio"}}>
+            {{#if playQueueEmpty}}
+                <div id="dragHere">Drag your music files here</div>
+                {{paper-icon icon="library-music"}}
+            {{/if}}
+
+          {{#each playQueue as |item index|}}
+              <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}}" {{action "goToSong" index}}>
                 {{#if item.title}}
-                  {{item.artist}} - {{item.title}}
+                  {{item.title}}
+                  <div class="songArtist">{{item.artist}}</div>
                 {{else}}
                   {{item.filename}}
-                {{/if}}</div>
+                {{/if}}
+                  <div data-toggle="tooltip" data-placement="bottom auto" title="Remove from playlist" class="audioRemoveButton cursorPointer" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</div></div>
           {{/each}}
         </div>
     </div>
@@ -82,9 +90,17 @@
     </span>
 
     <span id="beatSpeakerContainer" class="col-xs-5">
+        {{#paper-switch checked=speakerViewed noink=true}} {{speakerLabel}} {{/paper-switch}}
+        {{#liquid-if speakerViewed}}
         <div id="beatSpeaker">
-                    <span id="beatSpeakerCenter"
-                          class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}}></span>
+            <span id="beatSpeakerCenter" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}}></span>
+          </div>
+      {{else}}
+        <div id ="beatHistory">
+            {{#each beatHistory as |item|}}
+              <p>{{{item}}}</p>
+            {{/each}}
         </div>
-    </span>
-</div>
+      {{/liquid-if}}
+        </span>
+    </div>

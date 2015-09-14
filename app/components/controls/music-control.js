@@ -6,13 +6,41 @@ export default Em.Component.extend(musicControlMixin, {
 
   actions: {
     goToSong: function(index){
-      var a = new Audio();
-      a.src = this.get('playQueue')[index].url;
-      this.get('dancer').load(a);
-      this.set('playQueuePointer', index);
-      this.send('play');
+      if(index !== this.get('playQueuePointer')) {
+        var dancer = this.get('dancer'), audio = new Audio();
+        audio.src = this.get('playQueue')[index].url;
+
+        if(dancer.audio) {
+          this.send('clearCurrentAudio');
+        }
+
+        dancer.load(audio);
+        this.setProperties({
+          playQueuePointer: index,
+          timeElapsed: 0
+        });
+
+        this.send('play');
+      }
+    },
+    clearCurrentAudio: function() {
+      var dancer = this.get('dancer');
+
+      dancer.pause();
+      clearInterval(this.get('incrementElapseTimeHandle'));
+
+      this.setProperties({
+        playQueuePointer: -1,
+        timeElapsed: 0,
+        timeTotal: 0,
+        playing: false
+      });
     },
     removeAudio: function(index){
+      if(index === this.get('playQueuePointer')) {
+        this.send('clearCurrentAudio');
+      }
+
       this.get('playQueue').removeAt(index);
 
       //if(index === this.get('playQueuePointer')){
@@ -32,30 +60,31 @@ export default Em.Component.extend(musicControlMixin, {
     playerAreaPlay: function(){
       if(Em.isEmpty(Em.$('#playerControls:hover'))){
         this.send('play');
+        Em.$('#playerArea').removeClass('material-icons').prop('offsetWidth', Em.$('#playerArea').prop('offsetWidth')).addClass('material-icons');
       }
     },
     play: function () {
       var dancer = this.get('dancer'),
         playQueue = this.get('playQueue');
 
-      if (this.get('playing')) {
-        dancer.pause();
-        clearInterval(this.get('incrementElapseTimeHandle'));
-        this.toggleProperty('playing');
-        this.set('timeElapsed', Math.floor(dancer.getTime()));
-      } else if(playQueue.length > 0) {
-        if(this.get('volumeMuted')) {
-          dancer.setVolume(0);
+      if(this.get('playQueuePointer') !== -1 ) {
+        if (this.get('playing')) {
+          dancer.pause();
+          clearInterval(this.get('incrementElapseTimeHandle'));
+          this.toggleProperty('playing');
+          this.set('timeElapsed', Math.floor(dancer.getTime()));
         } else {
-          dancer.setVolume(this.get('volume')/100);
+          if(this.get('volumeMuted')) {
+            dancer.setVolume(0);
+          } else {
+            dancer.setVolume(this.get('volume')/100);
+          }
+
+          dancer.play();
+          this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
+          this.toggleProperty('playing');
         }
-
-        dancer.play();
-        this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
-        this.toggleProperty('playing');
       }
-
-      Em.$('#playerArea').removeClass('material-icons').prop('offsetWidth', Em.$('#playerArea').prop('offsetWidth')).addClass('material-icons');
     },
     volumeChanged: function (value) {
       this.changePlayerControl('volume', value);
@@ -64,10 +93,24 @@ export default Em.Component.extend(musicControlMixin, {
       }
     },
     next: function () {
+      var playQueuePointer = this.get('playQueuePointer'), playQueueLength = this.get('playQueue.length');
+      var nextSong = (playQueuePointer + 1) % playQueueLength;
 
+      this.send('goToSong', nextSong);
     },
     previous: function () {
+      if(this.get('timeElapsed') > 5) {
+        this.send('seekChanged', 0);
+      } else {
+        var nextSong = this.get('playQueuePointer');
+        nextSong--;
 
+        if(nextSong < 0) {
+          nextSong = this.get('playQueue.length') - 1;
+        }
+
+        this.send('goToSong', nextSong);
+      }
     },
     fullscreen: function () {
 
@@ -111,9 +154,7 @@ export default Em.Component.extend(musicControlMixin, {
       Em.$('#fileInput').click();
     },
     playListAreaAddAudio: function(){
-      if(this.get('playQueue').length === 0){
-        this.send('addAudio');
-      }
+      this.send('addAudio');
     },
     speakerViewedChanged: function(value){
       this.set('speakerViewed', value);
@@ -191,7 +232,7 @@ export default Em.Component.extend(musicControlMixin, {
     kick.on();
 
     dancer.bind('loaded', function(){
-      self.set('timeTotal', dancer.audio.duration);
+      self.set('timeTotal', Math.round(dancer.audio.duration));
     });
 
     window.dancer = dancer;
@@ -229,7 +270,7 @@ export default Em.Component.extend(musicControlMixin, {
           self.notifyPropertyChange('playQueue');
 
           // make sure to init the first song
-          if(playQueue.length > 0 && !self.get('dancer').isLoaded()){
+          if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
             self.send('goToSong', 0);
           }
         };

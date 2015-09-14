@@ -51,15 +51,15 @@ export default Em.Mixin.create({
   decay: 0.02,
   frequency: [0,5],
 
-  playQueuePointer: 0,
+  playQueuePointer: -1,
   playQueue: Em.A(),
   beatHistory: Em.A(),
   maxBeatHistorySize: 30,
   timeElapsed: 0,
   timeTotal: 0,
 
-  playQueueEmpty: Ember.computed.empty('playQueue'),
-  playQueueNotEmpty: Ember.computed.notEmpty('playQueue'),
+  playQueueEmpty: Em.computed.empty('playQueue'),
+  playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
   playQueueMultiple: function(){
     return this.get('playQueue.length') > 1;
   }.property('playQueue'),

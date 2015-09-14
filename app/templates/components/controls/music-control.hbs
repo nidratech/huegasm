@@ -42,14 +42,14 @@
                   class="pull-right" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon" }}</span>
         </div>
 
-        <div id="playListArea" class={{if playQueueEmpty "cursorPointer"}} {{action "playListAreaAddAudio"}}>
+        <div id="playListArea" class="cursorPointer" {{action "playListAreaAddAudio"}}>
             {{#if playQueueEmpty}}
                 <div id="dragHere">Drag your music files here</div>
                 {{paper-icon icon="library-music"}}
             {{/if}}
 
           {{#each playQueue as |item index|}}
-              <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}}" {{action "goToSong" index}}>
+              <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}}" {{action "goToSong" index bubbles=false}}>
                 {{#if item.title}}
                   {{item.title}}
                   <div class="songArtist">{{item.artist}}</div>

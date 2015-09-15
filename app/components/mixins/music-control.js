@@ -58,6 +58,8 @@ export default Em.Mixin.create({
   timeElapsed: 0,
   timeTotal: 0,
 
+  dragging: false,
+
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
   playQueueMultiple: function(){

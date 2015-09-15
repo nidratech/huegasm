@@ -162,7 +162,18 @@ export default Em.Component.extend(musicControlMixin, {
     clickSpeaker: function(){
       // simulate the speaker vibration by running a CSS animation on it
       Em.$('#beatSpeakerCenter').removeClass('pop').prop('offsetWidth', Em.$('#beatSpeakerCenter').prop('offsetWidth')).addClass('pop');
+    },
+    audioDrop: function(){
+      debugger;
     }
+  },
+
+  dragOver: function(){
+    this.set('dragging', true);
+  },
+
+  dragLeave: function(){
+    this.set('dragging', false);
   },
 
   changePlayerControl: function(name, value, isOption){
@@ -292,6 +303,7 @@ export default Em.Component.extend(musicControlMixin, {
     Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenter', function(event) {
       event.preventDefault();
     });
+    // control the volume by scrolling up/down
     Em.$('#playerArea').on('mousewheel', function(event) {
       var scrollSize = 5;
 
@@ -301,6 +313,22 @@ export default Em.Component.extend(musicControlMixin, {
       self.send('volumeChanged', self.get('volume') + scrollSize);
       event.preventDefault();
     });
+    // file drag and drop support
+    //Em.$('.dragArea').on(
+    //  'dragover',
+    //  function(e) {
+    //    console.log('dragover');
+    //    e.preventDefault();
+    //    e.stopPropagation();
+    //  }
+    //).on(
+    //  'dragenter',
+    //  function(e) {
+    //    console.log('dragenter');
+    //    e.preventDefault();
+    //    e.stopPropagation();
+    //  }
+    //);
   },
 
   // component clean up

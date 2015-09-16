@@ -226,7 +226,7 @@ export default Em.Mixin.create({
     Em.$('#' + type + 'Tooltip + .tooltip .tooltip-inner').html(text);
     //change the tooltip text for hover
     Em.$('#' + type + 'Tooltip').attr('data-original-title', text);
-    
+
     if(Em.isNone(this.get(type + 'TooltipTxt'))) {
       this.set(type + 'TooltipTxt', text);
     }

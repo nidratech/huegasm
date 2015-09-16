@@ -163,8 +163,44 @@ export default Em.Component.extend(musicControlMixin, {
       // simulate the speaker vibration by running a CSS animation on it
       Em.$('#beatSpeakerCenter').removeClass('pop').prop('offsetWidth', Em.$('#beatSpeakerCenter').prop('offsetWidth')).addClass('pop');
     },
-    audioDrop: function(){
-      debugger;
+    dropFiles: function(){
+      this.setProperties({
+        dragging: false,
+        draggingOverPlayListArea: false
+      });
+      this.send('handleNewFiles', event.dataTransfer.files);
+    },
+    playListAreaDragOver: function(){
+      this.set('draggingOverPlayListArea', true);
+    },
+    playListAreaDragLeave: function(){
+      this.set('draggingOverPlayListArea', false);
+    },
+    handleNewFiles: function(files){
+      var self = this,
+        playQueue = this.get('playQueue'),
+        updatePlayQueue = function(){
+        var tags = ID3.getAllTags("local");
+        playQueue.push({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
+
+        ID3.clearAll();
+        self.notifyPropertyChange('playQueue');
+
+        // make sure to init the first song
+        if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
+          self.send('goToSong', 0);
+        }
+      };
+
+      for (var key in files) {
+        if (files.hasOwnProperty(key)) {
+          var file = files[key];
+
+          ID3.loadTags("local", updatePlayQueue.bind(file),{
+            dataReader: new FileAPIReader(file)
+          });
+        }
+      }
     }
   },
 
@@ -269,36 +305,13 @@ export default Em.Component.extend(musicControlMixin, {
   },
 
   didInsertElement: function () {
-    var self = this, playQueue = this.get('playQueue');
+    var self = this;
 
     Em.$('#fileInput').on('change', function () {
-      var files = this.files,
-        updatePlayQueue = function(){
-          var tags = ID3.getAllTags("local");
-          playQueue.push({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
-
-          ID3.clearAll();
-          self.notifyPropertyChange('playQueue');
-
-          // make sure to init the first song
-          if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
-            self.send('goToSong', 0);
-          }
-        };
-
-      for (var key in files) {
-        if (files.hasOwnProperty(key)) {
-          var file = files[key];
-
-          ID3.loadTags("local", updatePlayQueue.bind(file),{
-            dataReader: new FileAPIReader(file)
-          });
-        }
-      }
+      var files = this.files;
+      self.send('handleNewFiles', files);
     });
 
-    // initialize bootstrap tooltips
-    Em.$('[data-toggle="tooltip"]').tooltip();
     // prevent space/text selection when the user repeatedly clicks on the center
     Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenter', function(event) {
       event.preventDefault();
@@ -310,25 +323,11 @@ export default Em.Component.extend(musicControlMixin, {
       if(event.deltaY < 0) {
         scrollSize *= -1;
       }
-      self.send('volumeChanged', self.get('volume') + scrollSize);
+      var newVolume = self.get('volume') + scrollSize;
+
+      self.send('volumeChanged', newVolume < 0 ? 0 : newVolume);
       event.preventDefault();
     });
-    // file drag and drop support
-    //Em.$('.dragArea').on(
-    //  'dragover',
-    //  function(e) {
-    //    console.log('dragover');
-    //    e.preventDefault();
-    //    e.stopPropagation();
-    //  }
-    //).on(
-    //  'dragenter',
-    //  function(e) {
-    //    console.log('dragenter');
-    //    e.preventDefault();
-    //    e.stopPropagation();
-    //  }
-    //);
   },
 
   // component clean up

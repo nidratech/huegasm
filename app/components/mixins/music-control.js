@@ -59,6 +59,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
 
   dragging: false,
+  draggingOverPlayListArea: false,
 
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
@@ -115,6 +116,20 @@ export default Em.Mixin.create({
       return 'play-arrow';
     }
   }.property('playing'),
+
+  playListAreaClass: function(){
+    var classes = 'cursorPointer dragArea';
+
+    if(this.get('dragging')){
+      classes += ' dragHereHighlight';
+    }
+
+    if(this.get('draggingOverPlayListArea')){
+      classes += ' draggingOver';
+    }
+
+    return classes;
+  }.property('dragging', 'draggingOverPlayListArea'),
 
   repeatClass: function () {
     return this.get('repeat') !== 0 ? 'playerControllIcon active' : 'playerControllIcon';

@@ -377,8 +377,8 @@ md-toolbar {
 }
 
 #volumeBar {
-  width: 7.143em;
-  height: 0.571em;
+  width: 5em;
+  height: 0.4em;
   display: inline-block;
 }
 
@@ -387,8 +387,8 @@ md-toolbar {
 }
 
 .noUi-horizontal .noUi-handle {
-  width: 0.400em;
-  height: 1.500em;
+  width: 0.4em;
+  height: 1.3em;
   left: -0.071em;
   top: -0.500em;
   transition-duration: 0.1s;
@@ -437,7 +437,7 @@ md-toolbar {
 }
 
 #playListArea {
-  background: lighten($playListBackgroundColor, 20%);
+  background-color: lighten($playListBackgroundColor, 20%);
   width: 100%;
   height: 333px;
   margin: 10px auto 0 auto;
@@ -586,7 +586,12 @@ md-toolbar {
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.1);
 }
 
-.dragHere {
-  background-color: white !important;
+#playListArea.dragArea.dragHereHighlight {
+  background-color: white;
   border: 5px dotted #5383ff;
+}
+
+#playListArea.dragArea.draggingOver {
+  background-color: darken(white, 5%);
+  box-shadow: inset 0 0 20px 0 rgba(0,0,0,1);
 }

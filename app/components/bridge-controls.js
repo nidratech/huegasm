@@ -1,7 +1,8 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['bridgeControls', 'container-fluid'],
+  classNames: ['container-fluid'],
+  elementId: 'bridgeControls',
 
   bridgeIp: null,
   manualBridgeIp: null,
@@ -29,6 +30,16 @@ export default Em.Component.extend({
   apiURL: function(){
       return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
   }.property('bridgeIp', 'bridgeUsername'),
+
+  didInsertElement: function(){
+    //TODO: make less shitty
+    var observer = new MutationObserver(function(mutations) {
+      Em.run.once(this, function(){
+        Em.$('.bootstrapTooltip').tooltip();
+      });
+    });
+    observer.observe(Em.$('#bridgeControls')[0], {childList: true, subtree: true});
+  },
 
   init: function() {
     this._super();

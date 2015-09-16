@@ -1,9 +1,9 @@
-<h3 class="sideNavTitle">Light Groups<span data-toggle="tooltip" data-placement="top auto" title="Add Group" class="addButton pull-right cursorPointer" {{action "toggleAddGroupsModal"}}>{{paper-icon icon="group-add"}}</span></h3>
+<h3 class="sideNavTitle">Light Groups<span data-toggle="tooltip" data-placement="bottom auto" title="Add Group" class="bootstrapTooltip addButton pull-right cursorPointer" {{action "toggleAddGroupsModal"}}>{{paper-icon icon="group-add"}}</span></h3>
 
 {{#paper-list}}
   {{#each groupsArrData as |group|}}
     {{#paper-item class=group.rowClass}}
-      <div class="groupSelect cursorPointer" {{action "selectGroup" group.data.key}}>{{group.name}}</div> {{#if group.deletable}}<span data-toggle="tooltip" data-placement="bottom auto" title="Remove Group" class="removeButton cursorPointer" {{action "toggleConfirmDeleteGroupsModal" group.name group.data.key}}>{{paper-icon icon="close"}}</span>{{/if}}
+      <div class="groupSelect cursorPointer" {{action "selectGroup" group.data.key}}>{{group.name}}</div> {{#if group.deletable}}<span data-toggle="tooltip" data-placement="top auto" title="Remove Group" class="bootstrapTooltip removeButton cursorPointer" {{action "toggleConfirmDeleteGroupsModal" group.name group.data.key}}>{{paper-icon icon="close"}}</span>{{/if}}
     {{/paper-item}}
   {{/each}}
 {{/paper-list}}

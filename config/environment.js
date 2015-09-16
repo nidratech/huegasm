@@ -24,7 +24,7 @@ module.exports = function(environment) {
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
       'img-src': "'self' data:",
-      'media-src': "'self'",
+      'media-src': "'self' blob:",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com",
       'object-src': "'self'",
       'frame-src': "'self'"

@@ -27,16 +27,29 @@ export default Em.Component.extend({
     }
   },
 
+  // automatically close the group menu when the user clicks somewhere else
+  click: function() {
+    if(this.get('groupControlDisplayed') && !event.target.classList.contains('menu') && !$(event.target).closest('#groupControls').length) {
+      this.toggleProperty('groupControlDisplayed');
+    }
+  },
+
   apiURL: function(){
       return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
   }.property('bridgeIp', 'bridgeUsername'),
 
   didInsertElement: function(){
-    //TODO: make less shitty
+    // here's a weird way to automatically initialize bootstrap tooltips
     var observer = new MutationObserver(function(mutations) {
-      Em.run.once(this, function(){
-        Em.$('.bootstrapTooltip').tooltip();
+      var haveTooltip = !mutations.every(function(mutation) {
+        return Em.isEmpty(mutation.addedNodes) || Em.isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
       });
+
+      if(haveTooltip) {
+        Em.run.once(this, function(){
+          Em.$('.bootstrapTooltip').tooltip();
+        });
+      }
     });
     observer.observe(Em.$('#bridgeControls')[0], {childList: true, subtree: true});
   },

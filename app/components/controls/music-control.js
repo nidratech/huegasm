@@ -64,8 +64,7 @@ export default Em.Component.extend(musicControlMixin, {
       }
     },
     play: function () {
-      var dancer = this.get('dancer'),
-        playQueue = this.get('playQueue');
+      var dancer = this.get('dancer');
 
       if(this.get('playQueuePointer') !== -1 ) {
         if (this.get('playing')) {
@@ -120,7 +119,6 @@ export default Em.Component.extend(musicControlMixin, {
       this.get('dancer').source.currentTime = audioPosition;
       this.set('timeElapsed', audioPosition);
     },
-
     volumeMutedChanged: function (value) {
       var dancer = this.get('dancer'),
         volumeMuted = Em.isNone(value) ? !this.get('volumeMuted') : value;
@@ -196,20 +194,31 @@ export default Em.Component.extend(musicControlMixin, {
         if (files.hasOwnProperty(key)) {
           var file = files[key];
 
-          ID3.loadTags("local", updatePlayQueue.bind(file),{
-            dataReader: new FileAPIReader(file)
-          });
+          if(file.type.startsWith('audio')) {
+            ID3.loadTags("local", updatePlayQueue.bind(file),{
+              dataReader: new FileAPIReader(file)
+            });
+          }
         }
       }
     }
   },
 
-  dragOver: function(){
+  dragLeaveTimeoutHandle: null,
+
+  dragOver: function() {
+    var dragLeaveTimeoutHandle = this.get('dragLeaveTimeoutHandle');
     this.set('dragging', true);
+
+    if (dragLeaveTimeoutHandle) {
+      clearTimeout(dragLeaveTimeoutHandle);
+    }
   },
 
   dragLeave: function(){
-    this.set('dragging', false);
+    // need to delay the dragLeave notification to avoid flickering ( hovering over some page elements causes this event to be sent )
+    var self = this;
+    this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
   changePlayerControl: function(name, value, isOption){
@@ -318,15 +327,17 @@ export default Em.Component.extend(musicControlMixin, {
     });
     // control the volume by scrolling up/down
     Em.$('#playerArea').on('mousewheel', function(event) {
-      var scrollSize = 5;
+      if(self.get('playQueueNotEmpty')) {
+        var scrollSize = 5;
 
-      if(event.deltaY < 0) {
-        scrollSize *= -1;
+        if(event.deltaY < 0) {
+          scrollSize *= -1;
+        }
+        var newVolume = self.get('volume') + scrollSize;
+
+        self.send('volumeChanged', newVolume < 0 ? 0 : newVolume);
+        event.preventDefault();
       }
-      var newVolume = self.get('volume') + scrollSize;
-
-      self.send('volumeChanged', newVolume < 0 ? 0 : newVolume);
-      event.preventDefault();
     });
   },
 

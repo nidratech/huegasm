@@ -46,7 +46,6 @@ export default Em.Component.extend({
           self.set('manualBridgeIpNotFound', true);
           setTimeout(function(){ self.set('manualBridgeIpNotFound', false); }, 5000);
         }).then(function () {
-          debugger;
           self.set('bridgeIp', manualBridgeIp);
         });
       }

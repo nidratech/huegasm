@@ -5,17 +5,13 @@
           {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
           {{#if playQueueMultiple}}
-              <span data-toggle="tooltip" data-placement="top" title="Previous" class="bootstrapTooltip"
-                    id="prevTooltip" {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
+              <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip" title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
           -->{{/if}}<!--
-                    --><span data-toggle="tooltip" data-placement="top"
-                              id="playingTooltip" class="bootstrapTooltip" title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
+                    --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrapTooltip" title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
                   -->{{#if playQueueMultiple}}<!--
-                --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
-                         title="Next song"  {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
+                --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" title="Next" {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
                   -->{{/if}}<!--
-          --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip"
-                   title={{volumeMutedTooltipTxt}}  {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span><!--
+          --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip" title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
             <span id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</span>
@@ -43,13 +39,13 @@
         </div>
 
         <div id="playListArea" class={{playListAreaClass}} {{action "playListAreaAddAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
-            {{#if playQueueEmpty}}
+            {{#if (or playQueueEmpty dragging)}}
                 <div id="dragHere">Drag your music files here</div>
                 {{paper-icon icon="library-music"}}
             {{/if}}
 
           {{#each playQueue as |item index|}}
-              <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}}" {{action "goToSong" index bubbles=false}}>
+              <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index bubbles=false}}>
                 {{#if item.title}}
                   {{item.title}}
                   <div class="songArtist">{{item.artist}}</div>
@@ -68,21 +64,22 @@
       <div id="vertDivider"></div>
         {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL noHover=true}}
 
+      <span id="beatOptionGroup">
         <span class="beatOption">
           {{range-slider start=threshold orientation="vertical" range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-            Beat Threshold
+          Beat Threshold
         </span>
 
         <span class="beatOption">
           {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
-            Beat Decay
+          Beat Decay
         </span>
 
         <span class="beatOption">
-
           {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-            Beat Frequency Range
+          Beat Frequency Range
         </span>
+      </span>
 
       <div id="playerButtonGroup">
         {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
@@ -90,17 +87,18 @@
     </span>
 
     <span id="beatSpeakerContainer" class="col-xs-5">
-        {{#paper-switch checked=speakerViewed noink=true}} {{speakerLabel}} {{/paper-switch}}
-        {{#liquid-if speakerViewed}}
+      {{#paper-switch checked=speakerViewed noink=true}} {{speakerLabel}} {{/paper-switch}}
+      {{#liquid-if speakerViewed}}
         <div id="beatSpeaker">
-            <span id="beatSpeakerCenter" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}}></span>
-          </div>
+          <span id="beatSpeakerCenterBackground"></span>
+          <span id="beatSpeakerCenter" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}}></span>
+        </div>
       {{else}}
         <div id ="beatHistory">
-            {{#each beatHistory as |item|}}
-              <p>{{{item}}}</p>
-            {{/each}}
+          {{#each beatHistory as |item|}}
+            <p>{{{item}}}</p>
+          {{/each}}
         </div>
       {{/liquid-if}}
-        </span>
-    </div>
+    </span>
+</div>

@@ -118,7 +118,7 @@ export default Em.Mixin.create({
   }.property('playing'),
 
   playListAreaClass: function(){
-    var classes = 'cursorPointer dragArea';
+    var classes = 'cursorPointer';
 
     if(this.get('dragging')){
       classes += ' dragHereHighlight';
@@ -199,6 +199,18 @@ export default Em.Mixin.create({
     this.changeTooltipText(type, tooltipTxt);
   }.observes('volumeMuted').on('init'),
 
+  onPrevChange: function() {
+    if(this.get('playQueueMultiple')){
+      var tooltipTxt = 'Previous', type = 'prev';
+
+      if(this.get('timeElapsed') > 5) {
+        tooltipTxt = 'Replay';
+      }
+
+      this.changeTooltipText(type, tooltipTxt);
+    }
+  }.observes('timeElapsed', 'playQueueMultiple'),
+
   onPlayingChange: function () {
     var tooltipTxt = 'Play', type = 'playing';
 
@@ -213,8 +225,11 @@ export default Em.Mixin.create({
     // change the tooltip text if it's already visible
     Em.$('#' + type + 'Tooltip + .tooltip .tooltip-inner').html(text);
     //change the tooltip text for hover
-    Em.$('#' + type + 'Tooltip').attr('data-original-title', text).attr('title', text);
-    this.set(type + 'TooltipTxt', text);
+    Em.$('#' + type + 'Tooltip').attr('data-original-title', text);
+    
+    if(Em.isNone(this.get(type + 'TooltipTxt'))) {
+      this.set(type + 'TooltipTxt', text);
+    }
   },
 
   timeElapsedTxt: function(){

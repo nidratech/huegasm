@@ -22,6 +22,7 @@ export default Em.Component.extend({
 
   manualBridgeIp: null,
   manualBridgeIpNotFound: false,
+  multipleBridgeIps: [],
 
   actions: {
     retry: function(){
@@ -77,6 +78,12 @@ export default Em.Component.extend({
           localStorage.setItem('huegasm.bridgeIp', result[0].internalipaddress);
           bridgeFindStatus = 'success';
         } else if(result.length > 1) {
+          var multipleBridgeIps = self.get('multipleBridgeIps');
+
+          result.forEach(function(item) {
+            multipleBridgeIps.push(item.internalipaddress);
+          });
+
           bridgeFindStatus = 'multiple';
         } else {
           bridgeFindStatus = 'fail';

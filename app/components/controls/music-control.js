@@ -3,6 +3,7 @@ import musicControlMixin from '../mixins/music-control';
 
 export default Em.Component.extend(musicControlMixin, {
   classNames: ['innerControlFrame'],
+  classNameBindings: ['active::hidden'],
 
   actions: {
     goToSong: function(index){
@@ -235,7 +236,7 @@ export default Em.Component.extend(musicControlMixin, {
   init: function () {
     this._super();
 
-    var dancer = window.dancer || new Dancer(),
+    var dancer = new Dancer(),
       self = this,
       threshold = this.get('threshold'),
       decay = this.get('decay'),
@@ -291,7 +292,6 @@ export default Em.Component.extend(musicControlMixin, {
       self.set('timeTotal', Math.round(dancer.audio.duration));
     });
 
-    window.dancer = dancer;
     this.setProperties({
       dancer: dancer,
       kick: kick
@@ -339,12 +339,5 @@ export default Em.Component.extend(musicControlMixin, {
         event.preventDefault();
       }
     });
-  },
-
-  // component clean up
-  destroy: function(){
-    //this.get('dancer').audioAdapter.context.close();
-    this.get('dancer').unbind('loaded');
-    this._super();
   }
 });

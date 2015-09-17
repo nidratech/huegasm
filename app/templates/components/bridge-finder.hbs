@@ -16,7 +16,14 @@
     {{/unless}}
 
     {{#if bridgeFindMultiple}}
-      <p>Found multiple hue bridges.</p>
+      <p>Found multiple hue bridges. <br>
+      Please select the one you want to use for this application.</p>
+
+      <div id="bridgeButtonGroup">
+        {{#each multipleBridgeIps as |bridge|}}
+          {{#paper-radio value=bridge selected=bridgeIp}}{{bridge}}{{/paper-radio}}
+        {{/each}}
+      </div>
     {{else}}
       {{#if bridgeFindFail}}
         <p>A hue bridge was not found on your network :( <br>

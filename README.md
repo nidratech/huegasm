@@ -5,12 +5,15 @@ Music awesomeness for hue lights.
 # TODO
 ## FEATURES
 - finish beat detection light effects
-- more granular light controls on the lights tab
-- handle multiple bridge IPs for bridge-finder
 - save beat detection settings per song 
+- more granular light controls on the lights tab
 - app intro with intro.js
 - music visualizations with three.js
 - new favicon
+
+## BUGS
+- can't create groups anymore
+- BUGS BUGS BUGS
 
 ## POSSIBLE FEATURES
 - clear localstorage
@@ -19,8 +22,3 @@ Music awesomeness for hue lights.
 - integration with youtube, soundcloud, spotify ???
 - auto beat detection mode
 - lights on/off switch
-
-## BUGS
-- fuckery when listening to music and switching tabs
-- can't create groups anymore
-- BUGS BUGS BUGS

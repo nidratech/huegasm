@@ -14,7 +14,7 @@
           --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip" data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
-            <span id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</span>
+            <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
 
           <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"

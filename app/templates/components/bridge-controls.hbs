@@ -11,11 +11,6 @@
     {{/each}}
   </div>
 
-  {{#if lightsTabSelected class="tabSwitch"}}
-    {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial}}
-  {{/if}}
-
-  {{#if musicTabSelected class="tabSwitch"}}
-    {{controls/music-control apiURL=apiURL lightsData=lightsData  activeLights=activeLights}}
-  {{/if}}
+  {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected}}
+  {{controls/music-control apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected}}
 {{/if}}

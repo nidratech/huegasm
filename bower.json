@@ -20,6 +20,8 @@
   },
   "resolutions": {
     "ember": "~2.0.2",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "ember-qunit": "0.4.9",
+    "qunit": "~1.18.0"
   }
 }

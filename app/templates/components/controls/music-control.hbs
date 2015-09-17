@@ -5,20 +5,20 @@
           {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
           {{#if playQueueMultiple}}
-              <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip" title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
+              <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip" data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
           -->{{/if}}<!--
-                    --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrapTooltip" title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
+                    --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrapTooltip" data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
                   -->{{#if playQueueMultiple}}<!--
-                --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" title="Next" {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
+                --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Next" {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
                   -->{{/if}}<!--
-          --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip" title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span><!--
+          --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip" data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
             <span id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</span>
 
           <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
-                  title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
+                  data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
             </span>
           </span>
         </div>
@@ -29,12 +29,12 @@
 
         <div id="playListControls">
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip"
-                  title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
+                  data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
 
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip"
-                  title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+                  data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
 
-            <span data-toggle="tooltip" data-placement="bottom" title="Add new music"
+            <span data-toggle="tooltip" data-placement="bottom" data-title="Add new music"
                   class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon" }}</span>
         </div>
 
@@ -52,7 +52,7 @@
                 {{else}}
                   {{item.filename}}
                 {{/if}}
-                  <div data-toggle="tooltip" data-placement="bottom auto" title="Remove from playlist" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</div></div>
+                  <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove from playlist" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</div></div>
           {{/each}}
         </div>
     </div>

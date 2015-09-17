@@ -98,6 +98,7 @@ md-progress-circular {
 
 // BRIDGE CONTROLS
 #bridgeControls {
+  position: relative;
   max-width: 1000px;
 }
 
@@ -153,6 +154,9 @@ md-progress-circular {
 
 .lightGroup {
   margin: 0 auto 0 auto;
+  .tooltip.top {
+    margin-top: -10px;
+  }
 }
 
 .hueLight {
@@ -182,14 +186,15 @@ md-progress-circular {
   background-color: rgba(255, 0, 0, 0.7);
 }
 
-.lightActive:hover {
+.lightActive img {
   cursor: pointer;
-  -webkit-transition-duration: 0.5s;
-  transition-duration: 0.5s;
-  -webkit-transform: scale(1.2);
+  transition-duration: 0.3s;
+  transition-property: transform;
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+
+.lightActive img:hover {
   transform: scale(1.2);
-  -webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
-  transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
 }
 
 .ember-modal-overlay.translucent {

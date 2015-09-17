@@ -17,6 +17,8 @@ Music awesomeness for hue lights.
 - help, contact, about, youtube video ???
 - beat settings by interval
 - integration with youtube, soundcloud, spotify ???
+- auto beat detection mode
+- lights on/off switch
 
 ## BUGS
 - fuckery when listening to music and switching tabs

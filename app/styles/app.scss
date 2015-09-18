@@ -466,6 +466,7 @@ md-toolbar {
   border-radius: 5px;
   transition: 0.1s all ease-in-out;
   position: relative;
+  overflow: auto;
   #dragHere {
     position: absolute;
     top: 27%;
@@ -499,6 +500,7 @@ md-toolbar {
 }
 
 .playlistItem {
+  border-bottom: 1px solid #9E9E9E;
   height: 45px;
   font-family: 'Open Sans', sans-serif;
   padding: 5px;

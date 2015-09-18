@@ -241,36 +241,43 @@ export default Em.Component.extend(musicControlMixin, {
       threshold = this.get('threshold'),
       decay = this.get('decay'),
       frequency = this.get('frequency'),
-      //briOff = function (i) {
-      //  Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-      //    data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
-      //    contentType: 'application/json',
-      //    type: 'PUT'
-      //  });
-      //},
+      briOff = function (i) {
+        Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
+          data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      },
       kick = dancer.createKick({
         threshold: threshold,
         decay: decay,
         frequency: frequency,
         onKick: function (mag) {
-
+          var activeLights = self.get('activeLights');
           if (self.get('paused') === false) {
-            //for (let i = 1; i <= 1; i++) {
-            //  Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-            //    data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
-            //    contentType: 'application/json',
-            //    type: 'PUT'
-            //  });
-            //
-            //  setTimeout(briOff, 50, i);
-            //}
+            //work the lights
+            if(activeLights.length > 0){
+              var lastLightBopIndex = self.get('lastLightBopIndex'), light = self.get('activeLights')[lastLightBopIndex];
+              Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+                data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
+                contentType: 'application/json',
+                type: 'PUT'
+              });
 
-            self.set('paused', true);
+              setTimeout(briOff, 50, light);
+              lastLightBopIndex = (lastLightBopIndex+1)%activeLights.length;
 
-            setTimeout(function () {
-              self.set('paused', false);
-            }, 150);
+              self.setProperties({
+                paused: true,
+                lastLightBopIndex: lastLightBopIndex
+              });
 
+              setTimeout(function () {
+                self.set('paused', false);
+              }, 150);
+            }
+
+            //work the music beat area
             if(self.get('speakerViewed')){
               self.send('clickSpeaker');
             } else {

@@ -57,6 +57,7 @@ export default Em.Mixin.create({
   maxBeatHistorySize: 30,
   timeElapsed: 0,
   timeTotal: 0,
+  lastLightBopIndex: 0,
 
   dragging: false,
   draggingOverPlayListArea: false,

@@ -14,6 +14,7 @@ export default Em.Component.extend({
 
   activeLights: [],
   groupControlDisplayed: false,
+  appSettingsDisplayed: false,
 
   actions: {
     changeTab: function(tabName){
@@ -24,13 +25,21 @@ export default Em.Component.extend({
 
     toggleGroupControl: function(){
       this.toggleProperty('groupControlDisplayed');
+    },
+
+    toggleAppSettings: function(){
+      this.toggleProperty('appSettingsDisplayed');
     }
   },
 
   // automatically close the group menu when the user clicks somewhere else
   click: function() {
-    if(this.get('groupControlDisplayed') && !event.target.classList.contains('group') && !$(event.target).closest('#groupControls').length) {
+    if(this.get('groupControlDisplayed') && !event.target.classList.contains('group') && !Em.$(event.target).closest('#groupControls').length) {
       this.toggleProperty('groupControlDisplayed');
+    }
+
+    if(this.get('appSettingsDisplayed') && !event.target.classList.contains('settings') && !Em.$(event.target).closest('#appSetting').length) {
+      this.toggleProperty('appSettingsDisplayed');
     }
   },
 

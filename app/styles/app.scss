@@ -29,23 +29,23 @@ body {
   height: auto;
 }
 
-#groupControlToggle {
-  padding: 30px;
-  float: left;
+#settings {
   cursor: pointer;
+  position: absolute;
+  right: 15px;
+  margin-top: 30px;
+}
+
+.settingsItem {
+  margin-left: 10px;
   position: relative;
-  right: 50px;
 }
 
-#groupControlToggle md-icon {
-  margin: 0;
-}
-
-#groupControlToggle.on md-icon.md-default-theme  {
+.settingsItem.on md-icon.md-default-theme  {
   color: #F12B24 !important;
 }
 
-#groupControlToggle:hover md-icon {
+.settingsItem:hover md-icon {
   color: black !important;
 }
 
@@ -113,9 +113,22 @@ md-progress-linear {
 }
 
 // BRIDGE CONTROLS
+#appSettings {
+  position: absolute;
+  background: white;
+  box-shadow: 5px 10px 15px 5px rgba(0,0,0,.3);
+  z-index: 2;
+  width: 200px;
+  right: 0;
+}
+
+md-list-item .md-no-style {
+  padding: 0;
+}
+
 #bridgeControls {
   position: relative;
-  max-width: 1000px;
+  max-width: 900px;
 }
 
 .navigation {
@@ -150,7 +163,7 @@ md-progress-linear {
   padding: 22px;
   cursor: pointer;
   font-size: 0;
-  margin-right: 20px;
+  margin-right: 10px;
 }
   // LIGHT GROUP
 md-slider {
@@ -168,20 +181,17 @@ md-slider.md-default-theme .md-thumb:after {
 
 #groupControls {
   display: none;
-  border-left: 1px solid #C5C5C5;
-  border-bottom: 1px solid #C5C5C5;
-  border-right: 1px solid #C5C5C5;
-  box-shadow: 5px 10px 15px 5px rgba(0,0,0,.1);
+  box-shadow: 5px 10px 15px 5px rgba(0,0,0,.3);
   border-radius: 0 0 5px 5px;
 }
 
 #groupControls.on {
   width: 300px;
-  top: 48px;
-  left: -5px;
+  top: 55px;
+  right: 48px;
   position: absolute;
   display: block;
-  z-index: 1;
+  z-index: 2;
   background-color: white;
   max-height: 400px;
   overflow: auto;
@@ -247,10 +257,6 @@ md-icon {
   color: rgba(0, 0, 0, 0.54) !important;
 }
 
-md-icon.group {
-  margin: 30px 0 0 16px;
-}
-
 .addButton .group-add {
   margin-right: 16px;
 }
@@ -284,6 +290,7 @@ md-toolbar {
 
 .groupRow.selectedRow .groupSelect {
   cursor: default;
+  padding-left: 10px;
 }
 
 .groupSelect {
@@ -324,6 +331,10 @@ md-toolbar {
 }
 
 // MUSIC CONTROL
+.row {
+  margin: 0;
+}
+
 md-switch.md-default-theme.md-checked .md-bar {
   background-color: rgba(241, 43, 36, 0.5);
 }

@@ -6,10 +6,9 @@ Music awesomeness for hue lights.
 ## FEATURES
 - finish beat detection light effects
 - save beat detection settings per song 
-- more granular light controls on the lights tab
+- change light colors
 - app intro with intro.js
 - music visualizations with three.js
-- new favicon
 
 ## BUGS
 - can't create groups anymore

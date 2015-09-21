@@ -221,7 +221,7 @@ export default Em.Component.extend(musicControlMixin, {
     if(this.get('repeat') === 2){
       this.send('goToSong', this.get('playQueuePointer'));
     } else {
-      this.get('timeElapsed')
+      this.get('timeElapsed');
       this.send('next');
     }
   },
@@ -291,7 +291,7 @@ export default Em.Component.extend(musicControlMixin, {
             } else {
               var beatHistory = self.get('beatHistory'),
                 maxSize = self.get('maxBeatHistorySize');
-              beatHistory.unshiftObjects('Beat strength of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
+              beatHistory.unshiftObjects('Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
               if(beatHistory.length > maxSize){
                 beatHistory.popObject();
               }

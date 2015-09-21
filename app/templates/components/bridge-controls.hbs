@@ -1,7 +1,20 @@
 {{#if ready}}
-  <span {{action "toggleGroupControl"}} id="groupControlToggle" class={{if groupControlDisplayed 'on'}}>
-    {{paper-icon icon="group"}}
-  </span>
+  <div id="settings">
+    <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}" {{action "toggleGroupControl"}}>
+      <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups">{{paper-icon icon="group"}}</span>
+    </span>
+
+    <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}"  {{action "toggleAppSettings"}}>
+      <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings">{{paper-icon icon="settings"}}</span>
+
+      {{#if appSettingsDisplayed}}
+        <div id="appSettings">
+          <p {{action "clearBridge"}}>Switch bridge</p>
+          <p class="warn" {{action "clearAllSettings"}}>Clear application settings</p>
+        </div>
+      {{/if}}
+    </span>
+  </div>
 
   {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
 

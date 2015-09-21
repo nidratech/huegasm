@@ -3,23 +3,26 @@ import Em from 'ember';
 export default Em.Component.extend({
   classNames: ['innerControlFrame'],
   classNameBindings: ['active::hidden'],
+  elementId: 'lightControl',
 
   activeLights: [],
   lightsData: null,
 
   lightsDataIntervalHandle: null,
 
-  modalData: null,
-  isShowingLightsModal: false,
   isShowingAddGroupsModal: false,
-  actions: {
-    clickLight: function(id, data){
-      if(this.get('isShowingLightsModal')){
-        this.set('modalData', {data:data, id:id});
-      }
 
-      this.toggleProperty('isShowingLightsModal');
-    }
+  didInsertElement: function(){
+    // handle color changes
+    var self = this;
+
+    Em.$('.color').colorPicker({
+      opacity: false,
+
+      renderCallback: function(elem){
+        console.log(elem[0].value);
+      }
+    });
   },
 
   // determines whether the lights are on/off for the lights switch
@@ -33,6 +36,18 @@ export default Em.Component.extend({
     return this.get('activeLights').some(function(light) {
       return lightsData[light].state.on === true;
     });
+  }.property('lightsData', 'activeLights', 'strobeOn'),
+
+  // color of the lights in the group
+  color: function(){
+    var lightsData = this.get('lightsData'),
+      color = [0,0,0];
+
+    if(this.get('strobeOn') || this.get('activeLights').length === 0){
+      return color;
+    }
+
+    return [lightsData[0].state.hue, lightsData[0].state.sat, lightsData[0].state.bri];
   }.property('lightsData', 'activeLights', 'strobeOn'),
 
   // determines the average brightness of the hue system for the brightness slider

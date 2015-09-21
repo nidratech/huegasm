@@ -12,7 +12,7 @@ export default Em.Component.extend(musicControlMixin, {
         audio.src = this.get('playQueue')[index].url;
 
         if(dancer.audio) {
-          this.send('clearCurrentAudio');
+          this.clearCurrentAudio(true);
         }
 
         dancer.load(audio);
@@ -24,22 +24,9 @@ export default Em.Component.extend(musicControlMixin, {
         this.send('play');
       }
     },
-    clearCurrentAudio: function() {
-      var dancer = this.get('dancer');
-
-      dancer.pause();
-      clearInterval(this.get('incrementElapseTimeHandle'));
-
-      this.setProperties({
-        playQueuePointer: -1,
-        timeElapsed: 0,
-        timeTotal: 0,
-        playing: false
-      });
-    },
     removeAudio: function(index){
       if(index === this.get('playQueuePointer')) {
-        this.send('clearCurrentAudio');
+        this.clearCurrentAudio(true);
       }
 
       this.get('playQueue').removeAt(index);
@@ -94,9 +81,13 @@ export default Em.Component.extend(musicControlMixin, {
     },
     next: function () {
       var playQueuePointer = this.get('playQueuePointer'), playQueueLength = this.get('playQueue.length');
-      var nextSong = (playQueuePointer + 1) % playQueueLength;
+      var nextSong = (playQueuePointer + 1);
 
-      this.send('goToSong', nextSong);
+      if(nextSong > playQueueLength-1 && this.get('repeat') === 1){
+        nextSong = nextSong % playQueueLength;
+
+        this.send('goToSong', nextSong);
+      }
     },
     previous: function () {
       if(this.get('timeElapsed') > 5) {
@@ -112,13 +103,15 @@ export default Em.Component.extend(musicControlMixin, {
         this.send('goToSong', nextSong);
       }
     },
-    fullscreen: function () {
-
-    },
+    fullscreen: function () {},
     seekChanged: function (position) {
-      var audioPosition = Math.floor(this.get('timeTotal') * position / 100);
-      this.get('dancer').source.currentTime = audioPosition;
-      this.set('timeElapsed', audioPosition);
+      var dancer = this.get('dancer');
+
+      if(dancer.audio){
+        var audioPosition = Math.floor(this.get('timeTotal') * position / 100);
+        dancer.audio.currentTime = audioPosition;
+        this.set('timeElapsed', audioPosition);
+      }
     },
     volumeMutedChanged: function (value) {
       var dancer = this.get('dancer'),
@@ -205,7 +198,33 @@ export default Em.Component.extend(musicControlMixin, {
     }
   },
 
-  dragLeaveTimeoutHandle: null,
+  clearCurrentAudio: function(resetPointer) {
+    var dancer = this.get('dancer');
+
+    dancer.pause();
+    clearInterval(this.get('incrementElapseTimeHandle'));
+
+    if(resetPointer){
+      this.set('playQueuePointer', -1);
+    }
+
+    this.setProperties({
+      timeElapsed: 0,
+      timeTotal: 0,
+      playing: false
+    });
+  },
+
+  goToNextSong: function() {
+    this.get('beatHistory').clear();
+
+    if(this.get('repeat') === 2){
+      this.send('goToSong', this.get('playQueuePointer'));
+    } else {
+      this.get('timeElapsed')
+      this.send('next');
+    }
+  },
 
   dragOver: function() {
     var dragLeaveTimeoutHandle = this.get('dragLeaveTimeoutHandle');
@@ -220,17 +239,6 @@ export default Em.Component.extend(musicControlMixin, {
     // need to delay the dragLeave notification to avoid flickering ( hovering over some page elements causes this event to be sent )
     var self = this;
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
-  },
-
-  changePlayerControl: function(name, value, isOption){
-    if(isOption){
-      var options = {};
-      options[name] = value;
-      this.get('kick').set(options);
-    }
-
-    this.set(name, value);
-    localStorage.setItem('huegasm.' + name, value);
   },
 
   init: function () {

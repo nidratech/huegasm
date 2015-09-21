@@ -1,6 +1,6 @@
 {{#paper-list}}
   {{#paper-item class="item"}}
-    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL}}
+    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup"}}
   {{/paper-item}}
 
   {{#paper-item class="item"}}
@@ -16,10 +16,14 @@
   {{/paper-item}}
 
   {{#paper-item class="item"}}
+    {{paper-icon icon="color-lens"}}
+    <p>Color</p>
+    <input class="color" value="rgb(0, 0, 0)" />
+  {{/paper-item}}
+
+  {{#paper-item class="item"}}
     {{paper-icon icon="flare"}}
     <p>Strobe</p>
     {{#paper-switch checked=strobeOn disabled=trial}} {{strobeOnTxt}} {{/paper-switch}}
   {{/paper-item}}
-
-  {{modals/light-control-modal modalData=modalData apiURL=apiURL action="clickLight" isShowingLightsModal=isShowingLightsModal}}
 {{/paper-list}}

@@ -11,6 +11,12 @@ $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
 
 // BRIDGE FINDER
+* {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 html {
   min-height: 100%;
   height: auto;
@@ -122,21 +128,40 @@ md-progress-linear {
   padding: 0 10px 0 10px;
 }
 
-.navigationItem:hover{
-  text-decoration: underline;
-}
-
 .navigationItem.active {
   font-weight: bold;
   cursor: default;
 }
 
-.navigationItem.active:hover {
-  color: #000;
-  text-decoration: none;
+.navigationItem:hover {
+  font-weight: bold;
 }
 
-// LIGHT GROUP
+.cp-color-picker{
+  z-index: 100;
+}
+
+#lightControl{
+  min-height: 500px;
+}
+
+.color {
+  width: 50px;
+  padding: 22px;
+  cursor: pointer;
+  font-size: 0;
+  margin-right: 20px;
+}
+  // LIGHT GROUP
+md-slider {
+  cursor: pointer;
+}
+
+md-slider.md-default-theme .md-thumb:after {
+  border-color: #F12B24;
+  background-color: #F12B24;
+}
+
 .paper-sidenav {
   overflow: visible;
 }
@@ -165,7 +190,7 @@ md-progress-linear {
 .lightGroup {
   margin: 0 auto 0 auto;
   .tooltip.top {
-    margin-top: -10px;
+    margin-top: 8px;
   }
 }
 
@@ -176,20 +201,28 @@ md-progress-linear {
 }
 
 .lightInactive {
-  cursor: pointer;
   position: relative;
-
 }
 
 .lightInactive::before {
   font-weight: bold;
   position: absolute;
   content: "X";
-  top: -20px;
-  left: 6px;
+  top: 0;
+  left: 15px;
   font-size: 40px;
   color: rgba(255, 0, 0, 0.37);
   font-family: cursive;
+}
+
+.horizontalLightGroup {
+  .lightInactive::before {
+    top: -21px;
+    left: 6px;
+  }
+  .tooltip.top {
+    margin-top: -10px;
+  }
 }
 
 .lightUnreachable {
@@ -197,7 +230,6 @@ md-progress-linear {
 }
 
 .lightActive img {
-  cursor: pointer;
   transition-duration: 0.3s;
   transition-property: transform;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0);
@@ -215,7 +247,7 @@ md-icon {
   color: rgba(0, 0, 0, 0.54) !important;
 }
 
-md-icon.menu {
+md-icon.group {
   margin: 30px 0 0 16px;
 }
 
@@ -239,10 +271,6 @@ md-icon.menu {
 md-toolbar {
   background-color: inherit !important;
 }
-
-//.innerControlFrame {
-//  height: 100vh;
-//}
 
 // GROUP CONTROL
 .groupRow.selectedRow {
@@ -296,6 +324,13 @@ md-toolbar {
 }
 
 // MUSIC CONTROL
+md-switch.md-default-theme.md-checked .md-bar {
+  background-color: rgba(241, 43, 36, 0.5);
+}
+
+md-switch.md-default-theme.md-checked .md-thumb{
+  background-color: #F12B24;
+}
 #playerControls {
   opacity: 0;
   transition: all 0.2s ease-in-out;
@@ -500,7 +535,6 @@ md-toolbar {
 }
 
 .playlistItem {
-  border-bottom: 1px solid #9E9E9E;
   height: 45px;
   font-family: 'Open Sans', sans-serif;
   padding: 5px;
@@ -541,16 +575,20 @@ md-toolbar {
 #beatArea * .noUi-vertical  {
   height: 170px;
   margin-top: 20px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
-.beatOption {
-  display: inline-block;
-  margin-right: 2em;
+#beatOptionGroup {
+  margin-top: 20px;
+  .beatOption {
+    display: inline-block;
+    margin-right: 2em;
+  }
 }
 
 #playerBottom {
-  background-color: grey;
+  color: white;
+  background-color: #5D5D5D;
 }
 
 #beatSpeakerContainer {
@@ -567,27 +605,35 @@ md-toolbar {
 
 #beatSpeaker {
   position: relative;
-  margin: 20px auto 0 auto;
+  margin: 10px auto 0 auto;
+  border-radius: 50%;
+  width: 280px;
+  height: 280px;
   background-image: url('images/speaker-outer.png');
-  width: 284px;
-  height: 283px;
+  //border: 1px solid white;
+  //background: black;
   #beatSpeakerCenter {
     width: 188px;
     height: 186px;
+    position: absolute;
+    top: 17%;
+    left: 17%;
+    border-radius: 50%;
+    //border: 3px solid brown;
+    //background: orange;
     background-image: url('images/speaker-inner.png');
-    position: absolute;
-    top: 16%;
-    left: 18%;
   }
-  #beatSpeakerCenterBackground {
-    width: 188px;
-    height: 186px;
-    background-color: black;
-    position: absolute;
-    top: 16%;
-    left: 18%;
-    z-index: -1;
-  }
+  //#beatSpeakerCenter::before {
+  //  position: absolute;
+  //  top: 28%;
+  //  left: 28%;
+  //  width: 80px;
+  //  height: 80px;
+  //  content: '';
+  //  background-color: black;
+  //  border: 1px solid white;
+  //  border-radius: 50%;
+  //}
 }
 
 .pop {
@@ -603,7 +649,12 @@ md-toolbar {
   }
 }
 #beatArea .lightGroup {
-  margin: 10px 0 0 40px;
+  margin: 10px 50px 0 40px;
+  float: right;
+  span {
+    display: block;
+    padding: 10px;
+  }
 }
 
 #playerButtonGroup {
@@ -621,7 +672,7 @@ md-toolbar {
 
 #beatHistory {
   height: 250px;
-  background-color: #CFCFCF;
+  background-color: white;
   border-radius: 10px;
   width: 80%;
   margin: 20px auto;

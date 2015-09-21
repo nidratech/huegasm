@@ -2,6 +2,7 @@
   "name": "huegasm",
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
+    "colorspaces.js": "https://github.com/boronine/colorspaces.js.git#~0.1.4",
     "ember": "~2.0.2",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
     "ember-cli-test-loader": "ember-cli-test-loader#0.1.3",
@@ -11,12 +12,14 @@
     "ember-qunit-notifications": "0.0.7",
     "ember-resolver": "~0.1.18",
     "hammerjs": "~2.0.4",
+    "hue-color-converter": "https://github.com/Q42/hue-color-converter",
     "JavaScript-ID3-Reader": "https://github.com/aadsm/JavaScript-ID3-Reader.git",
     "jquery": "~2.1.4",
     "jquery-mousewheel": "~3.1.13",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "nouislider": "^8.0.1",
-    "qunit": "~1.18.0"
+    "qunit": "~1.18.0",
+    "tinyColorPicker": "https://github.com/PitPik/tinyColorPicker.git"
   },
   "resolutions": {
     "ember": "~2.0.2",

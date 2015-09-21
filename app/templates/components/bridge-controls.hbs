@@ -1,6 +1,6 @@
 {{#if ready}}
   <span {{action "toggleGroupControl"}} id="groupControlToggle" class={{if groupControlDisplayed 'on'}}>
-    {{paper-icon icon="menu"}}
+    {{paper-icon icon="group"}}
   </span>
 
   {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}

@@ -5,11 +5,11 @@ export default Em.Mixin.create({
 
   beatOptions: {
     threshold: {
-      range: {min: 0.1, max: 0.6},
+      range: {min: 0.1, max: 0.9},
       defaultValue: 0.3,
       pips: {
         mode: 'positions',
-        values: [0,20,40,60,80,100],
+        values: [0,25,50,75,100],
         density: 3,
         format: {
           to: function ( value ) {return value;},
@@ -34,7 +34,7 @@ export default Em.Mixin.create({
     frequency: {
       range:  {min: 0, max: 10},
       step: 1,
-      defaultValue: [0,5],
+      defaultValue: [0,10],
       pips: {
         mode: 'values',
         values: [0,2,4,6,8,10],
@@ -61,6 +61,7 @@ export default Em.Mixin.create({
 
   dragging: false,
   draggingOverPlayListArea: false,
+  dragLeaveTimeoutHandle: null,
 
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
@@ -97,9 +98,23 @@ export default Em.Mixin.create({
     }
   }.property('speakerViewed'),
 
+  changePlayerControl: function(name, value, isOption){
+    if(isOption){
+      var options = {};
+      options[name] = value;
+      this.get('kick').set(options);
+    }
+
+    this.set(name, value);
+    localStorage.setItem('huegasm.' + name, value);
+  },
+
   incrementElapseTimeHandle: null,
   incrementElapseTime: function(){
     this.incrementProperty('timeElapsed');
+    if(this.get('timeElapsed') > this.get('timeTotal')){
+      this.goToNextSong();
+    }
   },
 
   repeatIcon: function () {

@@ -29,7 +29,7 @@ export default Em.Component.extend({
 
   // automatically close the group menu when the user clicks somewhere else
   click: function() {
-    if(this.get('groupControlDisplayed') && !event.target.classList.contains('menu') && !$(event.target).closest('#groupControls').length) {
+    if(this.get('groupControlDisplayed') && !event.target.classList.contains('group') && !$(event.target).closest('#groupControls').length) {
       this.toggleProperty('groupControlDisplayed');
     }
   },

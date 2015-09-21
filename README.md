@@ -22,3 +22,4 @@ Music awesomeness for hue lights.
 - integration with youtube, soundcloud, spotify ???
 - auto beat detection mode
 - lights on/off switch
+

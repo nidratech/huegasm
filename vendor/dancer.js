@@ -476,7 +476,12 @@
   };
 
   function connectContext () {
-    this.source = this.context.createMediaElementSource( this.audio );
+    try{
+      this.source = this.context.createMediaElementSource( this.audio );
+    } catch(err){
+      return;
+    }
+
     this.source.connect( this.proc );
     this.source.connect( this.gain );
     //this.source.connect( this.filter );

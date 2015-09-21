@@ -58,13 +58,12 @@
     </div>
 </div>
 
-
 <div id="playerBottom" class="row">
-  <span id="beatArea" class="col-xs-7">
+  <span id="beatArea" class="col-xs-8">
       <div id="vertDivider"></div>
         {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL noHover=true}}
 
-      <span id="beatOptionGroup">
+      <div id="beatOptionGroup">
         <span class="beatOption">
           {{range-slider start=threshold orientation="vertical" range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
           Max. Beat Intensity
@@ -79,14 +78,14 @@
           {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
           Beat Frequency Range
         </span>
-      </span>
+      </div>
 
       <div id="playerButtonGroup">
         {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
       </div>
     </span>
 
-    <span id="beatSpeakerContainer" class="col-xs-5">
+    <span id="beatSpeakerContainer" class="col-xs-4">
       {{#paper-switch checked=speakerViewed noink=true}} {{speakerLabel}} {{/paper-switch}}
       {{#liquid-if speakerViewed}}
         <div id="beatSpeaker">

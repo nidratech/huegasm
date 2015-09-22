@@ -10,8 +10,6 @@ module.exports = function(defaults) {
   app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
   app.import('bower_components/JavaScript-ID3-Reader/dist/id3-minimized.js');
   app.import('bower_components/jquery-mousewheel/jquery.mousewheel.js');
-  app.import('bower_components/tinyColorPicker/colors.js');
-  app.import('bower_components/tinyColorPicker/jqColorPicker.js');
   app.import('bower_components/three.js/three.js');
 
   // Use `app.import` to add additional libraries to the generated

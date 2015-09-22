@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['container-fluid', 'bridgeFinder'],
+  classNames: ['container', 'bridgeFinder'],
 
   bridgeIp: null,
   trial: false,

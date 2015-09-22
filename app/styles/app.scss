@@ -51,6 +51,7 @@ body {
 
 .appSettingsItem {
   padding: 10px;
+  transition: 0.1s all ease-in-out;
 }
 
 .appSettingsItem.warn {
@@ -149,13 +150,17 @@ md-progress-linear {
   right: 0;
 }
 
+md-list {
+  padding: 0;
+}
+
 md-list-item .md-no-style {
   padding: 0;
 }
 
 #bridgeControls {
   position: relative;
-  max-width: 900px;
+  max-width: 1000px;
 }
 
 .navigation {
@@ -171,14 +176,11 @@ md-list-item .md-no-style {
 .navigationItem.active {
   font-weight: bold;
   cursor: default;
+  text-decoration: none !important;
 }
 
 .navigationItem:hover {
-  font-weight: bold;
-}
-
-.cp-color-picker{
-  z-index: 100;
+  text-decoration: underline;
 }
 
 #lightControl{
@@ -190,9 +192,27 @@ md-list-item .md-no-style {
   padding: 22px;
   cursor: pointer;
   font-size: 0;
-  margin-right: 10px;
 }
-  // LIGHT GROUP
+
+.colorpicker {
+  background-color: #222222;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 2px 2px 2px #444444;
+  color: #FFFFFF;
+  font-size: 12px;
+  position: absolute;
+  width: 460px;
+  display: none;
+}
+
+#picker {
+  cursor: crosshair;
+  float: left;
+  margin: 10px;
+  border: 0;
+}
+
+// LIGHT GROUP
 md-slider {
   cursor: pointer;
 }
@@ -238,6 +258,7 @@ md-slider.md-default-theme .md-thumb:after {
 }
 
 .lightInactive {
+  cursor: pointer;
   position: relative;
 }
 
@@ -266,18 +287,21 @@ md-slider.md-default-theme .md-thumb:after {
   background-color: rgba(255, 0, 0, 0.7);
 }
 
-.lightActive img {
-  transition-duration: 0.3s;
-  transition-property: transform;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-}
+.lightActive {
+  cursor: pointer;
 
-.lightActive img:hover {
-  transform: scale(1.2);
+  img {
+    transition-duration: 0.3s;
+    transition-property: transform;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  }
+  img:hover {
+    transform: scale(1.2);
+  }
 }
 
 .ember-modal-overlay.translucent {
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0.50);
 }
 
 md-icon {
@@ -293,7 +317,7 @@ md-icon {
 }
 
 .removeButton {
-  margin: 10px 0 10px auto;
+  margin: 10px 0 10px 50px;
 }
 
 .sideNavTitle {
@@ -306,6 +330,10 @@ md-toolbar {
 }
 
 // GROUP CONTROL
+.groupRow {
+  transition: 0.1s all ease-in-out;
+}
+
 .groupRow.selectedRow {
   background-color: #7F7F7F !important;
   color: white;
@@ -317,11 +345,10 @@ md-toolbar {
 
 .groupRow.selectedRow .groupSelect {
   cursor: default;
-  padding-left: 10px;
 }
 
 .groupSelect {
-  padding: 10px 0 10px 0;
+  padding: 10px 0 10px 10px;
   width: 70%;
   font-family: 'Open Sans', sans-serif;
 }

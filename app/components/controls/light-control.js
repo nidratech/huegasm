@@ -14,15 +14,20 @@ export default Em.Component.extend({
 
   didInsertElement: function(){
     // handle color changes
-    var self = this;
+    var self = this,
+      canvas = $('#picker')[0].getContext('2d'),
+      image = new Image();
 
-    Em.$('.color').colorPicker({
-      opacity: false,
+    image.src ='assets/images/colorwheel.png';
+    image.onload = function () {
+      canvas.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
+    };
+  },
 
-      renderCallback: function(elem){
-        console.log(elem[0].value);
-      }
-    });
+  actions: {
+    clickLight: function(){
+
+    }
   },
 
   // determines whether the lights are on/off for the lights switch

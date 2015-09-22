@@ -29,6 +29,17 @@ export default Em.Component.extend({
 
     toggleAppSettings: function(){
       this.toggleProperty('appSettingsDisplayed');
+    },
+
+    clearBridge: function() {
+      delete localStorage['huegasm.bridgeUsername'];
+      delete localStorage['huegasm.bridgeIp'];
+      location.reload();
+    },
+
+    clearAllSettings: function() {
+      localStorage.clear();
+      location.reload();
     }
   },
 

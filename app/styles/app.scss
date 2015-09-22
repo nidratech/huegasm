@@ -28,6 +28,15 @@ body {
   position: static;
 }
 
+.triangle {
+  position: absolute;
+  right: 11px;
+  top: -16px;
+  border-style: solid;
+  border-width: 0 15px 15px 15px;
+  border-color: transparent transparent #AFAFAF transparent;
+}
+
 #settings {
   cursor: pointer;
   position: absolute;
@@ -38,6 +47,25 @@ body {
 .settingsItem {
   margin-left: 10px;
   position: relative;
+}
+
+.appSettingsItem {
+  padding: 10px;
+}
+
+.appSettingsItem.warn {
+  text-transform: uppercase;
+  background: rgba(255, 0, 0, 0.20);
+}
+
+.appSettingsItem.warn:hover {
+  text-transform: uppercase;
+  background: rgba(255, 0, 0, 0.70);
+  color: white;
+}
+
+.appSettingsItem:hover {
+  background: darken(white, 10%);
 }
 
 .settingsItem.on md-icon.md-default-theme  {

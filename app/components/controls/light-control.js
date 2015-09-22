@@ -10,7 +10,7 @@ export default Em.Component.extend({
 
   lightsDataIntervalHandle: null,
 
-  isShowingAddGroupsModal: false,
+  isShowingColorPicker: false,
 
   didInsertElement: function(){
     // handle color changes
@@ -26,7 +26,10 @@ export default Em.Component.extend({
 
   actions: {
     clickLight: function(){
-
+      console.log('clickLight');
+    },
+    toggleColorpicker: function() {
+      this.toggleProperty('isShowingColorPicker');
     }
   },
 

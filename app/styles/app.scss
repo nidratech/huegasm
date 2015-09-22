@@ -28,15 +28,6 @@ body {
   position: static;
 }
 
-.triangle {
-  position: absolute;
-  right: 11px;
-  top: -16px;
-  border-style: solid;
-  border-width: 0 15px 15px 15px;
-  border-color: transparent transparent #AFAFAF transparent;
-}
-
 #settings {
   cursor: pointer;
   position: absolute;
@@ -45,8 +36,13 @@ body {
 }
 
 .settingsItem {
-  margin-left: 10px;
+  margin-left: 15px;
   position: relative;
+}
+
+.settingsItem md-icon::before {
+  font-size: 28px;
+  transition: 0.1s all ease-in-out;
 }
 
 .appSettingsItem {
@@ -188,10 +184,7 @@ md-list-item .md-no-style {
 }
 
 .color {
-  width: 50px;
-  padding: 22px;
-  cursor: pointer;
-  font-size: 0;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .colorpicker {
@@ -202,7 +195,6 @@ md-list-item .md-no-style {
   font-size: 12px;
   position: absolute;
   width: 460px;
-  display: none;
 }
 
 #picker {

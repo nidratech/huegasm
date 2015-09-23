@@ -10,16 +10,32 @@ export default Em.Component.extend({
 
   lightsDataIntervalHandle: null,
 
-  isShowingColorPicker: false,
+  colorPickerDisplayed: false,
 
   actions: {
     clickLight: function(){
       console.log('clickLight');
     },
     toggleColorpicker: function() {
-      this.toggleProperty('isShowingColorPicker');
+      this.toggleProperty('colorPickerDisplayed');
     }
   },
+
+  didInsertElement: function() {
+    var self = this;
+
+    Em.$(document).click(function() {
+      if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker').length) {
+        self.toggleProperty('colorPickerDisplayed');
+      }
+    });
+  },
+
+  rgb: [255, 255, 255],
+  rgbPreview: function() {
+    var rgb = this.get('rgb');
+    Em.$('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
+  }.observes('rgb'),
 
   // determines whether the lights are on/off for the lights switch
   lightsOn: function(){

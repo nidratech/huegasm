@@ -21,9 +21,9 @@
     {{#paper-button raised=true class="color" action="toggleColorpicker"}}{{/paper-button}}
   {{/paper-item}}
   <div class="relative">
-    {{#if isShowingColorPicker}}
-    {{color-picker lightsData=lightsData activeLights=activeLights}}
-  {{/if}}
+    {{#if colorPickerDisplayed}}
+      {{color-picker lightsData=lightsData activeLights=activeLights rgb=rgb xy=xy}}
+    {{/if}}
   </div>
 
   {{#paper-item class="item"}}

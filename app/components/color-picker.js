@@ -3,17 +3,47 @@ import Em from 'ember';
 export default Em.Component.extend({
   classNames:['colorpicker'],
 
+  rgb: null,
+  xy: function() {
+    var rgb = this.get('rgb');
+
+    return this.rgbToXy(rgb[0], rgb[1], rgb[2]);
+  }.property('rgb'),
+
+  canvas: null,
+  canvasContext: null,
+
+  actions: {
+    colorSelect: function() {
+      var canvasOffset = Em.$(this.get('canvas')).offset();
+      var canvasX = Math.floor(event.pageX - canvasOffset.left), canvasY = Math.floor(event.pageY - canvasOffset.top);
+
+      // get current pixel
+      var imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1);
+      var pixel = imageData.data;
+
+      if( pixel[0] !== 0 && pixel[1] !== 0 && pixel[2] !== 0 ) {
+        this.set('rgb', [pixel[0], pixel[1], pixel[2]]);
+      }
+    }
+  },
+
   // https://dzone.com/articles/creating-your-own-html5
   didInsertElement: function(){
     // handle color changes
-    var self = this,
-      canvas = Em.$('#picker')[0].getContext('2d'),
+    var canvas = Em.$('#picker')[0],
+      canvasContext = canvas.getContext('2d'),
       image = new Image();
 
     image.src ='assets/images/colorwheel.png';
     image.onload = function () {
-      canvas.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
+      canvasContext.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
     };
+
+    this.setProperties({
+      canvas: canvas,
+      canvasContext: canvasContext
+    });
   },
 
   // http://www.developers.meethue.com/documentation/color-conversions-rgb-xy
@@ -38,11 +68,12 @@ export default Em.Component.extend({
     x = X / (X + Y + Z);
     y = Y / (X + Y + Z);
 
+    console.log('[x,y]: ' + x + ', ' + y );
     return [x,y];
   },
 
   xyTorgb: function(x, y){
-    var r, g, b, X, Y, Z, activeLights = this.get('activeLights'), lightsData = this.get('lightsData');
+    var r, g, b, X, Y, Z, z, activeLights = this.get('activeLights'), lightsData = this.get('lightsData');
 
     z = 1 - x - y;
     Y = lightsData[activeLights[0]].state.bri;

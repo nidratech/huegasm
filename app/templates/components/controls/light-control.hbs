@@ -19,12 +19,12 @@
     {{paper-icon icon="color-lens"}}
     <p>Color</p>
     {{#paper-button raised=true class="color" action="toggleColorpicker"}}{{/paper-button}}
-    {{#if isShowingColorPicker}}
-      <div class="colorpicker">
-        <canvas id="picker" width="300" height="300"></canvas>
-      </div>
-    {{/if}}
   {{/paper-item}}
+  <div class="relative">
+    {{#if isShowingColorPicker}}
+    {{color-picker lightsData=lightsData activeLights=activeLights}}
+  {{/if}}
+  </div>
 
   {{#paper-item class="item"}}
     {{paper-icon icon="flare"}}

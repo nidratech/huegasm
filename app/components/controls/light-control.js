@@ -12,18 +12,6 @@ export default Em.Component.extend({
 
   isShowingColorPicker: false,
 
-  didInsertElement: function(){
-    // handle color changes
-    var self = this,
-      canvas = $('#picker')[0].getContext('2d'),
-      image = new Image();
-
-    image.src ='assets/images/colorwheel.png';
-    image.onload = function () {
-      canvas.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
-    };
-  },
-
   actions: {
     clickLight: function(){
       console.log('clickLight');

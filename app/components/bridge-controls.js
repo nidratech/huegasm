@@ -107,7 +107,7 @@ export default Em.Component.extend({
   },
 
   tabList: ["Lights", "Music"],
-  selectedTab: 0,
+  selectedTab: 1,
   tabData: function(){
     var tabData = [], selectedTab = this.get('selectedTab');
 

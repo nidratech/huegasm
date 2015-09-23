@@ -28,6 +28,10 @@ body {
   position: static;
 }
 
+.relative {
+  position: relative;
+}
+
 #settings {
   cursor: pointer;
   position: absolute;
@@ -62,7 +66,7 @@ body {
 }
 
 .appSettingsItem:hover {
-  background: darken(white, 10%);
+  background: darken(white, 20%);
 }
 
 .settingsItem.on md-icon.md-default-theme  {
@@ -188,20 +192,19 @@ md-list-item .md-no-style {
 }
 
 .colorpicker {
-  background-color: #222222;
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: 2px 2px 2px #444444;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   color: #FFFFFF;
-  font-size: 12px;
+  z-index: 2;
   position: absolute;
-  width: 460px;
+  width: 220px;
+  right: 6px;
+  top: -6px;
 }
 
 #picker {
   cursor: crosshair;
-  float: left;
-  margin: 10px;
-  border: 0;
 }
 
 // LIGHT GROUP
@@ -239,7 +242,8 @@ md-slider.md-default-theme .md-thumb:after {
 .lightGroup {
   margin: 0 auto 0 auto;
   .tooltip.top {
-    margin-top: 8px;
+    margin-top: -10px;
+    margin-left: -3px;
   }
 }
 
@@ -271,7 +275,8 @@ md-slider.md-default-theme .md-thumb:after {
     left: 6px;
   }
   .tooltip.top {
-    margin-top: -10px;
+    margin-top: 6px;
+    margin-left: -5px;
   }
 }
 

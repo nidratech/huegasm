@@ -44,6 +44,12 @@ export default Em.Component.extend({
     }
   },
 
+  didInsertElement: function() {
+    if(this.get('lightsData')){
+      this.onLightsDataChange();
+    }
+  },
+
   // list of all the lights in the hue system
   onLightsDataChange: function(){
     if(!this.get('isHovering')){

@@ -13,9 +13,16 @@ export default Em.Component.extend({
   colorPickerDisplayed: false,
 
   actions: {
-    clickLight: function(){
-      console.log('clickLight');
-    },
+    clickLight: function(light){
+      var activeLights = this.get('activeLights'),
+        lightId = activeLights.indexOf(light);
+
+      if(lightId !== -1){
+        delete activeLights[lightId];
+      } else {
+        activeLights.pushObject(light);
+      }
+  },
     toggleColorpicker: function() {
       this.toggleProperty('colorPickerDisplayed');
     }

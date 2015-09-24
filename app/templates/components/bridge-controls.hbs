@@ -1,27 +1,29 @@
 {{#if ready}}
-  <div id="settings">
-    <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}" {{action "toggleGroupControl"}}>
-      <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups">{{paper-icon icon="group"}}</span>
-    </span>
+  <div class="row navigation">
+    <div class="col-sm-6 col-sm-offset-3 col-xs-9">
+      {{#each tabData as |tab|}}
+          <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+      {{/each}}
+    </div>
 
-    <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}"  {{action "toggleAppSettings"}}>
-      <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings">{{paper-icon icon="settings"}}</span>
+    <div id="settings" class="col-sm-3 col-xs-3">
+      <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}" {{action "toggleGroupControl"}}>
+        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups">{{paper-icon icon="group"}}</span>
 
-      {{#if appSettingsDisplayed}}
-        <div id="appSettings">
-          <div class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</div>
-          <div class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</div>
-        </div>
-      {{/if}}
-    </span>
-  </div>
+        {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
+      </span>
 
-  {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
+      <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}"  {{action "toggleAppSettings"}}>
+        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings">{{paper-icon icon="settings"}}</span>
 
-  <div class="navigation">
-    {{#each tabData as |tab|}}
-        <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
-    {{/each}}
+        {{#if appSettingsDisplayed}}
+          <div id="appSettings">
+            <div class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</div>
+            <div class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</div>
+          </div>
+        {{/if}}
+      </span>
+    </div>
   </div>
 
   {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected}}

@@ -1,5 +1,5 @@
 <div class="row">
-    <div id="playerArea" class="col-xs-8 material-icons {{if playing "play-arrow" "pause"}} {{if playQueueEmpty "blockAnimation"}}" {{action "playerAreaPlay"}}>
+    <div id="playerArea" class="col-sm-8 col-xs-12 material-icons {{if playing "play-arrow" "pause"}} {{if playQueueEmpty "blockAnimation"}}" {{action "playerAreaPlay"}}>
 
         <div id="playerControls">
           {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div id="playlist" class="col-xs-4">
+    <div id="playlist" class="col-sm-4 col-xs-12">
         <input id="fileInput" type="file" accept="audio/*" multiple="true" />
 
         <div id="playListControls">
@@ -59,7 +59,7 @@
 </div>
 
 <div id="playerBottom" class="row">
-  <span id="beatArea" class="col-xs-8">
+  <div id="beatArea" class="col-sm-8 col-xs-12">
       <div id="vertDivider"></div>
         {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL noHover=true}}
 
@@ -83,14 +83,14 @@
       <div id="playerButtonGroup">
         {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
       </div>
-    </span>
+    </div>
 
-    <span id="beatSpeakerContainer" class="col-xs-4">
+    <div id="beatContainer" class="col-sm-4 col-xs-12">
       {{#paper-switch checked=speakerViewed noink=true}} {{speakerLabel}} {{/paper-switch}}
       {{#liquid-if speakerViewed}}
-        <div id="beatSpeaker">
-          <span id="beatSpeakerCenterBackground"></span>
-          <span id="beatSpeakerCenter" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}}></span>
+        <div id="beatSpeakerContainer">
+          <img src="assets/images/speaker-outer.png" id="beatSpeaker" />
+          <img src="assets/images/speaker-inner.png" id="beatSpeakerCenter" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}} />
         </div>
       {{else}}
         <div id ="beatHistory">
@@ -99,5 +99,5 @@
           {{/each}}
         </div>
       {{/liquid-if}}
-    </span>
+    </div>
 </div>

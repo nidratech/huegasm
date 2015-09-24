@@ -3,19 +3,19 @@
     {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup"}}
   {{/paper-item}}
 
-  {{#paper-item class="item"}}
+  {{#paper-item}}
     {{paper-icon icon="power-settings-new"}}
-    <p>Lights</p>
+    <p>Power</p>
     {{#paper-switch checked=lightsOn disabled=trial skipProxy=trial}} {{lightsOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 
-  {{#paper-item class="item"}}
+  {{#paper-item}}
     {{paper-icon icon="brightness-4"}}
     <p>Brightness</p>
     {{paper-slider flex=true min='1' max='254' value=lightsBrightness disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
-  {{#paper-item class="item"}}
+  {{#paper-item}}
     {{paper-icon icon="color-lens"}}
     <p>Color</p>
     {{#paper-button raised=true class="color" action="toggleColorpicker"}}{{/paper-button}}
@@ -26,7 +26,7 @@
     {{/if}}
   </div>
 
-  {{#paper-item class="item"}}
+  {{#paper-item}}
     {{paper-icon icon="flare"}}
     <p>Strobe</p>
     {{#paper-switch checked=strobeOn disabled=trial}} {{strobeOnTxt}} {{/paper-switch}}

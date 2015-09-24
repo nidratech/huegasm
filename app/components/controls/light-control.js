@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['innerControlFrame'],
+  classNames: ['innerControlFrame', 'col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'lightControl',
 

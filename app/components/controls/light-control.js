@@ -40,7 +40,18 @@ export default Em.Component.extend({
 
   rgb: [255, 255, 255],
   rgbPreview: function() {
-    var rgb = this.get('rgb');
+    var rgb = this.get('rgb'),
+      self = this,
+      xy = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
+
+    this.get('activeLights').forEach(function (light) {
+      Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+        data: JSON.stringify({"xy": xy}),
+        contentType: 'application/json',
+        type: 'PUT'
+      });
+    });
+
     Em.$('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
   }.observes('rgb'),
 
@@ -51,22 +62,10 @@ export default Em.Component.extend({
     if(this.get('strobeOn')){
       return false;
     }
-
+    this.get('color');
     return this.get('activeLights').some(function(light) {
       return lightsData[light].state.on === true;
     });
-  }.property('lightsData', 'activeLights', 'strobeOn'),
-
-  // color of the lights in the group
-  color: function(){
-    var lightsData = this.get('lightsData'),
-      color = [0,0,0];
-
-    if(this.get('strobeOn') || this.get('activeLights').length === 0){
-      return color;
-    }
-
-    return [lightsData[0].state.hue, lightsData[0].state.sat, lightsData[0].state.bri];
   }.property('lightsData', 'activeLights', 'strobeOn'),
 
   // determines the average brightness of the hue system for the brightness slider
@@ -199,7 +198,54 @@ export default Em.Component.extend({
 
   strobeOnTxt: function () {
     return this.get('strobeOn') ? 'On' : 'Off';
-  }.property('strobeOn')
+  }.property('strobeOn'),
 
   // **************** STROBE LIGHT FINISH ****************
+  // http://www.developers.meethue.com/documentation/color-conversions-rgb-xy
+  rgbToXy: function(red, green, blue){
+    var X, Y, Z, x, y;
+
+    // normalize
+    red = Number((red/255));
+    green = Number((green/255));
+    blue = Number((blue/255));
+
+    // gamma correction
+    red = (red > 0.04045) ? Math.pow((red + 0.055) / (1.0 + 0.055), 2.4) : (red / 12.92);
+    green = (green > 0.04045) ? Math.pow((green + 0.055) / (1.0 + 0.055), 2.4) : (green / 12.92);
+    blue = (blue > 0.04045) ? Math.pow((blue + 0.055) / (1.0 + 0.055), 2.4) : (blue / 12.92);
+
+    // RGB to XYZ
+    X = red * 0.664511 + green * 0.154324 + blue * 0.162028;
+    Y = red * 0.283881 + green * 0.668433 + blue * 0.047685;
+    Z = red * 0.000088 + green * 0.072310 + blue * 0.986039;
+
+    x = X / (X + Y + Z);
+    y = Y / (X + Y + Z);
+
+    return [x,y];
+  },
+
+  xyToRgb: function(x, y){
+    var r, g, b, X, Y, Z, activeLights = this.get('activeLights'), lightsData = this.get('lightsData');
+
+    Y = lightsData[activeLights[1]].state.bri;
+    X = ((Y / y) * x)/100;
+    Z = ((Y / y) * (1 - x - y))/100;
+    Y = Y/100;
+
+    r = X * 3.2406 + Y * -1.5372 + Z * -0.4986;
+    g = X * -0.9689 + Y * 1.8758 + Z * 0.0415;
+    b = X * 0.0557 + Y * -0.2040 + Z * 1.0570;
+
+    r = (r <= 0.0031308) ? 12.92 * r : 1.055 * Math.pow(r, (1.0 / 2.4)) - 0.055;
+    g = (g <= 0.0031308) ? 12.92 * g : 1.055 * Math.pow(g, (1.0 / 2.4)) - 0.055;
+    b = (b <= 0.0031308) ? 12.92 * b : 1.055 * Math.pow(b, (1.0 / 2.4)) - 0.055;
+
+    r = Math.floor(r * 255);
+    g = Math.floor(g * 255);
+    b = Math.floor(b * 255);
+
+    return [r, g, b];
+  }
 });

@@ -25,15 +25,12 @@ body {
   position: relative;
 }
 
-#settings {
-}
-
 .settingsItem {
   margin-left: 15px;
   position: relative;
 }
 
-.settingsItem md-icon::before {
+.settingsItem .settings::before, .settingsItem .group::before {
   font-size: 28px;
   transition: 0.1s all ease-in-out;
 }
@@ -41,6 +38,7 @@ body {
 .appSettingsItem {
   padding: 10px;
   transition: 0.1s all ease-in-out;
+  cursor: pointer;
 }
 
 .appSettingsItem.warn {
@@ -58,11 +56,13 @@ body {
   background: darken(white, 20%);
 }
 
-.settingsItem.on md-icon.md-default-theme.group  {
+.settingsItem.on md-icon.md-default-theme.group,
+.settingsItem.on md-icon.md-default-theme.settings {
   color: #F12B24 !important;
 }
 
-.settingsItem:hover md-icon {
+.settingsItem:hover md-icon.group,
+.settingsItem:hover md-icon.settings {
   color: black !important;
 }
 
@@ -138,6 +138,11 @@ md-progress-linear {
   width: 200px;
   right: 0;
 }
+
+.bootstrapTooltip md-icon {
+  cursor: pointer;
+}
+
 
 md-list {
   padding: 0;
@@ -222,6 +227,7 @@ md-slider.md-default-theme .md-thumb:after {
   background-color: white;
   max-height: 400px;
   overflow: auto;
+  text-align: left;
 }
 
 .lightGroup {
@@ -229,6 +235,9 @@ md-slider.md-default-theme .md-thumb:after {
   .tooltip.top {
     margin-top: -10px;
     margin-left: -3px;
+  }
+  div {
+    display: inline-block;
   }
 }
 
@@ -256,12 +265,12 @@ md-slider.md-default-theme .md-thumb:after {
 
 .horizontalLightGroup {
   .lightInactive::before {
-    top: -21px;
+    top: -9px;
     left: 6px;
   }
   .tooltip.top {
-    margin-top: 6px;
-    margin-left: -5px;
+    margin-top: 2px;
+    margin-left: -2px;
   }
 }
 
@@ -299,12 +308,13 @@ md-icon {
 }
 
 .removeButton {
-  margin: 10px 0 10px 50px;
+  margin: 10px 0 10px 60px;
 }
 
 .sideNavTitle {
   margin-left: 16px;
   margin-top: 10px;
+  text-align: left;
 }
 
 md-toolbar {
@@ -378,6 +388,7 @@ md-switch.md-default-theme.md-checked .md-bar {
 md-switch.md-default-theme.md-checked .md-thumb{
   background-color: #F12B24;
 }
+
 #playerControls {
   opacity: 0;
   transition: all 0.2s ease-in-out;
@@ -410,7 +421,6 @@ md-switch.md-default-theme.md-checked .md-thumb{
   color: $playerDefaultIconColor !important;
   transition-duration: 0.1s;
   margin-right: 0.208em;
-  cursor: pointer;
 }
 
 .playerControllIcon.active {

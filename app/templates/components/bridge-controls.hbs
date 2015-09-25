@@ -1,12 +1,12 @@
 {{#if ready}}
   <div class="row navigation">
-    <div class="col-sm-6 col-sm-offset-3 col-xs-9">
+    <div class="col-xs-6 col-xs-offset-3">
       {{#each tabData as |tab|}}
           <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
       {{/each}}
     </div>
 
-    <div class="col-sm-3 col-xs-3">
+    <div class="col-xs-3">
       <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}" {{action "toggleGroupControl" bubbles=false}}>
         <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups">{{paper-icon icon="group"}}</span>
       </span>

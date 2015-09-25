@@ -30,7 +30,7 @@ export default Em.Component.extend({
       canvasContext = canvas.getContext('2d'),
       image = new Image();
 
-    image.src ='assets/images/colorwheel.png';
+    image.src ='assets/images/colormap.png';
     image.onload = function () {
       canvasContext.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
     };

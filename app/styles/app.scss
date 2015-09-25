@@ -30,6 +30,10 @@ body {
   position: relative;
 }
 
+md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {
+  cursor: not-allowed;
+}
+
 .settingsItem .settings::before, .settingsItem .group::before {
   font-size: 28px;
   transition: 0.1s all ease-in-out;
@@ -179,18 +183,22 @@ md-list-item .md-no-style {
 
 .color {
   border: 1px solid rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: -53px;
+  right: 0;
 }
 
 .colorpicker {
   padding: 10px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.7);
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   color: #FFFFFF;
   z-index: 2;
   position: absolute;
-  width: 220px;
+  width: 275px;
+  height: 275px;
   right: 6px;
-  top: -6px;
+  top: -9px;
 }
 
 #picker {
@@ -220,7 +228,7 @@ md-slider.md-default-theme .md-thumb:after {
 #groupControls.on {
   width: 300px;
   top: 20px;
-  right: 0;
+  right: 83px;
   position: absolute;
   display: block;
   z-index: 2;
@@ -643,9 +651,6 @@ md-switch.md-default-theme.md-checked .md-thumb{
 }
 
 #playerBottom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   color: white;
   background-color: #5D5D5D;
 }
@@ -655,19 +660,28 @@ md-switch.md-default-theme.md-checked .md-thumb{
 }
 
 #beatContainer md-switch {
-  bottom: 0;
+  bottom: -35px;
   position: absolute;
   margin-left: 0;
   z-index: 3;
 }
 
 #beatSpeaker {
-  margin: 10px auto 0 auto;
-  width: 100%;
+  padding: 0 5%;
+  img {
+    width: 100%;
+  }
 }
 
 #beatSpeakerCenter {
-
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 16%;
+  padding: 0 20%;
+  img {
+    width: 100%;
+  }
 }
 
 .pop {

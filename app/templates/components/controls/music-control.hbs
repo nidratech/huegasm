@@ -60,7 +60,7 @@
 
 <div id="playerBottom" class="row">
   <div id="beatArea" class="col-sm-8 col-xs-12">
-      <div id="vertDivider"></div>
+      <div id="vertDivider" class="hidden-xs"></div>
         {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL noHover=true}}
 
       <div id="beatOptionGroup">
@@ -86,11 +86,15 @@
     </div>
 
     <div id="beatContainer" class="col-sm-4 col-xs-12">
-      {{#paper-switch checked=speakerViewed noink=true}} {{speakerLabel}} {{/paper-switch}}
-      {{#liquid-if speakerViewed}}
+      {{#if speakerViewed}}
         <div id="beatSpeakerContainer">
-          <img src="assets/images/speaker-outer.png" id="beatSpeaker" />
-          <img src="assets/images/speaker-inner.png" id="beatSpeakerCenter" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}} />
+          <div id="beatSpeaker">
+            <img src="assets/images/speaker-outer.png" />
+          </div>
+
+          <div id="beatSpeakerCenter">
+            <img src="assets/images/speaker-inner.png" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}} />
+          </div>
         </div>
       {{else}}
         <div id ="beatHistory">
@@ -98,6 +102,8 @@
             <p>{{{item}}}</p>
           {{/each}}
         </div>
-      {{/liquid-if}}
+      {{/if}}
+
+      {{#paper-switch checked=speakerViewed}} {{speakerLabel}} {{/paper-switch}}
     </div>
 </div>

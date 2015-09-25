@@ -152,8 +152,7 @@ export default Em.Component.extend(musicControlMixin, {
       this.set('speakerViewed', value);
     },
     clickSpeaker: function(){
-      // simulate the speaker vibration by running a CSS animation on it
-      Em.$('#beatSpeakerCenter').removeClass('pop').prop('offsetWidth', Em.$('#beatSpeakerCenter').prop('offsetWidth')).addClass('pop');
+      this.simulateKick(1);
     },
     dropFiles: function(){
       this.setProperties({
@@ -241,6 +240,52 @@ export default Em.Component.extend(musicControlMixin, {
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
+  simulateKick: function(mag) {
+    var activeLights = this.get('activeLights'),
+      self = this,
+      briOff = function (i) {
+        Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
+          data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      };
+
+    if(activeLights.length > 0){
+      var lastLightBopIndex = this.get('lastLightBopIndex'), light = this.get('activeLights')[lastLightBopIndex];
+      Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+        data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
+        contentType: 'application/json',
+        type: 'PUT'
+      });
+
+      setTimeout(briOff, 50, light);
+      lastLightBopIndex = (lastLightBopIndex+1)%activeLights.length;
+
+      this.setProperties({
+        paused: true,
+        lastLightBopIndex: lastLightBopIndex
+      });
+
+      setTimeout(function () {
+        self.set('paused', false);
+      }, 150);
+    }
+
+    //work the music beat area
+    if(this.get('speakerViewed')){
+      // simulate the speaker vibration by running a CSS animation on it
+      Em.$('#beatSpeakerCenter').removeClass('pop').prop('offsetWidth', Em.$('#beatSpeakerCenter').prop('offsetWidth')).addClass('pop');
+    } else {
+      var beatHistory = self.get('beatHistory'),
+        maxSize = self.get('maxBeatHistorySize');
+      beatHistory.unshiftObjects('Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
+      if(beatHistory.length > maxSize){
+        beatHistory.popObject();
+      }
+    }
+  },
+
   init: function () {
     this._super();
 
@@ -249,55 +294,14 @@ export default Em.Component.extend(musicControlMixin, {
       threshold = this.get('threshold'),
       decay = this.get('decay'),
       frequency = this.get('frequency'),
-      briOff = function (i) {
-        Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-          data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      },
       kick = dancer.createKick({
         threshold: threshold,
         decay: decay,
         frequency: frequency,
         onKick: function (mag) {
-          var activeLights = self.get('activeLights');
           if (self.get('paused') === false) {
-            //work the lights
-            if(activeLights.length > 0){
-              var lastLightBopIndex = self.get('lastLightBopIndex'), light = self.get('activeLights')[lastLightBopIndex];
-              Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
-                data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
-                contentType: 'application/json',
-                type: 'PUT'
-              });
-
-              setTimeout(briOff, 50, light);
-              lastLightBopIndex = (lastLightBopIndex+1)%activeLights.length;
-
-              self.setProperties({
-                paused: true,
-                lastLightBopIndex: lastLightBopIndex
-              });
-
-              setTimeout(function () {
-                self.set('paused', false);
-              }, 150);
-            }
-
-            //work the music beat area
-            if(self.get('speakerViewed')){
-              self.send('clickSpeaker');
-            } else {
-              var beatHistory = self.get('beatHistory'),
-                maxSize = self.get('maxBeatHistorySize');
-              beatHistory.unshiftObjects('Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
-              if(beatHistory.length > maxSize){
-                beatHistory.popObject();
-              }
-            }
+            self.simulateKick(mag);
           }
-
         }
       });
 

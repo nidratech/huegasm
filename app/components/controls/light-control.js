@@ -22,7 +22,7 @@ export default Em.Component.extend({
       } else {
         activeLights.pushObject(light);
       }
-  },
+    },
     toggleColorpicker: function() {
       this.toggleProperty('colorPickerDisplayed');
     }
@@ -32,7 +32,7 @@ export default Em.Component.extend({
     var self = this;
 
     Em.$(document).click(function() {
-      if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker').length) {
+      if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, .colorRow').length) {
         self.toggleProperty('colorPickerDisplayed');
       }
     });
@@ -54,6 +54,14 @@ export default Em.Component.extend({
 
     Em.$('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
   }.observes('rgb'),
+
+  colorRowAction: function() {
+    if (this.get('trial')) {
+      return null;
+    }
+
+    return "toggleColorpicker";
+  }.property('trial'),
 
   // determines whether the lights are on/off for the lights switch
   lightsOn: function(){

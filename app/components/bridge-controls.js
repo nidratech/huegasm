@@ -65,7 +65,7 @@ export default Em.Component.extend({
 
     // automatically close the group menu when the user clicks somewhere else
     Em.$(document).click(function() {
-      if(self.get('groupControlDisplayed') && !event.target.classList.contains('group') && !Em.$(event.target).closest('#groupControls').length) {
+      if(self.get('groupControlDisplayed') && !event.target.classList.contains('group') && !Em.$(event.target).closest('#groupControls, #modal-overlays, .ember-modal-overlay').length) {
         self.toggleProperty('groupControlDisplayed');
       }
 

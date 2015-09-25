@@ -30,7 +30,7 @@ export default Em.Component.extend({
 
   didInsertElement: function() {
     var self = this;
-
+    this.xyToRgb(0.5,0.5)
     Em.$(document).click(function() {
       if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, .colorRow').length) {
         self.toggleProperty('colorPickerDisplayed');
@@ -235,24 +235,62 @@ export default Em.Component.extend({
   },
 
   xyToRgb: function(x, y){
-    var r, g, b, X, Y, Z, activeLights = this.get('activeLights'), lightsData = this.get('lightsData');
+    var r, g, b, X, Y = 1.0, Z;
 
-    Y = lightsData[activeLights[1]].state.bri;
-    X = ((Y / y) * x)/100;
-    Z = ((Y / y) * (1 - x - y))/100;
-    Y = Y/100;
+    X = (Y / y) * x;
+    Z = (Y / y) * (1 - x - y);
 
-    r = X * 3.2406 + Y * -1.5372 + Z * -0.4986;
-    g = X * -0.9689 + Y * 1.8758 + Z * 0.0415;
-    b = X * 0.0557 + Y * -0.2040 + Z * 1.0570;
+    r = X * 1.656492 - Y * 0.354851 - Z * 0.255038;
+    g = X * -0.707196 + Y * 1.655397 + Z * 0.036152;
+    b = X * 0.051713 - Y * 0.121364 + Z * 1.011530;
+
+    if (r > b && r > g && r > 1.0) {
+      // red is too big
+      g = g / r;
+      b = b / r;
+      r = 1.0;
+    } else if (g > b && g > r && g > 1.0) {
+      // green is too big
+      r = r / g;
+      b = b / g;
+      g = 1.0;
+    } else if (b > r && b > g && b > 1.0) {
+      // blue is too big
+      r = r / b;
+      g = g / b;
+      b = 1.0;
+    }
 
     r = (r <= 0.0031308) ? 12.92 * r : 1.055 * Math.pow(r, (1.0 / 2.4)) - 0.055;
     g = (g <= 0.0031308) ? 12.92 * g : 1.055 * Math.pow(g, (1.0 / 2.4)) - 0.055;
     b = (b <= 0.0031308) ? 12.92 * b : 1.055 * Math.pow(b, (1.0 / 2.4)) - 0.055;
 
-    r = Math.floor(r * 255);
-    g = Math.floor(g * 255);
-    b = Math.floor(b * 255);
+    if (r > b && r > g) {
+      // red is biggest
+      if (r > 1.0) {
+        g = g / r;
+        b = b / r;
+        r = 1.0;
+      }
+    } else if (g > b && g > r) {
+      // green is biggest
+      if (g > 1.0) {
+        r = r / g;
+        b = b / g;
+        g = 1.0;
+      }
+    } else if (b > r && b > g) {
+      // blue is biggest
+      if (b > 1.0) {
+        r = r / b;
+        g = g / b;
+        b = 1.0;
+      }
+    }
+
+    r = r * 255;
+    g = g * 255;
+    b = b * 255;
 
     return [r, g, b];
   }

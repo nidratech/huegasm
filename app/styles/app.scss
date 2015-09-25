@@ -220,17 +220,12 @@ md-slider.md-default-theme .md-thumb:after {
 }
 
 #groupControls {
-  display: none;
   box-shadow: 5px 10px 15px 5px rgba(0,0,0,.3);
   border-radius: 0 0 5px 5px;
-}
-
-#groupControls.on {
   width: 300px;
   top: 20px;
-  right: 83px;
+  right: 0;
   position: absolute;
-  display: block;
   z-index: 2;
   background-color: white;
   max-height: 400px;

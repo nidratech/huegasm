@@ -7,13 +7,16 @@
     </div>
 
     <div class="col-xs-3">
-      <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}" {{action "toggleGroupControl" bubbles=false}}>
-        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups">{{paper-icon icon="group"}}</span>
-      </span>
-      {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
+      <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}">
+        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups" {{action "toggleGroupControl"}}>{{paper-icon icon="group"}}</span>
 
-      <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}"  {{action "toggleAppSettings"}}>
-        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings">{{paper-icon icon="settings"}}</span>
+        {{#if groupControlDisplayed}}
+          {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData}}
+        {{/if}}
+      </span>
+
+      <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}">
+        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings" {{action "toggleAppSettings"}}>{{paper-icon icon="settings"}}</span>
 
         {{#if appSettingsDisplayed}}
           <div id="appSettings">

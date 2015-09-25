@@ -49,7 +49,7 @@ export default Em.Mixin.create({
 
   threshold: 0.3,
   decay: 0.02,
-  frequency: [0,5],
+  frequency: [0,10],
 
   playQueuePointer: -1,
   playQueue: Em.A(),

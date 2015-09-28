@@ -34,7 +34,7 @@ export default Em.Mixin.create({
     frequency: {
       range:  {min: 0, max: 10},
       step: 1,
-      defaultValue: [0,10],
+      defaultValue: [0,4],
       pips: {
         mode: 'values',
         values: [0,2,4,6,8,10],
@@ -49,7 +49,7 @@ export default Em.Mixin.create({
 
   threshold: 0.3,
   decay: 0.02,
-  frequency: [0,10],
+  frequency: [0,4],
 
   playQueuePointer: -1,
   playQueue: Em.A(),
@@ -62,6 +62,7 @@ export default Em.Mixin.create({
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
+  visualizationsDisplayed: false,
 
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),

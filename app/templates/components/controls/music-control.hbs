@@ -19,6 +19,9 @@
 
           <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
+                  data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
+            </span>
+            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
                   data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
             </span>
           </span>
@@ -41,8 +44,14 @@
 
         <div id="playListArea" class={{playListAreaClass}} {{action "playListAreaAddAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
             {{#if (or playQueueEmpty dragging)}}
-                <div id="dragHere">Drag your music files here</div>
-                {{paper-icon icon="library-music"}}
+              <div id="dragHere">
+              {{#if dragging}}
+                Drag your music files here
+              {{else}}
+                Add your music files here
+              {{/if}}
+              </div>
+              {{paper-icon icon="library-music"}}
             {{/if}}
 
           {{#each playQueue as |item index|}}
@@ -88,13 +97,11 @@
 
     <div id="beatContainer" class="col-sm-4 col-xs-12">
       {{#if speakerViewed}}
-        <div id="beatSpeakerContainer">
-          <div id="beatSpeaker">
-            <img src="assets/images/speaker-outer.png" />
-              <div id="beatSpeakerCenter">
-                  <img src="assets/images/speaker-inner.png" class="cursorPointer" {{action "clickSpeaker"}} />
-              </div>
-          </div>
+        <div id="beatSpeaker">
+          <img src="assets/images/speaker-outer.png" />
+            <div id="beatSpeakerCenter">
+                <img src="assets/images/speaker-inner.png" class="cursorPointer" {{action "clickSpeaker"}} />
+            </div>
         </div>
       {{else}}
         <div id ="beatHistory">

@@ -2,7 +2,7 @@ import Em from 'ember';
 import musicControlMixin from '../mixins/music-control';
 
 export default Em.Component.extend(musicControlMixin, {
-  classNames: ['innerControlFrame'],
+  classNames: ['col-lg-6', 'col-lg-offset-3', 'col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
 
   onActiveChange: function(){
@@ -37,10 +37,6 @@ export default Em.Component.extend(musicControlMixin, {
       }
 
       this.get('playQueue').removeAt(index);
-
-      //if(index === this.get('playQueuePointer')){
-      //  this.get('dancer')
-      //}
     },
     defaultControls: function(){
       var beatOptions = this.get('beatOptions');
@@ -116,6 +112,9 @@ export default Em.Component.extend(musicControlMixin, {
 
         this.send('goToSong', nextSong);
       }
+    },
+    toggleVisualizations: function() {
+      this.toggleProperty('visualizationsDisplayed');
     },
     fullscreen: function () {},
     seekChanged: function (position) {

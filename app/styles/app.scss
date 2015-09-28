@@ -25,6 +25,10 @@ body {
   position: relative;
 }
 
+#settings {
+  text-align: right;
+}
+
 .settingsItem {
   margin-left: 15px;
   position: relative;
@@ -137,7 +141,7 @@ md-progress-linear {
 #appSettings {
   position: absolute;
   background: white;
-  box-shadow: 5px 10px 15px 5px rgba(0,0,0,.3);
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .3);
   z-index: 2;
   width: 200px;
   right: 0;
@@ -146,7 +150,6 @@ md-progress-linear {
 .bootstrapTooltip md-icon {
   cursor: pointer;
 }
-
 
 md-list {
   padding: 0;
@@ -158,7 +161,6 @@ md-list-item .md-no-style {
 
 #bridgeControls {
   position: relative;
-  max-width: 1000px;
 }
 
 .navigation {
@@ -205,12 +207,13 @@ md-list-item .md-no-style {
   cursor: crosshair;
 }
 
-#loopAddition{
+#loopAddition {
   position: absolute;
   left: 18px;
   top: 13px;
   font-size: 16px;
 }
+
 // LIGHT GROUP
 md-slider {
   cursor: pointer;
@@ -227,7 +230,7 @@ md-slider.md-default-theme .md-thumb:after {
 
 #groupControls {
   display: none;
-  box-shadow: 5px 10px 15px 5px rgba(0,0,0,.3);
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .3);
   border-radius: 0 0 5px 5px;
   width: 300px;
   top: 20px;
@@ -243,6 +246,7 @@ md-slider.md-default-theme .md-thumb:after {
 #groupControls.on {
   display: block;
 }
+
 .lightGroup {
   margin: 0 auto 0 auto;
   .tooltip.top {
@@ -398,7 +402,7 @@ md-switch.md-default-theme.md-checked .md-bar {
   background-color: rgba(241, 43, 36, 0.5);
 }
 
-md-switch.md-default-theme.md-checked .md-thumb{
+md-switch.md-default-theme.md-checked .md-thumb {
   background-color: #F12B24;
 }
 
@@ -588,13 +592,18 @@ md-switch.md-default-theme.md-checked .md-thumb{
   }
 }
 
+.songArtist {
+  font-style: italic;
+}
+
 #playListArea.dragHereHighlight {
   background-color: white;
   border: 5px dotted #5383ff;
 }
+
 #playListArea.draggingOver {
   background-color: darken(white, 5%);
-  box-shadow: inset 0 0 20px 0 rgba(0,0,0,1);
+  box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
 }
 
 #fileInput {
@@ -604,9 +613,9 @@ md-switch.md-default-theme.md-checked .md-thumb{
 }
 
 .playlistItem {
-  height: 45px;
+  min-height: 50px;
   font-family: 'Open Sans', sans-serif;
-  padding: 5px;
+  padding: 5px 20px 5px 5px;
   position: relative;
   color: darken(white, 20%);
   .close {
@@ -622,6 +631,7 @@ md-switch.md-default-theme.md-checked .md-thumb{
 
 .playlistItem:hover {
   background-color: lighten($playListBackgroundColor, 40%);
+  color: white;
   .close {
     display: block;
   }
@@ -629,8 +639,6 @@ md-switch.md-default-theme.md-checked .md-thumb{
 
 #beatArea {
   position: relative;
-  float: none;
-  display: table-cell;
 }
 
 #beatArea * .noUi-target {
@@ -642,7 +650,7 @@ md-switch.md-default-theme.md-checked .md-thumb{
   cursor: pointer;
 }
 
-#beatArea * .noUi-vertical  {
+#beatArea * .noUi-vertical {
   height: 170px;
   margin-top: 20px;
   margin-bottom: 15px;
@@ -659,26 +667,23 @@ md-switch.md-default-theme.md-checked .md-thumb{
 #playerBottom {
   color: white;
   background-color: #5D5D5D;
-  display: table;
+  width: 100%;
 }
 
 #beatContainer {
   vertical-align: middle;
   padding: 0;
-  float: none;
-  display: table-cell;
   md-switch {
     bottom: 0;
     position: absolute;
     margin-left: 0;
     z-index: 3;
+    margin-bottom: 2px;
   }
 }
 
-#beatContainer
-
 #beatSpeaker {
-  position:relative;
+  position: relative;
   padding: 0 5%;
   img {
     width: 100%;
@@ -708,6 +713,7 @@ md-switch.md-default-theme.md-checked .md-thumb{
     transform: scale(1.1);
   }
 }
+
 #beatArea .lightGroup {
   margin: 10px 20px 0 40px;
   float: right;
@@ -731,6 +737,7 @@ md-switch.md-default-theme.md-checked .md-thumb{
 }
 
 #beatHistory {
+  color: black;
   height: 250px;
   background-color: white;
   border-radius: 10px;
@@ -739,4 +746,14 @@ md-switch.md-default-theme.md-checked .md-thumb{
   overflow: auto;
   padding: 10px;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  #playerBottom {
+    display: table;
+  }
+  #beatArea, #beatContainer {
+    float: none;
+    display: table-cell;
+  }
 }

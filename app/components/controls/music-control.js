@@ -8,28 +8,26 @@ export default Em.Component.extend(musicControlMixin, {
   onActiveChange: function(){
     if(this.get('active')){
       Em.$('#beatSpeakerCenter').removeClass('pop');
-      Em.$('#playNotification').removeClass('fadeout');
+      Em.$('#playNotification').removeClass('fadeOut');
     }
   }.observes('active'),
 
   actions: {
     goToSong: function(index){
-      //if(index !== this.get('playQueuePointer')) {
-        var dancer = this.get('dancer'), audio = new Audio();
-        audio.src = this.get('playQueue')[index].url;
+      var dancer = this.get('dancer'), audio = new Audio();
+      audio.src = this.get('playQueue')[index].url;
 
-        if(dancer.audio) {
-          this.clearCurrentAudio(true);
-        }
+      if(dancer.audio) {
+        this.clearCurrentAudio(true);
+      }
 
-        dancer.load(audio);
-        this.setProperties({
-          playQueuePointer: index,
-          timeElapsed: 0
-        });
+      dancer.load(audio);
+      this.setProperties({
+        playQueuePointer: index,
+        timeElapsed: 0
+      });
 
-        this.send('play');
-      //}
+      this.send('play');
     },
     removeAudio: function(index){
       if(index === this.get('playQueuePointer')) {
@@ -58,7 +56,8 @@ export default Em.Component.extend(musicControlMixin, {
     playerAreaPlay: function(){
       if(Em.isEmpty(Em.$('#playerControls:hover'))){
         this.send('play');
-        Em.$('#playNotification').removeClass('fadeout').prop('offsetWidth', Em.$('#playerArea').prop('offsetWidth')).addClass('fadeout');
+        this.set('fadeOutNotification', true);
+        Em.$('#playNotification').removeClass('fadeOut').prop('offsetWidth', Em.$('#playNotification').prop('offsetWidth')).addClass('fadeOut');
       }
     },
     play: function () {

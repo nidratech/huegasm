@@ -90,6 +90,8 @@ export default Em.Mixin.create({
   // audio: playing or paused
   playing: false,
 
+  fadeOutNotification: false,
+
   speakerViewed: true,
   speakerLabel: function() {
     if(this.get('speakerViewed')){

@@ -456,7 +456,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   opacity: 0;
 }
 
-.fadeOut:before {
+.fadeOut {
   animation-duration: 1s;
   animation-name: fadeOut;
 }
@@ -529,7 +529,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   background: white !important;
 }
 
-#playerArea * .noUi-handle:after, #playerArea * .noUi-handle:before {
+#playerArea * .noUi-handle::after, #playerArea * .noUi-handle::before {
   content: none;
 }
 

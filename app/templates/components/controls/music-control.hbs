@@ -1,6 +1,7 @@
 <div class="row">
-    <div id="playerArea" class="col-sm-8 col-xs-12 material-icons {{if playing "play-arrow" "pause"}} {{if playQueueEmpty "blockAnimation"}}" {{action "playerAreaPlay"}}>
+    <div id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
 
+        <div id="playNotification" class="material-icons {{if playing "play-arrow" "pause"}}"></div>
         <div id="playerControls">
           {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
@@ -66,17 +67,17 @@
       <div id="beatOptionGroup">
         <span class="beatOption">
           {{range-slider start=threshold orientation="vertical" range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-          Max. Beat Intensity
+          Max. Intensity
         </span>
 
         <span class="beatOption">
           {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
-          Beat Decay Rate
+          Decay Rate
         </span>
 
         <span class="beatOption">
           {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-          Beat Frequency Range
+          Frequency Range
         </span>
       </div>
 
@@ -90,10 +91,9 @@
         <div id="beatSpeakerContainer">
           <div id="beatSpeaker">
             <img src="assets/images/speaker-outer.png" />
-          </div>
-
-          <div id="beatSpeakerCenter">
-            <img src="assets/images/speaker-inner.png" class="beatSpeakerCenter cursorPointer" {{action "clickSpeaker"}} />
+              <div id="beatSpeakerCenter">
+                  <img src="assets/images/speaker-inner.png" class="cursorPointer" {{action "clickSpeaker"}} />
+              </div>
           </div>
         </div>
       {{else}}

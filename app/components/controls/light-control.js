@@ -18,7 +18,7 @@ export default Em.Component.extend({
         lightId = activeLights.indexOf(light);
 
       if(lightId !== -1){
-        delete activeLights[lightId];
+        activeLights.removeObject(light);
       } else {
         activeLights.pushObject(light);
       }
@@ -30,7 +30,8 @@ export default Em.Component.extend({
 
   didInsertElement: function() {
     var self = this;
-    this.xyToRgb(0.5,0.5)
+    // TODO remove debug
+    this.xyToRgb(0.5,0.5);
     Em.$(document).click(function() {
       if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, .colorRow').length) {
         self.toggleProperty('colorPickerDisplayed');
@@ -63,6 +64,18 @@ export default Em.Component.extend({
     return "toggleColorpicker";
   }.property('trial'),
 
+  colorLoopOn: function(){
+    var lightsData = this.get('lightsData');
+
+    if(this.get('strobeOn')){
+      return false;
+    }
+
+    return this.get('activeLights').some(function(light) {
+      return lightsData[light].state.effect === 'colorloop';
+    });
+  }.property('lightsData.@each.state.effect', 'activeLights.[]', 'strobeOn'),
+
   // determines whether the lights are on/off for the lights switch
   lightsOn: function(){
     var lightsData = this.get('lightsData');
@@ -70,11 +83,11 @@ export default Em.Component.extend({
     if(this.get('strobeOn')){
       return false;
     }
-    this.get('color');
+
     return this.get('activeLights').some(function(light) {
       return lightsData[light].state.on === true;
     });
-  }.property('lightsData', 'activeLights', 'strobeOn'),
+  }.property('lightsData.@each.state.on', 'activeLights.[]', 'strobeOn'),
 
   // determines the average brightness of the hue system for the brightness slider
   lightsBrightness: function(){
@@ -108,6 +121,25 @@ export default Em.Component.extend({
     }
   }.observes('lightsOn'),
 
+  onColorLoopOnChange: function(){
+    var lightsData = this.get('lightsData'), activeLights = this.get('activeLights'), colorLoopsOn = this.get('colorLoopOn'), self = this;
+
+    var colorLoopsOnSystem = activeLights.some(function(light) {
+      return lightsData[light].state.effect === 'colorloop';
+    });
+
+    // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
+    if(colorLoopsOn !== colorLoopsOnSystem){
+      activeLights.forEach(function (light) {
+        Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify({"effect": colorLoopsOn ? 'colorloop' : 'none'}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      });
+    }
+  }.observes('colorLoopOn'),
+
   onBrightnessChanged: function(){
     var lightsData = this.get('lightsData'), lightsBrightnessSystem = false, lightsBrightness = this.get('lightsBrightness'), activeLights = this.get('activeLights'), self = this;
 
@@ -132,6 +164,10 @@ export default Em.Component.extend({
   lightsOnTxt: function(){
     return this.get('lightsOn') ? 'On' : 'Off';
   }.property('lightsOn'),
+
+  colorloopOnTxt: function(){
+    return this.get('colorLoopOn') ? 'On' : 'Off';
+  }.property('colorLoopOn'),
 
 
   // **************** STROBE LIGHT START ****************

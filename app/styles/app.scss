@@ -205,6 +205,12 @@ md-list-item .md-no-style {
   cursor: crosshair;
 }
 
+#loopAddition{
+  position: absolute;
+  left: 18px;
+  top: 13px;
+  font-size: 16px;
+}
 // LIGHT GROUP
 md-slider {
   cursor: pointer;
@@ -220,6 +226,7 @@ md-slider.md-default-theme .md-thumb:after {
 }
 
 #groupControls {
+  display: none;
   box-shadow: 5px 10px 15px 5px rgba(0,0,0,.3);
   border-radius: 0 0 5px 5px;
   width: 300px;
@@ -233,6 +240,9 @@ md-slider.md-default-theme .md-thumb:after {
   text-align: left;
 }
 
+#groupControls.on {
+  display: block;
+}
 .lightGroup {
   margin: 0 auto 0 auto;
   .tooltip.top {
@@ -434,18 +444,17 @@ md-switch.md-default-theme.md-checked .md-thumb{
   color: white !important;
 }
 
-#playerArea:before {
+#playNotification {
   position: relative;
   color: white;
   top: 45%;
   left: 45%;
-  animation-duration: 1s;
   opacity: 0;
-  animation-name: fadeOut;
 }
 
-#playerArea.blockAnimation:before{
-  animation-name: none !important;
+.fadeOut:before {
+  animation-duration: 1s;
+  animation-name: fadeOut;
 }
 
 @keyframes fadeOut {
@@ -620,6 +629,8 @@ md-switch.md-default-theme.md-checked .md-thumb{
 
 #beatArea {
   position: relative;
+  float: none;
+  display: table-cell;
 }
 
 #beatArea * .noUi-target {
@@ -641,27 +652,33 @@ md-switch.md-default-theme.md-checked .md-thumb{
   margin-top: 20px;
   .beatOption {
     display: inline-block;
-    margin-right: 2em;
+    margin-right: 1em;
   }
 }
 
 #playerBottom {
   color: white;
   background-color: #5D5D5D;
+  display: table;
 }
 
 #beatContainer {
+  vertical-align: middle;
   padding: 0;
+  float: none;
+  display: table-cell;
+  md-switch {
+    bottom: 0;
+    position: absolute;
+    margin-left: 0;
+    z-index: 3;
+  }
 }
 
-#beatContainer md-switch {
-  bottom: -35px;
-  position: absolute;
-  margin-left: 0;
-  z-index: 3;
-}
+#beatContainer
 
 #beatSpeaker {
+  position:relative;
   padding: 0 5%;
   img {
     width: 100%;
@@ -671,8 +688,8 @@ md-switch.md-default-theme.md-checked .md-thumb{
 #beatSpeakerCenter {
   position: absolute;
   width: 100%;
-  height: 100%;
-  top: 16%;
+  top: 14%;
+  right: 0;
   padding: 0 20%;
   img {
     width: 100%;
@@ -692,9 +709,9 @@ md-switch.md-default-theme.md-checked .md-thumb{
   }
 }
 #beatArea .lightGroup {
-  margin: 10px 50px 0 40px;
+  margin: 10px 20px 0 40px;
   float: right;
-  span {
+  div {
     display: block;
     padding: 10px;
   }
@@ -706,7 +723,7 @@ md-switch.md-default-theme.md-checked .md-thumb{
 
 #vertDivider {
   position: absolute;
-  right: 0;
+  right: 10px;
   top: 25%;
   width: 2px;
   height: 50%;

@@ -129,20 +129,19 @@ export default Em.Component.extend({
   musicTabSelected: Em.computed.equal('selectedTab', 1),
 
   updateLightData: function(){
-    var self = this;
+    var self = this, fail = function() {
+      clearInterval(self.get('lightsDataIntervalHandle'));
+      self.setProperties({
+        bridgeIp: null,
+        bridgeUsername: null
+      });
+    };
 
     Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
       if (status === 'success' && JSON.stringify(self.get('lightsData')) !== JSON.stringify(result) ) {
         self.set('lightsData', result);
-      } else if(status !== 'success') {
-        // something went terribly wrong ( user got unauthenticated? ) and we'll need to start all over
-        clearInterval(self.get('lightsDataIntervalHandle'));
-        this.setProperties({
-          bridgeIp: null,
-          bridgeUsername: null
-        });
       }
-    });
+    }).fail(fail);
   },
 
   ready: function() {

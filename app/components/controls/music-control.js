@@ -5,9 +5,16 @@ export default Em.Component.extend(musicControlMixin, {
   classNames: ['innerControlFrame'],
   classNameBindings: ['active::hidden'],
 
+  onActiveChange: function(){
+    if(this.get('active')){
+      Em.$('#beatSpeakerCenter').removeClass('pop');
+      Em.$('#playNotification').removeClass('fadeout');
+    }
+  }.observes('active'),
+
   actions: {
     goToSong: function(index){
-      if(index !== this.get('playQueuePointer')) {
+      //if(index !== this.get('playQueuePointer')) {
         var dancer = this.get('dancer'), audio = new Audio();
         audio.src = this.get('playQueue')[index].url;
 
@@ -22,7 +29,7 @@ export default Em.Component.extend(musicControlMixin, {
         });
 
         this.send('play');
-      }
+      //}
     },
     removeAudio: function(index){
       if(index === this.get('playQueuePointer')) {
@@ -42,13 +49,20 @@ export default Em.Component.extend(musicControlMixin, {
       this.changePlayerControl('decay', beatOptions.decay.defaultValue, true);
       this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true);
     },
-    clickLight:function() {
-      debugger;
+    clickLight: function(light){
+      var activeLights = this.get('activeLights'),
+        lightId = activeLights.indexOf(light);
+
+      if(lightId !== -1){
+        activeLights.removeObject(light);
+      } else {
+        activeLights.pushObject(light);
+      }
     },
     playerAreaPlay: function(){
       if(Em.isEmpty(Em.$('#playerControls:hover'))){
         this.send('play');
-        Em.$('#playerArea').removeClass('material-icons').prop('offsetWidth', Em.$('#playerArea').prop('offsetWidth')).addClass('material-icons');
+        Em.$('#playNotification').removeClass('fadeout').prop('offsetWidth', Em.$('#playerArea').prop('offsetWidth')).addClass('fadeout');
       }
     },
     play: function () {

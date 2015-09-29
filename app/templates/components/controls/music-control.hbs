@@ -79,7 +79,7 @@
         </div>
 
 
-        <div class="beatOption">
+        <div class="beatOption hidden">
           <div class="text-center">{{decay}} sec</div>
           {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
           Decay Rate
@@ -97,12 +97,13 @@
         </div>
 
         <div class="beatOption">
-          {{switch-button}}
+          Transition type: {{#paper-switch checked=sequentialTransition}} {{sequentialTransitionLabel}} {{/paper-switch}}
         </div>
       </div>
 
       <div id="playerButtonGroup">
         {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
+        {{#paper-button raised=true action="saveSongPreference"}}Save Song Preference{{/paper-button}}
       </div>
     </div>
 

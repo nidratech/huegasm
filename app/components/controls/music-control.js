@@ -14,6 +14,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    saveSongPreference: function() {
+    },
     goToSong: function(index){
       var dancer = this.get('dancer'), audio = new Audio();
       audio.src = this.get('playQueue')[index].url;
@@ -43,7 +45,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true);
       this.changePlayerControl('decay', beatOptions.decay.defaultValue, true);
       this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true);
-      this.changePlayerControl('transitionTime', beatOptions.frequency.defaultValue, true);
+      this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue, true);
     },
     playerAreaPlay: function(){
       if(Em.isEmpty(Em.$('#playerControls:hover'))){
@@ -158,6 +160,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     speakerViewedChanged: function(value){
       this.set('speakerViewed', value);
     },
+    sequentialTransitionChanged: function(value){
+      this.set('sequentialTransition', value);
+    },
     clickSpeaker: function(){
       this.simulateKick(1);
     },
@@ -251,33 +256,34 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     var activeLights = this.get('activeLights'),
       transitionTime = this.get('transitionTime') * 10,
       self = this,
-      briOff = function (i) {
-        Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-          data: JSON.stringify({'bri': 1, 'transitiontime': transitionTime}),
+      brightnessChange = function (light, brightness) {
+        Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify({'bri': brightness, 'transitiontime': transitionTime}),
           contentType: 'application/json',
           type: 'PUT'
         });
       };
 
     if(activeLights.length > 0){
-      var lastLightBopIndex = this.get('lastLightBopIndex'), light = this.get('activeLights')[lastLightBopIndex];
-      Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
-        data: JSON.stringify({'bri': 254, 'transitiontime': 0}),
-        contentType: 'application/json',
-        type: 'PUT'
-      });
+      var lastLightBopIndex = this.get('lastLightBopIndex'),
+        sequentialTransition = this.get('sequentialTransition'),
+        light;
 
-      setTimeout(briOff, 50, light);
-      lastLightBopIndex = (lastLightBopIndex+1)%activeLights.length;
+      if(sequentialTransition) {
+        light = activeLights[lastLightBopIndex];
+        this.set('lastLightBopIndex', (lastLightBopIndex+1) % activeLights.length);
+      } else {
+        light = Math.floor(Math.random() * activeLights.length);
+      }
 
-      this.setProperties({
-        paused: true,
-        lastLightBopIndex: lastLightBopIndex
-      });
+      brightnessChange(light, 254);
+      setTimeout(brightnessChange, 50, light, 1);
+
+      this.set('paused', true);
 
       setTimeout(function () {
         self.set('paused', false);
-      }, 150);
+      }, 100);
     }
 
     //work the music beat area
@@ -324,7 +330,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'sequentialTransition'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold') {

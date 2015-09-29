@@ -117,6 +117,15 @@ export default Em.Mixin.create({
     }
   }.property('speakerViewed'),
 
+  sequentialTransition: true,
+  sequentialTransitionLabel: function() {
+    if(this.get('sequentialTransition')){
+      return 'Sequential';
+    } else {
+      return 'Random';
+    }
+  }.property('sequentialTransition'),
+
   changePlayerControl: function(name, value, isOption){
     if(isOption){
       var options = {};
@@ -192,6 +201,10 @@ export default Em.Mixin.create({
     localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));
     this.get('beatHistory').clear();
   }.observes('speakerViewed'),
+
+  onSequentialTransitionChange: function(){
+    localStorage.setItem('huegasm.sequentialTransition', this.get('sequentialTransition'));
+  }.observes('sequentialTransition'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';

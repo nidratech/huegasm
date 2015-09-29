@@ -55,7 +55,6 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
 }
 
 .appSettingsItem.warn:hover {
-  text-transform: uppercase;
   background: rgba(255, 0, 0, 0.70);
   color: white;
 }
@@ -725,6 +724,9 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 #playerButtonGroup {
   margin-top: 10px;
+  button {
+    box-shadow: 5px 0px 15px 5px rgba(0, 0, 0, 0.3);
+  }
 }
 
 #vertDivider {

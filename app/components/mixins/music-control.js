@@ -6,6 +6,7 @@ export default Em.Mixin.create({
   beatOptions: {
     threshold: {
       range: {min: 0.1, max: 0.9},
+      step: 0.01,
       defaultValue: 0.3,
       pips: {
         mode: 'positions',
@@ -44,9 +45,24 @@ export default Em.Mixin.create({
           from: function ( value ) { return value; }
         }
       }
+    },
+    transitionTime: {
+      range:  {min: 0, max: 0.5},
+      step: 0.1,
+      defaultValue: 0,
+      pips: {
+        mode: 'positions',
+        values: [0,20,40,60,80,100],
+        density: 10,
+        format: {
+          to: function ( value ) {return value;},
+          from: function ( value ) { return value; }
+        }
+      }
     }
   },
 
+  transitionTime: 0,
   threshold: 0.3,
   decay: 0.02,
   frequency: [0,4],

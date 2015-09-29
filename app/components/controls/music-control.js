@@ -1,7 +1,8 @@
 import Em from 'ember';
 import musicControlMixin from '../mixins/music-control';
+import visualizerMixin from '../mixins/visualizer';
 
-export default Em.Component.extend(musicControlMixin, {
+export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   classNames: ['col-lg-6', 'col-lg-offset-3', 'col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
 
@@ -42,16 +43,7 @@ export default Em.Component.extend(musicControlMixin, {
       this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true);
       this.changePlayerControl('decay', beatOptions.decay.defaultValue, true);
       this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true);
-    },
-    clickLight: function(light){
-      var activeLights = this.get('activeLights'),
-        lightId = activeLights.indexOf(light);
-
-      if(lightId !== -1){
-        activeLights.removeObject(light);
-      } else {
-        activeLights.pushObject(light);
-      }
+      this.changePlayerControl('transitionTime', beatOptions.frequency.defaultValue, true);
     },
     playerAreaPlay: function(){
       if(Em.isEmpty(Em.$('#playerControls:hover'))){
@@ -147,6 +139,9 @@ export default Em.Component.extend(musicControlMixin, {
     },
     thresholdChanged: function(value) {
       this.changePlayerControl('threshold', value, true);
+    },
+    transitionTimeChanged: function(value) {
+      this.changePlayerControl('transitionTime', value, true);
     },
     decayChanged: function(value){
       this.changePlayerControl('decay', value, true);
@@ -254,10 +249,11 @@ export default Em.Component.extend(musicControlMixin, {
 
   simulateKick: function(mag) {
     var activeLights = this.get('activeLights'),
+      transitionTime = this.get('transitionTime') * 10,
       self = this,
       briOff = function (i) {
         Em.$.ajax(self.get('apiURL') + '/lights/' + i + '/state', {
-          data: JSON.stringify({'bri': 1, 'transitiontime': 0}),
+          data: JSON.stringify({'bri': 1, 'transitiontime': transitionTime}),
           contentType: 'application/json',
           type: 'PUT'
         });

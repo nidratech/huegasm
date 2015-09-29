@@ -71,23 +71,34 @@
 <div id="playerBottom" class="row">
   <div id="beatArea" class="col-sm-8 col-xs-12">
       <div id="vertDivider" class="hidden-xs"></div>
-        {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL noHover=true}}
-
       <div id="beatOptionGroup">
-        <span class="beatOption">
-          {{range-slider start=threshold orientation="vertical" range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+        <div class="beatOption">
+          <div class="text-center">{{threshold}}</div>
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
           Max. Intensity
-        </span>
+        </div>
 
-        <span class="beatOption">
+
+        <div class="beatOption">
+          <div class="text-center">{{decay}} sec</div>
           {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
           Decay Rate
-        </span>
+        </div>
 
-        <span class="beatOption">
+        <div class="beatOption">
           {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
           Frequency Range
-        </span>
+        </div>
+
+        <div class="beatOption">
+          <div class="text-center">{{transitionTime}} sec</div>
+            {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
+              Transition Time
+        </div>
+
+        <div class="beatOption">
+          {{switch-button}}
+        </div>
       </div>
 
       <div id="playerButtonGroup">

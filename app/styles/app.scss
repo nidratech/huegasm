@@ -8,6 +8,7 @@ $playerHeight: 400px;
 $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
+$playerBottomBackground: #5D5D5D;
 
 // BRIDGE FINDER
 html {
@@ -17,7 +18,7 @@ html {
 
 body {
   font-family: 'Slabo 27px', serif;
-  margin-bottom: $footerHeight;
+  margin-bottom: $footerHeight + 20px;
   position: static;
 }
 
@@ -398,10 +399,9 @@ md-toolbar {
 }
 
 #slideToggle {
-  position: absolute;
-  z-index: 100;
-  left: 45%;
   color: white;
+  background-color: $playerBottomBackground;
+  padding: 5px;
 }
 
 md-switch.md-default-theme.md-checked .md-bar {
@@ -662,18 +662,23 @@ md-switch.md-default-theme.md-checked .md-thumb {
   margin-bottom: 15px;
 }
 
-#beatOptionGroup {
-  .beatOption {
-    text-align: center;
-    .optionDescription {
-      font-size: 13px;
-    }
+#beatOptionButtonGroup {
+  margin: 20px 0;
+}
+
+.beatOption {
+  text-align: center;
+  md-switch {
+    margin: 0;
+  }
+  .optionDescription {
+    font-size: 13px;
   }
 }
 
 #playerBottom {
   color: white;
-  background-color: #5D5D5D;
+  background-color: $playerBottomBackground;
   width: 100%;
 }
 
@@ -748,10 +753,10 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 #beatHistory {
   color: black;
-  height: 250px;
+  height: 300px;
   background-color: white;
   border-radius: 10px;
-  width: 80%;
+  width: 90%;
   margin: 20px auto;
   overflow: auto;
   padding: 10px;

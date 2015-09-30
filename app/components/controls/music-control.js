@@ -15,16 +15,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
   actions: {
     slideTogglePlayerBottom: function(){
-      var playerBottomDisplayed = this.get('playerBottomDisplayed');
-      this.changePlayerControl('playerBottomDisplayed', !playerBottomDisplayed);
-
-      if(!playerBottomDisplayed){
-        Em.$('#playerBottom').slideDown();
-      } else {
-        Em.$('#playerBottom').slideUp();
-      }
+      this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
-    saveSongPreference: function() {
+    saveSongSettings: function() {
     },
     goToSong: function(index){
       var dancer = this.get('dancer'), audio = new Audio();
@@ -155,7 +148,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     transitionTimeChanged: function(value) {
       this.changePlayerControl('transitionTime', value);
     },
-    playerBottomDisplayedChanged: function(value) {},
+    playerBottomDisplayedChanged: function(value) {
+      this.changePlayerControl('playerBottomDisplayed', value);
+    },
     decayChanged: function(value){
       this.changePlayerControl('decay', value, true);
     },
@@ -173,6 +168,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     },
     sequentialTransitionChanged: function(value){
       this.set('sequentialTransition', value);
+    },
+    onBeatBriOnlyChanged: function(value){
+      this.set('onBeatBriOnly', value);
     },
     clickSpeaker: function(){
       this.simulateKick(1);
@@ -266,11 +264,18 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   simulateKick: function(mag) {
     var activeLights = this.get('activeLights'),
       transitionTime = this.get('transitionTime') * 10,
-      transitionBriOffFactor = 5,
+      onBeatBriOnly = this.get('onBeatBriOnly'),
       self = this,
-      brightnessChange = function (light, brightness) {
+      color = null,
+      stimulateLight = function (light, brightness, hue) {
+        var options = {'bri': brightness, 'transitiontime': transitionTime};
+
+        if(!Em.isNone(hue)) {
+          options.hue = hue;
+        }
+
         Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({'bri': brightness, 'transitiontime': transitionTime}),
+          data: JSON.stringify(options),
           contentType: 'application/json',
           type: 'PUT'
         });
@@ -288,8 +293,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         light = Math.floor(Math.random() * activeLights.length) + 1;
       }
 
-      brightnessChange(light, 254);
-      setTimeout(brightnessChange, transitionTime + 50, light, 1);
+      if(!onBeatBriOnly) {
+        color = Math.floor(Math.random() * 65535);
+      }
+
+      stimulateLight(light, 254, color);
+      setTimeout(stimulateLight, transitionTime + 50, light, 1);
 
       this.set('paused', true);
 
@@ -306,6 +315,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       var beatHistory = self.get('beatHistory'),
         maxSize = self.get('maxBeatHistorySize');
       beatHistory.unshiftObjects('Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
+
       if(beatHistory.length > maxSize){
         beatHistory.popObject();
       }
@@ -342,7 +352,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'sequentialTransition', 'playerBottomDisplayed'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'sequentialTransition', 'playerBottomDisplayed', 'onBeatBriOnly'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime') {
@@ -370,10 +380,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenter', function(event) {
       event.preventDefault();
     });
-
-    if(!this.get('playerBottomDisplayed')){
-      Em.$('#playerBottom').hide();
-    }
 
     // control the volume by scrolling up/down
     Em.$('#playerArea').on('mousewheel', function(event) {

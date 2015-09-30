@@ -121,11 +121,20 @@ export default Em.Mixin.create({
   sequentialTransition: true,
   sequentialTransitionLabel: function() {
     if(this.get('sequentialTransition')){
-      return 'Sequential';
+      return 'Sequential Transition';
     } else {
-      return 'Random';
+      return 'Random Transition';
     }
   }.property('sequentialTransition'),
+
+  onBeatBriOnly: true,
+  onBeatBriOnlyLabel: function() {
+    if(this.get('onBeatBriOnly')){
+      return 'Brightness';
+    } else {
+      return 'Brightness & Color';
+    }
+  }.property('onBeatBriOnly'),
 
   changePlayerControl: function(name, value, isOption){
     if(isOption){
@@ -203,9 +212,9 @@ export default Em.Mixin.create({
     this.get('beatHistory').clear();
   }.observes('speakerViewed'),
 
-  onSequentialTransitionChange: function(){
-    localStorage.setItem('huegasm.sequentialTransition', this.get('sequentialTransition'));
-  }.observes('sequentialTransition'),
+  onOptionChange: function(self, option){
+    localStorage.setItem('huegasm.' + option, this.get(option));
+  }.observes('sequentialTransition', 'onBeatBriOnly'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';
@@ -282,7 +291,7 @@ export default Em.Mixin.create({
   },
 
   beatDetectionArrowIcon: function(){
-    if(this.get('playerBottomDisplayed')){
+    if(!this.get('playerBottomDisplayed')){
       return 'arrow-drop-down';
     } else {
       return 'arrow-drop-up';

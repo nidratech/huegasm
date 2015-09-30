@@ -75,6 +75,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
+  playerBottomDisplayed: false,
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
@@ -279,6 +280,14 @@ export default Em.Mixin.create({
       this.set(type + 'TooltipTxt', text);
     }
   },
+
+  beatDetectionArrowIcon: function(){
+    if(this.get('playerBottomDisplayed')){
+      return 'arrow-drop-down';
+    } else {
+      return 'arrow-drop-up';
+    }
+  }.property('playerBottomDisplayed'),
 
   timeElapsedTxt: function(){
     return this.formatTime(this.get('timeElapsed'));

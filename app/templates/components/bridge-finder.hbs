@@ -34,11 +34,11 @@
           {{#paper-button action="findBridgeByIp" primary=true}}Find{{/paper-button}}
         </span>
 
-        {{#liquid-if manualBridgeIpNotFound}}
+        {{#if manualBridgeIpNotFound}}
           <p class="bg-danger">
             Could not find a bridge with that IP address.
           </p>
-        {{/liquid-if}}
+        {{/if}}
       {{/if}}
     {{/if}}
   {{/if}}

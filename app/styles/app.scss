@@ -397,6 +397,13 @@ md-toolbar {
   margin: 0;
 }
 
+#slideToggle {
+  position: absolute;
+  z-index: 100;
+  left: 45%;
+  color: white;
+}
+
 md-switch.md-default-theme.md-checked .md-bar {
   background-color: rgba(241, 43, 36, 0.5);
 }
@@ -656,10 +663,11 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 #beatOptionGroup {
-  margin-top: 10px;
   .beatOption {
-    display: inline-block;
-    margin-right: 1em;
+    text-align: center;
+    .optionDescription {
+      font-size: 13px;
+    }
   }
 }
 
@@ -725,13 +733,13 @@ md-switch.md-default-theme.md-checked .md-thumb {
 #playerButtonGroup {
   margin-top: 10px;
   button {
-    box-shadow: 5px 0px 15px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 0 15px 5px rgba(0, 0, 0, 0.3);
   }
 }
 
 #vertDivider {
   position: absolute;
-  right: 10px;
+  right: 0;
   top: 25%;
   width: 2px;
   height: 50%;
@@ -758,136 +766,4 @@ md-switch.md-default-theme.md-checked .md-thumb {
     float: none;
     display: table-cell;
   }
-}
-
-// FANCY BUTTON
-.button {
-  position: absolute;
-  top: calc(50% - 115px);
-  left: calc(50% - 90px);
-  display: block;
-  width: 180px;
-  height: 230px;
-  background-image: -webkit-linear-gradient(top, #464a54 0%, #2c2225 100%);
-  background-image: linear-gradient(to bottom, #464a54 0%, #2c2225 100%);
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 -5px 0px #464649, 0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 1px #66696e inset, 4px 0 0 rgba(0, 0, 0, 0.1) inset, -4px 0 0 rgba(0, 0, 0, 0.1) inset, 0 -8px 2px rgba(0, 0, 0, 0.1) inset;
-}
-
-.button .hole {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: block;
-  width: 140px;
-  height: 186px;
-  overflow: hidden;
-  background-color: #090909;
-  border-radius: 8px;
-  box-shadow: 0 -2px 1px rgba(255, 255, 255, 0.25) inset, 0 2px 1px rgba(255, 255, 255, 0.2) inset;
-}
-
-.button .switch {
-  position: absolute;
-  top: 6px;
-  left: 4px;
-  display: block;
-  width: 132px;
-  height: 174px;
-  background-image: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.07) 0%, transparent 80%), -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.15) 0%, transparent 80%), -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.02) 30%, transparent 50%), -webkit-linear-gradient(top, #882626 0%, #290606 100%);
-  background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.07) 0%, transparent 80%), radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, transparent 80%), radial-gradient(ellipse at center, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.02) 30%, transparent 50%), linear-gradient(to bottom, #882626 0%, #290606 100%);
-  background-size: 100% 80px, 100% 80px, 10px 10px, 100%;
-  background-position: top left, bottom left, bottom left, center;
-  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
-  border-radius: 8px;
-  box-shadow: 2px 0 1px rgba(255, 255, 255, 0.1) inset, -2px 0 1px rgba(255, 255, 255, 0.1) inset, 0 -2px 2px rgba(255, 255, 255, 0.05) inset, 0 4px 2px rgba(0, 0, 0, 0.05) inset, 0 -30px 8px rgba(198, 45, 45, 0.5), 0 -25px 8px rgba(198, 45, 45, 0.3), 0 -20px 8px rgba(198, 45, 45, 0.4), 0 -15px 8px rgba(198, 45, 45, 0.5), 0 -10px 8px rgba(198, 45, 45, 0.6), 0 -5px 8px rgba(198, 45, 45, 0.9);
-  -webkit-transform-style: preserve3d;
-  transform-style: preserve3d;
-  -webkit-transform-origin: center center;
-  -ms-transform-origin: center center;
-  transform-origin: center center;
-  -webkit-transform: perspective(1500px) rotateX(-30deg) translateY(16px);
-  transform: perspective(1500px) rotateX(-30deg) translateY(16px);
-  -webkit-transition: -webkit-transform 200ms ease;
-  transition: transform 200ms ease;
-}
-
-.button .switch:before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: 5px;
-  width: 122px;
-  height: 5px;
-  background-image: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.4) 0%, transparent 80%);
-  background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.4) 0%, transparent 80%);
-}
-
-.button .switch .one {
-  position: absolute;
-  top: 24px;
-  left: calc(47%);
-  display: block;
-  width: 6px;
-  height: 40px;
-  background-image: -webkit-linear-gradient(top, #cccccc 0%, #999999 100%);
-  background-image: linear-gradient(to bottom, #cccccc 0%, #999999 100%);
-  box-shadow: 0 2px 1px white inset;
-  border-radius: 4px;
-}
-
-.button .switch .zero {
-  position: absolute;
-  bottom: 24px;
-  left: calc(36%);
-  display: block;
-  width: 32px;
-  height: 40px;
-  box-shadow: 0 4px 2px rgba(255, 255, 255, 0.5) inset, 0 -4px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 6px #666666 inset;
-  border-radius: 50%;
-}
-
-.button input {
-  display: none;
-}
-
-.button input:checked ~ .hole .switch {
-  background-image: -webkit-radial-gradient(center, ellipse, rgba(255, 255, 255, 0.07) 0%, transparent 80%), -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.15) 0%, transparent 80%), -webkit-radial-gradient(center, ellipse, rgba(254, 244, 0, 0.5) 0%, rgba(254, 244, 0, 0.2) 30%, rgba(254, 244, 0, 0.1) 50%, transparent 80%), -webkit-radial-gradient(center, ellipse, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 30%, transparent 50%), -webkit-linear-gradient(top, #b43222 0%, #a51810 100%);
-  background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.07) 0%, transparent 80%), radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, transparent 80%), radial-gradient(ellipse at center, rgba(254, 244, 0, 0.5) 0%, rgba(254, 244, 0, 0.2) 30%, rgba(254, 244, 0, 0.1) 50%, transparent 80%), radial-gradient(ellipse at center, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.05) 30%, transparent 50%), linear-gradient(to bottom, #b43222 0%, #a51810 100%);
-  background-size: 100% 80px, 100% 80px, 100% 180px, 10px 10px, 100%;
-  background-position: top left, bottom left, 0 30px, bottom left, center;
-  background-repeat: no-repeat, no-repeat, no-repeat, repeat, no-repeat;
-  border-radius: 8px;
-  box-shadow: 4px 0 1px rgba(255, 255, 255, 0.15) inset, -4px 0 1px rgba(255, 255, 255, 0.15) inset, 0 4px 1px rgba(255, 255, 255, 0.15) inset, 0 -12px 8px rgba(0, 0, 0, 0.25) inset, 0 30px 8px rgba(128, 17, 5, 0.5), 0 25px 8px rgba(128, 17, 5, 0.3), 0 20px 8px rgba(128, 17, 5, 0.4), 0 15px 8px rgba(128, 17, 5, 0.5), 0 10px 8px rgba(128, 17, 5, 0.6), 0 5px 8px rgba(128, 17, 5, 0.9);
-  -webkit-transform: perspective(1500px) rotateX(30deg) translateY(-16px);
-  transform: perspective(1500px) rotateX(30deg) translateY(-16px);
-}
-
-.button input:checked ~ .hole .switch:before {
-  top: auto;
-  bottom: -2px;
-}
-
-.button input:checked ~ .hole .switch:after {
-  content: "";
-  position: absolute;
-  bottom: -24px;
-  left: calc(14%);
-  width: 96px;
-  height: 16px;
-  border-radius: 50%;
-  background-image: -webkit-radial-gradient(center, ellipse, #fef400 0%, rgba(254, 244, 0, 0.3) 60%, transparent 100%);
-  background-image: radial-gradient(ellipse at center, #fef400 0%, rgba(254, 244, 0, 0.3) 60%, transparent 100%);
-  -webkit-filter: blur(8px);
-  filter: blur(8px);
-}
-
-.button input:checked ~ .hole .switch .one {
-  background-image: -webkit-linear-gradient(top, #eeeeee 0%, #aaaaaa 100%);
-  background-image: linear-gradient(to bottom, #eeeeee 0%, #aaaaaa 100%);
-}
-
-.button input:checked ~ .hole .switch .zero {
-  box-shadow: 0 4px 2px rgba(255, 255, 255, 0.5) inset, 0 -4px 2px rgba(0, 0, 0, 0.2) inset, 0 0 0 6px #aaaaaa inset;
 }

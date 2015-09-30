@@ -68,47 +68,52 @@
     </div>
 </div>
 
+<div id="slideToggle" class="text-center cursorPointer" {{action "slideTogglePlayerBottom"}}>
+  {{paper-icon icon=beatDetectionArrowIcon}} Beat Detection Settings {{paper-icon icon=beatDetectionArrowIcon}}
+</div>
+
 <div id="playerBottom" class="row">
   <div id="beatArea" class="col-sm-8 col-xs-12">
-      <div id="vertDivider" class="hidden-xs"></div>
-      <div id="beatOptionGroup">
-        <div class="beatOption">
-          <div class="text-center">{{threshold}}</div>
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-          Max. Intensity
-        </div>
+    <div id="vertDivider" class="hidden-xs"></div>
 
+    <div class="row">
+        Light Selection {{#paper-switch checked=sequentialTransition}} {{sequentialTransitionLabel}} {{/paper-switch}}
+    </div>
 
-        <div class="beatOption hidden">
-          <div class="text-center">{{decay}} sec</div>
-          {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
-          Decay Rate
-        </div>
-
-        <div class="beatOption">
-          {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-          Frequency Range
-        </div>
-
-        <div class="beatOption">
-          <div class="text-center">{{transitionTime}} sec</div>
-            {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
-              Transition Time
-        </div>
-
-        <div class="beatOption">
-          Transition type: {{#paper-switch checked=sequentialTransition}} {{sequentialTransitionLabel}} {{/paper-switch}}
-        </div>
+    <div id="beatOptionGroup" class="row">
+      <div class="beatOption col-xs-3">
+        <div class="text-center">{{threshold}}</div>
+        {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+        <span class="optionDescription">Max. Intensity</span>
       </div>
 
-      <div id="playerButtonGroup">
+      <div class="beatOption col-xs-3">
+        <div class="text-center">{{decay}} sec</div>
+        {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
+          <span class="optionDescription">Decay Rate</span>
+      </div>
+
+      <div class="beatOption col-xs-3">
+          <div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}} ,{{/unless}}{{/each}}]</div>
+        {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
+          <span class="optionDescription">Frequency Range</span>
+      </div>
+
+      <div class="beatOption col-xs-3">
+        <div class="text-center">{{transitionTime}} sec</div>
+          {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
+          <span class="optionDescription">Transition Time</span>
+      </div>
+    </div>
+
+      <div id="playerButtonGroup" class="row">
         {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
         {{#paper-button raised=true action="saveSongPreference"}}Save Song Preference{{/paper-button}}
       </div>
     </div>
 
     <div id="beatContainer" class="col-sm-4 col-xs-12">
-      {{#liquid-if speakerViewed}}
+      {{#if speakerViewed}}
         <div id="beatSpeaker">
           <img src="assets/images/speaker-outer.png" />
             <div id="beatSpeakerCenter">
@@ -121,7 +126,7 @@
             <p>{{{item}}}</p>
           {{/each}}
         </div>
-      {{/liquid-if}}
+      {{/if}}
 
       {{#paper-switch checked=speakerViewed}} {{speakerLabel}} {{/paper-switch}}
     </div>

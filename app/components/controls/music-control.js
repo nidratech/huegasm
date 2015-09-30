@@ -14,6 +14,16 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    slideTogglePlayerBottom: function(){
+      var playerBottomDisplayed = this.get('playerBottomDisplayed');
+      this.changePlayerControl('playerBottomDisplayed', !playerBottomDisplayed);
+
+      if(!playerBottomDisplayed){
+        Em.$('#playerBottom').slideDown();
+      } else {
+        Em.$('#playerBottom').slideUp();
+      }
+    },
     saveSongPreference: function() {
     },
     goToSong: function(index){
@@ -143,8 +153,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('threshold', value, true);
     },
     transitionTimeChanged: function(value) {
-      this.changePlayerControl('transitionTime', value, true);
+      this.changePlayerControl('transitionTime', value);
     },
+    playerBottomDisplayedChanged: function(value) {},
     decayChanged: function(value){
       this.changePlayerControl('decay', value, true);
     },
@@ -255,6 +266,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   simulateKick: function(mag) {
     var activeLights = this.get('activeLights'),
       transitionTime = this.get('transitionTime') * 10,
+      transitionBriOffFactor = 5,
       self = this,
       brightnessChange = function (light, brightness) {
         Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
@@ -273,17 +285,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         light = activeLights[lastLightBopIndex];
         this.set('lastLightBopIndex', (lastLightBopIndex+1) % activeLights.length);
       } else {
-        light = Math.floor(Math.random() * activeLights.length);
+        light = Math.floor(Math.random() * activeLights.length) + 1;
       }
 
       brightnessChange(light, 254);
-      setTimeout(brightnessChange, 50, light, 1);
+      setTimeout(brightnessChange, transitionTime + 50, light, 1);
 
       this.set('paused', true);
 
       setTimeout(function () {
         self.set('paused', false);
-      }, 100);
+      }, 150);
     }
 
     //work the music beat area
@@ -330,10 +342,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'sequentialTransition'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'sequentialTransition', 'playerBottomDisplayed'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
-        if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold') {
+        if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime') {
           itemVal = Number(itemVal);
         } else if(item === 'frequency') {
           itemVal = itemVal.split(',').map(function(val){return Number(val);});
@@ -358,6 +370,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenter', function(event) {
       event.preventDefault();
     });
+
+    if(!this.get('playerBottomDisplayed')){
+      Em.$('#playerBottom').hide();
+    }
+
     // control the volume by scrolling up/down
     Em.$('#playerArea').on('mousewheel', function(event) {
       if(self.get('playQueueNotEmpty')) {

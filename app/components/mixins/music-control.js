@@ -49,7 +49,7 @@ export default Em.Mixin.create({
     transitionTime: {
       range:  {min: 0, max: 0.5},
       step: 0.1,
-      defaultValue: 0,
+      defaultValue: 0.1,
       pips: {
         mode: 'positions',
         values: [0,20,40,60,80,100],
@@ -62,7 +62,7 @@ export default Em.Mixin.create({
     }
   },
 
-  transitionTime: 0,
+  transitionTime: 0.1,
   threshold: 0.3,
   decay: 0.02,
   frequency: [0,4],

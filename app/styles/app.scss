@@ -399,9 +399,16 @@ md-toolbar {
 }
 
 #slideToggle {
-  color: white;
+  color: $playerDefaultIconColor;
   background-color: $playerBottomBackground;
-  padding: 5px;
+  div md-icon {
+   font-size: 40px;
+    color: inherit !important;
+  }
+}
+
+#slideToggle:hover{
+  color: lighten($playerDefaultIconColor, 30%) !important;;
 }
 
 md-switch.md-default-theme.md-checked .md-bar {
@@ -612,7 +619,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
 }
 
-#fileInput {
+#fileInput, #micInput {
   width: 1px;
   height: 1px;
   visibility: hidden;

@@ -15,7 +15,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
   actions: {
     useMic: function() {
-      this.changePlayerControl('usingMic', !this.get('usingMic'));
+      var usingMic = this.get('usingMic');
+      this.changePlayerControl('usingMic', !usingMic);
+
+      if(!usingMic){
+        Em.$('#micInput').click();
+      }
     },
     slideTogglePlayerBottom: function(){
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));

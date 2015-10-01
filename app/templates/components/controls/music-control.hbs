@@ -17,7 +17,7 @@
                          data-title="Next" {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
                   -->{{/if}}<!--
           --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip"
-                   data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass  class="playerControllIcon volumeButton"}}</span><!--
+                   data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass class="playerControllIcon volumeButton"}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
       <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
@@ -34,7 +34,8 @@
   </div>
 
   <div id="playlist" class="col-sm-4 col-xs-12">
-    <input id="fileInput" type="file" accept="audio/*" multiple="true"/>
+    <input id="fileInput" type="file" accept="audio/*" multiple="true" />
+    <input id="micInput" type="file" accept="audio/*" capture />
 
     <div id="playListControls">
       <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
@@ -76,10 +77,13 @@
   </div>
 </div>
 
-<div class="text-center cursorPointer row" {{action "slideTogglePlayerBottom"}}>
-  <div id="slideToggle" class="col-xs-12">
-    {{paper-icon icon=beatDetectionArrowIcon}} Beat Detection Settings {{paper-icon icon=beatDetectionArrowIcon}}
+<div id="slideToggle" class="text-center cursorPointer row" {{action "slideTogglePlayerBottom"}}>
+  <div class="col-xs-offset-3 col-xs-3">
+    {{paper-icon icon=beatDetectionArrowIcon}}
   </div>
+    <div class="col-xs-3">
+      {{paper-icon icon=beatDetectionArrowIcon}}
+    </div>
 </div>
 
 {{#if playerBottomDisplayed}}
@@ -125,15 +129,11 @@
 
       <div id="beatOptionButtonGroup" class="row">
         <div class="beatOption col-xs-6">
-          {{#paper-switch checked=sequentialTransition  disabled=trial}}<span data-toggle="tooltip"
-                                                                              data-placement="bottom auto"
-                                                                              data-title="The order in which the active lights are transitioned to on beat"
+          {{#paper-switch checked=sequentialTransition  disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The order in which the active lights are transitioned to on beat"
                                                                               class="optionDescription bootstrapTooltip">{{sequentialTransitionLabel}}</span>{{/paper-switch}}
         </div>
         <div class="beatOption col-xs-6">
-          {{#paper-switch checked=onBeatBriOnly disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto"
-                                                                      data-title="The properties of the lights to change on beat"
-                                                                      class="optionDescription bootstrapTooltip"> {{onBeatBriOnlyLabel}}</span>{{/paper-switch}}
+          {{#paper-switch checked=onBeatBriOnly disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The properties of the lights to change on beat" class="optionDescription bootstrapTooltip"> {{onBeatBriOnlyLabel}}</span>{{/paper-switch}}
         </div>
       </div>
 

@@ -4,7 +4,9 @@
     <div id="playNotification"
          class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
     <div id="playerControls">
+    {{#if notUsingMic}}
       {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
+
 
       {{#if playQueueMultiple}}
         <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip"
@@ -21,6 +23,7 @@
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
       <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
+    {{/if}}
 
           <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
@@ -35,7 +38,6 @@
 
   <div id="playlist" class="col-sm-4 col-xs-12">
     <input id="fileInput" type="file" accept="audio/*" multiple="true" />
-    <input id="micInput" type="file" accept="audio/*" capture />
 
     <div id="playListControls">
       <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
@@ -44,7 +46,9 @@
 
       <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music" class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
 
-      <span data-toggle="tooltip" data-placement="bottom auto" class="pull-right bootstrapTooltip" id="usingMicTooltip" data-title={{usingMicTooltipTxt}} {{action "useMic"}}>{{paper-icon icon=micIcon class=usingMicClass}}</span>
+      {{#if usingMicSupported}}
+          <span data-toggle="tooltip" data-placement="bottom auto" class="pull-right bootstrapTooltip" id="usingMicTooltip" data-title={{usingMicTooltipTxt}} {{action "useMic"}}>{{paper-icon icon=micIcon class=usingMicClass}}</span>
+      {{/if}}
     </div>
 
     <div id="playListArea"
@@ -129,17 +133,18 @@
 
       <div id="beatOptionButtonGroup" class="row">
         <div class="beatOption col-xs-6">
-          {{#paper-switch checked=sequentialTransition  disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The order in which the active lights are transitioned to on beat"
-                                                                              class="optionDescription bootstrapTooltip">{{sequentialTransitionLabel}}</span>{{/paper-switch}}
+          {{#paper-switch checked=randomTransition disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The order in which the active lights are transitioned to on beat" class="optionDescription bootstrapTooltip">{{randomTransitionLabel}}</span>{{/paper-switch}}
         </div>
         <div class="beatOption col-xs-6">
-          {{#paper-switch checked=onBeatBriOnly disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The properties of the lights to change on beat" class="optionDescription bootstrapTooltip"> {{onBeatBriOnlyLabel}}</span>{{/paper-switch}}
+          {{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The properties of the lights to change on beat" class="optionDescription bootstrapTooltip"> {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
         </div>
       </div>
 
       <div id="playerButtonGroup" class="row">
         {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
-        {{#paper-button raised=true action="saveSongSettings"}}Save Song Settings{{/paper-button}}
+        {{#if notUsingMic}}
+          {{#paper-button raised=true action="saveSongSettings"}}Save Song Settings{{/paper-button}}
+        {{/if}}
       </div>
     </div>
 

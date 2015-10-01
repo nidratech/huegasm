@@ -619,7 +619,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
 }
 
-#fileInput, #micInput {
+#fileInput {
   width: 1px;
   height: 1px;
   visibility: hidden;
@@ -764,7 +764,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   background-color: white;
   border-radius: 10px;
   width: 90%;
-  margin: 20px auto;
+  margin: 0 auto 20px auto;
   overflow: auto;
   padding: 10px;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.1);

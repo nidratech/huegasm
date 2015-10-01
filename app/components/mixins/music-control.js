@@ -75,6 +75,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
+  usingMicSupported: true,
   usingMic: false,
   playerBottomDisplayed: false,
   dragging: false,
@@ -82,6 +83,7 @@ export default Em.Mixin.create({
   dragLeaveTimeoutHandle: null,
   visualizationsDisplayed: false,
 
+  notUsingMic: Em.computed.not('usingMic'),
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
   playQueueMultiple: function(){
@@ -119,23 +121,23 @@ export default Em.Mixin.create({
     }
   }.property('speakerViewed'),
 
-  sequentialTransition: true,
-  sequentialTransitionLabel: function() {
-    if(this.get('sequentialTransition')){
-      return 'Sequential Transition';
-    } else {
+  randomTransition: true,
+  randomTransitionLabel: function() {
+    if(this.get('randomTransition')){
       return 'Random Transition';
-    }
-  }.property('sequentialTransition'),
-
-  onBeatBriOnly: true,
-  onBeatBriOnlyLabel: function() {
-    if(this.get('onBeatBriOnly')){
-      return 'Brightness';
     } else {
-      return 'Brightness & Color';
+      return 'Sequential Transition';
     }
-  }.property('onBeatBriOnly'),
+  }.property('randomTransition'),
+
+  onBeatBriAndColor: true,
+  onBeatBriAndColorLabel: function() {
+    if(this.get('onBeatBriAndColor')){
+      return 'Brightness & Color';
+    } else {
+      return 'Brightness';
+    }
+  }.property('onBeatBriAndColor'),
 
   changePlayerControl: function(name, value, isOption){
     if(isOption){
@@ -227,7 +229,7 @@ export default Em.Mixin.create({
 
   onOptionChange: function(self, option){
     localStorage.setItem('huegasm.' + option, this.get(option));
-  }.observes('sequentialTransition', 'onBeatBriOnly'),
+  }.observes('randomTransition', 'onBeatBriAndColor'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';

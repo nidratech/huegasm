@@ -19,7 +19,15 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('usingMic', !usingMic);
 
       if(!usingMic){
-        Em.$('#micInput').click();
+        navigator.getUserMedia(
+          {audio: true},
+          function(stream) {
+            debugger;
+          },
+          function(err) {
+            console.log("Error during navigator.getUserMedia: " + err);
+          }
+        );
       }
     },
     slideTogglePlayerBottom: function(){
@@ -174,11 +182,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     speakerViewedChanged: function(value){
       this.set('speakerViewed', value);
     },
-    sequentialTransitionChanged: function(value){
-      this.set('sequentialTransition', value);
+    randomTransitionChanged: function(value){
+      this.set('randomTransition', value);
     },
-    onBeatBriOnlyChanged: function(value){
-      this.set('onBeatBriOnly', value);
+    onBeatBriAndColorChanged: function(value){
+      this.set('onBeatBriAndColor', value);
     },
     usingMicChanged: function(value){
       this.set('usingMic', value);
@@ -229,6 +237,27 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
+  updatePageTitle: function(){
+    var title = 'Huegasm', playQueuePointer = this.get('playQueuePointer'), playQueue = this.get('playQueue');
+
+    if(playQueuePointer !== -1){
+      var song = playQueue[playQueuePointer];
+      if(song.title){
+        title = song.title;
+
+        if(song.artist){
+          title += (' - ' + song.artist);
+        }
+      } else {
+        title = song.filename;
+      }
+
+      title += '- Huegasm';
+    }
+
+    document.title = title;
+  }.observes('playQueuePointer'),
+
   clearCurrentAudio: function(resetPointer) {
     var dancer = this.get('dancer');
 
@@ -275,7 +304,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   simulateKick: function(mag) {
     var activeLights = this.get('activeLights'),
       transitionTime = this.get('transitionTime') * 10,
-      onBeatBriOnly = this.get('onBeatBriOnly'),
+      onBeatBriAndColor = this.get('onBeatBriAndColor'),
       self = this,
       color = null,
       stimulateLight = function (light, brightness, hue) {
@@ -294,17 +323,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
     if(activeLights.length > 0){
       var lastLightBopIndex = this.get('lastLightBopIndex'),
-        sequentialTransition = this.get('sequentialTransition'),
+        randomTransition = this.get('randomTransition'),
         light;
 
-      if(sequentialTransition) {
+      if(randomTransition) {
+        light = Math.floor(Math.random() * activeLights.length) + 1;
+      } else {
         light = activeLights[lastLightBopIndex];
         this.set('lastLightBopIndex', (lastLightBopIndex+1) % activeLights.length);
-      } else {
-        light = Math.floor(Math.random() * activeLights.length) + 1;
       }
 
-      if(!onBeatBriOnly) {
+      if(onBeatBriAndColor) {
         color = Math.floor(Math.random() * 65535);
       }
 
@@ -363,7 +392,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'sequentialTransition', 'playerBottomDisplayed', 'onBeatBriOnly', 'usingMic'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'usingMic'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime') {
@@ -377,6 +406,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         self.send(item+'Changed', itemVal);
       }
     });
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    if(navigator.getUserMedia === undefined){
+      this.set('usingMicSupported', false);
+    }
   },
 
   didInsertElement: function () {

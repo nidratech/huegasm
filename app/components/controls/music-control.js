@@ -14,6 +14,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    useMic: function() {
+      this.changePlayerControl('usingMic', !this.get('usingMic'));
+    },
     slideTogglePlayerBottom: function(){
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
@@ -171,6 +174,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     },
     onBeatBriOnlyChanged: function(value){
       this.set('onBeatBriOnly', value);
+    },
+    usingMicChanged: function(value){
+      this.set('usingMic', value);
     },
     clickSpeaker: function(){
       this.simulateKick(1);
@@ -352,7 +358,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'sequentialTransition', 'playerBottomDisplayed', 'onBeatBriOnly'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'sequentialTransition', 'playerBottomDisplayed', 'onBeatBriOnly', 'usingMic'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime') {

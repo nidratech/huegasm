@@ -37,14 +37,13 @@
     <input id="fileInput" type="file" accept="audio/*" multiple="true"/>
 
     <div id="playListControls">
-            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip"
-                  data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
+      <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
 
-            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip"
-                  data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+      <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
 
-            <span data-toggle="tooltip" data-placement="bottom" data-title="Add new music"
-                  class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon" }}</span>
+      <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music" class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
+
+      <span data-toggle="tooltip" data-placement="bottom auto" class="pull-right bootstrapTooltip" id="usingMicTooltip" data-title={{usingMicTooltipTxt}} {{action "useMic"}}>{{paper-icon icon=micIcon class=usingMicClass}}</span>
     </div>
 
     <div id="playListArea"
@@ -92,13 +91,17 @@
         <div class="beatOption col-xs-3">
           <div class="text-center">{{threshold}}</div>
           {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Maximum intensity of the sound that may be registered as a beat" class="optionDescription bootstrapTooltip">Max. Intensity</span>
+          <span data-toggle="tooltip" data-placement="bottom auto"
+                data-title="Maximum intensity of the sound that may be registered as a beat"
+                class="optionDescription bootstrapTooltip">Max. Intensity</span>
         </div>
 
         <div class="beatOption col-xs-3">
           <div class="text-center">{{decay}}</div>
           {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="The rate at which the previously registered beat's intensity is reduced to find the next beat" class="optionDescription bootstrapTooltip">Decay Rate</span>
+          <span data-toggle="tooltip" data-placement="bottom auto"
+                data-title="The rate at which the previously registered beat's intensity is reduced to find the next beat"
+                class="optionDescription bootstrapTooltip">Decay Rate</span>
         </div>
 
         <div class="beatOption col-xs-3">
@@ -106,22 +109,31 @@
             ]
           </div>
           {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
+          <span data-toggle="tooltip" data-placement="bottom auto"
+                data-title="The frequency range of sound to listen on for the beat"
+                class="optionDescription bootstrapTooltip">Frequency Range</span>
         </div>
 
         <div class="beatOption col-xs-3">
           <div class="text-center">{{transitionTime}} sec</div>
           {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Transition time to change the lights on, on beat" class="optionDescription bootstrapTooltip">Transition Time</span>
+          <span data-toggle="tooltip" data-placement="bottom auto"
+                data-title="Transition time to change the lights on, on beat"
+                class="optionDescription bootstrapTooltip">Transition Time</span>
         </div>
       </div>
 
       <div id="beatOptionButtonGroup" class="row">
         <div class="beatOption col-xs-6">
-          {{#paper-switch checked=sequentialTransition  disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The order in which the active lights are transitioned to on beat" class="optionDescription bootstrapTooltip">{{sequentialTransitionLabel}}</span>{{/paper-switch}}
+          {{#paper-switch checked=sequentialTransition  disabled=trial}}<span data-toggle="tooltip"
+                                                                              data-placement="bottom auto"
+                                                                              data-title="The order in which the active lights are transitioned to on beat"
+                                                                              class="optionDescription bootstrapTooltip">{{sequentialTransitionLabel}}</span>{{/paper-switch}}
         </div>
         <div class="beatOption col-xs-6">
-          {{#paper-switch checked=onBeatBriOnly disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="The properties of the lights to change on beat" class="optionDescription bootstrapTooltip"> {{onBeatBriOnlyLabel}}</span>{{/paper-switch}}
+          {{#paper-switch checked=onBeatBriOnly disabled=trial}}<span data-toggle="tooltip" data-placement="bottom auto"
+                                                                      data-title="The properties of the lights to change on beat"
+                                                                      class="optionDescription bootstrapTooltip"> {{onBeatBriOnlyLabel}}</span>{{/paper-switch}}
         </div>
       </div>
 

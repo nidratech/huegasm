@@ -75,6 +75,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
+  usingMic: false,
   playerBottomDisplayed: false,
   dragging: false,
   draggingOverPlayListArea: false,
@@ -155,6 +156,14 @@ export default Em.Mixin.create({
     }
   },
 
+  micIcon: function() {
+    if (this.get('usingMic')) {
+      return 'mic';
+    }
+
+    return 'mic-off';
+  }.property('usingMic'),
+
   repeatIcon: function () {
     if (this.get('repeat') === 2) {
       return 'repeat-one';
@@ -184,6 +193,10 @@ export default Em.Mixin.create({
 
     return classes;
   }.property('dragging', 'draggingOverPlayListArea'),
+
+  usingMicClass: function() {
+    return this.get('usingMic') ? 'playerControllIcon active' : 'playerControllIcon';
+  }.property('usingMic'),
 
   repeatClass: function () {
     return this.get('repeat') !== 0 ? 'playerControllIcon active' : 'playerControllIcon';
@@ -237,6 +250,16 @@ export default Em.Mixin.create({
 
     this.changeTooltipText(type, tooltipTxt);
   }.observes('shuffle').on('init'),
+
+  onUsingMicChange: function () {
+    var tooltipTxt = 'Listen to Mic', type = 'usingMic';
+
+    if (this.get(type)) {
+      tooltipTxt = 'Don\'t Listen to Mic';
+    }
+
+    this.changeTooltipText(type, tooltipTxt);
+  }.observes('usingMic').on('init'),
 
   onVolumeMutedChange: function () {
     var tooltipTxt = 'Mute', type = 'volumeMuted',

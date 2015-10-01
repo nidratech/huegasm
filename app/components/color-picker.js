@@ -9,7 +9,7 @@ export default Em.Component.extend({
   canvasContext: null,
 
   actions: {
-    colorSelect: function() {
+    colorSelect() {
       var canvasOffset = Em.$(this.get('canvas')).offset();
       var canvasX = Math.floor(event.pageX - canvasOffset.left), canvasY = Math.floor(event.pageY - canvasOffset.top);
 
@@ -24,7 +24,7 @@ export default Em.Component.extend({
   },
 
   // https://dzone.com/articles/creating-your-own-html5
-  didInsertElement: function(){
+  didInsertElement(){
     // handle color changes
     var canvas = Em.$('#picker')[0],
       canvasContext = canvas.getContext('2d'),

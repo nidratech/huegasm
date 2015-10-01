@@ -17,27 +17,27 @@ export default Em.Component.extend({
   appSettingsDisplayed: false,
 
   actions: {
-    changeTab: function(tabName){
+    changeTab(tabName){
       var index = this.get('tabList').indexOf(tabName);
       this.set('selectedTab', index);
       localStorage.setItem('huegasm.selectedTab', index);
     },
 
-    toggleGroupControl: function(){
+    toggleGroupControl(){
       this.toggleProperty('groupControlDisplayed');
     },
 
-    toggleAppSettings: function(){
+    toggleAppSettings(){
       this.toggleProperty('appSettingsDisplayed');
     },
 
-    clearBridge: function() {
+    clearBridge() {
       delete localStorage['huegasm.bridgeUsername'];
       delete localStorage['huegasm.bridgeIp'];
       location.reload();
     },
 
-    clearAllSettings: function() {
+    clearAllSettings() {
       localStorage.clear();
       location.reload();
     }
@@ -47,7 +47,7 @@ export default Em.Component.extend({
       return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
   }.property('bridgeIp', 'bridgeUsername'),
 
-  didInsertElement: function(){
+  didInsertElement(){
     // here's a weird way to automatically initialize bootstrap tooltips
     var self = this, observer = new MutationObserver(function(mutations) {
       var haveTooltip = !mutations.every(function(mutation) {
@@ -75,7 +75,7 @@ export default Em.Component.extend({
     });
   },
 
-  init: function() {
+  init() {
     this._super();
 
     if(!this.get('trial')) {
@@ -95,7 +95,7 @@ export default Em.Component.extend({
     }
   }.observes('updateGroupsData'),
 
-  doUpdateGroupsData: function(){
+  doUpdateGroupsData(){
     var self = this;
 
     Em.$.get(this.get('apiURL') + '/groups', function (result, status) {
@@ -128,7 +128,7 @@ export default Em.Component.extend({
   lightsTabSelected: Em.computed.equal('selectedTab', 0),
   musicTabSelected: Em.computed.equal('selectedTab', 1),
 
-  updateLightData: function(){
+  updateLightData(){
     var self = this, fail = function() {
       clearInterval(self.get('lightsDataIntervalHandle'));
       self.setProperties({

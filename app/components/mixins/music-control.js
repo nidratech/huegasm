@@ -139,7 +139,7 @@ export default Em.Mixin.create({
     }
   }.property('onBeatBriAndColor'),
 
-  changePlayerControl: function(name, value, isOption){
+  changePlayerControl(name, value, isOption){
     if(isOption){
       var options = {};
       options[name] = value;
@@ -151,7 +151,7 @@ export default Em.Mixin.create({
   },
 
   incrementElapseTimeHandle: null,
-  incrementElapseTime: function(){
+  incrementElapseTime(){
     this.incrementProperty('timeElapsed');
     if(this.get('timeElapsed') > this.get('timeTotal')){
       this.goToNextSong();
@@ -304,7 +304,7 @@ export default Em.Mixin.create({
     this.changeTooltipText(type, tooltipTxt);
   }.observes('playing').on('init'),
 
-  changeTooltipText: function (type, text) {
+  changeTooltipText(type, text) {
     // change the tooltip text if it's already visible
     Em.$('#' + type + 'Tooltip + .tooltip .tooltip-inner').html(text);
     //change the tooltip text for hover
@@ -331,9 +331,9 @@ export default Em.Mixin.create({
     return this.formatTime(this.get('timeTotal'));
   }.property('timeTotal'),
 
-  formatTime: function(time){
+  formatTime(time){
     return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);
   },
 
-  pad: function(num, size){ return ('000000000' + num).substr(-size); }
+  pad(num, size){ return ('000000000' + num).substr(-size); }
 });

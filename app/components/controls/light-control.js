@@ -13,7 +13,7 @@ export default Em.Component.extend({
   colorPickerDisplayed: false,
 
   actions: {
-    clickLight: function(light){
+    clickLight(light){
       var activeLights = this.get('activeLights'),
         lightId = activeLights.indexOf(light);
 
@@ -23,12 +23,12 @@ export default Em.Component.extend({
         activeLights.pushObject(light);
       }
     },
-    toggleColorpicker: function() {
+    toggleColorpicker() {
       this.toggleProperty('colorPickerDisplayed');
     }
   },
 
-  didInsertElement: function() {
+  didInsertElement() {
     var self = this;
     // TODO remove debug
     this.xyToRgb(0.5,0.5);
@@ -223,7 +223,7 @@ export default Em.Component.extend({
     }
   }.observes('strobeOn'),
 
-  strobeStep: function () {
+  strobeStep() {
     var lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('activeLights').length + 1), self = this;
 
     Em.$.ajax(this.get('apiURL') + '/lights/' + lastStrobeLight + '/state', {
@@ -246,7 +246,7 @@ export default Em.Component.extend({
 
   // **************** STROBE LIGHT FINISH ****************
   // http://www.developers.meethue.com/documentation/color-conversions-rgb-xy
-  rgbToXy: function(red, green, blue){
+  rgbToXy(red, green, blue){
     var X, Y, Z, x, y;
 
     // normalize
@@ -270,7 +270,7 @@ export default Em.Component.extend({
     return [x,y];
   },
 
-  xyToRgb: function(x, y){
+  xyToRgb(x, y){
     var r, g, b, X, Y = 1.0, Z;
 
     X = (Y / y) * x;

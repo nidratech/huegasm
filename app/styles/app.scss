@@ -574,12 +574,13 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 #playListControls {
+  min-height: 35px;
   margin-top: 10px;
   padding-bottom: 10px;
   border-bottom: 1px solid #3a3a3a;
 }
 
-#playListArea {
+#playListArea, #playAreaMic {
   background-color: lighten($playListBackgroundColor, 20%);
   width: 100%;
   height: 333px;
@@ -595,13 +596,17 @@ md-switch.md-default-theme.md-checked .md-thumb {
     text-align: center;
     width: 100%;
   }
-  .library-music {
+  .library-music, .mic {
     position: absolute;
     top: 40%;
     font-size: 100px;
     opacity: 0.5;
     width: 100%;
     text-align: center;
+  }
+  .mic {
+    top: 30%;
+    font-size: 120px;
   }
 }
 

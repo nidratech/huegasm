@@ -9,17 +9,17 @@ export default Em.Component.extend({
   groupIdSelection: null,
 
   actions: {
-    selectGroup: function(selection){
+    selectGroup(selection){
       this.set('groupIdSelection', selection);
     },
-    toggleConfirmDeleteGroupsModal: function(groupName, groupId){
+    toggleConfirmDeleteGroupsModal(groupName, groupId){
       this.setProperties({
         deleteGroupName: groupName,
         deleteGroupId: groupId
       });
       this.toggleProperty('isShowingConfirmDeleteModal');
     },
-    toggleAddGroupsModal: function(){
+    toggleAddGroupsModal(){
       this.toggleProperty('isShowingAddGroupsModal');
     }
   },
@@ -66,7 +66,7 @@ export default Em.Component.extend({
     }
   }.observes('groupIdSelection', 'groupsArrData'),
 
-  didInsertElement: function(){
+  didInsertElement(){
     var selectGroup = '0', storageItem = localStorage.getItem('huegasm.selectedGroup');
 
     if(storageItem){

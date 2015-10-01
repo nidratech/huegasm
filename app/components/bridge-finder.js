@@ -25,11 +25,11 @@ export default Em.Component.extend({
   multipleBridgeIps: [],
 
   actions: {
-    retry: function(){
+    retry(){
       this.onBridgeIpChange();
     },
 
-    findBridgeByIp: function() {
+    findBridgeByIp() {
       var manualBridgeIp = this.get('manualBridgeIp'), self = this;
 
       if (manualBridgeIp.toLowerCase() === 'trial') {
@@ -53,7 +53,7 @@ export default Em.Component.extend({
     }
   },
 
-  didInsertElement: function() {
+  didInsertElement() {
     var self = this;
 
     Em.$(document).keypress(function(event) {
@@ -64,7 +64,7 @@ export default Em.Component.extend({
   },
 
   // find the bridge ip here
-  init: function () {
+  init() {
     this._super();
 
     if(this.get('bridgeIp') === null){
@@ -104,7 +104,7 @@ export default Em.Component.extend({
     }
   }.observes('bridgeIp'),
 
-  pingBridgeUser: function () {
+  pingBridgeUser() {
     var bridgeIp = this.get('bridgeIp'), self = this, bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'),
       bridgeUsernamePingMaxTime = this.get('bridgeUsernamePingMaxTime');
 

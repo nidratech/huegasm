@@ -7,7 +7,7 @@ export default Em.Component.extend({
 
   trial: false,
 
-  init: function(){
+  init(){
     this._super();
 
     if(localStorage.getItem('huegasm.bridgeIp')){

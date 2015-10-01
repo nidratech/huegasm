@@ -14,28 +14,24 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
-    useMic: function() {
+    useMic() {
       var usingMic = this.get('usingMic');
-      this.changePlayerControl('usingMic', !usingMic);
 
       if(!usingMic){
-        navigator.getUserMedia(
-          {audio: true},
-          function(stream) {
-            debugger;
-          },
-          function(err) {
-            console.log("Error during navigator.getUserMedia: " + err);
-          }
-        );
+        this.startUsingMic(!usingMic);
+      } else {
+        this.changePlayerControl('usingMic', !usingMic);
+        if(this.get('playQueuePointer') !== -1) {
+          this.send('goToSong',this.get('playQueuePointer'));
+        }
       }
     },
-    slideTogglePlayerBottom: function(){
+    slideTogglePlayerBottom(){
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
-    saveSongSettings: function() {
+    saveSongSettings() {
     },
-    goToSong: function(index){
+    goToSong(index){
       var dancer = this.get('dancer'), audio = new Audio();
       audio.src = this.get('playQueue')[index].url;
 
@@ -51,14 +47,14 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
       this.send('play');
     },
-    removeAudio: function(index){
+    removeAudio(index){
       if(index === this.get('playQueuePointer')) {
         this.clearCurrentAudio(true);
       }
 
       this.get('playQueue').removeAt(index);
     },
-    defaultControls: function(){
+    defaultControls(){
       var beatOptions = this.get('beatOptions');
 
       this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true);
@@ -66,14 +62,14 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true);
       this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue, true);
     },
-    playerAreaPlay: function(){
+    playerAreaPlay(){
       if(Em.isEmpty(Em.$('#playerControls:hover'))){
         this.send('play');
         this.set('fadeOutNotification', true);
         Em.$('#playNotification').removeClass('fadeOut').prop('offsetWidth', Em.$('#playNotification').prop('offsetWidth')).addClass('fadeOut');
       }
     },
-    play: function () {
+    play() {
       var dancer = this.get('dancer');
 
       if(this.get('playQueuePointer') !== -1 ) {
@@ -95,13 +91,13 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         }
       }
     },
-    volumeChanged: function (value) {
+    volumeChanged(value) {
       this.changePlayerControl('volume', value);
       if(this.get('playing')) {
         this.get('dancer').setVolume(value/100);
       }
     },
-    next: function () {
+    next() {
       var playQueuePointer = this.get('playQueuePointer'), playQueueLength = this.get('playQueue.length');
       var nextSong = (playQueuePointer + 1);
 
@@ -111,7 +107,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.send('goToSong', nextSong);
       }
     },
-    previous: function () {
+    previous() {
       if(this.get('timeElapsed') > 5) {
         this.send('seekChanged', 0);
       } else {
@@ -125,11 +121,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.send('goToSong', nextSong);
       }
     },
-    toggleVisualizations: function() {
+    toggleVisualizations() {
       this.toggleProperty('visualizationsDisplayed');
     },
-    fullscreen: function () {},
-    seekChanged: function (position) {
+    fullscreen() {},
+    seekChanged(position) {
       var dancer = this.get('dancer');
 
       if(dancer.audio){
@@ -138,7 +134,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.set('timeElapsed', audioPosition);
       }
     },
-    volumeMutedChanged: function (value) {
+    volumeMutedChanged(value) {
       var dancer = this.get('dancer'),
         volumeMuted = Em.isNone(value) ? !this.get('volumeMuted') : value;
 
@@ -152,62 +148,66 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         }
       }
     },
-    shuffleChanged: function (value) {
+    shuffleChanged(value) {
       this.changePlayerControl('shuffle', Em.isNone(value) ? !this.get('shuffle') : value);
     },
-    repeatChanged: function (value) {
+    repeatChanged(value) {
       this.changePlayerControl('repeat', Em.isNone(value) ? (this.get('repeat') + 1) % 3 : value);
     },
-    thresholdChanged: function(value) {
+    thresholdChanged(value) {
       this.changePlayerControl('threshold', value, true);
     },
-    transitionTimeChanged: function(value) {
+    transitionTimeChanged(value) {
       this.changePlayerControl('transitionTime', value);
     },
-    playerBottomDisplayedChanged: function(value) {
+    playerBottomDisplayedChanged(value) {
       this.changePlayerControl('playerBottomDisplayed', value);
     },
-    decayChanged: function(value){
+    decayChanged(value){
       this.changePlayerControl('decay', value, true);
     },
-    frequencyChanged: function(value){
+    frequencyChanged(value){
       this.changePlayerControl('frequency', value, true);
     },
     addAudio: function () {
       Em.$('#fileInput').click();
     },
-    playListAreaAddAudio: function(){
+    playListAreaAddAudio(){
       this.send('addAudio');
     },
-    speakerViewedChanged: function(value){
+    speakerViewedChanged(value){
       this.set('speakerViewed', value);
     },
-    randomTransitionChanged: function(value){
+    randomTransitionChanged(value){
       this.set('randomTransition', value);
     },
-    onBeatBriAndColorChanged: function(value){
+    onBeatBriAndColorChanged(value){
       this.set('onBeatBriAndColor', value);
     },
-    usingMicChanged: function(value){
-      this.set('usingMic', value);
+    usingMicChanged(value){
+      if(value) {
+        this.startUsingMic(value);
+      } else {
+        this.set('usingMic', value);
+      }
     },
-    clickSpeaker: function(){
+    clickSpeaker(){
       this.simulateKick(1);
     },
-    dropFiles: function(){
+    dropFiles(){
       this.setProperties({
         dragging: false,
         draggingOverPlayListArea: false
       });
       this.send('handleNewFiles', event.dataTransfer.files);
     },
-    playListAreaDragOver: function(){
+    playListAreaDragOver(){
       this.set('draggingOverPlayListArea', true);
     },
-    playListAreaDragLeave: function(){
+    playListAreaDragLeave(){
       this.set('draggingOverPlayListArea', false);
     },
-    handleNewFiles: function(files){
+    handleNewFiles(files){
       var self = this,
         playQueue = this.get('playQueue'),
         updatePlayQueue = function(){
@@ -237,6 +237,32 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
+  startUsingMic(value) {
+    navigator.getUserMedia(
+      {audio: true},
+      (stream) => {
+        this.changePlayerControl('usingMic', value);
+        var audio = new Audio(), dancer = this.get('dancer');
+
+        audio.src = window.URL.createObjectURL(stream);
+
+        if(dancer.audio) {
+          dancer.pause();
+          clearInterval(this.get('incrementElapseTimeHandle'));
+
+          this.set('playing', false);
+        }
+
+        dancer.load(audio);
+
+        this.send('play');
+      },
+      function(err) {
+        console.log('Error during navigator.getUserMedia: ' + err.name + ', ' + err.message + ', ' + err.constraintName);
+      }
+    );
+  },
+
   updatePageTitle: function(){
     var title = 'Huegasm', playQueuePointer = this.get('playQueuePointer'), playQueue = this.get('playQueue');
 
@@ -258,7 +284,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     document.title = title;
   }.observes('playQueuePointer'),
 
-  clearCurrentAudio: function(resetPointer) {
+  clearCurrentAudio(resetPointer) {
     var dancer = this.get('dancer');
 
     dancer.pause();
@@ -275,7 +301,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     });
   },
 
-  goToNextSong: function() {
+  goToNextSong() {
     this.get('beatHistory').clear();
 
     if(this.get('repeat') === 2){
@@ -286,7 +312,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
-  dragOver: function() {
+  dragOver() {
     var dragLeaveTimeoutHandle = this.get('dragLeaveTimeoutHandle');
     this.set('dragging', true);
 
@@ -295,13 +321,13 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
-  dragLeave: function(){
+  dragLeave(){
     // need to delay the dragLeave notification to avoid flickering ( hovering over some page elements causes this event to be sent )
     var self = this;
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
-  simulateKick: function(mag) {
+  simulateKick(mag) {
     var activeLights = this.get('activeLights'),
       transitionTime = this.get('transitionTime') * 10,
       onBeatBriAndColor = this.get('onBeatBriAndColor'),
@@ -362,7 +388,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
-  init: function () {
+  init() {
     this._super();
 
     var dancer = new Dancer(),
@@ -392,6 +418,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       kick: kick
     });
 
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    if(navigator.getUserMedia === undefined){
+      this.set('usingMicSupported', false);
+    }
+
     ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'usingMic'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
@@ -406,15 +438,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         self.send(item+'Changed', itemVal);
       }
     });
-
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-    if(navigator.getUserMedia === undefined){
-      this.set('usingMicSupported', false);
-    }
   },
 
-  didInsertElement: function () {
+  didInsertElement() {
     var self = this;
 
     Em.$('#fileInput').on('change', function () {

@@ -1,6 +1,5 @@
 <div class="row">
   <div id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
-
     <div id="playNotification"
          class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
     <div id="playerControls">
@@ -26,11 +25,9 @@
     {{/if}}
 
           <span class="pull-right">
-            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
-                  data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
+            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
             </span>
-            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
-                  data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
+            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
             </span>
           </span>
     </div>
@@ -40,44 +37,49 @@
     <input id="fileInput" type="file" accept="audio/*" multiple="true" />
 
     <div id="playListControls">
-      <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
-
-      <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
-
-      <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music" class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
+      {{#if notUsingMic}}
+        <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+      {{/if}}
 
       {{#if usingMicSupported}}
           <span data-toggle="tooltip" data-placement="bottom auto" class="pull-right bootstrapTooltip" id="usingMicTooltip" data-title={{usingMicTooltipTxt}} {{action "useMic"}}>{{paper-icon icon=micIcon class=usingMicClass}}</span>
       {{/if}}
+
+      {{#if notUsingMic}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music" class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>{{/if}}
     </div>
 
-    <div id="playListArea"
-         class={{playListAreaClass}} {{action "playListAreaAddAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
-      {{#if (or playQueueEmpty dragging)}}
-        <div id="dragHere">
-          {{#if dragging}}
-            Drag your music files here
-          {{else}}
-            Add your music files here
-          {{/if}}
-        </div>
-        {{paper-icon icon="library-music"}}
-      {{/if}}
+    {{#if usingMic}}
+      <div id="playAreaMic">
+        {{paper-icon icon="mic"}}
+      </div>
+    {{else}}
+      <div id="playListArea"
+           class={{playListAreaClass}} {{action "playListAreaAddAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
+        {{#if (or playQueueEmpty dragging)}}
+          <div id="dragHere">
+            {{#if dragging}}
+              Drag your music files here
+            {{else}}
+              Add your music files here
+            {{/if}}
+          </div>
+          {{paper-icon icon="library-music"}}
+        {{/if}}
 
-      {{#each playQueue as |item index|}}
-        <div
-          class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index bubbles=false}}>
-          {{#if item.title}}
-            {{item.title}}
-            <div class="songArtist">{{item.artist}}</div>
-          {{else}}
-            {{item.filename}}
-          {{/if}}
-          <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove from playlist"
-               class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</div>
-        </div>
-      {{/each}}
-    </div>
+        {{#each playQueue as |item index|}}
+          <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index bubbles=false}}>
+            {{#if item.title}}
+              {{item.title}}
+              <div class="songArtist">{{item.artist}}</div>
+            {{else}}
+              {{item.filename}}
+            {{/if}}
+            <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove from playlist" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</div>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
   </div>
 </div>
 

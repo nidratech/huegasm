@@ -9,10 +9,10 @@ export default Em.Component.extend({
   lightsList: Em.A(),
 
   actions: {
-    clickLight: function(id, data){
+    clickLight(id, data){
       this.sendAction('action', id, data);
     },
-    lightStartHover: function(id){
+    lightStartHover(id){
       var hoveredLight = this.get('lightsList').filter(function(light){
         return light.activeClass !== 'unreachable' && light.id === id[0];
       });
@@ -27,7 +27,7 @@ export default Em.Component.extend({
 
       this.set('isHovering', true);
     },
-    lightStopHover: function(id){
+    lightStopHover(id){
       var hoveredLight = this.get('lightsList').filter(function(light){
         return light.activeClass !== 'unreachable' && light.id === id[0];
       });
@@ -44,7 +44,7 @@ export default Em.Component.extend({
     }
   },
 
-  didInsertElement: function() {
+  didInsertElement() {
     if(this.get('lightsData')){
       this.onLightsDataChange();
     }

@@ -82,6 +82,7 @@ export default Em.Mixin.create({
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
   visualizationsDisplayed: false,
+  audioStream: null,
 
   notUsingMic: Em.computed.not('usingMic'),
   playQueueEmpty: Em.computed.empty('playQueue'),

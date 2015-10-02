@@ -18,13 +18,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       var usingMic = this.get('usingMic');
 
       if(!usingMic){
-        this.startUsingMic(!usingMic);
+        this.startUsingMic();
       } else {
         this.changePlayerControl('usingMic', !usingMic);
+
+        this.get('audioStream').stop();
         if(this.get('playQueuePointer') !== -1) {
           this.send('goToSong',this.get('playQueuePointer'));
-          this.volumeChanged(this.get('volume'));
+          this.send('volumeChanged', this.get('volume'));
         }
+        
+        document.title = 'Huegasm';
       }
     },
     slideTogglePlayerBottom(){
@@ -187,9 +191,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     },
     usingMicChanged(value){
       if(value) {
-        this.startUsingMic(value);
+        this.startUsingMic();
       } else {
-        this.set('usingMic', value);
+        this.set('usingMic', false);
       }
     },
     clickSpeaker(){
@@ -238,23 +242,25 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
-  startUsingMic(value) {
+  startUsingMic() {
     navigator.getUserMedia(
       {audio: true},
       (stream) => {
-        this.changePlayerControl('usingMic', value);
+        this.changePlayerControl('usingMic', true);
         var dancer = this.get('dancer');
 
-        if(dancer.audio) {
+        if(dancer.audio && dancer.audio.pause) {
           dancer.pause();
           clearInterval(this.get('incrementElapseTimeHandle'));
         }
 
         this.setProperties({
           volumeCache: this.get('volume'),
-          playing: true
+          playing: true,
+          audioStream: stream
         });
 
+        document.title = 'Listening to Mic - Huegasm';
         dancer.load(stream, true);
         dancer.setVolume(0);
       },
@@ -288,7 +294,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   clearCurrentAudio(resetPointer) {
     var dancer = this.get('dancer');
 
-    dancer.pause();
+    if(dancer.audio.pause) {
+      dancer.pause();
+    }
+
     clearInterval(this.get('incrementElapseTimeHandle'));
 
     if(resetPointer){
@@ -426,7 +435,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         sumW += waveform[i];
       }
 
-      console.log('sumW: ' + sumW + ', sumS: ' + sumS)
+      //console.log('sumW: ' + sumW + ', sumS: ' + sumS);
     });
 
     this.setProperties({

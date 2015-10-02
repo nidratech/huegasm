@@ -8,7 +8,7 @@
   {{/each}}
 {{/paper-list}}
 
-{{modals/add-group-modal lightsData=lightsData groupsData=groupsData isShowingAddGroupsModal=isShowingAddGroupsModal apiURL=apiURL updateGroupsData=updateGroupsData
+{{add-group-modal lightsData=lightsData groupsData=groupsData isShowingAddGroupsModal=isShowingAddGroupsModal apiURL=apiURL updateGroupsData=updateGroupsData
 action="toggleAddGroupsModal"}}
 
-{{modals/confirm-delete-modal groupName=deleteGroupName groupId=deleteGroupId groupsData=groupsData isShowingConfirmDeleteModal=isShowingConfirmDeleteModal apiURL=apiURL updateGroupsData=updateGroupsData groupIdSelection=groupIdSelection action="toggleConfirmDeleteGroupsModal"}}
+{{delete-group-modal groupName=deleteGroupName groupId=deleteGroupId groupsData=groupsData isShowingConfirmDeleteModal=isShowingConfirmDeleteModal apiURL=apiURL updateGroupsData=updateGroupsData groupIdSelection=groupIdSelection action="toggleConfirmDeleteGroupsModal"}}

@@ -1,0 +1,9 @@
+{{#if bridgeUsername}}
+  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial}}
+{{else}}
+  {{bridge-finder bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial}}
+{{/if}}
+
+<footer id="footer">
+  <p>Made by <a href="//egorphilippov.me">egorphilippov.me</a> © 2015 Huegasm</p>
+</footer>

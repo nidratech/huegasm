@@ -3,13 +3,13 @@
     <div id="playNotification"
          class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
     <div id="playerControls">
-    {{#if notUsingMic}}
-      {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
+      {{#if notUsingMic}}
+        {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
 
-      {{#if playQueueMultiple}}
-        <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip"
-              data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
+        {{#if playQueueMultiple}}
+          <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip"
+                data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
           -->{{/if}}<!--
                     --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrapTooltip"
                              data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
@@ -21,10 +21,10 @@
                    data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass class="playerControllIcon volumeButton"}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
-      <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
-    {{/if}}
+        <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
+      {{/if}}
 
-          <span class="pull-right">
+      <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
             </span>
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
@@ -43,7 +43,7 @@
       {{/if}}
 
       {{#if usingMicSupported}}
-          <span data-toggle="tooltip" data-placement="bottom auto" class="pull-right bootstrapTooltip" id="usingMicTooltip" data-title={{usingMicTooltipTxt}} {{action "useMic"}}>{{paper-icon icon=micIcon class=usingMicClass}}</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" class="pull-right bootstrapTooltip" id="usingMicTooltip" data-title={{usingMicTooltipTxt}} {{action "useMic"}}>{{paper-icon icon=micIcon class=usingMicClass}}</span>
       {{/if}}
 
       {{#if notUsingMic}}<span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music" class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>{{/if}}
@@ -87,9 +87,9 @@
   <div class="col-xs-offset-3 col-xs-3">
     {{paper-icon icon=beatDetectionArrowIcon}}
   </div>
-    <div class="col-xs-3">
-      {{paper-icon icon=beatDetectionArrowIcon}}
-    </div>
+  <div class="col-xs-3">
+    {{paper-icon icon=beatDetectionArrowIcon}}
+  </div>
 </div>
 
 {{#if playerBottomDisplayed}}

@@ -2,7 +2,7 @@ import Em from 'ember';
 
 export default Em.Component.extend({
   classNames: ['container-fluid'],
-  elementId: 'bridgeControls',
+  elementId: 'hueControls',
 
   bridgeIp: null,
   manualBridgeIp: null,
@@ -44,7 +44,7 @@ export default Em.Component.extend({
   },
 
   apiURL: function(){
-      return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
+    return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
   }.property('bridgeIp', 'bridgeUsername'),
 
   didInsertElement(){
@@ -61,7 +61,7 @@ export default Em.Component.extend({
       }
     });
 
-    observer.observe(Em.$('#bridgeControls')[0], {childList: true, subtree: true});
+    observer.observe(Em.$('#hueControls')[0], {childList: true, subtree: true});
 
     // automatically close the group menu when the user clicks somewhere else
     Em.$(document).click(function() {

@@ -1,6 +1,6 @@
 import Em from 'ember';
-import musicControlMixin from '../mixins/music-control';
-import visualizerMixin from '../mixins/visualizer';
+import musicControlMixin from './mixins/music-control';
+import visualizerMixin from './mixins/visualizer';
 
 export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   classNames: ['col-lg-6', 'col-lg-offset-3', 'col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
@@ -27,7 +27,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           this.send('goToSong',this.get('playQueuePointer'));
           this.send('volumeChanged', this.get('volume'));
         }
-        
+
         document.title = 'Huegasm';
       }
     },
@@ -216,17 +216,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       var self = this,
         playQueue = this.get('playQueue'),
         updatePlayQueue = function(){
-        var tags = ID3.getAllTags("local");
-        playQueue.push({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
+          var tags = ID3.getAllTags("local");
+          playQueue.push({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
 
-        ID3.clearAll();
-        self.notifyPropertyChange('playQueue');
+          ID3.clearAll();
+          self.notifyPropertyChange('playQueue');
 
-        // make sure to init the first song
-        if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
-          self.send('goToSong', 0);
-        }
-      };
+          // make sure to init the first song
+          if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
+            self.send('goToSong', 0);
+          }
+        };
 
       for (var key in files) {
         if (files.hasOwnProperty(key)) {

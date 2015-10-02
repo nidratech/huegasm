@@ -2,7 +2,7 @@
   <div class="row navigation">
     <div class="col-lg-4 col-lg-offset-4 col-xs-6 col-xs-offset-3">
       {{#each tabData as |tab|}}
-          <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+        <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
       {{/each}}
     </div>
 
@@ -10,7 +10,7 @@
       <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}">
         <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups" {{action "toggleGroupControl"}}>{{paper-icon icon="group"}}</span>
 
-        {{controls/group-control lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
+        {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
       </span>
 
       <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}">
@@ -26,6 +26,6 @@
     </div>
   </div>
 
-  {{controls/light-control apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected}}
-  {{controls/music-control apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected}}
+  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected}}
+  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected}}
 {{/if}}

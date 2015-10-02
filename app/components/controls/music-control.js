@@ -243,9 +243,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       {audio: true},
       (stream) => {
         this.changePlayerControl('usingMic', value);
-        var audio = new Audio(), dancer = this.get('dancer');
-
-        audio.src = window.URL.createObjectURL(stream);
+        var dancer = this.get('dancer');
 
         if(dancer.audio) {
           dancer.pause();
@@ -257,9 +255,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           playing: true
         });
 
-        dancer.load(audio);
+        dancer.load(stream, true);
         dancer.setVolume(0);
-        dancer.play();
       },
       function(err) {
         console.log('Error during navigator.getUserMedia: ' + err.name + ', ' + err.message + ', ' + err.constraintName);
@@ -413,8 +410,23 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
     kick.on();
 
-    dancer.bind('loaded', function(){
-      self.set('timeTotal', Math.round(dancer.audio.duration));
+    dancer.bind('loaded', () => {
+      if(!this.get('usingMic')){
+        this.set('timeTotal', Math.round(dancer.audio.duration));
+      }
+    });
+
+    dancer.bind('update', function(){
+      var waveform = this.getWaveform(), spectrum = this.getSpectrum(), sumS = 0, sumW = 0;
+      for (let i = 0, l = spectrum.length; i < l && i < 512; i++ ) {
+        sumS += spectrum[i];
+      }
+
+      for (let i = 0, l = waveform.length; i < l && i < 512; i++ ) {
+        sumW += waveform[i];
+      }
+
+      console.log('sumW: ' + sumW + ', sumS: ' + sumS)
     });
 
     this.setProperties({

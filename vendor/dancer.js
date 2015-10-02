@@ -18,9 +18,7 @@
 
   Dancer.prototype = {
 
-    load : function ( source ) {
-      var path;
-
+    load : function ( source, useMic ) {
       // Loading an Audio element
       if ( source instanceof HTMLElement ) {
         this.source = source;
@@ -29,17 +27,20 @@
         }
 
       // Loading an object with src, [codecs]
+      } else if(source instanceof EventTarget){
+        this.source = source;
       } else {
         this.source = window.Audio ? new Audio() : {};
         this.source.src = Dancer._makeSupportedPath( source.src, source.codecs );
       }
 
-      this.audio = this.audioAdapter.load( this.source );
+      this.useMic = useMic === true;
+      this.audio = this.audioAdapter.load(this.source, this.useMic);
+
       return this;
     },
 
     /* Controls */
-
     play : function () {
       this.audioAdapter.play();
       return this;
@@ -57,7 +58,6 @@
 
 
     /* Actions */
-
     createKick : function ( options ) {
       return new Dancer.Kick( this, options );
     },
@@ -380,9 +380,10 @@
 
   adapter.prototype = {
 
-    load : function ( _source ) {
+    load : function (_source, useMic) {
       var _this = this;
       this.audio = _source;
+      this.useMic = useMic;
 
       this.isLoaded = false;
       this.progress = 0;
@@ -450,7 +451,7 @@
     },
 
     update : function ( e ) {
-      if ( !this.isPlaying || !this.isLoaded ) return;
+      if ((!this.isPlaying || !this.isLoaded) && this.useMic !== true ) return;
 
       var
         buffers = [],
@@ -476,17 +477,22 @@
   };
 
   function connectContext () {
-    try{
-      this.source = this.context.createMediaElementSource( this.audio );
-    } catch(err){
+    try {
+      if(this.useMic){
+        this.source = this.context.createMediaStreamSource(this.audio);
+      } else {
+        this.source = this.context.createMediaElementSource(this.audio);
+      }
+    } catch (err) {
+      console.log('Dancer: '+ err);
       return;
     }
 
-    this.source.connect( this.proc );
-    this.source.connect( this.gain );
+    this.source.connect(this.proc);
+    this.source.connect(this.gain);
     //this.source.connect( this.filter );
-    this.gain.connect( this.context.destination );
-    this.proc.connect( this.context.destination );
+    this.gain.connect(this.context.destination);
+    this.proc.connect(this.context.destination);
     //this.filter.connect( this.context.destination );
 
     this.isLoaded = true;
@@ -527,7 +533,7 @@
       }, false);
 
       this.audio.addEventListener( 'progress', function ( e ) {
-        if ( e.currentTarget.duration ) {
+        if ( e.currentTarget.duration && e.currentTarget.duration !== Infinity) {
           _this.progress = e.currentTarget.seekable.end( 0 ) / e.currentTarget.duration;
         }
       }, false);

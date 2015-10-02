@@ -23,6 +23,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.changePlayerControl('usingMic', !usingMic);
         if(this.get('playQueuePointer') !== -1) {
           this.send('goToSong',this.get('playQueuePointer'));
+          this.volumeChanged(this.get('volume'));
         }
       }
     },
@@ -249,13 +250,16 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         if(dancer.audio) {
           dancer.pause();
           clearInterval(this.get('incrementElapseTimeHandle'));
-
-          this.set('playing', false);
         }
 
-        dancer.load(audio);
+        this.setProperties({
+          volumeCache: this.get('volume'),
+          playing: true
+        });
 
-        this.send('play');
+        dancer.load(audio);
+        dancer.setVolume(0);
+        dancer.play();
       },
       function(err) {
         console.log('Error during navigator.getUserMedia: ' + err.name + ', ' + err.message + ', ' + err.constraintName);

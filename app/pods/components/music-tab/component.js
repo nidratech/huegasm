@@ -415,7 +415,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
             self.simulateKick(mag);
           }
         }
-      });
+      }),
+      Store = window.Locally.Store,
+      locally = new Store();
 
     kick.on();
 
@@ -440,7 +442,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
     this.setProperties({
       dancer: dancer,
-      kick: kick
+      kick: kick,
+      locally: locally
     });
 
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -450,17 +453,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
 
     ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'usingMic'].forEach(function (item) {
-      if (localStorage.getItem('huegasm.' + item)) {
-        var itemVal = localStorage.getItem('huegasm.' + item);
-        if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime') {
-          itemVal = Number(itemVal);
-        } else if(item === 'frequency') {
-          itemVal = itemVal.split(',').map(function(val){return Number(val);});
-        } else {
-          itemVal = (itemVal === 'true');
-        }
-
-        self.send(item+'Changed', itemVal);
+      if (locally.get('huegasm.' + item)) {
+        self.send(item+'Changed', locally.get('huegasm.' + item));
       }
     });
   },

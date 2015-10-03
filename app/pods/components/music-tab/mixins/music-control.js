@@ -83,6 +83,7 @@ export default Em.Mixin.create({
   dragLeaveTimeoutHandle: null,
   visualizationsDisplayed: false,
   audioStream: null,
+  locallly: null,
 
   notUsingMic: Em.computed.not('usingMic'),
   playQueueEmpty: Em.computed.empty('playQueue'),
@@ -148,7 +149,7 @@ export default Em.Mixin.create({
     }
 
     this.set(name, value);
-    localStorage.setItem('huegasm.' + name, value);
+    this.get('locally').set('huegasm.' + name, value);
   },
 
   incrementElapseTimeHandle: null,
@@ -224,12 +225,12 @@ export default Em.Mixin.create({
   }.property('volumeMuted', 'volume'),
 
   onSpeakerViewedChange: function(){
-    localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));
+    this.get('locally').set('huegasm.speakerViewed', this.get('speakerViewed'));
     this.get('beatHistory').clear();
   }.observes('speakerViewed'),
 
   onOptionChange: function(self, option){
-    localStorage.setItem('huegasm.' + option, this.get(option));
+    this.get('locally').set('huegasm.' + option, this.get(option));
   }.observes('randomTransition', 'onBeatBriAndColor'),
 
   onRepeatChange: function () {

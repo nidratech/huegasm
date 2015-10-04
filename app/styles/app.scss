@@ -1,5 +1,6 @@
 @import 'ember-paper';
 @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
+@import "bower_components/font-awesome/scss/font-awesome";
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
 
@@ -136,7 +137,7 @@ md-progress-linear {
   text-align: left;
 }
 
-// BRIDGE CONTROLS
+// HUE CONTROLS
 #appSettings {
   position: absolute;
   background: white;
@@ -392,16 +393,21 @@ md-toolbar {
   text-shadow: none;
 }
 
-// MUSIC CONTROL
+// MUSIC TAB
 .row {
   margin: 0;
+}
+
+.#{$fa-css-prefix}-youtubeWorkaround:before {
+  content: $fa-var-youtube-play;
+  font-size: 22px;
 }
 
 #slideToggle {
   color: $playerDefaultIconColor;
   background-color: $playerBottomBackground;
-  div md-icon {
-   font-size: 40px;
+  div i {
+   font-size: 25px;
     color: inherit !important;
   }
 }
@@ -447,13 +453,19 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .playerControllIcon {
+  cursor: pointer;
   color: $playerDefaultIconColor !important;
   transition-duration: 0.1s;
-  margin-right: 0.208em;
+  margin-right: 10px;
+}
+
+i.playerControllIcon {
+  font-size: 20px;
+  margin-right: 12px;
 }
 
 .playerControllIcon.active {
-  color: lighten($playerDefaultIconColor, 30%) !important;
+  color: #F12B24 !important;
 }
 
 .playerControllIcon:hover {
@@ -579,7 +591,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   border-bottom: 1px solid #3a3a3a;
 }
 
-#playListArea, #playAreaMic {
+#playListArea, #playAreaMic, #playAreaYoutube {
   background-color: lighten($playListBackgroundColor, 20%);
   width: 100%;
   height: 333px;
@@ -607,6 +619,11 @@ md-switch.md-default-theme.md-checked .md-thumb {
     top: 30%;
     font-size: 120px;
   }
+}
+
+.ember-notify-cn {
+  top: 0;
+  bottom: auto;
 }
 
 .songArtist {
@@ -705,38 +722,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   }
 }
 
-#beatSpeaker {
-  position: relative;
-  padding: 0 5%;
-  img {
-    width: 100%;
-  }
-}
-
-#beatSpeakerCenter {
-  position: absolute;
-  width: 100%;
-  top: 14%;
-  right: 0;
-  padding: 0 20%;
-  img {
-    width: 100%;
-  }
-}
-
-.pop {
-  animation-name: pop;
-  animation-duration: 0.1s;
-  animation-timing-function: linear;
-  animation-iteration-count: 1;
-}
-
-@keyframes pop {
-  50% {
-    transform: scale(1.1);
-  }
-}
-
 #beatArea .lightGroup {
   margin: 10px 20px 0 40px;
   float: right;
@@ -782,4 +767,210 @@ md-switch.md-default-theme.md-checked .md-thumb {
     float: none;
     display: table-cell;
   }
+}
+
+
+// FANCY SPEAKER
+/* Variables */
+$centersize: 100px;
+$center1size: 250px;
+$bezelsize: 285px;
+$vibratesize: $centersize*1.06;
+$vibratemargin:-$vibratesize/2;
+$vibrateblur: 2px;
+$vibrateblur1:1px;
+
+/* Extenders */
+%base {
+  border-radius: 100%;
+}
+%rivet {
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  background-color: #555;
+  border-radius: 100%;
+  box-shadow: inset 0 0 3px #000, 0 0 2px #000;
+}
+
+/* Keyframes */
+@keyframes vibrate {
+  0% {
+    -webkit-filter: blur($vibrateblur);
+    filter: blur($vibrateblur);
+    height: $vibratesize;
+    width: $vibratesize;
+    margin-left: $vibratemargin;
+    margin-top: $vibratemargin;
+  }
+  30% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    height: $centersize;
+    width: $centersize;
+  }
+  50% {
+    -webkit-filter: blur($vibrateblur);
+    filter: blur($vibrateblur);
+    height: $vibratesize;
+    width: $vibratesize;
+    margin-left: $vibratemargin;
+    margin-top: $vibratemargin;
+  }
+  65% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    height: $centersize;
+    width: $centersize;
+  }
+  70% {
+    -webkit-filter: blur($vibrateblur);
+    filter: blur($vibrateblur);
+    height: $vibratesize;
+    width: $vibratesize;
+    margin-left: $vibratemargin;
+    margin-top: $vibratemargin;
+  }
+  80% {
+    -webkit-filter: blur($vibrateblur);
+    filter: blur($vibrateblur);
+    height: $centersize;
+    width: $centersize;
+  }
+  100% {
+    -webkit-filter: blur($vibrateblur);
+    filter: blur($vibrateblur);
+    height: $vibratesize;
+    width: $vibratesize;
+    margin-left: $vibratemargin;
+    margin-top: $vibratemargin;
+  }
+}
+@keyframes vibrate1 {
+  0% {
+    -webkit-filter: blur($vibrateblur1);
+    filter: blur($vibrateblur1);
+    border: 15px solid #333;
+  }
+  30% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    border: 17px solid #333;
+  }
+  50% {
+    -webkit-filter: blur($vibrateblur1);
+    filter: blur($vibrateblur1);
+    border: 15px solid #333;
+  }
+  65% {
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    border: 17px solid #333;
+  }
+  70% {
+    -webkit-filter: blur($vibrateblur1);
+    filter: blur($vibrateblur1);
+    border: 15px solid #333;
+  }
+  80% {
+    -webkit-filter: blur($vibrateblur1);
+    filter: blur($vibrateblur1);
+    border: 17px solid #333;
+  }
+  100% {
+    -webkit-filter: blur($vibrateblur1);
+    filter: blur($vibrateblur1);
+    border: 15px solid #333;
+  }
+}
+
+#beatSpeakerCenterInner {
+  @extend %base;
+  height: $centersize;
+  width: $centersize;
+  position: absolute;
+  bottom: 60px;
+  right: 60px;
+  -webkit-filter: blur(1px);
+  filter: blur(1px);
+  background: rgb(0,0,0);
+  background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%, rgba(79,79,79,1) 0%, rgba(0,0,0,1) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,1)), color-stop(0%,rgba(79,79,79,1)), color-stop(100%,rgba(0,0,0,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
+  background: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+.vibrateInner{
+  -webkit-animation: vibrate 0.25s linear 1;
+  animation: vibrate 0.1s linear 1;
+}
+#beatSpeakerCenterOuter {
+  @extend %base;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  height: $center1size;
+  width: $center1size;
+  border: 15px solid #333;
+  box-shadow: -3px -3px 15px rgba(0, 0, 0, 0.4), inset -3px -3px 15px rgba(0, 0, 0, 0.5);
+  background: -moz-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
+  background: -webkit-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
+  background: -o-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
+  background: -ms-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
+  background: linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
+}
+.vibrateOuter {
+  -webkit-animation: vibrate1 0.25s linear 1;
+  animation: vibrate1 0.1s linear 1;
+}
+.bezel {
+  @extend %base;
+  margin: 0 auto;
+  height: $bezelsize;
+  width: $bezelsize;
+  position: relative;
+  background-color: #A8A8A8;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), inset 3px 3px 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.8), inset 0 0 30px -5px rgba(0, 0, 0, 0.8);
+}
+.rivet1 {
+  @extend %rivet;
+  top: 6px;
+  left: 50%;
+}
+.rivet2 {
+  @extend %rivet;
+  bottom: 6px;
+  left: 50%;
+}
+.rivet3 {
+  @extend %rivet;
+  top: 50%;
+  left: 6px;
+}
+.rivet4 {
+  @extend %rivet;
+  top: 50%;
+  right: 6px;
+}
+.rivet5 {
+  @extend %rivet;
+  top: 18%;
+  left: 13.7%;
+}
+.rivet6 {
+  @extend %rivet;
+  top: 18%;
+  right: 13.5%;
+}
+.rivet7 {
+  @extend %rivet;
+  bottom: 17%;
+  left: 13.5%;
+}
+.rivet8 {
+  @extend %rivet;
+  bottom: 17%;
+  right: 13.5%;
 }

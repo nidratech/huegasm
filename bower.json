@@ -15,14 +15,16 @@
     "jquery": "~2.1.4",
     "jquery-mousewheel": "~3.1.13",
     "loader.js": "ember-cli/loader.js#3.2.0",
-    "locallyjs": "~0.3.1",
     "matchMedia": "~0.2.0",
     "nouislider": "^8.0.1",
     "qunit": "~1.18.0",
-    "three.js": "~0.71.0"
+    "three.js": "~0.71.0",
+    "font-awesome": "~4.4.0"
   },
   "resolutions": {
     "ember": "~2.0.2",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "ember-qunit": "0.4.9",
+    "qunit": "~1.18.0"
   }
 }

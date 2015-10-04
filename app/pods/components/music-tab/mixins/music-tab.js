@@ -3,6 +3,8 @@ import Em from 'ember';
 export default Em.Mixin.create({
   dancer: null,
 
+  notify: Em.inject.service('notify'),
+
   beatOptions: {
     threshold: {
       range: {min: 0.1, max: 0.9},
@@ -76,16 +78,21 @@ export default Em.Mixin.create({
   lastLightBopIndex: 0,
 
   usingMicSupported: true,
-  usingMic: false,
+  // 0 - local, 1 - mic, 2 - youtube
+  audioMode: 0,
+  usingLocalAudio: Em.computed.equal('audioMode', 0),
+  usingMicAudio: Em.computed.equal('audioMode', 1),
+  usingYoutubeAudio: Em.computed.equal('audioMode', 2),
+
   playerBottomDisplayed: false,
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
   visualizationsDisplayed: false,
   audioStream: null,
-  locallly: null,
 
-  notUsingMic: Em.computed.not('usingMic'),
+  notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
+
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
   playQueueMultiple: function(){
@@ -149,24 +156,16 @@ export default Em.Mixin.create({
     }
 
     this.set(name, value);
-    this.get('locally').set('huegasm.' + name, value);
+    localStorage.setItem('huegasm.' + name, value);
   },
 
   incrementElapseTimeHandle: null,
   incrementElapseTime(){
     this.incrementProperty('timeElapsed');
-    if(this.get('timeElapsed') > this.get('timeTotal')){
-      this.goToNextSong();
+    if(this.get('timeElapsed') === this.get('timeTotal')){
+      this.send('next');
     }
   },
-
-  micIcon: function() {
-    if (this.get('usingMic')) {
-      return 'mic';
-    }
-
-    return 'mic-off';
-  }.property('usingMic'),
 
   repeatIcon: function () {
     if (this.get('repeat') === 2) {
@@ -177,7 +176,9 @@ export default Em.Mixin.create({
   }.property('repeat'),
 
   playingIcon: function () {
-    if (this.get('playing')) {
+    if(this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0){
+      return 'replay';
+    } else if (this.get('playing')) {
       return 'pause';
     } else {
       return 'play-arrow';
@@ -198,9 +199,17 @@ export default Em.Mixin.create({
     return classes;
   }.property('dragging', 'draggingOverPlayListArea'),
 
-  usingMicClass: function() {
-    return this.get('usingMic') ? 'playerControllIcon active' : 'playerControllIcon';
-  }.property('usingMic'),
+  usingLocalAudioClass: function() {
+    return this.get('usingLocalAudio') ? 'playerControllIcon active' : 'playerControllIcon';
+  }.property('usingLocalAudio'),
+
+  usingMicAudioClass: function() {
+    return this.get('usingMicAudio') ? 'playerControllIcon active' : 'playerControllIcon';
+  }.property('usingMicAudio'),
+
+  usingYoutubeAudioClass: function() {
+    return this.get('usingYoutubeAudio') ? 'playerControllIcon active' : 'playerControllIcon';
+  }.property('usingYoutubeAudio'),
 
   repeatClass: function () {
     return this.get('repeat') !== 0 ? 'playerControllIcon active' : 'playerControllIcon';
@@ -225,12 +234,12 @@ export default Em.Mixin.create({
   }.property('volumeMuted', 'volume'),
 
   onSpeakerViewedChange: function(){
-    this.get('locally').set('huegasm.speakerViewed', this.get('speakerViewed'));
+    localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));
     this.get('beatHistory').clear();
   }.observes('speakerViewed'),
 
   onOptionChange: function(self, option){
-    this.get('locally').set('huegasm.' + option, this.get(option));
+    localStorage.setItem('huegasm.' + option, this.get(option));
   }.observes('randomTransition', 'onBeatBriAndColor'),
 
   onRepeatChange: function () {
@@ -254,16 +263,6 @@ export default Em.Mixin.create({
 
     this.changeTooltipText(type, tooltipTxt);
   }.observes('shuffle').on('init'),
-
-  onUsingMicChange: function () {
-    var tooltipTxt = 'Listen to Mic', type = 'usingMic';
-
-    if (this.get(type)) {
-      tooltipTxt = 'Don\'t Listen to Mic';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  }.observes('usingMic').on('init'),
 
   onVolumeMutedChange: function () {
     var tooltipTxt = 'Mute', type = 'volumeMuted',
@@ -301,6 +300,8 @@ export default Em.Mixin.create({
 
     if (this.get(type)) {
       tooltipTxt = 'Pause';
+    } else if(this.get('timeElapsed') === this.get('timeTotal')){
+      tooltipTxt = 'Replay';
     }
 
     this.changeTooltipText(type, tooltipTxt);
@@ -319,9 +320,9 @@ export default Em.Mixin.create({
 
   beatDetectionArrowIcon: function(){
     if(!this.get('playerBottomDisplayed')){
-      return 'arrow-drop-down';
+      return 'angle-double-down';
     } else {
-      return 'arrow-drop-up';
+      return 'angle-double-up';
     }
   }.property('playerBottomDisplayed'),
 

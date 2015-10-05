@@ -3,8 +3,9 @@ import musicControlMixin from './mixins/music-tab';
 import visualizerMixin from './mixins/visualizer';
 
 export default Em.Component.extend(musicControlMixin, visualizerMixin, {
-  classNames: ['col-lg-8', 'col-lg-offset-2', 'col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
+  classNames: ['col-lg-10', 'col-lg-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
+  elementId: 'musicTab',
 
   onActiveChange: function(){
     if(this.get('active')){
@@ -15,6 +16,25 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    search: function(){
+      var q = $('#query').val(), doSearch = function(){
+        var request = gapi.client.youtube.search.list({
+          q: q,
+          part: 'snippet',
+          key: 'AIzaSyAkwv6RD184j6o5wRfblYWNlV_njt6RXIc'
+        });
+
+        request.execute(function(response) {
+          var str = JSON.stringify(response.result);
+          $('#search-container').html('<pre>' + str + '</pre>');
+        });
+      };
+      if(!gapi.client.youtube){
+        gapi.client.load('youtube', 'v3', doSearch);
+      } else {
+        doSearch();
+      }
+    },
     useYoutubeAudio: function(){
       var audioStream = this.get('audioStream');
 
@@ -25,6 +45,20 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.set('audioStream', null);
       }
 
+      var onPlayerReady = function(){
+        console.log('ready');
+      }, onPlayerStateChange = function(){
+        console.log('onPlayerStateChange');
+      };
+
+      //var youtubePlayer = new YT.Player('ytplayer', {
+      //  events: {
+      //    'onReady': onPlayerReady,
+      //    'onStateChange': onPlayerStateChange
+      //  }
+      //});
+      //
+      //this.set('youtubePlayer', youtubePlayer);
       document.title = 'Youtube - Huegasm';
     },
     useLocalAudio: function(){
@@ -224,9 +258,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     audioModeChanged(value){
       if(value === 1) {
         this.startUsingMic();
+      } else if(value === 2){
+        this.send('useYoutubeAudio');
+      } else {
+        this.send('useLocalAudio');
       }
-
-      this.set('audioMode', value);
     },
     clickSpeaker(){
       this.simulateKick(1);
@@ -501,7 +537,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     });
 
     // prevent space/text selection when the user repeatedly clicks on the center
-    Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenter', function(event) {
+    Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenterInner', function(event) {
       event.preventDefault();
     });
 
@@ -519,5 +555,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         event.preventDefault();
       }
     });
+
+    window.onYouTubeIframeAPIReady = function() {
+      debugger;
+    };
   }
 });

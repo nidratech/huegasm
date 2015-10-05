@@ -21,14 +21,14 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self'",
+      'script-src': "'self' apis.google.com 'unsafe-inline'",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
       'img-src': "'self' data:",
       'media-src': "'self' blob:",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com",
       'object-src': "'self'",
-      'frame-src': "'self'"
+      'frame-src': "'self' accounts.google.com content.googleapis.com www.youtube.com"
     }
   };
 

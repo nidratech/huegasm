@@ -1,11 +1,11 @@
 <div class="row">
+  {{#if (or usingLocalAudio usingMicAudio)}}
     <div id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
         <div id="playNotification"
              class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
         <div id="playerControls">
           {{#if usingLocalAudio}}
             {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
-
 
             {{#if playQueueMultiple}}
                 <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip"
@@ -24,7 +24,6 @@
               <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
           {{/if}}
 
-          {{#if (or useLocalAudio useMicAudio)}}
               <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
                   data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
@@ -33,9 +32,13 @@
                   data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
             </span>
           </span>
-          {{/if}}
         </div>
     </div>
+  {{else}}
+    <div id="playerArea" class="col-sm-8 col-xs-12">
+        <iframe id="ytplayer" type="text/html" src="//www.youtube.com/embed/?listType=user_uploads&list=MrSuicideSheep" frameborder="0" allowfullscreen></iframe>
+    </div>
+  {{/if}}
 
     <div id="playlist" class="col-sm-4 col-xs-12">
         <input id="fileInput" type="file" accept="audio/*" multiple="true"/>
@@ -44,12 +47,12 @@
 
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip"
                   data-title="Play local audio files" {{action "useLocalAudio"}}>{{fa-icon "music" classNames=usingLocalAudioClass}}</span>
+            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip"
+                  data-title="Play Youtube" {{action "useYoutubeAudio"}}>{{fa-icon 'youtubeWorkaround' classNames=usingYoutubeAudioClass}}</span>
           {{#if usingMicSupported}}
               <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip"
                     data-title="Listen to audio through mic" {{action "useMicAudio"}}>{{fa-icon "microphone" classNames=usingMicAudioClass}}</span>
           {{/if}}
-            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip"
-                  data-title="Play Youtube" {{action "useYoutubeAudio"}}>{{fa-icon 'youtubeWorkaround' classNames=usingYoutubeAudioClass}}</span>
 
           {{#if usingLocalAudio}}
               <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music"
@@ -96,29 +99,31 @@
               {{/each}}
             </div>
         {{else}}
-            <div id="playAreaYoutube">
-                YOUTUBE
+          <div id="playAreaYoutube">
+              <div id="buttons">
+                  <label> <input id="query" value='cats' type="text"/><button id="search-button" {{action "search"}}>Search</button></label>
+              </div>
+              <div id="search-container">
+              </div>
 
-            </div>
+          </div>
         {{/if}}
       {{/if}}
     </div>
 </div>
 
 <div id="slideToggle" class="text-center cursorPointer row" {{action "slideTogglePlayerBottom"}}>
-    <div class="col-xs-offset-3 col-xs-3">
+    <div class="col-xs-offset-3 col-xs-3 zIndexTwo">
       {{fa-icon beatDetectionArrowIcon}}
     </div>
-    <div class="col-xs-3">
+    <div class="col-xs-3 zIndexTwo">
       {{fa-icon beatDetectionArrowIcon}}
     </div>
 </div>
 
 {{#if playerBottomDisplayed}}
     <div id="playerBottom" class="row">
-        <div id="beatArea" class="col-sm-8 col-xs-12">
-            <div id="vertDivider" class="visible-lg visible-md"></div>
-
+        <div id="beatArea" class="col-lg-8 col-xs-12">
             <div class="row">
                 <div class="beatOption col-xs-3">
                     <div class="text-center">{{threshold}}</div>
@@ -179,7 +184,7 @@
             </div>
         </div>
 
-        <div id="beatContainer" class="col-sm-4 col-xs-12">
+        <div id="beatContainer" class="col-lg-4 col-xs-12">
           {{#if speakerViewed}}
             <div class="bezel">
                 <div class="rivet1"></div>
@@ -210,3 +215,4 @@
 {{/if}}
 
 {{ember-notify closeAfter=5000}}
+<div id="dimmer" class="{{if playing "show"}}"></div>

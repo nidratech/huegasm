@@ -398,6 +398,14 @@ md-toolbar {
   margin: 0;
 }
 
+#musicTab{
+  padding: 0;
+}
+
+.zIndexTwo {
+  z-index: 2;
+}
+
 .#{$fa-css-prefix}-youtubeWorkaround:before {
   content: $fa-var-youtube-play;
   font-size: 22px;
@@ -406,6 +414,7 @@ md-toolbar {
 #slideToggle {
   color: $playerDefaultIconColor;
   background-color: $playerBottomBackground;
+  z-index: 2;
   div i {
    font-size: 25px;
     color: inherit !important;
@@ -501,6 +510,8 @@ i.playerControllIcon {
   height: $playerHeight;
   background-color: black;
   display: inline-block;
+  padding: 0;
+  z-index: 2;
 }
 
 #playerArea:hover #playerControls {
@@ -512,6 +523,7 @@ i.playerControllIcon {
   background-color: $playListBackgroundColor;
   padding-left: 0.625em;
   padding-right: 0.625em;
+  z-index: 2;
 }
 
 #playerArea * .noUi-origin {
@@ -672,6 +684,7 @@ i.playerControllIcon {
 }
 
 #beatArea {
+  z-index: 2;
   position: relative;
 }
 
@@ -708,11 +721,13 @@ i.playerControllIcon {
   color: white;
   background-color: $playerBottomBackground;
   width: 100%;
+  z-index: 2;
 }
 
 #beatContainer {
   vertical-align: middle;
-  padding: 0;
+  padding: 0 10px;
+  z-index: 2;
   md-switch {
     bottom: 0;
     position: absolute;
@@ -736,15 +751,6 @@ i.playerControllIcon {
   button {
     box-shadow: 5px 0 15px 5px rgba(0, 0, 0, 0.3);
   }
-}
-
-#vertDivider {
-  position: absolute;
-  right: 0;
-  top: 25%;
-  width: 2px;
-  height: 50%;
-  background-color: white;
 }
 
 #beatHistory {
@@ -904,7 +910,7 @@ $vibrateblur1:1px;
 }
 .vibrateInner{
   -webkit-animation: vibrate 0.25s linear 1;
-  animation: vibrate 0.1s linear 1;
+  animation: vibrate 0.15s linear 1;
 }
 #beatSpeakerCenterOuter {
   @extend %base;
@@ -923,7 +929,7 @@ $vibrateblur1:1px;
 }
 .vibrateOuter {
   -webkit-animation: vibrate1 0.25s linear 1;
-  animation: vibrate1 0.1s linear 1;
+  animation: vibrate1 0.15s linear 1;
 }
 .bezel {
   @extend %base;
@@ -932,7 +938,7 @@ $vibrateblur1:1px;
   width: $bezelsize;
   position: relative;
   background-color: #A8A8A8;
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.8), inset 3px 3px 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.8), inset 0 0 30px -5px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), inset 3px 3px 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.8), inset 0 0 30px -5px rgba(0, 0, 0, 0.8);
 }
 .rivet1 {
   @extend %rivet;
@@ -973,4 +979,21 @@ $vibrateblur1:1px;
   @extend %rivet;
   bottom: 17%;
   right: 13.5%;
+}
+
+#ytplayer{
+  display: block;
+  width: 100%;
+  height: 100%
+}
+
+#dimmer {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  opacity: 0.7;
+  top: 0;
+  left: 0;
+  display: none;
 }

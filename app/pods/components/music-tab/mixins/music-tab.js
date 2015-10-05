@@ -118,7 +118,7 @@ export default Em.Mixin.create({
   paused: false,
   // audio: playing or paused
   playing: false,
-
+  youtubePlayer: null,
   fadeOutNotification: false,
 
   speakerViewed: true,
@@ -300,7 +300,7 @@ export default Em.Mixin.create({
 
     if (this.get(type)) {
       tooltipTxt = 'Pause';
-    } else if(this.get('timeElapsed') === this.get('timeTotal')){
+    } else if(this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0){
       tooltipTxt = 'Replay';
     }
 

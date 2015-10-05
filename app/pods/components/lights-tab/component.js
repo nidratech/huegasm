@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['col-lg-4', 'col-lg-offset-4', 'col-sm-6', 'col-sm-offset-3', 'col-xs-12'],
+  classNames: ['col-lg-4', 'col-lg-offset-4', 'col-md-6', 'col-md-offset-3', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
 
   activeLights: [],
@@ -44,6 +44,8 @@ export default Em.Component.extend({
       self = this,
       xy = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
 
+    this.set('colorLoopOn', false);
+
     this.get('activeLights').forEach(function (light) {
       Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
         data: JSON.stringify({"xy": xy}),
@@ -63,17 +65,39 @@ export default Em.Component.extend({
     return "toggleColorpicker";
   }.property('trial'),
 
-  colorLoopOn: function(){
-    var lightsData = this.get('lightsData');
+  // COLOR LOOP related stuff
+  colorLoopOn: false,
+  colorLoopDependenciesChanged: function(){
+    var lightsData = this.get('lightsData'), newValue;
 
     if(this.get('strobeOn')){
-      return false;
+      newValue = false;
+    } else {
+      newValue = this.get('activeLights').some(function(light) {
+        return lightsData[light].state.effect === 'colorloop';
+      });
     }
 
-    return this.get('activeLights').some(function(light) {
+    this.set('colorLoopOn', newValue);
+  }.observes('lightsData.@each.state.effect', 'activeLights.[]', 'strobeOn'),
+  onColorLoopOnChange: function(){
+    var lightsData = this.get('lightsData'), activeLights = this.get('activeLights'), colorLoopsOn = this.get('colorLoopOn'), self = this;
+
+    var colorLoopsOnSystem = activeLights.some(function(light) {
       return lightsData[light].state.effect === 'colorloop';
     });
-  }.property('lightsData.@each.state.effect', 'activeLights.[]', 'strobeOn'),
+
+    // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
+    if(colorLoopsOn !== colorLoopsOnSystem){
+      activeLights.forEach(function (light) {
+        Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify({"effect": colorLoopsOn ? 'colorloop' : 'none'}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      });
+    }
+  }.observes('colorLoopOn'),
 
   // determines whether the lights are on/off for the lights switch
   lightsOn: function(){
@@ -120,24 +144,7 @@ export default Em.Component.extend({
     }
   }.observes('lightsOn'),
 
-  onColorLoopOnChange: function(){
-    var lightsData = this.get('lightsData'), activeLights = this.get('activeLights'), colorLoopsOn = this.get('colorLoopOn'), self = this;
 
-    var colorLoopsOnSystem = activeLights.some(function(light) {
-      return lightsData[light].state.effect === 'colorloop';
-    });
-
-    // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
-    if(colorLoopsOn !== colorLoopsOnSystem){
-      activeLights.forEach(function (light) {
-        Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({"effect": colorLoopsOn ? 'colorloop' : 'none'}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      });
-    }
-  }.observes('colorLoopOn'),
 
   onBrightnessChanged: function(){
     var lightsData = this.get('lightsData'), lightsBrightnessSystem = false, lightsBrightness = this.get('lightsBrightness'), activeLights = this.get('activeLights'), self = this;

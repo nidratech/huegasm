@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['container-fluid'],
+  classNames: ['container'],
   elementId: 'hueControls',
 
   bridgeIp: null,

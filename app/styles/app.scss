@@ -9,7 +9,6 @@ $playerHeight: 400px;
 $playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
-$playerBottomBackground: #5D5D5D;
 
 // BRIDGE FINDER
 html {
@@ -413,7 +412,7 @@ md-toolbar {
 
 #slideToggle {
   color: $playerDefaultIconColor;
-  background-color: $playerBottomBackground;
+  background: darkgrey;
   z-index: 2;
   div i {
    font-size: 25px;
@@ -718,8 +717,8 @@ i.playerControllIcon {
 }
 
 #playerBottom {
-  color: white;
-  background-color: $playerBottomBackground;
+  color: black;
+  border: 1px solid black;
   width: 100%;
   z-index: 2;
 }

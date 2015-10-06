@@ -16,62 +16,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
-    search: function(){
-      var q = $('#query').val(), doSearch = function(){
-        var request = gapi.client.youtube.search.list({
-          q: q,
-          part: 'snippet',
-          key: 'AIzaSyAkwv6RD184j6o5wRfblYWNlV_njt6RXIc'
-        });
-
-        request.execute(function(response) {
-          var str = JSON.stringify(response.result);
-          $('#search-container').html('<pre>' + str + '</pre>');
-        });
-      };
-      if(!gapi.client.youtube){
-        gapi.client.load('youtube', 'v3', doSearch);
-      } else {
-        doSearch();
-      }
-    },
-    useYoutubeAudio: function(){
-      var audioStream = this.get('audioStream');
-
-      this.changePlayerControl('audioMode', 2);
-
-      if(!Em.isNone(audioStream)){
-        audioStream.stop();
-        this.set('audioStream', null);
-      }
-
-      var onPlayerReady = function(){
-        console.log('ready');
-      }, onPlayerStateChange = function(){
-        console.log('onPlayerStateChange');
-      }, onError = function(err){
-        console.log('onError' + err.data);
-      };
-
-      var youtubePlayer = new YT.Player('playerArea', {
-        videoId: 'Mc8LjwZvxHw'
-      });
-
-      var audio = new Audio(), dancer = this.get('dancer');
-      audio.src = "https://www.youtube.com/embed/Mc8LjwZvxHw?enablejsapi=1&origin=http%3A%2F%2Flocalhost%3A4200";
-      dancer.load(audio);
-      dancer.play();
-
-      this.set('youtubePlayer', youtubePlayer);
-      document.title = 'Youtube - Huegasm';
-    },
     useLocalAudio: function(){
       var audioStream = this.get('audioStream');
       this.changePlayerControl('audioMode', 0);
 
       if(!Em.isNone(audioStream)){
         audioStream.stop();
-        this.set('audioStream', null);
+
+        this.setProperties({
+          audioStream: null,
+          playing: false
+        });
       }
 
       if(this.get('playQueuePointer') !== -1) {
@@ -82,7 +37,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       document.title = 'Huegasm';
     },
     useMicAudio() {
-      this.startUsingMic();
+      if(this.get('usingMicAudio')) {
+        this.send('useLocalAudio');
+      } else {
+        this.startUsingMic();
+      }
     },
     slideTogglePlayerBottom(){
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
@@ -337,7 +296,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         dancer.setVolume(0);
       },
       (err) => {
-        if(err.name == 'DevicesNotFoundError'){
+        if(err.name === 'DevicesNotFoundError'){
           this.get('notify').alert({html: this.get('notFoundHtml')});
         }
 
@@ -559,9 +518,5 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         event.preventDefault();
       }
     });
-
-    if(this.get('audioMode') === 2){
-      this.send('useYoutubeAudio');
-    }
   }
 });

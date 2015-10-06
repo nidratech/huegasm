@@ -78,11 +78,10 @@ export default Em.Mixin.create({
   lastLightBopIndex: 0,
 
   usingMicSupported: true,
-  // 0 - local, 1 - mic, 2 - youtube
+  // 0 - local, 1 - mic, possibly more to come
   audioMode: 0,
   usingLocalAudio: Em.computed.equal('audioMode', 0),
   usingMicAudio: Em.computed.equal('audioMode', 1),
-  usingYoutubeAudio: Em.computed.equal('audioMode', 2),
 
   playerBottomDisplayed: false,
   dragging: false,
@@ -118,7 +117,6 @@ export default Em.Mixin.create({
   paused: false,
   // audio: playing or paused
   playing: false,
-  youtubePlayer: null,
   fadeOutNotification: false,
 
   speakerViewed: true,
@@ -167,6 +165,14 @@ export default Em.Mixin.create({
     }
   },
 
+  micIcon: function () {
+    if (this.get('usingMicAudio')) {
+      return 'mic';
+    }
+
+    return 'mic-off';
+  }.property('usingMicAudio'),
+
   repeatIcon: function () {
     if (this.get('repeat') === 2) {
       return 'repeat-one';
@@ -206,10 +212,6 @@ export default Em.Mixin.create({
   usingMicAudioClass: function() {
     return this.get('usingMicAudio') ? 'playerControllIcon active' : 'playerControllIcon';
   }.property('usingMicAudio'),
-
-  usingYoutubeAudioClass: function() {
-    return this.get('usingYoutubeAudio') ? 'playerControllIcon active' : 'playerControllIcon';
-  }.property('usingYoutubeAudio'),
 
   repeatClass: function () {
     return this.get('repeat') !== 0 ? 'playerControllIcon active' : 'playerControllIcon';
@@ -320,9 +322,9 @@ export default Em.Mixin.create({
 
   beatDetectionArrowIcon: function(){
     if(!this.get('playerBottomDisplayed')){
-      return 'angle-double-down';
+      return 'keyboard-arrow-down';
     } else {
-      return 'angle-double-up';
+      return 'keyboard-arrow-up';
     }
   }.property('playerBottomDisplayed'),
 

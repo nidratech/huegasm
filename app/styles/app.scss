@@ -5,7 +5,6 @@
 
 $playerBackColor: #F12B24;
 $playerHeight: 400px;
-$playListBackgroundColor: #1E1E1E;
 $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
 
@@ -463,7 +462,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .playerControllIcon.active {
-  color: #F12B24 !important;
+  color: white !important;
 }
 
 .playerControllIcon:hover {
@@ -509,7 +508,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 #playlist {
   height: $playerHeight;
-  background-color: $playListBackgroundColor;
+  background-color: #1E1E1E;
   padding: 0 5px 0 5px;
   z-index: 2;
 }
@@ -522,6 +521,9 @@ md-switch.md-default-theme.md-checked .md-thumb {
 #playerArea * .noUi-base {
   background-color: $playerBackColor;
   border-radius: 5px;
+}
+
+.noUi-base {
   cursor: pointer;
 }
 
@@ -626,7 +628,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .songArtist {
-  font-style: italic;
+  font-weight: bold;
 }
 
 #playListArea.dragHereHighlight {
@@ -646,25 +648,26 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .playlistItem {
-  min-height: 50px;
+  height: 65px;
   font-family: 'Open Sans', sans-serif;
   padding: 5px 20px 5px 5px;
   position: relative;
-  color: darken(white, 20%);
+  color: black;
+  background: darken(white, 5%);
   .close {
     position: absolute;
-    top: 25%;
+    top: 10%;
     right: 10px;
+    font-size: 18px;
   }
 }
 
 .playlistItem.active {
-  background-color: lighten($playListBackgroundColor, 30%);
+  background: darken(white, 15%) !important;
 }
 
 .playlistItem:hover {
-  background-color: lighten($playListBackgroundColor, 40%);
-  color: white;
+  background: darken(white, 10%);
   .close {
     display: block;
   }
@@ -682,7 +685,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 #beatArea * .noUi-base, #beatArea * .noUi-background {
   background-color: #ADADAD;
-  cursor: pointer;
   border: 1px solid #797979;
 }
 
@@ -787,59 +789,15 @@ $vibrateblur1:1px;
 }
 
 /* Keyframes */
-@keyframes vibrate {
-  0% {
-    -webkit-filter: blur($vibrateblur);
-    filter: blur($vibrateblur);
-    height: $vibratesize;
-    width: $vibratesize;
-    margin-left: $vibratemargin;
-    margin-top: $vibratemargin;
-  }
-  30% {
-    -webkit-filter: blur(0);
-    filter: blur(0);
-    height: $centersize;
-    width: $centersize;
-  }
+@keyframes vibrateInner {
   50% {
     -webkit-filter: blur($vibrateblur);
     filter: blur($vibrateblur);
-    height: $vibratesize;
-    width: $vibratesize;
-    margin-left: $vibratemargin;
-    margin-top: $vibratemargin;
-  }
-  65% {
-    -webkit-filter: blur(0);
-    filter: blur(0);
-    height: $centersize;
-    width: $centersize;
-  }
-  70% {
-    -webkit-filter: blur($vibrateblur);
-    filter: blur($vibrateblur);
-    height: $vibratesize;
-    width: $vibratesize;
-    margin-left: $vibratemargin;
-    margin-top: $vibratemargin;
-  }
-  80% {
-    -webkit-filter: blur($vibrateblur);
-    filter: blur($vibrateblur);
-    height: $centersize;
-    width: $centersize;
-  }
-  100% {
-    -webkit-filter: blur($vibrateblur);
-    filter: blur($vibrateblur);
-    height: $vibratesize;
-    width: $vibratesize;
-    margin-left: $vibratemargin;
-    margin-top: $vibratemargin;
+    transform: scale(1.1);
   }
 }
-@keyframes vibrate1 {
+
+@keyframes vibrateOuter {
   0% {
     -webkit-filter: blur($vibrateblur1);
     filter: blur($vibrateblur1);
@@ -896,8 +854,8 @@ $vibrateblur1:1px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
 .vibrateInner{
-  -webkit-animation: vibrate 0.25s linear 1;
-  animation: vibrate 0.15s linear 1;
+  -webkit-animation: vibrateInner 0.15s linear 1;
+  animation: vibrateInner 0.15s linear 1;
 }
 #beatSpeakerCenterOuter {
   @extend %base;
@@ -915,8 +873,8 @@ $vibrateblur1:1px;
   background: linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
 }
 .vibrateOuter {
-  -webkit-animation: vibrate1 0.25s linear 1;
-  animation: vibrate1 0.15s linear 1;
+  -webkit-animation: vibrateOuter 0.15s linear 1;
+  animation: vibrateOuter 0.15s linear 1;
 }
 .bezel {
   @extend %base;

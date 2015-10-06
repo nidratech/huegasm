@@ -82,7 +82,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue, true);
     },
     playerAreaPlay(){
-      if(Em.isEmpty(Em.$('#playerControls:hover'))){
+      if(Em.isEmpty(Em.$('#playerControls:hover')) && this.get('playQueuePointer') !== -1 ){
         this.send('play');
         this.set('fadeOutNotification', true);
         Em.$('#playNotification').removeClass('fadeOut').prop('offsetWidth', Em.$('#playNotification').prop('offsetWidth')).addClass('fadeOut');
@@ -500,7 +500,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     });
 
     // prevent space/text selection when the user repeatedly clicks on the center
-    Em.$('#beatSpeakerContainer').on('mousedown', '#beatSpeakerCenterInner', function(event) {
+    Em.$('#beatContainer').on('mousedown', '#beatSpeakerCenterInner', function(event) {
       event.preventDefault();
     });
 

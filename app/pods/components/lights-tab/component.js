@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['col-lg-4', 'col-lg-offset-4', 'col-md-6', 'col-md-offset-3', 'col-xs-12'],
+  classNames: ['col-lg-4', 'col-lg-offset-4', 'col-md-6', 'col-md-offset-3', 'col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
 
   activeLights: [],
@@ -29,8 +29,8 @@ export default Em.Component.extend({
 
   didInsertElement() {
     var self = this;
-    // TODO remove debug
-    this.xyToRgb(0.5,0.5);
+    // TODO figure out how to convert this
+    //this.xyToRgb(0.5,0.5);
     Em.$(document).click(function() {
       if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, .colorRow').length) {
         self.toggleProperty('colorPickerDisplayed');

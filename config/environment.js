@@ -21,7 +21,7 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' apis.google.com 'unsafe-inline'",
+      'script-src': "'self' apis.google.com www.youtube.com s.ytimg.com 'unsafe-inline'",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
       'img-src': "'self' data:",

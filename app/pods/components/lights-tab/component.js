@@ -20,6 +20,20 @@ export default Em.Component.extend({
         activeLights.removeObject(light);
       } else {
         activeLights.pushObject(light);
+
+        // sync the current light settings to the newly added light
+        var options = {on: this.get('lightsOn'), bri: this.get('lightsBrightness'), effect: this.get('colorLoopOn') ? 'colorloop' : 'none'},
+          rgb = this.get('rgb');
+
+        if(rgb[0] !== 255 && rgb[1] !== 255 && rgb[2] !== 255) {
+          options['xy'] = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
+        }
+
+        Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify(options),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
       }
     },
     toggleColorpicker() {
@@ -174,7 +188,6 @@ export default Em.Component.extend({
   colorloopOnTxt: function(){
     return this.get('colorLoopOn') ? 'On' : 'Off';
   }.property('colorLoopOn'),
-
 
   // **************** STROBE LIGHT START ****************
 

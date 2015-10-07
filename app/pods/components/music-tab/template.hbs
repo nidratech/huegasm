@@ -23,7 +23,7 @@
       {{/if}}
 
       <span class="pull-right">
-            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Dim on play" {{action "toggleDimming"}}>{{paper-icon icon="brightness-high"  class=dimmingClass}}
+            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="dimmerEnabledTooltip" data-title={{dimmerEnabledTooltipTxt}} {{action "toggleDimming"}}>{{paper-icon icon="brightness-high" class=dimmingClass}}
             </span>
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
             </span>
@@ -140,9 +140,6 @@
 
     <div id="playerButtonGroup" class="row">
       {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
-      {{#if usingLocalAudio}}
-        {{#paper-button raised=true action="saveSongSettings"}}Save Song Settings{{/paper-button}}
-      {{/if}}
     </div>
   </div>
 

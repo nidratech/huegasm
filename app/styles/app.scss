@@ -7,7 +7,7 @@ $playerBackColor: #F12B24;
 $playerHeight: 400px;
 $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
-$playerBottomHeight: 390px;
+$playerBottomHeight: 380px;
 
 // BRIDGE FINDER
 html {
@@ -696,7 +696,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 #beatOptionButtonGroup {
-  margin: 20px 0;
+  margin: 20px 0 10px 0;
 }
 
 .beatOption {

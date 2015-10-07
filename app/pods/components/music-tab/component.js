@@ -50,8 +50,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.$('#playerBottom').slideToggle();
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
-    saveSongSettings() {
-    },
     goToSong(index, playSong){
       var dancer = this.get('dancer'), audio = new Audio();
       audio.src = this.get('playQueue')[index].url;
@@ -65,6 +63,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         playQueuePointer: index,
         timeElapsed: 0
       });
+
+      this.loadSongBeatPreferences();
 
       if(playSong){
         this.send('play');
@@ -199,6 +199,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         }
       }
     },
+    addAudio: function () {
+      Em.$('#fileInput').click();
+    },
     shuffleChanged(value) {
       this.changePlayerControl('shuffle', Em.isNone(value) ? !this.get('shuffle') : value);
     },
@@ -220,28 +223,13 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     frequencyChanged(value){
       this.changePlayerControl('frequency', value, true);
     },
-    addAudio: function () {
-      Em.$('#fileInput').click();
-    },
     playListAreaAddAudio(){
       this.send('addAudio');
-    },
-    speakerViewedChanged(value){
-      this.set('speakerViewed', value);
-    },
-    randomTransitionChanged(value){
-      this.set('randomTransition', value);
-    },
-    onBeatBriAndColorChanged(value){
-      this.set('onBeatBriAndColor', value);
-    },
-    dimmerEnabledChanged(value){
-      this.set('dimmerEnabled', value);
     },
     audioModeChanged(value){
       if(value === 1) {
         this.startUsingMic();
-      } else if(value === 3) {
+      } else if(value === 0) {
         this.send('useLocalAudio');
       } else {
         this.set('audioMode', value);
@@ -268,10 +256,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         playQueue = this.get('playQueue'),
         updatePlayQueue = function(){
           var tags = ID3.getAllTags("local");
-          playQueue.push({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
+          playQueue.pushObject({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
 
           ID3.clearAll();
-          self.notifyPropertyChange('playQueue');
 
           // make sure to init the first song
           if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
@@ -290,6 +277,52 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
         }
       }
+    }
+  },
+
+  changePlayerControl(name, value, isOption, skipSaveBeatPrefs){
+    this.set(name, value);
+
+    if(isOption){
+      var options = {};
+      options[name] = value;
+      if(this.get('usingLocalAudio') && this.get('playQueuePointer') !== -1 && skipSaveBeatPrefs !== true) {
+        this.saveSongBeatPreferences();
+      }
+
+      this.get('kick').set(options);
+    }
+
+    localStorage.setItem('huegasm.' + name, value);
+  },
+
+  incrementElapseTime(){
+    this.incrementProperty('timeElapsed');
+    if(this.get('timeElapsed') === this.get('timeTotal')){
+      this.send('next');
+    }
+  },
+
+  saveSongBeatPreferences() {
+    var song = this.get('playQueue')[this.get('playQueuePointer')],
+      title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
+      songBeatPreferences = this.get('songBeatPreferences');
+
+    songBeatPreferences[title] = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
+
+    localStorage.setItem('huegasm.songBeatPreferences', JSON.stringify(songBeatPreferences));
+  },
+
+  loadSongBeatPreferences() {
+    var song = this.get('playQueue')[this.get('playQueuePointer')],
+      title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
+      songBeatPreferences = this.get('songBeatPreferences'),
+      preference = songBeatPreferences[title];
+
+    if(!Em.isNone(preference)) {
+      this.changePlayerControl('threshold', preference.threshold, true, true);
+      this.changePlayerControl('decay', preference.decay, true, true);
+      this.changePlayerControl('frequency', preference.frequency, true, true);
     }
   },
 
@@ -504,18 +537,25 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled', 'songBeatPreferences'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
+
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime' || item === 'audioMode') {
           itemVal = Number(itemVal);
         } else if(item === 'frequency') {
           itemVal = itemVal.split(',').map(function(val){return Number(val);});
+        } else if(item === 'songBeatPreferences') {
+          itemVal = JSON.parse(itemVal);
         } else {
           itemVal = (itemVal === 'true');
         }
 
-        self.send(item+'Changed', itemVal);
+        if(Em.isNone(self.actions[item+'Changed'])){
+          self.set(item, itemVal);
+        } else {
+          self.send(item + 'Changed', itemVal);
+        }
       }
     });
   },

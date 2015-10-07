@@ -120,6 +120,7 @@ export default Em.Mixin.create({
   // audio: playing or paused
   playing: false,
   fadeOutNotification: false,
+  songBeatPreferences: {},
 
   speakerViewed: true,
   speakerLabel: function() {
@@ -148,24 +149,7 @@ export default Em.Mixin.create({
     }
   }.property('onBeatBriAndColor'),
 
-  changePlayerControl(name, value, isOption){
-    if(isOption){
-      var options = {};
-      options[name] = value;
-      this.get('kick').set(options);
-    }
-
-    this.set(name, value);
-    localStorage.setItem('huegasm.' + name, value);
-  },
-
   incrementElapseTimeHandle: null,
-  incrementElapseTime(){
-    this.incrementProperty('timeElapsed');
-    if(this.get('timeElapsed') === this.get('timeTotal')){
-      this.send('next');
-    }
-  },
 
   micIcon: function () {
     if (this.get('usingMicAudio')) {
@@ -261,15 +245,6 @@ export default Em.Mixin.create({
     }
   }.property('volumeMuted', 'volume'),
 
-  onDimmerEnabledChange: function(){
-    if(!this.get('dimmerEnabled')){
-      this.set('dimmerOn', false);
-    } else if(this.get('playing')){
-      this.set('dimmerOn', true);
-    }
-
-  }.observes('dimmerEnabled'),
-
   onDimmerOnChange: function() {
     var opacity = 0;
 
@@ -300,6 +275,22 @@ export default Em.Mixin.create({
 
     this.changeTooltipText(type, tooltipTxt);
   }.observes('repeat').on('init'),
+
+  onDimmerEnabledChange: function () {
+    var tooltipTxt = 'Dim on play', type = 'dimmerEnabled';
+
+    if (this.get(type)) {
+      tooltipTxt = 'Stop dimming';
+    }
+
+    if(!this.get(type)){
+      this.set('dimmerOn', false);
+    } else if(this.get('playing')){
+      this.set('dimmerOn', true);
+    }
+
+    this.changeTooltipText(type, tooltipTxt);
+  }.observes('dimmerEnabled').on('init'),
 
   onShuffleChange: function () {
     var tooltipTxt = 'Shuffle', type = 'shuffle';

@@ -8,7 +8,6 @@ Music awesomeness for hue lights.
 - app intro with intro.js
 - music visualizations with three.js
 - integrate with soundcloud
-- display player time when hovering over seek bar
 
 ## BUGS
 - can't create groups anymore
@@ -18,3 +17,4 @@ Music awesomeness for hue lights.
 - help, contact, about, youtube video ???
 - beat settings by interval
 - auto beat detection mode
+- display player time when hovering over seek bar

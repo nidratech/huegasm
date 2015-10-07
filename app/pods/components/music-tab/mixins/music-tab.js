@@ -89,6 +89,7 @@ export default Em.Mixin.create({
   dragLeaveTimeoutHandle: null,
   visualizationsDisplayed: false,
   audioStream: null,
+  dimmerOn: false,
 
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
 
@@ -202,8 +203,12 @@ export default Em.Mixin.create({
       classes += ' draggingOver';
     }
 
+    if(this.get('dimmerOn')){
+      classes += ' dimmerFriendly';
+    }
+
     return classes;
-  }.property('dragging', 'draggingOverPlayListArea'),
+  }.property('dragging', 'draggingOverPlayListArea', 'dimmerOn'),
 
   usingLocalAudioClass: function() {
     return this.get('usingLocalAudio') ? 'playerControllIcon active' : 'playerControllIcon';

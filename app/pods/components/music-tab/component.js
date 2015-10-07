@@ -98,6 +98,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           if(!replayPause){
             this.set('timeElapsed', Math.floor(dancer.getTime()));
           }
+
+          this.set('dimmerOn', false);
         } else {
           if(this.get('volumeMuted')) {
             dancer.setVolume(0);
@@ -111,7 +113,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
 
           dancer.play();
-          this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
+          this.setProperties({
+            dimmerOn: true,
+            incrementElapseTimeHandle: window.setInterval(this.incrementElapseTime.bind(this), 1000)
+          });
         }
         this.toggleProperty('playing');
       }

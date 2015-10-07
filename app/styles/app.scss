@@ -82,6 +82,7 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   bottom: 0;
   width: 100%;
   height: $footerHeight;
+  z-index: -1;
   p {
     padding-left: 0;
     margin-top: 10px;
@@ -139,7 +140,6 @@ md-progress-linear {
   position: absolute;
   background: white;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .3);
-  z-index: 2;
   width: 200px;
   right: 0;
 }
@@ -193,7 +193,6 @@ md-list-item .md-no-style {
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   color: #FFFFFF;
-  z-index: 2;
   position: absolute;
   width: 275px;
   height: 275px;
@@ -234,7 +233,6 @@ md-slider.md-default-theme .md-thumb:after {
   top: 20px;
   right: 0;
   position: absolute;
-  z-index: 2;
   background-color: white;
   max-height: 400px;
   overflow: auto;
@@ -403,7 +401,6 @@ md-toolbar {
 #slideToggle {
   color: $playerDefaultIconColor;
   background: #8C3E3E;
-  z-index: 2;
   div md-icon {
     color: inherit !important;
   }
@@ -499,7 +496,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   background-color: black;
   display: inline-block;
   padding: 0;
-  z-index: 2;
 }
 
 #playerArea:hover #playerControls {
@@ -510,7 +506,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   height: $playerHeight;
   background-color: #1E1E1E;
   padding: 0 5px 0 5px;
-  z-index: 2;
 }
 
 #playerArea * .noUi-origin {
@@ -674,7 +669,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 #beatArea {
-  z-index: 2;
   position: relative;
   padding-top: 20px;
 }
@@ -712,13 +706,12 @@ md-switch.md-default-theme.md-checked .md-thumb {
   color: black;
   border: 1px solid black;
   width: 100%;
-  z-index: 2;
+  background: white;
 }
 
 #beatContainer {
   vertical-align: middle;
   padding: 0 10px;
-  z-index: 2;
   md-switch {
     bottom: 0;
     position: absolute;
@@ -943,8 +936,18 @@ $vibrateblur1:1px;
   display: none;
 }
 
-.noUi-value-vertical {
-  color: black;
+.antiDimmer {
+  position: relative;
+  z-index: 2;
+}
+
+.dimmerFriendly {
+  color: white !important;
+  background: #171717 !important;
+}
+
+.noUi-value-vertical, .noUi-pips {
+  color: inherit !important;
 }
 
 .noUi-vertical .noUi-handle {
@@ -955,3 +958,6 @@ $vibrateblur1:1px;
 .noUi-vertical .noUi-handle:after, .noUi-vertical .noUi-handle:before{
   background: grey;
 }
+
+
+

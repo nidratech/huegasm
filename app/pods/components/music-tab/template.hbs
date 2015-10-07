@@ -17,7 +17,7 @@
                          data-title="Next" {{action "next"}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
                   -->{{/if}}<!--
           --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip"
-                   data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeClass class="playerControllIcon volumeButton"}}</span><!--
+                   data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
 
         <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
@@ -25,7 +25,7 @@
 
       <span class="pull-right">
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
-                  data-title="Dim background on play" {{action "toggleDimming"}}>{{paper-icon icon="brightness-high"  class="playerControllIcon"}}
+                  data-title="Dim on play" {{action "toggleDimming"}}>{{paper-icon icon="brightness-high"  class=dimmingClass}}
             </span>
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
                   data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}

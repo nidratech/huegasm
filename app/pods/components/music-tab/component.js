@@ -16,6 +16,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    toggleDimming: function(){
+      this.toggleProperty('dimmerEnabled');
+    },
     useLocalAudio: function(){
       var audioStream = this.get('audioStream');
       this.changePlayerControl('audioMode', 0);
@@ -113,10 +116,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
 
           dancer.play();
-          this.setProperties({
-            dimmerOn: true,
-            incrementElapseTimeHandle: window.setInterval(this.incrementElapseTime.bind(this), 1000)
-          });
+
+          if(this.get('dimmerEnabled')){
+            this.set('dimmerOn', true);
+          }
+
+          this.setProperties('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
         }
         this.toggleProperty('playing');
       }
@@ -455,18 +460,18 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       }
     });
 
-    dancer.bind('update', function(){
-      var waveform = this.getWaveform(), spectrum = this.getSpectrum(), sumS = 0, sumW = 0;
-      for (let i = 0, l = spectrum.length; i < l && i < 512; i++ ) {
-        sumS += spectrum[i];
-      }
-
-      for (let i = 0, l = waveform.length; i < l && i < 512; i++ ) {
-        sumW += waveform[i];
-      }
-
-      //console.log('sumW: ' + sumW + ', sumS: ' + sumS);
-    });
+    //dancer.bind('update', function(){
+    //  var waveform = this.getWaveform(), spectrum = this.getSpectrum(), sumS = 0, sumW = 0;
+    //  for (let i = 0, l = spectrum.length; i < l && i < 512; i++ ) {
+    //    sumS += spectrum[i];
+    //  }
+    //
+    //  for (let i = 0, l = waveform.length; i < l && i < 512; i++ ) {
+    //    sumW += waveform[i];
+    //  }
+    //
+    //  //console.log('sumW: ' + sumW + ', sumS: ' + sumS);
+    //});
 
     this.setProperties({
       dancer: dancer,
@@ -507,6 +512,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     // prevent space/text selection when the user repeatedly clicks on the center
     Em.$('#beatContainer').on('mousedown', '#beatSpeakerCenterInner', function(event) {
       event.preventDefault();
+    });
+
+    Em.$(document).on('mousedown', function(event){
+      if(Em.$('#musicTab').has(event.target).length === 0 && self.get('dimmerEnabled')){
+        self.set('dimmerEnabled', false);
+      }
     });
 
     // control the volume by scrolling up/down

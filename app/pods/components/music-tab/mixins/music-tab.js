@@ -90,6 +90,7 @@ export default Em.Mixin.create({
   visualizationsDisplayed: false,
   audioStream: null,
   dimmerOn: false,
+  dimmerEnabled: false,
 
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
 
@@ -210,6 +211,26 @@ export default Em.Mixin.create({
     return classes;
   }.property('dragging', 'draggingOverPlayListArea', 'dimmerOn'),
 
+  dimmingClass: function(){
+    var classes = 'playerControllIcon';
+
+    if(this.get('dimmerEnabled')){
+      classes += ' active';
+    }
+
+    return classes;
+  }.property('dimmerEnabled'),
+
+  volumeMutedClass: function(){
+    var classes = 'playerControllIcon volumeButton';
+
+    if(this.get('volumeMuted')){
+      classes += ' active';
+    }
+
+    return classes;
+  }.property('volumeMuted'),
+
   usingLocalAudioClass: function() {
     return this.get('usingLocalAudio') ? 'playerControllIcon active' : 'playerControllIcon';
   }.property('usingLocalAudio'),
@@ -226,7 +247,7 @@ export default Em.Mixin.create({
     return this.get('shuffle') ? 'playerControllIcon active' : 'playerControllIcon';
   }.property('shuffle'),
 
-  volumeClass: function () {
+  volumeIcon: function () {
     var volume = this.get('volume');
 
     if (this.get('volumeMuted')) {
@@ -239,6 +260,15 @@ export default Em.Mixin.create({
       return 'volume-mute';
     }
   }.property('volumeMuted', 'volume'),
+
+  onDimmerEnabledChange: function(){
+    if(!this.get('dimmerEnabled')){
+      this.set('dimmerOn', false);
+    } else if(this.get('playing')){
+      this.set('dimmerOn', true);
+    }
+
+  }.observes('dimmerEnabled'),
 
   onSpeakerViewedChange: function(){
     localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));

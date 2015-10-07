@@ -1,5 +1,5 @@
 {{#if ready}}
-  <div class="row navigation antiDimmer">
+  <div class="row navigation">
     <div class="col-lg-4 col-lg-offset-4 col-xs-6 col-xs-offset-3">
       {{#each tabData as |tab|}}
         <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
@@ -17,7 +17,7 @@
         <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings" {{action "toggleAppSettings"}}>{{paper-icon icon="settings"}}</span>
 
         {{#if appSettingsDisplayed}}
-          <div id="appSettings" class="antiDimmer">
+          <div id="appSettings">
             <div class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</div>
             <div class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</div>
           </div>

@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames: ['col-lg-4', 'col-lg-offset-4', 'col-md-6', 'col-md-offset-3', 'col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
+  classNames: ['col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
 
   activeLights: [],

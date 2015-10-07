@@ -7,7 +7,7 @@ Music awesomeness for hue lights.
 - save beat detection settings per song 
 - app intro with intro.js
 - music visualizations with three.js
-- integrate with youtube
+- integrate with soundcloud
 - display player time when hovering over seek bar
 
 ## BUGS

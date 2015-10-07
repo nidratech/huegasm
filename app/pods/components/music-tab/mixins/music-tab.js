@@ -270,6 +270,16 @@ export default Em.Mixin.create({
 
   }.observes('dimmerEnabled'),
 
+  onDimmerOnChange: function() {
+    var opacity = 0;
+
+    if(this.get('dimmerOn')) {
+      opacity = 0.8;
+    }
+
+    this.$('#dimmer').fadeTo(400, opacity);
+  }.observes('dimmerOn'),
+
   onSpeakerViewedChange: function(){
     localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));
     this.get('beatHistory').clear();

@@ -17,7 +17,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
   actions: {
     toggleDimming: function(){
-      this.toggleProperty('dimmerEnabled');
+      this.changePlayerControl('dimmerEnabled', !this.get('dimmerEnabled'));
     },
     useLocalAudio: function(){
       var audioStream = this.get('audioStream');
@@ -47,6 +47,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       }
     },
     slideTogglePlayerBottom(){
+      this.$('#playerBottom').slideToggle();
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
     saveSongSettings() {
@@ -98,6 +99,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         if (this.get('playing')) {
           dancer.pause();
           clearInterval(this.get('incrementElapseTimeHandle'));
+
           if(!replayPause){
             this.set('timeElapsed', Math.floor(dancer.getTime()));
           }
@@ -121,8 +123,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
             this.set('dimmerOn', true);
           }
 
-          this.setProperties('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
+          this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
         }
+
         this.toggleProperty('playing');
       }
     },
@@ -130,6 +133,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('volume', value);
       if(this.get('playing')) {
         this.get('dancer').setVolume(value/100);
+      }
+
+      if(this.get('volume') > 0 && this.get('volumeMuted')){
+        this.changePlayerControl('volumeMuted', false);
       }
     },
     next() {
@@ -227,6 +234,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     },
     onBeatBriAndColorChanged(value){
       this.set('onBeatBriAndColor', value);
+    },
+    dimmerEnabledChanged(value){
+      this.set('dimmerEnabled', value);
     },
     audioModeChanged(value){
       if(value === 1) {
@@ -394,14 +404,24 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     if(activeLights.length > 0){
       var lastLightBopIndex = this.get('lastLightBopIndex'),
         randomTransition = this.get('randomTransition'),
+        lightBopIndex,
         light;
 
       if(randomTransition) {
-        light = Math.floor(Math.random() * activeLights.length) + 1;
+        lightBopIndex = Math.floor(Math.random() * activeLights.length) + 1;
+
+        // let's try not to select the same light twice in a row
+        if(activeLights.length > 1) {
+          while(lightBopIndex === lastLightBopIndex) {
+            lightBopIndex = Math.floor(Math.random() * activeLights.length) + 1;
+          }
+        }
       } else {
-        light = activeLights[lastLightBopIndex];
-        this.set('lastLightBopIndex', (lastLightBopIndex+1) % activeLights.length);
+        lightBopIndex = (lastLightBopIndex + 1) % activeLights.length;
       }
+
+      light = activeLights[lightBopIndex];
+      this.set('lastLightBopIndex', lightBopIndex);
 
       if(onBeatBriAndColor) {
         color = Math.floor(Math.random() * 65535);
@@ -484,7 +504,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled'].forEach(function (item) {
       if (localStorage.getItem('huegasm.' + item)) {
         var itemVal = localStorage.getItem('huegasm.' + item);
         if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime' || item === 'audioMode') {
@@ -534,5 +554,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         event.preventDefault();
       }
     });
+
+    if(!this.get('playerBottomDisplayed')) {
+      Em.$('#playerBottom').hide();
+    }
   }
 });

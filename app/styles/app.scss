@@ -28,6 +28,7 @@ body {
 #settings {
   padding-right: 0;
   text-align: right;
+  z-index: 3;
 }
 
 .settingsItem {
@@ -462,7 +463,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .playerControllIcon.active {
-  color: white !important;
+  color: #F12B24 !important;
 }
 
 .playerControllIcon:hover {
@@ -472,9 +473,11 @@ md-switch.md-default-theme.md-checked .md-thumb {
 #playNotification {
   position: relative;
   color: white;
-  top: 45%;
-  left: 45%;
+  top: 50%;
+  left: 50%;
   opacity: 0;
+  background: black;
+  border-radius: 100%;
 }
 
 .fadeOut {
@@ -490,7 +493,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
   to {
     opacity: 0;
-    font-size: 50px;
+    transform: scale(3);
   }
 }
 
@@ -674,7 +677,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 #beatArea {
   height: $playerBottomHeight;
   position: relative;
-  padding-top: 20px;
+  padding: 20px 0 0 0;
 }
 
 #beatArea * .noUi-target {
@@ -711,9 +714,11 @@ md-switch.md-default-theme.md-checked .md-thumb {
   border: 1px solid black;
   width: 100%;
   background: white;
+  height: $playerBottomHeight;
 }
 
 #beatContainer {
+  -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
   padding: 0;
   height: $playerBottomHeight;
   md-switch {
@@ -721,7 +726,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
     position: absolute;
     margin-left: 0;
     z-index: 3;
-    margin-bottom: 2px;
+    margin-bottom: 10px;
   }
 }
 
@@ -758,8 +763,8 @@ $center1size: 250px;
 $bezelsize: 285px;
 $vibratesize: $centersize*1.06;
 $vibratemargin:-$vibratesize/2;
-$vibrateblur: 2px;
-$vibrateblur1:1px;
+$vibrateblurinner: 3px;
+$vibrateblurouter: 2px;
 
 /* Extenders */
 %base {
@@ -777,16 +782,16 @@ $vibrateblur1:1px;
 /* Keyframes */
 @keyframes vibrateInner {
   50% {
-    -webkit-filter: blur($vibrateblur);
-    filter: blur($vibrateblur);
-    transform: scale(1.1);
+    -webkit-filter: blur($vibrateblurinner);
+    filter: blur($vibrateblurinner);
+    transform: scale(1.05);
   }
 }
 
 @keyframes vibrateOuter {
   0% {
-    -webkit-filter: blur($vibrateblur1);
-    filter: blur($vibrateblur1);
+    -webkit-filter: blur($vibrateblurouter);
+    filter: blur($vibrateblurouter);
     border: 15px solid #333;
   }
   30% {
@@ -795,8 +800,8 @@ $vibrateblur1:1px;
     border: 17px solid #333;
   }
   50% {
-    -webkit-filter: blur($vibrateblur1);
-    filter: blur($vibrateblur1);
+    -webkit-filter: blur($vibrateblurouter);
+    filter: blur($vibrateblurouter);
     border: 15px solid #333;
   }
   65% {
@@ -805,18 +810,18 @@ $vibrateblur1:1px;
     border: 17px solid #333;
   }
   70% {
-    -webkit-filter: blur($vibrateblur1);
-    filter: blur($vibrateblur1);
+    -webkit-filter: blur($vibrateblurouter);
+    filter: blur($vibrateblurouter);
     border: 15px solid #333;
   }
   80% {
-    -webkit-filter: blur($vibrateblur1);
-    filter: blur($vibrateblur1);
+    -webkit-filter: blur($vibrateblurouter);
+    filter: blur($vibrateblurouter);
     border: 17px solid #333;
   }
   100% {
-    -webkit-filter: blur($vibrateblur1);
-    filter: blur($vibrateblur1);
+    -webkit-filter: blur($vibrateblurouter);
+    filter: blur($vibrateblurouter);
     border: 15px solid #333;
   }
 }
@@ -925,7 +930,6 @@ $vibrateblur1:1px;
   width: 100%;
   height: 100%;
   background: black;
-  opacity: 0.7;
   top: 0;
   left: 0;
   display: none;

@@ -293,7 +293,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.get('kick').set(options);
     }
 
-    localStorage.setItem('huegasm.' + name, value);
+    this.get('storage').set('huegasm.' + name, value);
   },
 
   incrementElapseTime(){
@@ -310,7 +310,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
     songBeatPreferences[title] = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
 
-    localStorage.setItem('huegasm.songBeatPreferences', JSON.stringify(songBeatPreferences));
+    this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
   },
 
   loadSongBeatPreferences() {
@@ -490,6 +490,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     this._super();
 
     var dancer = new Dancer(),
+      storage = new window.Locally.Store({compress: true}),
       self = this,
       threshold = this.get('threshold'),
       decay = this.get('decay'),
@@ -504,6 +505,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
         }
       });
+
+    this.set('storage', storage);
 
     kick.on();
 
@@ -538,18 +541,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
 
     ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled', 'songBeatPreferences'].forEach(function (item) {
-      if (localStorage.getItem('huegasm.' + item)) {
-        var itemVal = localStorage.getItem('huegasm.' + item);
-
-        if (item === 'repeat' || item === 'volume' || item === 'decay' || item === 'threshold' || item === 'transitionTime' || item === 'audioMode') {
-          itemVal = Number(itemVal);
-        } else if(item === 'frequency') {
-          itemVal = itemVal.split(',').map(function(val){return Number(val);});
-        } else if(item === 'songBeatPreferences') {
-          itemVal = JSON.parse(itemVal);
-        } else {
-          itemVal = (itemVal === 'true');
-        }
+      if (storage.get('huegasm.' + item)) {
+        var itemVal = storage.get('huegasm.' + item);
 
         if(Em.isNone(self.actions[item+'Changed'])){
           self.set(item, itemVal);

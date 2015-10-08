@@ -121,6 +121,7 @@ export default Em.Mixin.create({
   playing: false,
   fadeOutNotification: false,
   songBeatPreferences: {},
+  storage: null,
 
   speakerViewed: true,
   speakerLabel: function() {
@@ -260,12 +261,12 @@ export default Em.Mixin.create({
   }.observes('dimmerOn'),
 
   onSpeakerViewedChange: function(){
-    localStorage.setItem('huegasm.speakerViewed', this.get('speakerViewed'));
+    this.get('storage').set('huegasm.speakerViewed', this.get('speakerViewed'));
     this.get('beatHistory').clear();
   }.observes('speakerViewed'),
 
   onOptionChange: function(self, option){
-    localStorage.setItem('huegasm.' + option, this.get(option));
+    this.get('storage').set('huegasm.' + option, this.get(option));
   }.observes('randomTransition', 'onBeatBriAndColor'),
 
   onRepeatChange: function () {

@@ -124,22 +124,21 @@
     </div>
 
     <div id="beatOptionButtonGroup" class="row">
-      <div class="beatOption col-xs-6">
+      <div class="beatOption col-xs-3">
+        {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
+      </div>
+      <div class="beatOption col-xs-4">
         {{#paper-switch checked=randomTransition disabled=trial}}<span data-toggle="tooltip"
                                                                        data-placement="bottom auto"
                                                                        data-title="The transition order of lights on beat"
                                                                        class="optionDescription bootstrapTooltip">{{randomTransitionLabel}}</span>{{/paper-switch}}
       </div>
-      <div class="beatOption col-xs-6">
+      <div class="beatOption col-xs-5">
         {{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip"
                                                                         data-placement="bottom auto"
                                                                         data-title="The properties of the lights to change on beat"
                                                                         class="optionDescription bootstrapTooltip"> {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
       </div>
-    </div>
-
-    <div id="playerButtonGroup" class="row">
-      {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
     </div>
   </div>
 

@@ -134,9 +134,9 @@ export default Em.Mixin.create({
   randomTransition: true,
   randomTransitionLabel: function() {
     if(this.get('randomTransition')){
-      return 'Random Transition';
+      return 'Random';
     } else {
-      return 'Sequential Transition';
+      return 'Sequential';
     }
   }.property('randomTransition'),
 
@@ -252,7 +252,11 @@ export default Em.Mixin.create({
       opacity = 0.8;
     }
 
-    this.$('#dimmer').fadeTo(400, opacity);
+    this.$('#dimmer').fadeTo(400, opacity, function() {
+      if(opacity === 0) {
+        $(this).hide();
+      }
+    });
   }.observes('dimmerOn'),
 
   onSpeakerViewedChange: function(){

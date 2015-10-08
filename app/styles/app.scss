@@ -150,6 +150,7 @@ md-progress-linear {
 .bootstrapTooltip md-icon {
   font-size: 22px;
   cursor: pointer;
+  -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
 }
 
 md-list {

@@ -21,14 +21,14 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' apis.google.com www.youtube.com s.ytimg.com 'unsafe-inline'",
+      'script-src': "'self' connect.soundcloud.com",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
       'img-src': "'self' data:",
       'media-src': "'self' blob:",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com",
-      'object-src': "'self'",
-      'frame-src': "'self' accounts.google.com content.googleapis.com www.youtube.com"
+      'object-src': "'self' connect.soundcloud.com",
+      'frame-src': "'self'"
     }
   };
 

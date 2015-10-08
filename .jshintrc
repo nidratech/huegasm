@@ -5,7 +5,8 @@
     "-Promise",
     "Dancer",
     "ID3",
-    "FileAPIReader"
+    "FileAPIReader",
+    "SC"
   ],
   "browser": true,
   "boss": true,

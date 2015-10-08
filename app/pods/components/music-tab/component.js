@@ -558,6 +558,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         }
       }
     });
+
+    SC.initialize({
+      client_id: 'aeec0034f58ecd85c2bd1deaecc41594'
+    });
   },
 
   didInsertElement() {

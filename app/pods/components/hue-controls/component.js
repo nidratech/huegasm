@@ -138,8 +138,10 @@ export default Em.Component.extend({
     };
 
     Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
-      if (status === 'success' && JSON.stringify(self.get('lightsData')) !== JSON.stringify(result) ) {
+      if (status === 'success' && Em.isNone(result[0])) {
         self.set('lightsData', result);
+      } else {
+        fail();
       }
     }).fail(fail);
   },

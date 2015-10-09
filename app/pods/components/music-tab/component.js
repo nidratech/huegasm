@@ -453,12 +453,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         light;
 
       if(randomTransition) {
-        lightBopIndex = Math.floor(Math.random() * activeLights.length) + 1;
+        lightBopIndex = Math.floor(Math.random() * activeLights.length);
 
         // let's try not to select the same light twice in a row
         if(activeLights.length > 1) {
           while(lightBopIndex === lastLightBopIndex) {
-            lightBopIndex = Math.floor(Math.random() * activeLights.length) + 1;
+            lightBopIndex = Math.floor(Math.random() * activeLights.length);
           }
         }
       } else {

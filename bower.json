@@ -15,7 +15,7 @@
     "jquery": "~2.1.4",
     "jquery-mousewheel": "~3.1.13",
     "loader.js": "ember-cli/loader.js#3.2.0",
-    "locallyjs": "~0.3.1",
+    "locallyjs": "~0.3.2",
     "matchMedia": "~0.2.0",
     "nouislider": "^8.0.1",
     "qunit": "~1.18.0",

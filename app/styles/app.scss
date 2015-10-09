@@ -405,7 +405,7 @@ md-toolbar {
 
 #slideToggle {
   color: $playerDefaultIconColor;
-  background: #8C3E3E;
+  background: #730B07;
   div md-icon {
     color: inherit !important;
   }
@@ -966,4 +966,8 @@ $vibrateblurouter: 2px;
   left: 3px;
   color: #F12B24 !important;
   font-size: 30px;
+}
+
+.md-warn {
+  background: $secondaryThemeColor;
 }

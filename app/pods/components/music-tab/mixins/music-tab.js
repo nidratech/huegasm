@@ -257,7 +257,7 @@ export default Em.Mixin.create({
 
     this.$('#dimmer').fadeTo(400, opacity, function() {
       if(opacity === 0) {
-        $(this).hide();
+        Em.$(this).hide();
       }
     });
   }.observes('dimmerOn'),

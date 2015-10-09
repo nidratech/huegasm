@@ -2,7 +2,7 @@
   "name": "huegasm",
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
-    "ember": "~2.0.2",
+    "ember": "~2.1.0",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
     "ember-cli-test-loader": "ember-cli-test-loader#0.1.3",
     "ember-data": "~2.1.0",
@@ -22,7 +22,7 @@
     "three.js": "~0.72.0"
   },
   "resolutions": {
-    "ember": "~2.0.2",
+    "ember": "~2.1.0",
     "jquery": "~2.1.4"
   }
 }

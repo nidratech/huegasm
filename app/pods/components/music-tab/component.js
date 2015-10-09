@@ -317,13 +317,25 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     var song = this.get('playQueue')[this.get('playQueuePointer')],
       title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences'),
-      preference = songBeatPreferences[title];
+      preference = songBeatPreferences[title],
+      oldBeatPrefCache = this.get('oldBeatPrefCache'),
+      newOldBeatPrefCache = null;
 
-    if(!Em.isNone(preference)) {
+    if(!Em.isNone(preference)) { // load existing beat prefs
+      newOldBeatPrefCache = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
+
       this.changePlayerControl('threshold', preference.threshold, true, true);
       this.changePlayerControl('decay', preference.decay, true, true);
       this.changePlayerControl('frequency', preference.frequency, true, true);
+      this.set('usingBeatPreferences', true);
+    } else if(!Em.isNone(oldBeatPrefCache)) { // revert to using beat prefs before the remembered song
+      this.changePlayerControl('threshold', oldBeatPrefCache.threshold, true, true);
+      this.changePlayerControl('decay', oldBeatPrefCache.decay, true, true);
+      this.changePlayerControl('frequency', oldBeatPrefCache.frequency, true, true);
+      this.set('usingBeatPreferences', false);
     }
+
+    this.set('oldBeatPrefCache', newOldBeatPrefCache);
   },
 
   startUsingMic() {

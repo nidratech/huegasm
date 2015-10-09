@@ -97,8 +97,8 @@ export default Em.Mixin.create({
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
   playQueueMultiple: function(){
-    return this.get('playQueue.length') > 1;
-  }.property('playQueue'),
+    return this.get('playQueue').length > 1;
+  }.property('playQueue.[]'),
 
   seekPosition: function() {
     var timeTotal = this.get('timeTotal'), timeElapsed = this.get('timeElapsed');
@@ -121,6 +121,8 @@ export default Em.Mixin.create({
   playing: false,
   fadeOutNotification: false,
   songBeatPreferences: {},
+  usingBeatPreferences: false,
+  oldBeatPrefCache: null,
   storage: null,
 
   speakerViewed: true,

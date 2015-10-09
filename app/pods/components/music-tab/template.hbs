@@ -76,7 +76,7 @@
               {{else}}
                 {{item.filename}}
               {{/if}}
-              <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove from playlist" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}
+              <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove from playlist" container="body" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}
               </div>
             </div>
           {{/each}}
@@ -94,6 +94,12 @@
 
 <div id="playerBottom" class="row antiDimmer {{if dimmerOn "dimmerFriendly"}}">
   <div id="beatArea" class="col-sm-7 col-xs-12">
+    {{#if usingBeatPreferences}}
+      <div data-toggle="tooltip" data-placement="bottom auto" data-title="Using your saved beat preferences from the last time you listened to this song" container="body" class="bootstrapTooltip">
+        {{paper-icon id="saveBeatPreferencesStar" icon="star"}}
+      </div>
+    {{/if}}
+
     <div class="row">
       <div class="beatOption col-xs-3">
         <div class="text-center">{{threshold}}</div>

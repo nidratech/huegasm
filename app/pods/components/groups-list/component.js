@@ -1,8 +1,8 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNameBindings: ['groupControlDisplayed:on'],
-  elementId: 'groupControls',
+  classNames: ['dropdown-menu'],
+  elementId: 'groupList',
 
   tagName: null,
 

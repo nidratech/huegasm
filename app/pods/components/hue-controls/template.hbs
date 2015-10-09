@@ -7,21 +7,27 @@
     </div>
 
     <div id="settings" class="col-xs-3">
-      <span id="groupMenu" class="settingsItem groupMenu {{if groupControlDisplayed 'on'}}">
-        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Light Groups" {{action "toggleGroupControl"}}>{{paper-icon icon="group"}}</span>
+      <span id="groupMenu" class="settingsItem">
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Light Groups">
+            {{paper-icon icon="group"}}
+          </span>
+        </span>
 
         {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
       </span>
 
-      <span id="appSettingsMenu" class="settingsItem {{if appSettingsDisplayed 'on'}}">
-        <span class="bootstrapTooltip" data-toggle="tooltip" data-placement="bottom auto" data-title="Application Settings" {{action "toggleAppSettings"}}>{{paper-icon icon="settings"}}</span>
+      <span id="appSettingsMenu" class="settingsItem">
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Application Settings">
+            {{paper-icon icon="settings"}}
+          </span>
+        </span>
 
-        {{#if appSettingsDisplayed}}
-          <div id="appSettings">
-            <div class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</div>
-            <div class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</div>
-          </div>
-        {{/if}}
+        <ul id="appSettings" class="dropdown-menu">
+          <li class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</li>
+          <li class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</li>
+        </ul>
       </span>
     </div>
   </div>

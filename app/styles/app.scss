@@ -65,11 +65,6 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   background: darken(white, 20%);
 }
 
-.settingsItem.on md-icon.md-default-theme.group,
-.settingsItem.on md-icon.md-default-theme.settings {
-  color: $secondaryThemeColor !important;
-}
-
 .settingsItem:hover md-icon.group,
 .settingsItem:hover md-icon.settings {
   color: black !important;
@@ -142,9 +137,11 @@ md-progress-linear {
 #appSettings {
   position: absolute;
   background: white;
-  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .3);
-  width: 200px;
-  right: 0;
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
+  width: 210px;
+  left: -182px;
+  top: 25px;
+  padding: 0;
 }
 
 .bootstrapTooltip md-icon {
@@ -230,8 +227,7 @@ md-slider.md-default-theme .md-thumb:after {
   overflow: visible;
 }
 
-#groupControls {
-  display: none;
+#groupList {
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .3);
   border-radius: 0 0 5px 5px;
   width: 300px;
@@ -242,10 +238,6 @@ md-slider.md-default-theme .md-thumb:after {
   max-height: 400px;
   overflow: auto;
   text-align: left;
-}
-
-#groupControls.on {
-  display: block;
 }
 
 .lightGroup {

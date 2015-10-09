@@ -13,8 +13,6 @@ export default Em.Component.extend({
   lightsData: null,
 
   activeLights: [],
-  groupControlDisplayed: false,
-  appSettingsDisplayed: false,
 
   actions: {
     changeTab(tabName){
@@ -22,21 +20,11 @@ export default Em.Component.extend({
       this.set('selectedTab', index);
       localStorage.setItem('huegasm.selectedTab', index);
     },
-
-    toggleGroupControl(){
-      this.toggleProperty('groupControlDisplayed');
-    },
-
-    toggleAppSettings(){
-      this.toggleProperty('appSettingsDisplayed');
-    },
-
     clearBridge() {
       delete localStorage['huegasm.bridgeUsername'];
       delete localStorage['huegasm.bridgeIp'];
       location.reload();
     },
-
     clearAllSettings() {
       localStorage.clear();
       location.reload();
@@ -62,17 +50,6 @@ export default Em.Component.extend({
     });
 
     observer.observe(Em.$('#hueControls')[0], {childList: true, subtree: true});
-
-    // automatically close the group menu when the user clicks somewhere else
-    Em.$(document).click(function() {
-      if(self.get('groupControlDisplayed') && !event.target.classList.contains('group') && !Em.$(event.target).closest('#groupControls, #modal-overlays, .ember-modal-overlay').length) {
-        self.toggleProperty('groupControlDisplayed');
-      }
-
-      if(self.get('appSettingsDisplayed') && !event.target.classList.contains('settings') && !Em.$(event.target).closest('#appSetting').length) {
-        self.toggleProperty('appSettingsDisplayed');
-      }
-    });
   },
 
   init() {

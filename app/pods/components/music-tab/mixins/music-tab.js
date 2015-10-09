@@ -126,6 +126,10 @@ export default Em.Mixin.create({
   oldBeatPrefCache: null,
   storage: null,
 
+  pauseLightUpdates: function(){
+    return this.get('playing');
+  }.property('playing'),
+
   speakerViewed: true,
   speakerLabel: function() {
     if(this.get('speakerViewed')){

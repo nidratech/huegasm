@@ -105,6 +105,8 @@ export default Em.Component.extend({
   lightsTabSelected: Em.computed.equal('selectedTab', 0),
   musicTabSelected: Em.computed.equal('selectedTab', 1),
 
+  pauseLightUpdates: false,
+
   updateLightData(){
     var self = this, fail = function() {
       clearInterval(self.get('lightsDataIntervalHandle'));
@@ -114,13 +116,15 @@ export default Em.Component.extend({
       });
     };
 
-    Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
-      if (status === 'success' && Em.isNone(result[0])) {
-        self.set('lightsData', result);
-      } else {
-        fail();
-      }
-    }).fail(fail);
+    if(!this.get('pauseLightUpdates')){
+      Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
+        if(!Em.isNone(result[0]) && !Em.isNone(result[0].error)){
+          fail();
+        } else if (status === 'success' && JSON.stringify(self.get('lightsData')) !== JSON.stringify(result)) {
+          self.set('lightsData', result);
+        }
+      }).fail(fail);
+    }
   },
 
   ready: function() {

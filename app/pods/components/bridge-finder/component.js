@@ -96,13 +96,13 @@ export default Em.Component.extend({
 
   // try to authenticate against the bridge here
   onBridgeIpChange: function () {
-    if(!this.get('trial')) {
+    if(!this.get('trial') && !this.get('isAuthenticating')) {
       this.setProperties({
         bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
         bridgeUserNamePingIntervalProgress: 0
       });
     }
-  }.observes('bridgeIp'),
+  }.observes('bridgeIp').on('init'),
 
   pingBridgeUser() {
     var bridgeIp = this.get('bridgeIp'), self = this, bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'),

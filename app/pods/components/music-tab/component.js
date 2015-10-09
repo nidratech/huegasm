@@ -83,10 +83,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     defaultControls(){
       var beatOptions = this.get('beatOptions');
 
-      this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true);
-      this.changePlayerControl('decay', beatOptions.decay.defaultValue, true);
-      this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true);
-      this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue, true);
+      this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true, true);
+      this.changePlayerControl('decay', beatOptions.decay.defaultValue, true, true);
+      this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true, true);
+      this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue, true, true);
     },
     playerAreaPlay(){
       if(Em.isEmpty(Em.$('#playerControls:hover')) && this.get('playQueuePointer') !== -1 ){
@@ -142,7 +142,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.changePlayerControl('volumeMuted', false);
       }
     },
-    next() {
+    next(userTriggered) {
       var playQueuePointer = this.get('playQueuePointer'), playQueueLength = this.get('playQueue.length');
       var nextSong = (playQueuePointer + 1), repeat = this.get('repeat');
 
@@ -151,7 +151,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       if(repeat === 2){
         this.send('goToSong', playQueuePointer, true);
       } else if(nextSong > playQueueLength-1){
-        if(repeat === 1){
+        if(repeat === 1 || userTriggered){
           nextSong = nextSong % playQueueLength;
         } else {
           this.send('play', true);
@@ -311,7 +311,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     songBeatPreferences[title] = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
 
     this.set('usingBeatPreferences', true);
-    this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
+    this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences, { compress: true });
   },
 
   loadSongBeatPreferences() {
@@ -503,7 +503,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     this._super();
 
     var dancer = new Dancer(),
-      storage = new window.Locally.Store({compress: true}),
+      storage = new window.Locally.Store(),
       self = this,
       threshold = this.get('threshold'),
       decay = this.get('decay'),
@@ -554,7 +554,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
 
     ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled', 'songBeatPreferences'].forEach(function (item) {
-      if (storage.get('huegasm.' + item)) {
+      if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
         if(Em.isNone(self.actions[item+'Changed'])){

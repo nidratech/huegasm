@@ -19,7 +19,8 @@
     "matchMedia": "~0.2.0",
     "nouislider": "^8.0.1",
     "qunit": "~1.18.0",
-    "three.js": "~0.72.0"
+    "three.js": "~0.72.0",
+    "font-awesome": "~4.4.0"
   },
   "resolutions": {
     "ember": "~2.1.0",

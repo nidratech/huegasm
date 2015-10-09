@@ -16,6 +16,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    toggleIsShowingAddSoundCloudModal: function() {
+      this.toggleProperty('isShowingAddSoundCloudModal');
+    },
     toggleDimming: function(){
       this.changePlayerControl('dimmerEnabled', !this.get('dimmerEnabled'));
     },
@@ -199,7 +202,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         }
       }
     },
-    addAudio: function () {
+    addLocalAudio: function () {
       Em.$('#fileInput').click();
     },
     shuffleChanged(value) {
@@ -222,9 +225,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     },
     frequencyChanged(value){
       this.changePlayerControl('frequency', value, true);
-    },
-    playListAreaAddAudio(){
-      this.send('addAudio');
     },
     audioModeChanged(value){
       if(value === 1) {
@@ -310,6 +310,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
     songBeatPreferences[title] = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
 
+    this.set('usingBeatPreferences', true);
     this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
   },
 

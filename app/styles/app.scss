@@ -2,6 +2,7 @@
 @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
+@import "bower_components/font-awesome/scss/font-awesome";
 
 $playerHeight: 400px;
 $playerDefaultIconColor: #BBBBBB;
@@ -26,7 +27,7 @@ body {
 }
 
 #settings {
-  padding-right: 0;
+  padding-right: 5px;
   text-align: right;
   z-index: 3;
 }
@@ -228,11 +229,11 @@ md-slider.md-default-theme .md-thumb:after {
 }
 
 #groupList {
-  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, .3);
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   border-radius: 0 0 5px 5px;
   width: 300px;
   top: 20px;
-  right: 0;
+  left: -269px;
   position: absolute;
   background-color: white;
   max-height: 400px;
@@ -309,12 +310,15 @@ md-icon {
   color: rgba(0, 0, 0, 0.54) !important;
 }
 
-.addButton .group-add {
-  margin-right: 16px;
-}
-
-.addButton .group-add:hover {
-  color: darken(#333333, 5%) !important;
+.addButton {
+  .group-add {
+    color: $secondaryThemeColor;
+    margin-right: 15px;
+    font-size: 28px;
+  }
+  .group-add:hover {
+    color: darken(#333333, 5%) !important;
+  }
 }
 
 .removeButton {
@@ -436,7 +440,8 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 .pull-right.bootstrapTooltip {
   .playerControllIcon {
-    margin: 0;
+    margin-right: 0;
+    margin-left: 5px;
   }
 }
 
@@ -962,4 +967,14 @@ $vibrateblurouter: 2px;
 
 .md-warn {
   background: $secondaryThemeColor;
+}
+
+.soundCloudLogoIcon {
+  line-height: 34px;
+  i {
+    font-size: 26px;
+    cursor: pointer;
+    line-height: 0;
+    color: #f70 !important;
+  }
 }

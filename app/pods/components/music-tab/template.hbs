@@ -38,7 +38,9 @@
 
     <div id="playListControls">
       {{#if usingLocalAudio}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add new music" class="pull-right bootstrapTooltip" {{action "addAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add local music" class="pull-right bootstrapTooltip" {{action "addLocalAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add music from SoundCloud" class="pull-right bootstrapTooltip soundCloudLogoIcon" {{action "toggleIsShowingAddSoundCloudModal"}}>{{fa-icon "soundcloud" classNames="playerControllIcon"}}</span>
+
         <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
         <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
       {{/if}}
@@ -54,8 +56,7 @@
       </div>
     {{else}}
       {{#if usingLocalAudio}}
-        <div id="playListArea"
-             class={{playListAreaClass}} {{action "playListAreaAddAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
+        <div id="playListArea" class={{playListAreaClass}} {{action "addLocalAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
           {{#if (or playQueueEmpty dragging)}}
             <div id="dragHere">
               {{#if dragging}}
@@ -179,3 +180,5 @@
 
 {{ember-notify closeAfter=5000}}
 <div id="dimmer" {{action "toggleDimming"}}></div>
+
+{{add-soundcloud-sound-modal action="toggleIsShowingAddSoundCloudModal" isShowingModal=isShowingAddSoundCloudModal}}

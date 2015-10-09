@@ -91,6 +91,7 @@ export default Em.Mixin.create({
   audioStream: null,
   dimmerOn: false,
   dimmerEnabled: false,
+  isShowingAddSoundCloudModal: false,
 
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
 

@@ -49,15 +49,14 @@ export default Em.Component.extend({
 
   selectedLights: [],
 
-  onIsShowingAddGroupsModalChange: function(){
-    if(this.get('isShowingAddGroupsModal')){
-
+  onIsShowingModalChange: function(){
+    if(this.get('isShowingModal')){
+      this.setProperties({
+        selectedLights: [],
+        groupName: null
+      });
     }
-    this.setProperties({
-      selectedLights: [],
-      groupName: null
-    });
-  }.observes('isShowingAddGroupsModal'),
+  }.observes('isShowingModal'),
 
   saveDisabled: function(){
     return Em.isNone(this.get('groupName')) || Em.isEmpty(this.get('selectedLights')) || Em.isEmpty(this.get('groupName').trim());

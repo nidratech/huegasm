@@ -39,7 +39,7 @@
     <div id="playListControls">
       {{#if usingLocalAudio}}
         <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add local music" class="pull-right bootstrapTooltip" {{action "addLocalAudio"}}>{{paper-icon icon="add" class="playerControllIcon"}}</span>
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add music from SoundCloud" class="pull-right bootstrapTooltip soundCloudLogoIcon" {{action "toggleIsShowingAddSoundCloudModal"}}>{{fa-icon "soundcloud" classNames="playerControllIcon"}}</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Add music from SoundCloud" class="pull-right bootstrapTooltip soundCloudLogoIcon" {{action "toggleIsShowingAddSoundCloudModal"}}>{{fa-icon "soundcloudWorkaround" classNames="playerControllIcon"}}</span>
 
         <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
         <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>

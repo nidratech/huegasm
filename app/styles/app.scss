@@ -959,6 +959,10 @@ button.md-warn {
   background: $secondaryThemeColor;
 }
 
+.#{$fa-css-prefix}-soundcloudWorkaround:before {
+  content: $fa-var-soundcloud;
+}
+
 .soundCloudLogoIcon {
   line-height: 34px;
   i {

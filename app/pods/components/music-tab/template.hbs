@@ -73,7 +73,12 @@
               class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
               {{#if item.title}}
                 {{item.title}}
-                <div class="songArtist">{{item.artist}}</div>
+              {{#if item.artistUrl}}
+                  <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}><div class="songArtist">{{item.artist}}</div></a>
+              {{else}}
+                  <div class="songArtist">{{item.artist}}</div>
+              {{/if}}
+
               {{else}}
                 {{item.filename}}
               {{/if}}
@@ -102,31 +107,28 @@
     {{/if}}
 
     <div class="row">
-      <div class="beatOption col-xs-4">
+      <div class="beatOption col-xs-3">
         <div class="text-center">{{threshold}}</div>
         {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Threshold of the sound intensity for the beat" class="optionDescription bootstrapTooltip">Treshold</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Beat Threshold</span>
       </div>
 
-{{!--
     <div class="beatOption col-xs-3">
-        <div class="text-center">{{decay}}</div>
-      {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The rate at which the previously registered beat's intensity is reduced to find the next beat" class="optionDescription bootstrapTooltip">Decay Rate</span>
+        <div class="text-center">{{interval}} sec</div>
+      {{range-slider start=interval orientation="vertical" step=beatOptions.interval.step range=beatOptions.interval.range slide="intervalChanged" pips=beatOptions.interval.pips}}
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum amount of time between each registered beat" class="optionDescription bootstrapTooltip">Beat Interval</span>
     </div>
-{{/if}}
- --}}
 
-<div class="beatOption col-xs-4">
+<div class="beatOption col-xs-3">
   <div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}}
     ,{{/unless}}{{/each}}
     ]
   </div>
   {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-  <span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
+  <span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of the sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
 </div>
 
-<div class="beatOption col-xs-4">
+<div class="beatOption col-xs-3">
   <div class="text-center">{{transitionTime}} sec</div>
   {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
   <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>

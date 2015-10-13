@@ -15,6 +15,8 @@ module.exports = function(defaults) {
   app.import('bower_components/jquery-mousewheel/jquery.mousewheel.js');
   app.import('bower_components/three.js/three.js');
   app.import('bower_components/locallyjs/dist/locally.min.js');
+  app.import('bower_components/intro.js/intro.js');
+  app.import('bower_components/intro.js/introjs.css');
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

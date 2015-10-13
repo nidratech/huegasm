@@ -20,10 +20,10 @@ export default Em.Mixin.create({
         }
       }
     },
-    decay: {
-      range: {min: 0, max: 0.1},
+    interval: {
+      range: {min: 0, max: 0.5},
       step: 0.01,
-      defaultValue: 0.02,
+      defaultValue: 0.15,
       pips: {
         mode: 'positions',
         values: [0,20,40,60,80,100],
@@ -66,13 +66,13 @@ export default Em.Mixin.create({
 
   transitionTime: 0.1,
   threshold: 0.3,
-  decay: 0.02,
+  interval: 0.15,
   frequency: [0,4],
 
   playQueuePointer: -1,
   playQueue: Em.A(),
   beatHistory: Em.A(),
-  maxBeatHistorySize: 100,
+  maxBeatHistorySize: 200,
   timeElapsed: 0,
   timeTotal: 0,
   lastLightBopIndex: 0,
@@ -136,16 +136,23 @@ export default Em.Mixin.create({
   }.property('playing'),
 
   speakerViewed: true,
-  debugFiltered: true,
+  debugFiltered: false,
   speakerLabel: function() {
+    this.get('storage').set('huegasm.speakerViewed', this.get('speakerViewed'));
+
     if(this.get('speakerViewed')){
+      this.get('beatHistory').clear();
       return 'Speaker View';
     } else {
       return 'Debug View';
     }
   }.property('speakerViewed'),
   debugFilteredText: function(){
-    if(this.get('debugFiltered')){
+    var debugFiltered = this.get('debugFiltered');
+    this.get('storage').set('huegasm.debugFiltered', debugFiltered);
+    Em.$('#beatHistory .filterBeat').css('display', debugFiltered === true ? 'inline' : 'none');
+
+    if(debugFiltered){
       return 'View Filtered';
     } else {
       return 'Hide Filtered';
@@ -279,11 +286,6 @@ export default Em.Mixin.create({
       }
     });
   }.observes('dimmerOn'),
-
-  onSpeakerViewedChange: function(){
-    this.get('storage').set('huegasm.speakerViewed', this.get('speakerViewed'));
-    this.get('beatHistory').clear();
-  }.observes('speakerViewed'),
 
   onOptionChange: function(self, option){
     this.get('storage').set('huegasm.' + option, this.get(option));

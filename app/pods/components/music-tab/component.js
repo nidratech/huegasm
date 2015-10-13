@@ -16,6 +16,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    gotoURL(URL){
+      window.open(URL, '_blank');
+    },
     handleNewSoundCloudURL(URL){
     SC.resolve(URL).then((resultObj)=>{
       var processResult = (result)=>{
@@ -117,10 +120,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     defaultControls(){
       var beatOptions = this.get('beatOptions');
 
-      this.changePlayerControl('threshold', beatOptions.threshold.defaultValue, true, true);
-      this.changePlayerControl('decay', beatOptions.decay.defaultValue, true, true);
-      this.changePlayerControl('frequency', beatOptions.frequency.defaultValue, true, true);
-      this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue, true, true);
+      this.changePlayerControl('threshold', beatOptions.threshold.defaultValue);
+      this.changePlayerControl('interval', beatOptions.interval.defaultValue);
+      this.changePlayerControl('frequency', beatOptions.frequency.defaultValue);
+      this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue);
     },
     playerAreaPlay(){
       if(Em.isEmpty(Em.$('#playerControls:hover')) && this.get('playQueuePointer') !== -1 ){
@@ -245,17 +248,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     repeatChanged(value) {
       this.changePlayerControl('repeat', Em.isNone(value) ? (this.get('repeat') + 1) % 3 : value);
     },
-    thresholdChanged(value) {
-      this.changePlayerControl('threshold', value, true);
-    },
     transitionTimeChanged(value) {
       this.changePlayerControl('transitionTime', value);
     },
     playerBottomDisplayedChanged(value) {
       this.changePlayerControl('playerBottomDisplayed', value);
     },
-    decayChanged(value){
-      this.changePlayerControl('decay', value, true);
+    thresholdChanged(value) {
+      this.changePlayerControl('threshold', value, true);
+    },
+    intervalChanged(value){
+      this.changePlayerControl('interval', value, true);
     },
     frequencyChanged(value){
       this.changePlayerControl('frequency', value, true);
@@ -314,20 +317,17 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     }
   },
 
-  changePlayerControl(name, value, isOption, skipSaveBeatPrefs){
+  changePlayerControl(name, value, saveBeatPrefs){
     this.set(name, value);
 
-    if(isOption){
+    if(saveBeatPrefs && this.get('usingLocalAudio') && this.get('playQueuePointer') !== -1){
+      this.saveSongBeatPreferences();
+    }
+
+    if(name === 'frequency'){
       var options = {};
       options[name] = value;
-      if(this.get('usingLocalAudio') && this.get('playQueuePointer') !== -1 && skipSaveBeatPrefs !== true) {
-        this.saveSongBeatPreferences();
-      }
-
-      // filter the threshold manually
-      if(name !== 'threshold'){
-        this.get('kick').set(options);
-      }
+      this.get('kick').set(options);
     }
 
     this.get('storage').set('huegasm.' + name, value);
@@ -345,7 +345,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences');
 
-    songBeatPreferences[title] = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
+    songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency') };
 
     this.set('usingBeatPreferences', true);
     this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences, { compress: true });
@@ -360,16 +360,16 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       newOldBeatPrefCache = null;
 
     if(!Em.isNone(preference)) { // load existing beat prefs
-      newOldBeatPrefCache = {threshold: this.get('threshold'), decay: this.get('decay'), frequency: this.get('frequency') };
+      newOldBeatPrefCache = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency') };
 
-      this.changePlayerControl('threshold', preference.threshold, true, true);
-      this.changePlayerControl('decay', preference.decay, true, true);
-      this.changePlayerControl('frequency', preference.frequency, true, true);
+      this.changePlayerControl('threshold', preference.threshold);
+      this.changePlayerControl('interval', preference.interval);
+      this.changePlayerControl('frequency', preference.frequency);
       this.set('usingBeatPreferences', true);
     } else if(!Em.isNone(oldBeatPrefCache)) { // revert to using beat prefs before the remembered song
-      this.changePlayerControl('threshold', oldBeatPrefCache.threshold, true, true);
-      this.changePlayerControl('decay', oldBeatPrefCache.decay, true, true);
-      this.changePlayerControl('frequency', oldBeatPrefCache.frequency, true, true);
+      this.changePlayerControl('threshold', oldBeatPrefCache.threshold);
+      this.changePlayerControl('interval', oldBeatPrefCache.interval);
+      this.changePlayerControl('frequency', oldBeatPrefCache.frequency);
       this.set('usingBeatPreferences', false);
     }
 
@@ -465,7 +465,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   },
 
   simulateKick(mag) {
-    var validBeat = (this.get('threshold') < mag);
+    var validBeat = (this.get('threshold') < mag),
+      beatInterval = this.get('interval');
 
     if(validBeat){
       var activeLights = this.get('activeLights'),
@@ -515,13 +516,14 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
         stimulateLight(light, 254, color);
         setTimeout(stimulateLight, transitionTime + 50, light, 1);
-
-        this.set('paused', true);
-
-        setTimeout(function () {
-          self.set('paused', false);
-        }, 150);
       }
+    }
+
+    if(beatInterval > 0 && validBeat){
+      this.set('paused', true);
+      setTimeout(() => {
+        this.set('paused', false);
+      }, beatInterval * 1000);
     }
 
     //work the music beat area
@@ -537,7 +539,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         maxSize = this.get('maxBeatHistorySize'),
         html = 'Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + this.get('timeElapsedTxt') + '</b>';
 
-      if(!validBeat && debugFiltered){
+      if(!validBeat){
+        if(!debugFiltered){
+          return;
+        }
         html = '<span class="filterBeat">' + html + ' ( filtered ) </span>';
       }
       beatHistory.unshiftObjects(html);
@@ -554,11 +559,9 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     var dancer = new Dancer(),
       storage = new window.Locally.Store(),
       self = this,
-      decay = this.get('decay'),
       frequency = this.get('frequency'),
       kick = dancer.createKick({
         threshold: this.beatOptions.threshold.range.min,
-        decay: decay,
         frequency: frequency,
         onKick: function (mag) {
           if (self.get('paused') === false) {
@@ -601,7 +604,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'decay', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled', 'songBeatPreferences'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled', 'songBeatPreferences', 'debugFiltered'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

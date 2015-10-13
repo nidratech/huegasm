@@ -16,13 +16,46 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
-    toggleIsShowingAddSoundCloudModal: function() {
+    handleNewSoundCloudURL(URL){
+    SC.resolve(URL).then((resultObj)=>{
+      var processResult = (result)=>{
+        if(result.kind === 'user'){
+          this.get('notify').alert({html: this.get('scUserNotSupportedHtml')});
+        } else if(result.kind === 'track') {
+          if(result.streamable === true){
+            this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, fromSoundCloud: true });
+            // make sure to init the first song
+            if(this.get('playQueue').length > 0 && this.get('playQueuePointer') === -1){
+              this.send('goToSong', 0, true);
+            }
+          } else {
+            this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
+          }
+        } else if(result.kind === 'playlist'){
+          if(result.streamable === true){
+            result.tracks.forEach(processResult);
+          } else {
+            this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
+          }
+        }
+      };
+
+      if(resultObj instanceof Array){
+        resultObj.forEach(processResult);
+      } else {
+        processResult(resultObj);
+      }
+    });
+
+      this.set('isShowingAddSoundCloudModal', false);
+    },
+    toggleIsShowingAddSoundCloudModal() {
       this.toggleProperty('isShowingAddSoundCloudModal');
     },
-    toggleDimming: function(){
+    toggleDimming(){
       this.changePlayerControl('dimmerEnabled', !this.get('dimmerEnabled'));
     },
-    useLocalAudio: function(){
+    useLocalAudio(){
       var audioStream = this.get('audioStream');
       this.changePlayerControl('audioMode', 0);
 
@@ -56,6 +89,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     goToSong(index, playSong){
       var dancer = this.get('dancer'), audio = new Audio();
       audio.src = this.get('playQueue')[index].url;
+      audio.crossOrigin = "anonymous";
 
       if(dancer.audio) {
         this.clearCurrentAudio(true);
@@ -290,7 +324,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         this.saveSongBeatPreferences();
       }
 
-      this.get('kick').set(options);
+      // filter the threshold manually
+      if(name !== 'threshold'){
+        this.get('kick').set(options);
+      }
     }
 
     this.get('storage').set('huegasm.' + name, value);
@@ -428,70 +465,82 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   },
 
   simulateKick(mag) {
-    var activeLights = this.get('activeLights'),
-      transitionTime = this.get('transitionTime') * 10,
-      onBeatBriAndColor = this.get('onBeatBriAndColor'),
-      self = this,
-      color = null,
-      stimulateLight = function (light, brightness, hue) {
-        var options = {'bri': brightness, 'transitiontime': transitionTime};
+    var validBeat = (this.get('threshold') < mag);
 
-        if(!Em.isNone(hue)) {
-          options.hue = hue;
-        }
+    if(validBeat){
+      var activeLights = this.get('activeLights'),
+        transitionTime = this.get('transitionTime') * 10,
+        onBeatBriAndColor = this.get('onBeatBriAndColor'),
+        self = this,
+        color = null,
+        stimulateLight = function (light, brightness, hue) {
+          var options = {'bri': brightness, 'transitiontime': transitionTime};
 
-        Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify(options),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      };
-
-    if(activeLights.length > 0){
-      var lastLightBopIndex = this.get('lastLightBopIndex'),
-        randomTransition = this.get('randomTransition'),
-        lightBopIndex,
-        light;
-
-      if(randomTransition) {
-        lightBopIndex = Math.floor(Math.random() * activeLights.length);
-
-        // let's try not to select the same light twice in a row
-        if(activeLights.length > 1) {
-          while(lightBopIndex === lastLightBopIndex) {
-            lightBopIndex = Math.floor(Math.random() * activeLights.length);
+          if(!Em.isNone(hue)) {
+            options.hue = hue;
           }
+
+          Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+            data: JSON.stringify(options),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+        };
+
+      if(activeLights.length > 0){
+        var lastLightBopIndex = this.get('lastLightBopIndex'),
+          randomTransition = this.get('randomTransition'),
+          lightBopIndex,
+          light;
+
+        if(randomTransition) {
+          lightBopIndex = Math.floor(Math.random() * activeLights.length);
+
+          // let's try not to select the same light twice in a row
+          if(activeLights.length > 1) {
+            while(lightBopIndex === lastLightBopIndex) {
+              lightBopIndex = Math.floor(Math.random() * activeLights.length);
+            }
+          }
+        } else {
+          lightBopIndex = (lastLightBopIndex + 1) % activeLights.length;
         }
-      } else {
-        lightBopIndex = (lastLightBopIndex + 1) % activeLights.length;
+
+        light = activeLights[lightBopIndex];
+        this.set('lastLightBopIndex', lightBopIndex);
+
+        if(onBeatBriAndColor) {
+          color = Math.floor(Math.random() * 65535);
+        }
+
+        stimulateLight(light, 254, color);
+        setTimeout(stimulateLight, transitionTime + 50, light, 1);
+
+        this.set('paused', true);
+
+        setTimeout(function () {
+          self.set('paused', false);
+        }, 150);
       }
-
-      light = activeLights[lightBopIndex];
-      this.set('lastLightBopIndex', lightBopIndex);
-
-      if(onBeatBriAndColor) {
-        color = Math.floor(Math.random() * 65535);
-      }
-
-      stimulateLight(light, 254, color);
-      setTimeout(stimulateLight, transitionTime + 50, light, 1);
-
-      this.set('paused', true);
-
-      setTimeout(function () {
-        self.set('paused', false);
-      }, 150);
     }
 
     //work the music beat area
     if(this.get('speakerViewed')){
-      // simulate the speaker vibration by running a CSS animation on it
-      Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');
-      Em.$('#beatSpeakerCenterInner').removeClass('vibrateInner').prop('offsetWidth', Em.$('#beatSpeakerCenterInner').prop('offsetWidth')).addClass('vibrateInner');
+      if(validBeat){
+        // simulate the speaker vibration by running a CSS animation on it
+        Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');
+        Em.$('#beatSpeakerCenterInner').removeClass('vibrateInner').prop('offsetWidth', Em.$('#beatSpeakerCenterInner').prop('offsetWidth')).addClass('vibrateInner');
+      }
     } else {
-      var beatHistory = self.get('beatHistory'),
-        maxSize = self.get('maxBeatHistorySize');
-      beatHistory.unshiftObjects('Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + self.get('timeElapsedTxt') + '</b>');
+      var beatHistory = this.get('beatHistory'),
+        debugFiltered = this.get('debugFiltered'),
+        maxSize = this.get('maxBeatHistorySize'),
+        html = 'Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + this.get('timeElapsedTxt') + '</b>';
+
+      if(!validBeat && debugFiltered){
+        html = '<span class="filterBeat">' + html + ' ( filtered ) </span>';
+      }
+      beatHistory.unshiftObjects(html);
 
       if(beatHistory.length > maxSize){
         beatHistory.popObject();
@@ -505,11 +554,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     var dancer = new Dancer(),
       storage = new window.Locally.Store(),
       self = this,
-      threshold = this.get('threshold'),
       decay = this.get('decay'),
       frequency = this.get('frequency'),
       kick = dancer.createKick({
-        threshold: threshold,
+        threshold: this.beatOptions.threshold.range.min,
         decay: decay,
         frequency: frequency,
         onKick: function (mag) {
@@ -566,7 +614,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     });
 
     SC.initialize({
-      client_id: 'aeec0034f58ecd85c2bd1deaecc41594'
+      client_id: this.get('SC_CLIENT_ID')
     });
   },
 

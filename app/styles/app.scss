@@ -711,8 +711,16 @@ md-switch.md-default-theme.md-checked .md-thumb {
   -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
   padding: 0;
   height: $playerBottomHeight;
-  md-switch {
+  .speakerSwitch {
     top: 0;
+    left: 0;
+    position: absolute;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+  .debugFilteredSwitch {
+    top: 0;
+    right: 0;
     position: absolute;
     margin-left: 0;
     margin-bottom: 10px;
@@ -738,11 +746,17 @@ md-switch.md-default-theme.md-checked .md-thumb {
   height: 85%;
   background-color: white;
   border-radius: 10px;
-  width: 285px;
+  width: 300px;
   margin: 40px auto 0 auto;
   overflow: auto;
   padding: 10px;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.1);
+  p {
+    margin-bottom: 5px;
+  }
+  .filterBeat {
+    font-style: italic;
+  }
 }
 
 // FANCY SPEAKER
@@ -934,8 +948,13 @@ $vibrateblurouter: 2px;
   background: #171717 !important;
 }
 
+.noUi-value-vertical {
+  margin-top: -10px;
+}
+
 .noUi-value-vertical, .noUi-pips {
   color: inherit !important;
+  font: 400 14px 'Slabo 27px';
 }
 
 .noUi-vertical .noUi-handle {
@@ -971,4 +990,8 @@ button.md-warn {
     line-height: 0;
     color: #f70 !important;
   }
+}
+
+.ember-modal-dialog {
+  padding: 20px;
 }

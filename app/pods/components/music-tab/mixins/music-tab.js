@@ -7,7 +7,7 @@ export default Em.Mixin.create({
 
   beatOptions: {
     threshold: {
-      range: {min: 0.1, max: 0.9},
+      range: {min: 0.1, max: 1.0},
       step: 0.01,
       defaultValue: 0.3,
       pips: {
@@ -72,7 +72,7 @@ export default Em.Mixin.create({
   playQueuePointer: -1,
   playQueue: Em.A(),
   beatHistory: Em.A(),
-  maxBeatHistorySize: 30,
+  maxBeatHistorySize: 100,
   timeElapsed: 0,
   timeTotal: 0,
   lastLightBopIndex: 0,
@@ -93,7 +93,12 @@ export default Em.Mixin.create({
   dimmerEnabled: false,
   isShowingAddSoundCloudModal: false,
 
+  SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
+  scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
+  notStreamableHtml: function(fileName){
+    return '<div class="alert alert-danger" role="alert">The owner of the file ( ' + fileName +' ) has not allowed for the the file to be streamed.</div>';
+  },
 
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
@@ -131,6 +136,7 @@ export default Em.Mixin.create({
   }.property('playing'),
 
   speakerViewed: true,
+  debugFiltered: true,
   speakerLabel: function() {
     if(this.get('speakerViewed')){
       return 'Speaker View';
@@ -138,6 +144,13 @@ export default Em.Mixin.create({
       return 'Debug View';
     }
   }.property('speakerViewed'),
+  debugFilteredText: function(){
+    if(this.get('debugFiltered')){
+      return 'View Filtered';
+    } else {
+      return 'Hide Filtered';
+    }
+  }.property('debugFiltered'),
 
   randomTransition: true,
   randomTransitionLabel: function() {

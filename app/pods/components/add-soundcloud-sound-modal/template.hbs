@@ -1,10 +1,13 @@
 {{#if isShowingModal}}
-  {{#modal-dialog close="close" alignment="center" translucentOverlay=true}}
+  {{#modal-dialog close="close" alignment="center" translucentOverlay=true attachment="center" targetAttachment="center"}}
 
-    <p>Enter a SoundCloud URL for a track or a playlist/set</p>
+    <p>Enter a <a href="https://soundcloud.com">SoundCloud</a> track or playlist/set URL</p>
+    <p>( ex. https://soundcloud.com/mrsuicidesheep/danrell-x-smaland-hostage )</p>
+
+    {{paper-input label="SoundCloud URL" icon="search" value=url}}
 
     {{#paper-button action="close"}}Close{{/paper-button}}
-    {{#paper-button class="pull-right" action="delete" primary=true}}Add Music{{/paper-button}}
+    {{#paper-button class="pull-right" action="add" primary=true}}Add Music{{/paper-button}}
 
   {{/modal-dialog}}
 {{/if}}

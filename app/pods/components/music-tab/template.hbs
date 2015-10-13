@@ -102,83 +102,87 @@
     {{/if}}
 
     <div class="row">
-      <div class="beatOption col-xs-3">
+      <div class="beatOption col-xs-4">
         <div class="text-center">{{threshold}}</div>
         {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Maximum intensity of the sound that may be registered as a beat" class="optionDescription bootstrapTooltip">Max. Intensity</span>
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Threshold of the sound intensity for the beat" class="optionDescription bootstrapTooltip">Treshold</span>
       </div>
 
-      <div class="beatOption col-xs-3">
+{{!--
+    <div class="beatOption col-xs-3">
         <div class="text-center">{{decay}}</div>
-        {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
+      {{range-slider start=decay orientation="vertical" step=beatOptions.decay.step range=beatOptions.decay.range slide="decayChanged" pips=beatOptions.decay.pips}}
         <span data-toggle="tooltip" data-placement="bottom auto" data-title="The rate at which the previously registered beat's intensity is reduced to find the next beat" class="optionDescription bootstrapTooltip">Decay Rate</span>
-      </div>
-
-      <div class="beatOption col-xs-3">
-        <div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}}
-          ,{{/unless}}{{/each}}
-          ]
-        </div>
-        {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
-      </div>
-
-      <div class="beatOption col-xs-3">
-        <div class="text-center">{{transitionTime}} sec</div>
-        {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
-      </div>
     </div>
+{{/if}}
+ --}}
 
-    <div id="beatOptionButtonGroup" class="row">
-      <div class="beatOption col-xs-3">
-        {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
-      </div>
-      <div class="beatOption col-xs-4">
-        {{#paper-switch checked=randomTransition disabled=trial}}<span data-toggle="tooltip"
-                                                                       data-placement="bottom auto"
-                                                                       data-title="The transition order of lights on beat"
-                                                                       class="optionDescription bootstrapTooltip">{{randomTransitionLabel}}</span>{{/paper-switch}}
-      </div>
-      <div class="beatOption col-xs-5">
-        {{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip"
-                                                                        data-placement="bottom auto"
-                                                                        data-title="The properties of the lights to change on beat"
-                                                                        class="optionDescription bootstrapTooltip"> {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
-      </div>
+<div class="beatOption col-xs-4">
+  <div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}}
+    ,{{/unless}}{{/each}}
+    ]
+  </div>
+  {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
+  <span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
+</div>
+
+<div class="beatOption col-xs-4">
+  <div class="text-center">{{transitionTime}} sec</div>
+  {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
+  <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
+</div>
+</div>
+
+<div id="beatOptionButtonGroup" class="row">
+<div class="beatOption col-xs-3">
+  {{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
+</div>
+<div class="beatOption col-xs-4">
+  {{#paper-switch checked=randomTransition disabled=trial}}<span data-toggle="tooltip"
+                                                                 data-placement="bottom auto"
+                                                                 data-title="The transition order of lights on beat"
+                                                                 class="optionDescription bootstrapTooltip">{{randomTransitionLabel}}</span>{{/paper-switch}}
+</div>
+<div class="beatOption col-xs-5">
+  {{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip"
+                                                                  data-placement="bottom auto"
+                                                                  data-title="The properties of the lights to change on beat"
+                                                                  class="optionDescription bootstrapTooltip"> {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
+</div>
+</div>
+</div>
+
+<div id="beatContainer" class="col-sm-5 col-xs-12">
+{{#if speakerViewed}}
+<div class="bezel">
+  <div class="rivet1"></div>
+  <div class="rivet2"></div>
+  <div class="rivet3"></div>
+  <div class="rivet4"></div>
+  <div class="rivet5"></div>
+  <div class="rivet6"></div>
+  <div class="rivet7"></div>
+  <div class="rivet8"></div>
+
+  <div id="beatSpeakerCenterOuter">
+    <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
     </div>
   </div>
+</div>
+{{else}}
+<div id="beatHistory">
+  {{#each beatHistory as |item|}}
+    <p>{{{item}}}</p>
+  {{/each}}
+</div>
+  {{#paper-switch checked=debugFiltered class="debugFilteredSwitch"}} {{debugFilteredText}} {{/paper-switch}}
+{{/if}}
 
-  <div id="beatContainer" class="col-sm-5 col-xs-12">
-    {{#if speakerViewed}}
-      <div class="bezel">
-        <div class="rivet1"></div>
-        <div class="rivet2"></div>
-        <div class="rivet3"></div>
-        <div class="rivet4"></div>
-        <div class="rivet5"></div>
-        <div class="rivet6"></div>
-        <div class="rivet7"></div>
-        <div class="rivet8"></div>
-
-        <div id="beatSpeakerCenterOuter">
-          <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
-          </div>
-        </div>
-      </div>
-    {{else}}
-      <div id="beatHistory">
-        {{#each beatHistory as |item|}}
-          <p>{{{item}}}</p>
-        {{/each}}
-      </div>
-    {{/if}}
-
-    {{#paper-switch checked=speakerViewed}} {{speakerLabel}} {{/paper-switch}}
-  </div>
+{{#paper-switch checked=speakerViewed class="speakerSwitch"}} {{speakerLabel}} {{/paper-switch}}
+</div>
 </div>
 
 {{ember-notify closeAfter=5000}}
 <div id="dimmer" {{action "toggleDimming"}}></div>
 
-{{add-soundcloud-sound-modal action="toggleIsShowingAddSoundCloudModal" isShowingModal=isShowingAddSoundCloudModal}}
+{{add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

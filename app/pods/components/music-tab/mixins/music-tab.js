@@ -77,7 +77,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
-  usingMicSupported: true,
+  usingMicSupported: false,
   // 0 - local, 1 - mic, possibly more to come
   audioMode: 0,
   usingLocalAudio: Em.computed.equal('audioMode', 0),
@@ -98,6 +98,12 @@ export default Em.Mixin.create({
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
   notStreamableHtml: function(fileName){
     return '<div class="alert alert-danger" role="alert">The owner of the file ( ' + fileName +' ) has not allowed for the the file to be streamed.</div>';
+  },
+  urlNotFoundHtml: function(url){
+    return '<div class="alert alert-danger" role="alert">The URL ( ' + url + ' ) could not be resolved.</div>';
+  },
+  failedToPlayFileHtml: function(fileName){
+    return '<div class="alert alert-danger" role="alert">Failed to play file ( ' + fileName + ' ).</div>';
   },
 
   playQueueEmpty: Em.computed.empty('playQueue'),
@@ -176,8 +182,6 @@ export default Em.Mixin.create({
       return 'Brightness';
     }
   }.property('onBeatBriAndColor'),
-
-  incrementElapseTimeHandle: null,
 
   micIcon: function () {
     if (this.get('usingMicAudio')) {

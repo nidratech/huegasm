@@ -72,13 +72,14 @@
             <div
               class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
               {{#if item.title}}
-                {{item.title}}
-              {{#if item.artistUrl}}
-                  <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}><div class="songArtist">{{item.artist}}</div></a>
-              {{else}}
-                  <div class="songArtist">{{item.artist}}</div>
-              {{/if}}
-
+                <p>{{item.title}}</p>
+              <div class="songArtist">
+                {{#if item.artistUrl}}
+                    <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
+                {{else}}
+                    {{item.artist}}
+                {{/if}}
+              </div>
               {{else}}
                 {{item.filename}}
               {{/if}}
@@ -108,30 +109,30 @@
 
     <div class="row">
       <div class="beatOption col-xs-3">
-        <div class="text-center">{{threshold}}</div>
+          <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Beat Threshold</span>
         {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Beat Threshold</span>
+          <div class="text-center">{{threshold}}</div>
       </div>
 
     <div class="beatOption col-xs-3">
-        <div class="text-center">{{interval}} sec</div>
+      <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum amount of time between each registered beat" class="optionDescription bootstrapTooltip">Beat Interval</span>
       {{range-slider start=interval orientation="vertical" step=beatOptions.interval.step range=beatOptions.interval.range slide="intervalChanged" pips=beatOptions.interval.pips}}
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum amount of time between each registered beat" class="optionDescription bootstrapTooltip">Beat Interval</span>
+      <div class="text-center">{{interval}} sec</div>
     </div>
 
 <div class="beatOption col-xs-3">
-  <div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}}
-    ,{{/unless}}{{/each}}
-    ]
-  </div>
-  {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
   <span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of the sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
+  {{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
+  <div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}}
+      ,{{/unless}}{{/each}}
+      ]
+  </div>
 </div>
 
 <div class="beatOption col-xs-3">
-  <div class="text-center">{{transitionTime}} sec</div>
-  {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
   <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
+  {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
+  <div class="text-center">{{transitionTime}} sec</div>
 </div>
 </div>
 

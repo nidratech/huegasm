@@ -649,6 +649,9 @@ md-switch.md-default-theme.md-checked .md-thumb {
     right: 10px;
     font-size: 18px;
   }
+  p {
+    margin: 0;
+  }
 }
 
 .playlistItem.active {
@@ -968,8 +971,8 @@ $vibrateblurouter: 2px;
 
 #saveBeatPreferencesStar {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 0;
+  left: 0;
   color: #F12B24 !important;
   font-size: 35px;
 }

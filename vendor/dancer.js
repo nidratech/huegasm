@@ -484,7 +484,7 @@
         this.source = this.context.createMediaElementSource(this.audio);
       }
     } catch (err) {
-      console.log('Dancer: '+ err);
+      console.info('Dancer: '+ err);
       return;
     }
 

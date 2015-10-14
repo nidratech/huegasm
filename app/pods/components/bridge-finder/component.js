@@ -67,29 +67,33 @@ export default Em.Component.extend({
   init() {
     this._super();
 
-    if(this.get('bridgeIp') === null){
-      var self = this;
+    if(this.get('bridgeIp') === null) {
+      Em.$.ajax('https://www.meethue.com/api/nupnp', {
+        timeout: 30000
+      })
+      .done((result, status)=> {
+          var bridgeFindStatus = 'fail';
 
-      Em.$.get('https://www.meethue.com/api/nupnp', function (result, status) {
-        var bridgeFindStatus = 'fail';
+          if (status === 'success' && result.length === 1) {
+            this.set('bridgeIp', result[0].internalipaddress);
+            localStorage.setItem('huegasm.bridgeIp', result[0].internalipaddress);
+            bridgeFindStatus = 'success';
+          } else if (result.length > 1) {
+            var multipleBridgeIps = this.get('multipleBridgeIps');
 
-        if (status === 'success' && result.length === 1) {
-          self.set('bridgeIp', result[0].internalipaddress);
-          localStorage.setItem('huegasm.bridgeIp', result[0].internalipaddress);
-          bridgeFindStatus = 'success';
-        } else if(result.length > 1) {
-          var multipleBridgeIps = self.get('multipleBridgeIps');
+            result.forEach(function (item) {
+              multipleBridgeIps.push(item.internalipaddress);
+            });
 
-          result.forEach(function(item) {
-            multipleBridgeIps.push(item.internalipaddress);
-          });
+            bridgeFindStatus = 'multiple';
+          } else {
+            bridgeFindStatus = 'fail';
+          }
 
-          bridgeFindStatus = 'multiple';
-        } else {
-          bridgeFindStatus = 'fail';
-        }
-
-        self.set('bridgeFindStatus', bridgeFindStatus);
+          this.set('bridgeFindStatus', bridgeFindStatus);
+        })
+      .fail(()=>{
+          this.set('bridgeFindStatus', 'fail');
       });
     }
   },

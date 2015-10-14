@@ -20,35 +20,39 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       window.open(URL, '_blank');
     },
     handleNewSoundCloudURL(URL){
-    SC.resolve(URL).then((resultObj)=>{
-      var processResult = (result)=>{
-        if(result.kind === 'user'){
-          this.get('notify').alert({html: this.get('scUserNotSupportedHtml')});
-        } else if(result.kind === 'track') {
-          if(result.streamable === true){
-            this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, fromSoundCloud: true });
-            // make sure to init the first song
-            if(this.get('playQueue').length > 0 && this.get('playQueuePointer') === -1){
-              this.send('goToSong', 0, true);
+      if(URL) {
+        SC.resolve(URL).then((resultObj)=>{
+          var processResult = (result)=>{
+            if(result.kind === 'user'){
+              this.get('notify').alert({html: this.get('scUserNotSupportedHtml')});
+            } else if(result.kind === 'track') {
+              if(result.streamable === true){
+                this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, fromSoundCloud: true });
+                // make sure to init the first song
+                if(this.get('playQueue').length > 0 && this.get('playQueuePointer') === -1){
+                  this.send('goToSong', 0, true);
+                }
+              } else {
+                this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
+              }
+            } else if(result.kind === 'playlist'){
+              if(result.streamable === true){
+                result.tracks.forEach(processResult);
+              } else {
+                this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
+              }
             }
-          } else {
-            this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
-          }
-        } else if(result.kind === 'playlist'){
-          if(result.streamable === true){
-            result.tracks.forEach(processResult);
-          } else {
-            this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
-          }
-        }
-      };
+          };
 
-      if(resultObj instanceof Array){
-        resultObj.forEach(processResult);
-      } else {
-        processResult(resultObj);
+          if(resultObj instanceof Array){
+            resultObj.forEach(processResult);
+          } else {
+            processResult(resultObj);
+          }
+        }, () => {
+          this.get('notify').alert({html: this.get('urlNotFoundHtml')(URL)});
+        });
       }
-    });
 
       this.set('isShowingAddSoundCloudModal', false);
     },
@@ -92,7 +96,26 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     goToSong(index, playSong){
       var dancer = this.get('dancer'), audio = new Audio();
       audio.src = this.get('playQueue')[index].url;
+
       audio.crossOrigin = "anonymous";
+      audio.oncanplay = ()=>{
+        this.set('timeTotal', Math.floor(audio.duration));
+      };
+      audio.onerror = ()=>{
+        var playQueuePointer =this.get('playQueuePointer'),
+          song = this.get('playQueue')[playQueuePointer];
+
+        this.send('next');
+        this.send('removeAudio', playQueuePointer);
+
+        this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
+      };
+      audio.ontimeupdate = ()=>{
+        this.set('timeElapsed', Math.floor(audio.currentTime));
+      };
+      audio.onended = ()=> {
+        this.send('next');
+      };
 
       if(dancer.audio) {
         this.clearCurrentAudio(true);
@@ -112,7 +135,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     },
     removeAudio(index){
       if(index === this.get('playQueuePointer')) {
-        this.clearCurrentAudio(true);
+        this.clearCurrentAudio();
       }
 
       this.get('playQueue').removeAt(index);
@@ -138,7 +161,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       if(playQueuePointer !== -1 ) {
         if (this.get('playing')) {
           dancer.pause();
-          clearInterval(this.get('incrementElapseTimeHandle'));
 
           if(!replayPause){
             this.set('timeElapsed', Math.floor(dancer.getTime()));
@@ -146,6 +168,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
           this.set('dimmerOn', false);
         } else {
+          var timeTotal = this.get('timeTotal');
+
           if(this.get('volumeMuted')) {
             dancer.setVolume(0);
           } else {
@@ -153,7 +177,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
 
           // replay song
-          if(this.get('timeElapsed') === this.get('timeTotal')){
+          if(this.get('timeElapsed') === timeTotal && timeTotal !== 0){
             this.send('seekChanged', 0);
           }
 
@@ -162,8 +186,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           if(this.get('dimmerEnabled')){
             this.set('dimmerOn', true);
           }
-
-          this.set('incrementElapseTimeHandle', window.setInterval(this.incrementElapseTime.bind(this), 1000));
         }
 
         this.toggleProperty('playing');
@@ -333,13 +355,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     this.get('storage').set('huegasm.' + name, value);
   },
 
-  incrementElapseTime(){
-    this.incrementProperty('timeElapsed');
-    if(this.get('timeElapsed') === this.get('timeTotal')){
-      this.send('next');
-    }
-  },
-
   saveSongBeatPreferences() {
     var song = this.get('playQueue')[this.get('playQueuePointer')],
       title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
@@ -385,7 +400,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
         if(dancer.audio && dancer.audio.pause) {
           dancer.pause();
-          clearInterval(this.get('incrementElapseTimeHandle'));
         }
 
         this.setProperties({
@@ -435,8 +449,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     if(dancer.audio.pause) {
       dancer.pause();
     }
-
-    clearInterval(this.get('incrementElapseTimeHandle'));
 
     if(resetPointer){
       this.set('playQueuePointer', -1);
@@ -573,12 +585,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     this.set('storage', storage);
 
     kick.on();
-
-    dancer.bind('loaded', () => {
-      if(this.get('usingLocalAudio')){
-        this.set('timeTotal', Math.round(dancer.audio.duration));
-      }
-    });
 
     //dancer.bind('update', function(){
     //  var waveform = this.getWaveform(), spectrum = this.getSpectrum(), sumS = 0, sumW = 0;

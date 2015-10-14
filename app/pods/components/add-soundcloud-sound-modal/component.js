@@ -27,6 +27,6 @@ export default Em.Component.extend({
   },
 
   saveDisabled: function(){
-    return Em.isEmpty(this.get('url').trim())
+    return Em.isNone(this.get('url')) || Em.isEmpty(this.get('url').trim());
   }.property('url')
 });

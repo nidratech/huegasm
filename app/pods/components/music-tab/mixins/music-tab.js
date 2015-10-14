@@ -96,8 +96,10 @@ export default Em.Mixin.create({
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
-  notStreamableHtml: function(fileName){
-    return '<div class="alert alert-danger" role="alert">The owner of the file ( ' + fileName +' ) has not allowed for the the file to be streamed.</div>';
+  notStreamableHtml: function(fileNames){
+    var html =  '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
+
+    return html;
   },
   urlNotFoundHtml: function(url){
     return '<div class="alert alert-danger" role="alert">The URL ( ' + url + ' ) could not be resolved.</div>';

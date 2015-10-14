@@ -22,6 +22,15 @@ body {
   position: static;
 }
 
+// temporary HAX...not working in FF
+md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
+  transform: none !important;
+}
+
+.alert {
+  margin-bottom: 0;
+}
+
 .relative {
   position: relative;
 }
@@ -649,14 +658,20 @@ md-switch.md-default-theme.md-checked .md-thumb {
     right: 10px;
     font-size: 18px;
   }
-  p {
-    margin: 0;
-  }
   .albumArt {
     height: 60px;
+    float: left;
+    margin-right: 5px;
   }
   .songInfo {
-    display: inline-block;
+    .songTitle {
+      max-height: 40px;
+      overflow: hidden;
+    }
+    .songArtist {
+      max-height: 20px;
+      overflow: hidden;
+    }
   }
 }
 
@@ -675,21 +690,28 @@ md-switch.md-default-theme.md-checked .md-thumb {
   height: $playerBottomHeight;
   position: relative;
   padding: 20px 0 0 0;
+  * {
+    .noUi-target {
+      margin: 0 auto;
+    }
+    .noUi-base, .noUi-background {
+      background-color: #ADADAD;
+      border: 1px solid #797979;
+    }
+    .noUi-vertical {
+      height: 170px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  }
 }
 
-#beatArea * .noUi-target {
-  margin: 0 auto;
+.star {
+  cursor: auto !important;
 }
 
-#beatArea * .noUi-base, #beatArea * .noUi-background {
-  background-color: #ADADAD;
-  border: 1px solid #797979;
-}
-
-#beatArea * .noUi-vertical {
-  height: 170px;
-  margin-top: 15px;
-  margin-bottom: 15px;
+.savedStarTooltip + .tooltip .tooltip-arrow {
+  margin-left: 8px;
 }
 
 #beatOptionButtonGroup {
@@ -980,7 +1002,7 @@ $vibrateblurouter: 2px;
   top: 0;
   left: 0;
   color: #F12B24 !important;
-  font-size: 35px;
+  font-size: 25px;
 }
 
 button.md-warn {

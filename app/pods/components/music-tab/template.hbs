@@ -76,7 +76,7 @@
 
               <div class="songInfo">
                 {{#if item.title}}
-                  <p>{{item.title}}</p>
+                  <div class="songTitle">{{item.title}}</div>
                   <div class="songArtist">
                   {{#if item.artistUrl}}
                       <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
@@ -108,9 +108,9 @@
 <div id="playerBottom" class="row antiDimmer {{if dimmerOn "dimmerFriendly"}}">
   <div id="beatArea" class="col-sm-7 col-xs-12">
     {{#if usingBeatPreferences}}
-      <div data-toggle="tooltip" data-placement="bottom auto" data-title="Using your saved beat preferences from the last time you listened to this song" container="body" class="bootstrapTooltip">
+      <span data-toggle="tooltip" data-placement="bottom auto" data-title="Using your saved beat preferences from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
         {{paper-icon id="saveBeatPreferencesStar" icon="star"}}
-      </div>
+      </span>
     {{/if}}
 
     <div class="row">

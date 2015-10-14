@@ -40,19 +40,24 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
                   this.send('goToSong', 0, true);
                 }
               } else {
-                this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
+                failedSongs.push(result.title);
               }
             } else if(result.kind === 'playlist'){
               if(result.streamable === true){
                 result.tracks.forEach(processResult);
               } else {
-                this.get('notify').alert({html: this.get('notStreamableHtml')(result.title)});
+                failedSongs.push(result.title)
               }
             }
-          };
+          },
+            failedSongs = [];
 
           if(resultObj instanceof Array){
             resultObj.forEach(processResult);
+
+            if(failedSongs.length > 0) {
+              this.get('notify').alert({html: this.get('notStreamableHtml')(failedSongs)});
+            }
           } else {
             processResult(resultObj);
           }
@@ -101,51 +106,52 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
     goToSong(index, playSong){
-      var dancer = this.get('dancer'), audio = new Audio();
-      audio.src = this.get('playQueue')[index].url;
-
-      audio.crossOrigin = "anonymous";
-      audio.oncanplay = ()=>{
-        this.set('timeTotal', Math.floor(audio.duration));
-      };
-      audio.onerror = ()=>{
-        var playQueuePointer =this.get('playQueuePointer'),
-          song = this.get('playQueue')[playQueuePointer];
-
-        this.send('next');
-        this.send('removeAudio', playQueuePointer);
-
-        this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
-      };
-      audio.ontimeupdate = ()=>{
-        this.set('timeElapsed', Math.floor(audio.currentTime));
-      };
-      audio.onended = ()=> {
-        this.send('next');
-      };
+      var dancer = this.get('dancer'), playQueue = this.get('playQueue');
 
       if(dancer.audio) {
         this.clearCurrentAudio(true);
       }
 
-      dancer.load(audio);
-      this.setProperties({
-        playQueuePointer: index,
-        timeElapsed: 0
-      });
+      if(!Em.isNone(playQueue[index])) {
+        var audio = new Audio();
+        audio.src = this.get('playQueue')[index].url;
 
-      this.loadSongBeatPreferences();
+        audio.crossOrigin = "anonymous";
+        audio.oncanplay = ()=>{
+          this.set('timeTotal', Math.floor(audio.duration));
+        };
+        audio.onerror = ()=>{
+          var playQueuePointer =this.get('playQueuePointer'),
+            song = this.get('playQueue')[playQueuePointer];
 
-      if(playSong){
-        this.send('play');
+          this.send('removeAudio', playQueuePointer);
+
+          this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
+        };
+        audio.ontimeupdate = ()=>{
+          this.set('timeElapsed', Math.floor(audio.currentTime));
+        };
+        audio.onended = ()=> {
+          this.send('next');
+        };
+
+        dancer.load(audio);
+
+        this.set('playQueuePointer', index);
+
+        this.loadSongBeatPreferences();
+
+        if(playSong){
+          this.send('play');
+        }
       }
     },
     removeAudio(index){
-      if(index === this.get('playQueuePointer')) {
-        this.clearCurrentAudio();
-      }
-
       this.get('playQueue').removeAt(index);
+
+      if(index === this.get('playQueuePointer')) {
+        this.send('goToSong', index, true);
+      }
     },
     defaultControls(){
       var beatOptions = this.get('beatOptions');
@@ -209,8 +215,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       }
     },
     next(userTriggered) {
-      var playQueuePointer = this.get('playQueuePointer'), playQueueLength = this.get('playQueue.length');
-      var nextSong = (playQueuePointer + 1), repeat = this.get('repeat');
+      var playQueuePointer = this.get('playQueuePointer'),
+        playQueueLength = this.get('playQueue.length'),
+        nextSong = (playQueuePointer + 1),
+        repeat = this.get('repeat');
 
       this.get('beatHistory').clear();
 
@@ -251,7 +259,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       if(dancer.audio){
         var audioPosition = Math.floor(this.get('timeTotal') * position / 100);
         dancer.audio.currentTime = audioPosition;
-        this.set('timeElapsed', audioPosition);
       }
     },
     volumeMutedChanged(value) {

@@ -24,7 +24,7 @@ module.exports = function(environment) {
       'script-src': "'self' connect.soundcloud.com",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
-      'img-src': "'self' data:",
+      'img-src': "'self' *.sndcdn.com  data:",
       'media-src': "'self' api.soundcloud.com *.sndcdn.com blob:",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com",
       'object-src': "'self' connect.soundcloud.com",

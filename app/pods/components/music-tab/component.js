@@ -27,7 +27,14 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
               this.get('notify').alert({html: this.get('scUserNotSupportedHtml')});
             } else if(result.kind === 'track') {
               if(result.streamable === true){
-                this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, fromSoundCloud: true });
+                var picture = null;
+
+                if(result.artwork_url){
+                  picture = result.artwork_url;
+                }
+
+                this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, picture: picture });
+
                 // make sure to init the first song
                 if(this.get('playQueue').length > 0 && this.get('playQueuePointer') === -1){
                   this.send('goToSong', 0, true);
@@ -314,8 +321,19 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       var self = this,
         playQueue = this.get('playQueue'),
         updatePlayQueue = function(){
-          var tags = ID3.getAllTags("local");
-          playQueue.pushObject({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title });
+          var tags = ID3.getAllTags("local"),
+            picture = null;
+
+          if(tags.picture){
+            var base64String = "";
+            for (var i = 0; i < tags.picture.data.length; i++) {
+              base64String += String.fromCharCode(tags.picture.data[i]);
+            }
+
+            picture = "data:" + tags.picture.format + ";base64," + window.btoa(base64String);
+          }
+
+          playQueue.pushObject({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title, picture: picture });
 
           ID3.clearAll();
 
@@ -331,7 +349,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
           if(file.type.startsWith('audio')) {
             ID3.loadTags("local", updatePlayQueue.bind(file),{
-              dataReader: new FileAPIReader(file)
+              dataReader: new FileAPIReader(file),
+              tags: ['title', 'artist', 'album', 'track', 'picture']
             });
           }
         }

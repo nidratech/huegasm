@@ -69,21 +69,27 @@
           {{/if}}
 
           {{#each playQueue as |item index|}}
-            <div
-              class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
-              {{#if item.title}}
-                <p>{{item.title}}</p>
-              <div class="songArtist">
-                {{#if item.artistUrl}}
-                    <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
+            <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
+              {{#if item.picture}}
+                <img class="albumArt" src={{item.picture}}>
+              {{/if}}
+
+              <div class="songInfo">
+                {{#if item.title}}
+                  <p>{{item.title}}</p>
+                  <div class="songArtist">
+                  {{#if item.artistUrl}}
+                      <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
+                  {{else}}
+                      {{item.artist}}
+                  {{/if}}
+                </div>
                 {{else}}
-                    {{item.artist}}
+                  {{item.filename}}
                 {{/if}}
               </div>
-              {{else}}
-                {{item.filename}}
-              {{/if}}
-              <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove from playlist" container="body" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}
+
+              <div data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}
               </div>
             </div>
           {{/each}}

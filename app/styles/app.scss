@@ -652,6 +652,12 @@ md-switch.md-default-theme.md-checked .md-thumb {
   p {
     margin: 0;
   }
+  .albumArt {
+    height: 60px;
+  }
+  .songInfo {
+    display: inline-block;
+  }
 }
 
 .playlistItem.active {

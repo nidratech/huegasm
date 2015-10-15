@@ -69,7 +69,7 @@
           {{/if}}
 
           {{#each playQueue as |item index|}}
-            <div class="playlistItem cursorPointer {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
+            <div class="playlistItem cursorPointer track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
               {{#if item.picture}}
                 <img class="albumArt" src={{item.picture}}>
               {{/if}}

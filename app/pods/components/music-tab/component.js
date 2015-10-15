@@ -31,14 +31,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
                 if(result.artwork_url){
                   picture = result.artwork_url;
+                } else if(result.user.avatar_url){
+                  picture = result.user.avatar_url;
                 }
 
                 this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, picture: picture });
-
-                // make sure to init the first song
-                if(this.get('playQueue').length > 0 && this.get('playQueuePointer') === -1){
-                  this.send('goToSong', 0, true);
-                }
               } else {
                 failedSongs.push(result.title);
               }
@@ -60,6 +57,10 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
             }
           } else {
             processResult(resultObj);
+          }
+
+          if(this.get('playQueuePointer') === -1){
+            this.send('next');
           }
         }, () => {
           this.get('notify').alert({html: this.get('urlNotFoundHtml')(URL)});
@@ -105,7 +106,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.$('#playerBottom').slideToggle();
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
-    goToSong(index, playSong){
+    goToSong(index, playSong, scrollToSong){
       var dancer = this.get('dancer'), playQueue = this.get('playQueue');
 
       if(dancer.audio) {
@@ -144,13 +145,26 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         if(playSong){
           this.send('play');
         }
+
+        if(scrollToSong){
+          var playListArea = Em.$('#playListArea');
+
+          Em.run.later(()=>{
+            playListArea.animate({
+              scrollTop: Em.$('.track'+index).offset().top - playListArea.offset().top + playListArea.scrollTop()
+            });
+          }, 1000);
+        }
       }
     },
     removeAudio(index){
       this.get('playQueue').removeAt(index);
 
+      // need to manually remove the tooltip
+      Em.$('body .tooltip').remove();
+
       if(index === this.get('playQueuePointer')) {
-        this.send('goToSong', index, true);
+        this.send('goToSong', index, true, true);
       }
     },
     defaultControls(){
@@ -218,12 +232,28 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       var playQueuePointer = this.get('playQueuePointer'),
         playQueueLength = this.get('playQueue.length'),
         nextSong = (playQueuePointer + 1),
-        repeat = this.get('repeat');
+        repeat = this.get('repeat'),
+        shuffle = this.get('shuffle');
 
       this.get('beatHistory').clear();
 
-      if(repeat === 2){
-        this.send('goToSong', playQueuePointer, true);
+      if(repeat === 2){ // repeating one song takes precedence over shuffling
+        nextSong = playQueuePointer;
+      } else if(shuffle){
+        var shufflePlayed = this.get('shufflePlayed');
+
+        // played all the song in shuffle mode
+        if(shufflePlayed.length === playQueueLength){
+          shufflePlayed.clear();
+          this.send('play', true);
+          return;
+        }
+
+        do {
+          nextSong = Math.floor(Math.random() * playQueueLength);
+        } while(shufflePlayed.contains(nextSong));
+
+        shufflePlayed.pushObject(nextSong);
       } else if(nextSong > playQueueLength-1){
         if(repeat === 1 || userTriggered){
           nextSong = nextSong % playQueueLength;
@@ -233,7 +263,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         }
       }
 
-      this.send('goToSong', nextSong, true);
+      this.send('goToSong', nextSong, true, true);
     },
     previous() {
       if(this.get('timeElapsed') > 5) {
@@ -246,7 +276,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           nextSong = this.get('playQueue.length') - 1;
         }
 
-        this.send('goToSong', nextSong, true);
+        this.send('goToSong', nextSong, true, true);
       }
     },
     toggleVisualizations() {
@@ -344,9 +374,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
           ID3.clearAll();
 
-          // make sure to init the first song
-          if(playQueue.length > 0 && self.get('playQueuePointer') === -1){
-            self.send('goToSong', 0, true);
+          if(self.get('playQueuePointer') === -1){
+            self.send('next');
           }
         };
 

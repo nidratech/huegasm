@@ -646,9 +646,11 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .playlistItem {
-  height: 65px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+  border-top: 1px solid rgba(128,128,128,0.3);
+  height: 62px;
   font-family: 'Open Sans', sans-serif;
-  padding: 5px 20px 5px 5px;
+  padding: 0 20px 0 5px;
   position: relative;
   color: black;
   background: darken(white, 5%);
@@ -672,13 +674,15 @@ md-switch.md-default-theme.md-checked .md-thumb {
   }
   .audioRemoveButton {
     position: absolute;
-    top: 40%;
-    right: 0;
+    top: 20px;
+    right: 5px;
   }
 }
 
 .playlistItem.active {
   background: darken(white, 15%) !important;
+  border-top: 1px solid $secondaryThemeColor;
+  border-bottom: 1px solid $secondaryThemeColor;
 }
 
 .playlistItem:hover {

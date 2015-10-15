@@ -139,6 +139,8 @@ export default Em.Mixin.create({
   oldBeatPrefCache: null,
   storage: null,
 
+  // used to insure that we don't replay the same thing multiple times in shuffle mode
+  shufflePlayed: [],
   pauseLightUpdates: function(){
     return this.get('playing');
   }.property('playing'),
@@ -329,6 +331,7 @@ export default Em.Mixin.create({
     var tooltipTxt = 'Shuffle', type = 'shuffle';
 
     if (this.get(type)) {
+      this.get('shufflePlayed').clear();
       tooltipTxt = 'Unshuffle';
     }
 

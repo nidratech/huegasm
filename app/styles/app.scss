@@ -254,8 +254,8 @@ md-slider.md-default-theme .md-thumb:after {
 .lightGroup {
   margin: 0 auto 0 auto;
   .tooltip.top {
-    margin-top: -10px;
-    margin-left: -3px;
+    margin-top: 4px;
+    margin-left: 0;
   }
   div {
     display: inline-block;
@@ -273,8 +273,8 @@ md-slider.md-default-theme .md-thumb:after {
   font-weight: bold;
   position: absolute;
   content: "X";
-  top: 0;
-  left: 15px;
+  top: -10px;
+  left: 5px;
   font-size: 40px;
   color: rgba(255, 0, 0, 0.37);
   font-family: cursive;
@@ -286,8 +286,8 @@ md-slider.md-default-theme .md-thumb:after {
     left: 6px;
   }
   .tooltip.top {
-    margin-top: 2px;
-    margin-left: 0;
+    margin-top: 1px;
+    margin-left: 2px;
   }
 }
 
@@ -653,9 +653,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   color: black;
   background: darken(white, 5%);
   .close {
-    position: absolute;
-    top: 10%;
-    right: 10px;
     font-size: 18px;
   }
   .albumArt {
@@ -672,6 +669,11 @@ md-switch.md-default-theme.md-checked .md-thumb {
       max-height: 20px;
       overflow: hidden;
     }
+  }
+  .audioRemoveButton {
+    position: absolute;
+    top: 40%;
+    right: 0;
   }
 }
 

@@ -65,26 +65,6 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   transition: 0.1s all ease-in-out;
 }
 
-.appSettingsItem {
-  padding: 10px;
-  transition: 0.1s all ease-in-out;
-  cursor: pointer;
-}
-
-.appSettingsItem.warn {
-  text-transform: uppercase;
-  background: rgba(255, 0, 0, 0.20);
-}
-
-.appSettingsItem.warn:hover {
-  background: rgba(255, 0, 0, 0.70);
-  color: white;
-}
-
-.appSettingsItem:hover {
-  background: darken(white, 20%);
-}
-
 .settingsItem span:hover {
   text-decoration: underline;
   md-icon.group {
@@ -161,10 +141,9 @@ md-progress-linear {
   position: absolute;
   background: white;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
-  width: 210px;
-  left: -172px;
-  top: 44px;
-  padding: 0;
+  width: 175px;
+  left: -115px;
+  top: 20px;
   border: none;
   color: black;
 }
@@ -181,6 +160,10 @@ md-list {
 
 md-list-item .md-no-style {
   padding: 0;
+}
+
+.lightsTab {
+  min-height: 400px;
 }
 
 .lightsTab * .tooltip {
@@ -265,8 +248,8 @@ md-slider.md-default-theme .md-thumb:after {
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   border-radius: 0 0 5px 5px;
   width: 300px;
-  top: 40px;
-  left: -245px;
+  top: 20px;
+  left: -215px;
   position: absolute;
   background-color: white;
   max-height: 400px;
@@ -996,8 +979,6 @@ body.dimmerOn {
 }
 
 body.dimmerOn #bridgeInput label,
-.group.dimmerOn,
-.settings.dimmerOn,
 .power-settings-new.dimmerOn,
 .brightness-4.dimmerOn,
 .color-lens.dimmerOn,
@@ -1073,6 +1054,13 @@ button.md-warn {
   top: 28px;
 }
 
-.dropdown-toggle {
+.addNewMusic {
   padding: 4px;
+  background: none;
+  color: $playerDefaultIconColor;
+  border: none;
+}
+
+.addNewMusic:hover {
+  color: lighten($playerDefaultIconColor, 30%);
 }

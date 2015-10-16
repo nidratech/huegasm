@@ -9,8 +9,7 @@
     <div id="settings" class="col-sm-3 col-xs-5">
       <div class="settingsItem">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Light Groups
-          <div class="text-center">{{paper-icon icon="group"}}</div>
+          Light Groups <span class="caret"></span>
         </span>
 
         {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
@@ -18,13 +17,12 @@
 
       <div class="settingsItem">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Settings
-          <div class="text-center">{{paper-icon icon="settings"}}</div>
+          Settings <span class="caret"></span>
         </span>
 
         <ul id="appSettings" class="dropdown-menu">
-          <li class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</li>
-          <li class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</li>
+          <li {{action "clearBridge"}}><a href="#">Switch bridge</a></li>
+          <li {{action "clearAllSettings"}}><a href="#">Clear application settings</a></li>
         </ul>
       </div>
     </div>

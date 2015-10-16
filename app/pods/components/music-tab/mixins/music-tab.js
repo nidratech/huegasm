@@ -90,7 +90,6 @@ export default Em.Mixin.create({
   visualizationsDisplayed: false,
   audioStream: null,
   dimmerOn: false,
-  dimmerEnabled: false,
   isShowingAddSoundCloudModal: false,
 
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
@@ -225,21 +224,11 @@ export default Em.Mixin.create({
     }
 
     if(this.get('dimmerOn')){
-      classes += ' dimmerFriendly';
+      classes += ' dimmerOn';
     }
 
     return classes;
   }.property('dragging', 'draggingOverPlayListArea', 'dimmerOn'),
-
-  dimmingClass: function(){
-    var classes = 'playerControllIcon';
-
-    if(this.get('dimmerEnabled')){
-      classes += ' active';
-    }
-
-    return classes;
-  }.property('dimmerEnabled'),
 
   volumeMutedClass: function(){
     var classes = 'playerControllIcon volumeButton';
@@ -281,20 +270,6 @@ export default Em.Mixin.create({
     }
   }.property('volumeMuted', 'volume'),
 
-  onDimmerOnChange: function() {
-    var opacity = 0;
-
-    if(this.get('dimmerOn')) {
-      opacity = 0.8;
-    }
-
-    this.$('#dimmer').fadeTo(400, opacity, function() {
-      if(opacity === 0) {
-        Em.$(this).hide();
-      }
-    });
-  }.observes('dimmerOn'),
-
   onOptionChange: function(self, option){
     this.get('storage').set('huegasm.' + option, this.get(option));
   }.observes('randomTransition', 'onBeatBriAndColor'),
@@ -310,22 +285,6 @@ export default Em.Mixin.create({
 
     this.changeTooltipText(type, tooltipTxt);
   }.observes('repeat').on('init'),
-
-  onDimmerEnabledChange: function () {
-    var tooltipTxt = 'Dim on play', type = 'dimmerEnabled';
-
-    if (this.get(type)) {
-      tooltipTxt = 'Stop dimming';
-    }
-
-    if(!this.get(type)){
-      this.set('dimmerOn', false);
-    } else if(this.get('playing')){
-      this.set('dimmerOn', true);
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  }.observes('dimmerEnabled').on('init'),
 
   onShuffleChange: function () {
     var tooltipTxt = 'Shuffle', type = 'shuffle';

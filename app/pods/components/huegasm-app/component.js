@@ -1,11 +1,35 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
+  actions: {
+    toggleDimmer(){
+      this.toggleProperty('dimmerOn');
+    }
+  },
   bridgeIp: null,
 
   bridgeUsername: null,
 
   trial: false,
+
+  dimmerOn: false,
+  dimmerOnClass: function(){
+    var dimmerOn = this.get('dimmerOn'),
+      className = null;
+
+    if(dimmerOn){
+      className = 'active';
+      Em.$('body').addClass('dimmerOn');
+      Em.$('html').addClass('dimmerOn');
+      Em.$('md-icon').addClass('dimmerOn');
+    } else {
+      Em.$('body').removeClass('dimmerOn');
+      Em.$('html').removeClass('dimmerOn');
+      Em.$('md-icon').removeClass('dimmerOn');
+    }
+
+    return className;
+  }.property('dimmerOn'),
 
   init(){
     this._super();

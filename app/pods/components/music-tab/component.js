@@ -72,9 +72,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     toggleIsShowingAddSoundCloudModal() {
       this.toggleProperty('isShowingAddSoundCloudModal');
     },
-    toggleDimming(){
-      this.changePlayerControl('dimmerEnabled', !this.get('dimmerEnabled'));
-    },
     useLocalAudio(){
       var audioStream = this.get('audioStream');
       this.changePlayerControl('audioMode', 0);
@@ -192,8 +189,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           if(!replayPause){
             this.set('timeElapsed', Math.floor(dancer.getTime()));
           }
-
-          this.set('dimmerOn', false);
         } else {
           var timeTotal = this.get('timeTotal');
 
@@ -209,10 +204,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
 
           dancer.play();
-
-          if(this.get('dimmerEnabled')){
-            this.set('dimmerOn', true);
-          }
         }
 
         this.toggleProperty('playing');
@@ -287,8 +278,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       var dancer = this.get('dancer');
 
       if(dancer.audio){
-        var audioPosition = Math.floor(this.get('timeTotal') * position / 100);
-        dancer.audio.currentTime = audioPosition;
+        dancer.audio.currentTime = Math.floor(this.get('timeTotal') * position / 100);
       }
     },
     volumeMutedChanged(value) {
@@ -665,7 +655,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'dimmerEnabled', 'songBeatPreferences', 'debugFiltered'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
@@ -694,12 +684,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     // prevent space/text selection when the user repeatedly clicks on the center
     Em.$('#beatContainer').on('mousedown', '#beatSpeakerCenterInner', function(event) {
       event.preventDefault();
-    });
-
-    Em.$(document).on('mousedown', function(event){
-      if(Em.$('#musicTab').has(event.target).length === 0 && self.get('dimmerEnabled')){
-        self.set('dimmerEnabled', false);
-      }
     });
 
     // control the volume by scrolling up/down

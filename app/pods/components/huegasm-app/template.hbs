@@ -1,9 +1,9 @@
 {{#if bridgeUsername}}
-  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial}}
+  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn}}
 {{else}}
   {{bridge-finder bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial}}
 {{/if}}
 
 <footer id="footer">
-  <p>Made by <a href="//egorphilippov.me">egorphilippov.me</a> © 2015 Huegasm</p>
+   <p><span class="dimmerWrapper" {{action "toggleDimmer"}}>{{fa-icon "fa-lightbulb-o" classNames=dimmerOnClass}}</span>Made by <a href="//egorphilippov.me">egorphilippov.me</a> © 2015 Huegasm</p>
 </footer>

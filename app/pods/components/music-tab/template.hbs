@@ -1,4 +1,4 @@
-<div class="row antiDimmer">
+<div class="row">
   <div id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
     <div id="playNotification" class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
     <div id="playerControls">
@@ -23,8 +23,6 @@
       {{/if}}
 
       <span class="pull-right">
-            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="dimmerEnabledTooltip" data-title={{dimmerEnabledTooltipTxt}} {{action "toggleDimming"}}>{{paper-icon icon="brightness-high" class=dimmingClass}}
-            </span>
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}
             </span>
             <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
@@ -99,13 +97,13 @@
   </div>
 </div>
 
-<div id="slideToggle" class="text-center cursorPointer row antiDimmer" {{action "slideTogglePlayerBottom"}}>
+<div id="slideToggle" class="text-center cursorPointer row" {{action "slideTogglePlayerBottom"}}>
   <div class="col-xs-offset-5 col-xs-2">
     {{paper-icon icon=beatDetectionArrowIcon}}
   </div>
 </div>
 
-<div id="playerBottom" class="row antiDimmer {{if dimmerOn "dimmerFriendly"}}">
+<div id="playerBottom" class="row {{if dimmerOn "dimmerOn"}}">
   <div id="beatArea" class="col-sm-7 col-xs-12">
     {{#if usingBeatPreferences}}
       <span data-toggle="tooltip" data-placement="bottom auto" data-title="Using your saved beat preferences from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
@@ -192,6 +190,5 @@
 </div>
 
 {{ember-notify closeAfter=5000}}
-<div id="dimmer" {{action "toggleDimming"}}></div>
 
 {{add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

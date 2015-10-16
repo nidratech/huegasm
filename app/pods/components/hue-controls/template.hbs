@@ -1,34 +1,32 @@
 {{#if ready}}
   <div class="row navigation">
-    <div class="col-lg-4 col-lg-offset-4 col-xs-6 col-xs-offset-3">
+    <div class="col-sm-5 col-sm-offset-4 col-xs-6 col-xs-offset-1">
       {{#each tabData as |tab|}}
         <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
       {{/each}}
     </div>
 
-    <div id="settings" class="col-xs-3">
-      <span id="groupMenu" class="settingsItem">
+    <div id="settings" class="col-sm-3 col-xs-5">
+      <div class="settingsItem">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Light Groups">
-            {{paper-icon icon="group"}}
-          </span>
+          Light Groups
+          <div class="text-center">{{paper-icon icon="group"}}</div>
         </span>
 
         {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
-      </span>
+      </div>
 
-      <span id="appSettingsMenu" class="settingsItem">
+      <div class="settingsItem">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Application Settings">
-            {{paper-icon icon="settings"}}
-          </span>
+          Settings
+          <div class="text-center">{{paper-icon icon="settings"}}</div>
         </span>
 
         <ul id="appSettings" class="dropdown-menu">
           <li class="appSettingsItem" {{action "clearBridge"}}>Switch bridge</li>
           <li class="warn appSettingsItem" {{action "clearAllSettings"}}>Clear application settings</li>
         </ul>
-      </span>
+      </div>
     </div>
   </div>
 

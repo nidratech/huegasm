@@ -26,8 +26,10 @@
       </div>
     {{else}}
       {{#if bridgeFindFail}}
-        <p>A hue bridge was not found on your network. <br>
-          Enter one manually?</p>
+        <p>A hue bridge could not be automatically found on your network. <br>
+          Enter one manually? <br><br>
+          ( or enter <b>trial</b> to look around )
+        </p>
 
         <span id="bridgeInput">
           {{paper-input label="Hue bridge IP address" value=manualBridgeIp}}

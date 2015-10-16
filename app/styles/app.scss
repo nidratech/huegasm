@@ -9,6 +9,7 @@ $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
 $playerBottomHeight: 340px;
 $secondaryThemeColor: #F12B24;
+$glowingText: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
 
   // BRIDGE FINDER
 html {
@@ -20,6 +21,12 @@ body {
   font-family: 'Slabo 27px', serif;
   margin-bottom: $footerHeight + 20px;
   position: static;
+}
+
+body.dimmerOn {
+  .navigationItem {
+    text-shadow: $glowingText;
+  }
 }
 
 // temporary HAX...not working in FF
@@ -44,6 +51,9 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
 .settingsItem {
   margin-left: 15px;
   position: relative;
+  display: inline-block;
+  transition: 0.1s all ease-in-out;
+  cursor: pointer;
 }
 
 md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {
@@ -75,9 +85,14 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   background: darken(white, 20%);
 }
 
-.settingsItem:hover md-icon.group,
-.settingsItem:hover md-icon.settings {
-  color: black !important;
+.settingsItem span:hover {
+  text-decoration: underline;
+  md-icon.group {
+    color: black !important;
+  }
+  md-icon.settings {
+    color: black !important;
+  }
 }
 
 .ember-app {
@@ -90,10 +105,8 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   bottom: 0;
   width: 100%;
   height: $footerHeight;
-  z-index: -1;
   p {
     padding-left: 0;
-    margin-top: 10px;
     text-align: center;
   }
 }
@@ -149,9 +162,11 @@ md-progress-linear {
   background: white;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   width: 210px;
-  left: -182px;
-  top: 25px;
+  left: -172px;
+  top: 44px;
   padding: 0;
+  border: none;
+  color: black;
 }
 
 .bootstrapTooltip md-icon {
@@ -166,6 +181,14 @@ md-list {
 
 md-list-item .md-no-style {
   padding: 0;
+}
+
+.lightsTab * .tooltip {
+  left: -20px !important;
+}
+
+.colorRow * .tooltip {
+  left: -7px !important;
 }
 
 #hueControls {
@@ -242,13 +265,15 @@ md-slider.md-default-theme .md-thumb:after {
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   border-radius: 0 0 5px 5px;
   width: 300px;
-  top: 20px;
-  left: -269px;
+  top: 40px;
+  left: -245px;
   position: absolute;
   background-color: white;
   max-height: 400px;
   overflow: auto;
   text-align: left;
+  padding: 0;
+  color: black;
 }
 
 .lightGroup {
@@ -261,8 +286,6 @@ md-slider.md-default-theme .md-thumb:after {
     display: inline-block;
   }
 }
-
-.hueLight {}
 
 .lightInactive {
   cursor: pointer;
@@ -317,14 +340,9 @@ md-icon {
 }
 
 .addButton {
-  .group-add {
-    color: $secondaryThemeColor;
-    margin-right: 15px;
-    font-size: 28px;
-  }
-  .group-add:hover {
-    color: darken(#333333, 5%) !important;
-  }
+  width: 100%;
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 .removeButton {
@@ -360,6 +378,7 @@ md-toolbar {
 }
 
 .groupSelect {
+  cursor: pointer;
   padding: 10px 0 10px 10px;
   width: 70%;
   font-family: 'Open Sans', sans-serif;
@@ -975,16 +994,35 @@ body.dimmerOn {
   background: #242424;
 }
 
-md-icon.dimmerOn {
+body.dimmerOn #bridgeInput label,
+.group.dimmerOn,
+.settings.dimmerOn,
+.power-settings-new.dimmerOn,
+.brightness-4.dimmerOn,
+.color-lens.dimmerOn,
+.flare.dimmerOn,
+.loop.dimmerOn,
+.library-music.dimmerOn {
   color: inherit !important;
+  text-shadow: $glowingText;
+  opacity: 1 !important;
+}
+
+body.dimmerOn {
+  .md-track, .color {
+    background: white !important;
+  }
 }
 
 .dimmerWrapper {
   font-size: 40px;
-  position: relative;
-  top: 7px;
-  margin-right: 20px;
+  position: absolute;
+  left: -50px;
+  bottom: -16px;
   cursor: pointer;
+  i.active {
+    text-shadow: $glowingText;
+  }
 }
 
 .noUi-value-vertical {

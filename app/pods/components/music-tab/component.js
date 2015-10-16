@@ -43,7 +43,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
               if(result.streamable === true){
                 result.tracks.forEach(processResult);
               } else {
-                failedSongs.push(result.title)
+                failedSongs.push(result.title);
               }
             }
           },
@@ -146,10 +146,15 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         if(scrollToSong){
           var playListArea = Em.$('#playListArea');
 
+          // this is just a bad workaround to make sure that the track has been rendered to the playlist
           Em.run.later(()=>{
-            playListArea.animate({
-              scrollTop: Em.$('.track'+index).offset().top - playListArea.offset().top + playListArea.scrollTop()
-            });
+            var track = Em.$('.track'+index);
+
+            if(!Em.isNone(track)) {
+              playListArea.animate({
+                scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop()
+              });
+            }
           }, 1000);
         }
       }
@@ -229,7 +234,11 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.get('beatHistory').clear();
 
       if(repeat === 2){ // repeating one song takes precedence over shuffling
-        nextSong = playQueuePointer;
+        if(playQueuePointer === -1 && playQueueLength > 0) {
+          nextSong = 0;
+        } else {
+          nextSong = playQueuePointer;
+        }
       } else if(shuffle){
         var shufflePlayed = this.get('shufflePlayed');
 

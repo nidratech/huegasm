@@ -370,7 +370,7 @@ md-toolbar {
 }
 
 .groupRow:hover {
-  background-color: #c3c3c3;
+  background-color: #DEDEDE;
 }
 
 .groupRow.selectedRow .groupSelect {
@@ -449,7 +449,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 0.714em;
+  padding: 5px 10px;
   width: 100%;
   color: white !important;
   z-index: 20;
@@ -460,6 +460,9 @@ md-switch.md-default-theme.md-checked .md-thumb {
   .tooltip-arrow {
     display: none;
   }
+  .play-arrow, .pause {
+    font-size: 30px;
+  }
 }
 
 #playerTimeControls {
@@ -467,8 +470,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   font-size: 14px;
   display: inline-block;
   margin-left: 1em;
-  position: relative;
-  bottom: 2px;
 }
 
 .playerControllIcon {
@@ -547,7 +548,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   width: 5em;
   height: 0.4em;
   display: inline-block;
-  margin-bottom: 3px;
 }
 
 .noUi-handle {
@@ -602,6 +602,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   min-height: 30px;
   margin-top: 5px;
   border-bottom: 1px solid #3a3a3a;
+  position: relative;
 }
 
 #playListArea, #playAreaMic, #playAreaYoutube {
@@ -1055,20 +1056,23 @@ button.md-warn {
   background: $secondaryThemeColor;
 }
 
-.#{$fa-css-prefix}-soundcloudWorkaround:before {
-  content: $fa-var-soundcloud;
-}
-
-.soundCloudLogoIcon {
-  line-height: 34px;
-  i {
-    font-size: 26px;
-    cursor: pointer;
-    line-height: 0;
-    color: #f70 !important;
-  }
-}
-
 .ember-modal-dialog {
   padding: 20px;
+}
+
+.addMusicButton {
+  float: right;
+  color: white;
+}
+
+#addMusicChoices {
+  min-width: initial;
+  right: 0;
+  left: initial;
+  width: 100px;
+  top: 28px;
+}
+
+.dropdown-toggle {
+  padding: 4px;
 }

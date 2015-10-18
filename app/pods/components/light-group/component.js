@@ -41,6 +41,7 @@ export default Em.Component.extend({
       }
 
       this.set('isHovering', false);
+      this.onLightsDataChange();
     }
   },
 
@@ -111,5 +112,5 @@ export default Em.Component.extend({
 
       this.set('lightsList', lightsList);
     }
-  }.observes('lightsData', 'activeLights.[]')
+  }.observes('lightsData', 'activeLights.[]', 'dimmerOn')
 });

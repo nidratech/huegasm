@@ -82,7 +82,7 @@ export default Em.Component.extend({
             var multipleBridgeIps = this.get('multipleBridgeIps');
 
             result.forEach(function (item) {
-              multipleBridgeIps.push(item.internalipaddress);
+              multipleBridgeIps.pushObject(item.internalipaddress);
             });
 
             bridgeFindStatus = 'multiple';

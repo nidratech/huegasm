@@ -3,6 +3,7 @@
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
 @import "bower_components/font-awesome/scss/font-awesome";
+@import "fancy-speaker";
 
 $playerHeight: 400px;
 $playerDefaultIconColor: #BBBBBB;
@@ -21,12 +22,6 @@ body {
   font-family: 'Slabo 27px', serif;
   margin-bottom: $footerHeight + 20px;
   position: static;
-}
-
-body.dimmerOn {
-  .navigationItem {
-    text-shadow: $glowingText;
-  }
 }
 
 // temporary HAX...not working in FF
@@ -166,11 +161,15 @@ md-list-item .md-no-style {
   min-height: 400px;
 }
 
-.lightsTab * .tooltip {
+.lightCtrlTooltip + .tooltip {
   left: -20px !important;
 }
 
-.colorRow * .tooltip {
+#colorRow {
+  cursor: pointer;
+}
+
+#colorRow * .tooltip {
   left: -7px !important;
 }
 
@@ -347,6 +346,7 @@ md-toolbar {
   transition: 0.1s all ease-in-out;
 }
 
+
 .groupRow.selectedRow {
   background-color: #7F7F7F !important;
   color: white;
@@ -365,6 +365,26 @@ md-toolbar {
   padding: 10px 0 10px 10px;
   width: 70%;
   font-family: 'Open Sans', sans-serif;
+}
+
+.newGroup {
+  font-size: 18px;
+  min-height: 100%;
+  width: 100%;
+  padding: 10px 0 10px 10px;
+  margin: 0;
+}
+
+.newGroupRow{
+  border-style: solid;
+  border-width: 3px;
+  border-color: #f6c653 #bd6a23 #b6631f #e8ab4a;
+  background: #d79922;
+  color: black;
+}
+
+.newGroupRow:hover {
+  background-color: lighten(#d79922, 10%);
 }
 
 .groupRow:hover * .close {
@@ -659,6 +679,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
     height: 60px;
     float: left;
     margin-right: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
   }
   .songInfo {
     .songTitle {
@@ -794,168 +815,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   }
 }
 
-// FANCY SPEAKER
-/* Variables */
-$centersize: 100px;
-$center1size: 250px;
-$bezelsize: 285px;
-$vibratesize: $centersize*1.06;
-$vibratemargin:-$vibratesize/2;
-$vibrateblurinner: 3px;
-$vibrateblurouter: 2px;
 
-/* Extenders */
-%base {
-  border-radius: 100%;
-}
-%rivet {
-  position: absolute;
-  height: 8px;
-  width: 8px;
-  background-color: #555;
-  border-radius: 100%;
-  box-shadow: inset 0 0 3px #000, 0 0 2px #000;
-}
-
-/* Keyframes */
-@keyframes vibrateInner {
-  50% {
-    -webkit-filter: blur($vibrateblurinner);
-    filter: blur($vibrateblurinner);
-    transform: scale(1.05);
-  }
-}
-
-@keyframes vibrateOuter {
-  0% {
-    -webkit-filter: blur($vibrateblurouter);
-    filter: blur($vibrateblurouter);
-    border: 15px solid #333;
-  }
-  30% {
-    -webkit-filter: blur(0);
-    filter: blur(0);
-    border: 17px solid #333;
-  }
-  50% {
-    -webkit-filter: blur($vibrateblurouter);
-    filter: blur($vibrateblurouter);
-    border: 15px solid #333;
-  }
-  65% {
-    -webkit-filter: blur(0);
-    filter: blur(0);
-    border: 17px solid #333;
-  }
-  70% {
-    -webkit-filter: blur($vibrateblurouter);
-    filter: blur($vibrateblurouter);
-    border: 15px solid #333;
-  }
-  80% {
-    -webkit-filter: blur($vibrateblurouter);
-    filter: blur($vibrateblurouter);
-    border: 17px solid #333;
-  }
-  100% {
-    -webkit-filter: blur($vibrateblurouter);
-    filter: blur($vibrateblurouter);
-    border: 15px solid #333;
-  }
-}
-
-#beatSpeakerCenterInner {
-  @extend %base;
-  height: $centersize;
-  width: $centersize;
-  position: absolute;
-  bottom: 60px;
-  right: 60px;
-  -webkit-filter: blur(1px);
-  filter: blur(1px);
-  background: rgb(0,0,0);
-  background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%, rgba(79,79,79,1) 0%, rgba(0,0,0,1) 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,1)), color-stop(0%,rgba(79,79,79,1)), color-stop(100%,rgba(0,0,0,1)));
-  background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
-  background: -o-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
-  background: -ms-radial-gradient(center, ellipse cover, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
-  background: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 1);
-}
-.vibrateInner{
-  -webkit-animation: vibrateInner 0.15s linear 1;
-  animation: vibrateInner 0.15s linear 1;
-}
-#beatSpeakerCenterOuter {
-  @extend %base;
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  height: $center1size;
-  width: $center1size;
-  border: 15px solid #333;
-  box-shadow: -3px -3px 15px rgba(0, 0, 0, 0.4), inset -3px -3px 15px rgba(0, 0, 0, 0.5);
-  background: -moz-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
-  background: -webkit-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
-  background: -o-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
-  background: -ms-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
-  background: linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
-}
-.vibrateOuter {
-  -webkit-animation: vibrateOuter 0.15s linear 1;
-  animation: vibrateOuter 0.15s linear 1;
-}
-.bezel {
-  @extend %base;
-  margin: 0 auto;
-  height: $bezelsize;
-  width: $bezelsize;
-  position: relative;
-  background-color: #A8A8A8;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8), inset 3px 3px 10px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.8), inset 0 0 30px -5px rgba(0, 0, 0, 0.8);
-  top: 50%;
-  transform: translateY(-50%);
-}
-.rivet1 {
-  @extend %rivet;
-  top: 6px;
-  left: 50%;
-}
-.rivet2 {
-  @extend %rivet;
-  bottom: 6px;
-  left: 50%;
-}
-.rivet3 {
-  @extend %rivet;
-  top: 50%;
-  left: 6px;
-}
-.rivet4 {
-  @extend %rivet;
-  top: 50%;
-  right: 6px;
-}
-.rivet5 {
-  @extend %rivet;
-  top: 18%;
-  left: 13.7%;
-}
-.rivet6 {
-  @extend %rivet;
-  top: 18%;
-  right: 13.5%;
-}
-.rivet7 {
-  @extend %rivet;
-  bottom: 17%;
-  left: 13.5%;
-}
-.rivet8 {
-  @extend %rivet;
-  bottom: 17%;
-  right: 13.5%;
-}
 
 #ytplayer{
   display: block;
@@ -978,7 +838,6 @@ body.dimmerOn {
   background: #242424;
 }
 
-body.dimmerOn #bridgeInput label,
 .power-settings-new.dimmerOn,
 .brightness-4.dimmerOn,
 .color-lens.dimmerOn,
@@ -1029,7 +888,7 @@ body.dimmerOn {
   position: absolute;
   top: 0;
   left: 0;
-  color: #F12B24 !important;
+  color: $secondaryThemeColor !important;
   font-size: 25px;
 }
 
@@ -1039,6 +898,7 @@ button.md-warn {
 
 .ember-modal-dialog {
   padding: 20px;
+  color: black;
 }
 
 .addMusicButton {
@@ -1051,16 +911,20 @@ button.md-warn {
   right: 0;
   left: initial;
   width: 100px;
-  top: 28px;
+  top: 30px;
 }
 
 .addNewMusic {
+  font-size: 16px;
   padding: 4px;
-  background: none;
-  color: $playerDefaultIconColor;
+  color: white;
   border: none;
+  text-shadow: 1px 1px 2px rgba(0,0,0,.8);
+  box-shadow: inset 1px 1px 9px rgba(135,30,10,.8),inset -1px -1px 5px rgba(181,60,2,.8);
+  border-radius: 5px;
+  background: linear-gradient(#db8e01,#871e0a);
 }
 
 .addNewMusic:hover {
-  color: lighten($playerDefaultIconColor, 30%);
+  background: linear-gradient(lighten(#db8e01,5%), lighten(#871e0a,5%));
 }

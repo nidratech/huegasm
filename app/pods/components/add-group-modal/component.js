@@ -28,10 +28,8 @@ export default Em.Component.extend({
       if(selectedLights.contains(id)){
         selectedLights.removeObject(id);
       } else {
-        selectedLights.push(id);
+        selectedLights.pushObject(id);
       }
-
-      this.notifyPropertyChange('selectedLights');
     }
   },
 

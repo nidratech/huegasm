@@ -1,23 +1,23 @@
 {{#paper-list class="lightsTab"}}
   {{#paper-item class="item"}}
-    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup"}}
+    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup" dimmerOn=dimmerOn}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="power-settings-new"}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Selected lights are turned on/off">Power</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Selected lights are turned on/off">Power</p>
     {{#paper-switch checked=lightsOn disabled=trial skipProxy=trial}} {{lightsOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="brightness-4"}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Brightness level of the selected lights">Brightness</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Brightness level of the selected lights">Brightness</p>
     {{paper-slider flex=true min='1' max='254' value=lightsBrightness disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
-  {{#paper-item action=colorRowAction class="colorRow"}}
+  {{#paper-item elementId="colorRow"}}
     {{paper-icon icon="color-lens"}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Color of the selected lights">Color</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Color of the selected lights">Color</p>
   {{/paper-item}}
 
   <div class="relative">
@@ -30,13 +30,13 @@
 
   {{#paper-item}}
     {{paper-icon icon="flare"}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Selected lights will flash in sequential order">Strobe</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Selected lights will flash in sequential order">Strobe</p>
     {{#paper-switch checked=strobeOn disabled=trial skipProxy=trial}} {{strobeOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="color-lens"}} {{paper-icon icon="loop" id="loopAddition"}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Selected lights will slowly cycle through all the colors">Colorloop</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Selected lights will slowly cycle through all the colors">Colorloop</p>
     {{#paper-switch checked=colorLoopOn disabled=trial skipProxy=trial}} {{colorloopOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 {{/paper-list}}

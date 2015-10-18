@@ -1,6 +1,6 @@
 {{#paper-list}}
-  {{#paper-item class="groupRow"}}
-    <h4 class="addButton" {{action "toggleAddGroupsModal"}}>Add a new light group</h4>
+  {{#paper-item class="newGroupRow"}}
+    <div class="newGroup" {{action "toggleAddGroupsModal"}}>Add a new light group</div>
   {{/paper-item}}
 
   {{#each groupsArrData as |group|}}

@@ -17,6 +17,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
   actions: {
     gotoURL(URL){
+      Em.$('.tooltip').remove();
       window.open(URL, '_blank');
     },
     handleNewSoundCloudURL(URL){
@@ -35,7 +36,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
                   picture = result.user.avatar_url;
                 }
 
-                this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, artistUrl: result.user.permalink_url, title: result.title, artworkUrl: result.artwork_url, picture: picture });
+                this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title, artworkUrl: result.artwork_url, picture: picture });
               } else {
                 failedSongs.push(result.title);
               }

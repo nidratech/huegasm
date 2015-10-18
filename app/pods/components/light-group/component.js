@@ -10,6 +10,18 @@ export default Em.Component.extend({
 
   actions: {
     clickLight(id, data){
+      var light = Em.$(event.target);
+
+      if(!light.hasClass('bootstrapTooltip')){
+        light = light.parent();
+      }
+
+      if(light.hasClass('lightInactive')){
+        light.addClass('lightActive').removeClass('lightInactive');
+      } else if(light.hasClass('lightActive')){
+        light.addClass('lightInactive').removeClass('lightActive');
+      }
+
       this.sendAction('action', id, data);
     },
     lightStartHover(id){

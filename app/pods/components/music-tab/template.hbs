@@ -23,10 +23,14 @@
       {{/if}}
 
       <span class="pull-right">
-            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye"  class="playerControllIcon"}}</span>
-            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}
-            </span>
-          </span>
+        {{#if scUrl}}
+          <a href="#" data-toggle="tooltip" data-placement="top" class="soundCloudLink bootstrapTooltip" data-title="Listen on SoundCloud" {{action "gotoURL" scUrl}}>
+              <img src="assets/images/sc-white.png" />
+          </a>
+        {{/if}}
+        <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye" class="playerControllIcon"}}</span>
+        <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}</span>
+      </span>
     </div>
   </div>
 

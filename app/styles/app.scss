@@ -41,6 +41,7 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
   padding-right: 5px;
   text-align: right;
   z-index: 3;
+  font-size:16px
 }
 
 .settingsItem {
@@ -412,6 +413,7 @@ md-toolbar {
 }
 
 .close {
+  font-size: 18px !important;
   color: rgb(51, 51, 51);
   display: none;
   opacity: 1;
@@ -458,7 +460,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   z-index: 20;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
   .tooltip.top {
-    margin-top: -15px;
+    margin-top: -17px;
   }
   .tooltip-arrow {
     display: none;
@@ -866,6 +868,19 @@ body.dimmerOn {
   }
 }
 
+.dimmerWrapper:hover i {
+  animation: neon 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228DFF, 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
+  }
+  to {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+  }
+}
+
 .noUi-value-vertical {
   margin-top: -10px;
 }
@@ -927,4 +942,8 @@ button.md-warn {
 
 .addNewMusic:hover {
   background: linear-gradient(lighten(#db8e01,5%), lighten(#871e0a,5%));
+}
+
+.soundCloudLink {
+  margin-right: 5px;
 }

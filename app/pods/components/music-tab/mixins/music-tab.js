@@ -107,6 +107,17 @@ export default Em.Mixin.create({
     return '<div class="alert alert-danger" role="alert">Failed to play file ( ' + fileName + ' ).</div>';
   },
 
+  scUrl: function(){
+    var rtn = null,
+      currentSong = this.get('playQueue')[this.get('playQueuePointer')];
+
+    if(currentSong && currentSong.scUrl){
+      rtn = currentSong.scUrl;
+    }
+
+    return rtn;
+  }.property('playQueuePointer', 'playQueue.[]'),
+
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
   playQueueMultiple: function(){

@@ -624,8 +624,8 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
     this._super();
 
     var dancer = new Dancer(),
-      storage = new window.Locally.Store(),
       self = this,
+      storage = this.get('storage'),
       frequency = this.get('frequency'),
       kick = dancer.createKick({
         threshold: this.beatOptions.threshold.range.min,
@@ -636,8 +636,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
           }
         }
       });
-
-    this.set('storage', storage);
 
     kick.on();
 

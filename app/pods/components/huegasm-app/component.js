@@ -4,6 +4,9 @@ export default Em.Component.extend({
   actions: {
     toggleDimmer(){
       this.toggleProperty('dimmerOn');
+    },
+    isReady(){
+      this.set('ready', true);
     }
   },
   bridgeIp: null,
@@ -12,9 +15,15 @@ export default Em.Component.extend({
 
   trial: false,
 
+  storage: null,
+
   dimmerOn: false,
+
+  ready: false,
+
   dimmerOnClass: function(){
     var dimmerOn = this.get('dimmerOn'),
+      storage = this.get('storage'),
       className = null;
 
     if(dimmerOn){
@@ -28,18 +37,23 @@ export default Em.Component.extend({
       Em.$('md-icon').removeClass('dimmerOn');
     }
 
+    storage.set('huegasm.dimmerOn', dimmerOn);
+
     return className;
   }.property('dimmerOn'),
 
   init(){
     this._super();
 
-    if(localStorage.getItem('huegasm.bridgeIp')){
-      this.set('bridgeIp', localStorage.getItem('huegasm.bridgeIp'));
-    }
+    var storage = new window.Locally.Store();
+    this.set('storage', storage);
 
-    if(localStorage.getItem('huegasm.bridgeUsername')){
-      this.set('bridgeUsername', localStorage.getItem('huegasm.bridgeUsername'));
-    }
+    ['bridgeIp', 'bridgeUsername', 'dimmerOn'].forEach((item) => {
+      var storedValue = storage.get('huegasm.' + item);
+
+      if(storedValue) {
+        this.set(item, storage.get('huegasm.' + item));
+      }
+    });
   }
 });

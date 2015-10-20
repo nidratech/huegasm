@@ -23,6 +23,21 @@ body {
   position: static;
 }
 
+.goButton {
+  margin-top: 60px;
+  border-radius: 100% !important;
+  width: 100px;
+  height: 100px;
+  span {
+    font-size: 20px;
+    margin-top: 30px;
+  }
+}
+
+.goButton:hover {
+  background: darken(#3f51b5, 10%) !important;
+}
+
 // temporary HAX...not working in FF
 md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
   transform: none !important;
@@ -90,12 +105,12 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   cursor: pointer;
 }
 
-.bridgeFinder {
+.bridgeFinder, .readyBlock {
   text-align: center;
   padding-top: 20px;
 }
 
-.bridgeFinder .title {
+.title {
   font-size: 30px;
   margin-bottom: 30px;
 }
@@ -863,6 +878,17 @@ body.dimmerOn {
   svg {
     -webkit-filter: drop-shadow(0 0 5px #228DFF);
     filter: drop-shadow(0 0 5px #228DFF);
+  }
+  md-input-container {
+    label {
+      color: white;
+    }
+    input {
+      border-bottom-color: white !important;
+    }
+    input {
+      color: white !important;
+    }
   }
 }
 

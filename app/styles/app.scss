@@ -2,7 +2,6 @@
 @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
-@import "bower_components/font-awesome/scss/font-awesome";
 @import "fancy-speaker";
 
 $playerHeight: 400px;
@@ -817,12 +816,16 @@ md-switch.md-default-theme.md-checked .md-thumb {
   }
 }
 
-
-
 #ytplayer{
   display: block;
   width: 100%;
   height: 100%
+}
+
+.dimmerBulbOn {
+  fill: white;
+  stroke: white;
+  stroke-width: 10px;
 }
 
 div.dimmerOn {
@@ -838,6 +841,29 @@ html.dimmerOn {
 body.dimmerOn {
   color: white;
   background: #242424;
+  .md-track, .color {
+    background: white !important;
+  }
+  .playlistItem {
+    color: #cdcdcd;
+    background: #2D2D2D;
+  }
+  .playlistItem.active {
+    background: darken(#2D2D2D, 13%) !important;
+  }
+  .playlistItem:hover {
+    background: darken(#2D2D2D, 10%);
+  }
+  .close {
+    color: #cdcdcd !important;
+  }
+  .close:hover {
+    color: white !important;
+  }
+  svg {
+    -webkit-filter: drop-shadow(0 0 5px #228DFF);
+    filter: drop-shadow(0 0 5px #228DFF);
+  }
 }
 
 .power-settings-new.dimmerOn,
@@ -848,36 +874,17 @@ body.dimmerOn {
 .library-music.dimmerOn {
   color: inherit !important;
   text-shadow: $glowingText;
-  opacity: 1 !important;
-}
-
-body.dimmerOn {
-  .md-track, .color {
-    background: white !important;
-  }
+  opacity: 0.9 !important;
 }
 
 .dimmerWrapper {
-  font-size: 40px;
   position: absolute;
   left: -50px;
   bottom: -16px;
   cursor: pointer;
-  i.active {
-    text-shadow: $glowingText;
-  }
-}
-
-.dimmerWrapper:hover i {
-  animation: neon 1.5s ease-in-out infinite alternate;
-}
-
-@keyframes neon {
-  from {
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228DFF, 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
-  }
-  to {
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+  svg {
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -901,8 +908,8 @@ body.dimmerOn {
 
 #saveBeatPreferencesStar {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 5px;
+  left: 5px;
   color: $secondaryThemeColor !important;
   font-size: 25px;
 }
@@ -931,7 +938,7 @@ button.md-warn {
 
 .addNewMusic {
   font-size: 16px;
-  padding: 4px;
+  padding: 3px;
   color: white;
   border: none;
   text-shadow: 1px 1px 2px rgba(0,0,0,.8);
@@ -946,4 +953,12 @@ button.md-warn {
 
 .soundCloudLink {
   margin-right: 5px;
+}
+
+#visualization {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

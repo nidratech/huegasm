@@ -148,6 +148,7 @@ export default Em.Mixin.create({
   usingBeatPreferences: false,
   oldBeatPrefCache: null,
   storage: null,
+  firstVisit: true,
 
   // used to insure that we don't replay the same thing multiple times in shuffle mode
   shufflePlayed: [],
@@ -240,6 +241,10 @@ export default Em.Mixin.create({
 
     return classes;
   }.property('dragging', 'draggingOverPlayListArea', 'dimmerOn'),
+
+  dimmerOnClass: function(){
+    return this.get('dimmerOn') ? 'dimmerOn' : null;
+  }.property('dimmerOn'),
 
   volumeMutedClass: function(){
     var classes = 'playerControllIcon volumeButton';

@@ -1,5 +1,6 @@
 <div class="row">
-  <canvas id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
+  <div id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
+    <canvas id="visualization"></canvas>
     <div id="playNotification" class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
     <div id="playerControls">
       {{#if usingLocalAudio}}
@@ -32,7 +33,7 @@
         <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}</span>
       </span>
     </div>
-  </canvas>
+  </div>
 
   <div id="playlist" class="col-sm-4 col-xs-12">
     <input id="fileInput" type="file" accept="audio/*" multiple="true"/>
@@ -73,7 +74,7 @@
                 Add your music files here
               {{/if}}
             </div>
-            {{paper-icon icon="library-music"}}
+            {{paper-icon icon="library-music" class=dimmerOnClass}}
           {{/if}}
 
           {{#each playQueue as |item index|}}

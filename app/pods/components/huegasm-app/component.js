@@ -18,7 +18,7 @@ export default Em.Component.extend({
       className = null;
 
     if(dimmerOn){
-      className = 'active';
+      className = 'dimmerBulbOn';
       Em.$('body').addClass('dimmerOn');
       Em.$('html').addClass('dimmerOn');
       Em.$('md-icon').addClass('dimmerOn');

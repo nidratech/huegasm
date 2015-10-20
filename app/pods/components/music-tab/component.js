@@ -60,7 +60,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
             processResult(resultObj);
           }
 
-          if(this.get('playQueuePointer') === -1){
+          if(this.get('playQueuePointer') === -1 && !this.get('firstVisit')){
             this.send('next');
           }
         }, () => {
@@ -665,7 +665,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
@@ -710,6 +710,15 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
         event.preventDefault();
       }
     });
+
+    // demo tracks
+    if(this.get('firstVisit')){
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/jacobanthony43/jacobychillcatalystbarstommisch');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/odesza/light-feat-little-dragon');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/sinusic-prod/lisboa');
+      // TODO: uncomment and test
+      //this.get('storage').set('huegasm.firstVisit', false);
+    }
 
     if(!this.get('playerBottomDisplayed')) {
       Em.$('#playerBottom').hide();

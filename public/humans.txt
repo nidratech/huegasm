@@ -3,10 +3,6 @@ Your title: Egor Philippov
 Site: https://www.linkedin.com/pub/egor-philippov/7b/220/148                              
 Location: Vancouver, Canada.
 
-                        				
-/* THANKS */						
-Name: Edmond Cheung
-
                             
 /* SITE */                  
 Last update: 2015     

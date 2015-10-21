@@ -267,6 +267,10 @@ export default Em.Component.extend({
     return this.get('strobeOn') ? 'On' : 'Off';
   }.property('strobeOn'),
 
+  dimmerOnClass: function(){
+    return this.get('dimmerOn') ? 'dimmerOn' : null;
+  }.property('dimmerOn'),
+
   // **************** STROBE LIGHT FINISH ****************
   // http://www.developers.meethue.com/documentation/color-conversions-rgb-xy
   rgbToXy(red, green, blue){

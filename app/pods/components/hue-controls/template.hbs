@@ -8,7 +8,7 @@
 
     <div id="settings" class="col-sm-3 col-xs-4">
       <div class="settingsItem">
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Groups <span class="caret"></span>
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{paper-icon icon="group" class=dimmerOnClass}} Groups <span class="caret"></span>
         </span>
 
         {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
@@ -16,7 +16,7 @@
 
       <div class="settingsItem">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Settings <span class="caret"></span>
+          {{paper-icon icon="settings" class=dimmerOnClass}} Settings <span class="caret"></span>
         </span>
 
         <ul id="appSettings" class="dropdown-menu">

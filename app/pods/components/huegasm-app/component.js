@@ -30,11 +30,9 @@ export default Em.Component.extend({
       className = 'dimmerBulbOn';
       Em.$('body').addClass('dimmerOn');
       Em.$('html').addClass('dimmerOn');
-      Em.$('md-icon').addClass('dimmerOn');
     } else {
       Em.$('body').removeClass('dimmerOn');
       Em.$('html').removeClass('dimmerOn');
-      Em.$('md-icon').removeClass('dimmerOn');
     }
 
     storage.set('huegasm.dimmerOn', dimmerOn);

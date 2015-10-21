@@ -127,6 +127,10 @@ export default Em.Component.extend({
     }
   },
 
+  dimmerOnClass: function(){
+    return this.get('dimmerOn') ? 'dimmerOn' : null;
+  }.property('dimmerOn'),
+
   ready: function() {
     return this.get('trial') || !Em.isNone(this.get('lightsData'));
   }.property('lightsData', 'trial')

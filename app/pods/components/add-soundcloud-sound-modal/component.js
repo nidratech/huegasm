@@ -13,7 +13,13 @@ export default Em.Component.extend({
   url: null,
 
   onIsShowingModalChange: function(){
-    this.set('url', null);
+    if(this.get('isShowingModal')){
+      this.set('url', null);
+      setTimeout(()=>{
+        Em.$('md-input-container input').focus();
+      }, 500);
+    }
+
   }.observes('isShowingModal'),
 
   didInsertElement: function() {

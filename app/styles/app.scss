@@ -67,7 +67,7 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
   span md-icon {
     position: relative;
     bottom: 5px;
-    right: 5px;
+    right: 10px;
   }
 }
 
@@ -860,8 +860,11 @@ html.dimmerOn {
 body.dimmerOn {
   color: white;
   background: #242424;
-  .md-track, .color {
+  .md-track {
     background: white;
+  }
+  .color {
+    border: 1px solid white;
   }
   .playlistItem {
     color: #cdcdcd;

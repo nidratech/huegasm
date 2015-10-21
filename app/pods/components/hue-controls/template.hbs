@@ -1,14 +1,14 @@
 {{#if ready}}
   <div class="row navigation">
-    <div class="col-sm-5 col-sm-offset-4 col-xs-6 col-xs-offset-2">
+    <div class="col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-2">
       {{#each tabData as |tab|}}
         <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
       {{/each}}
     </div>
 
-    <div id="settings" class="col-sm-3 col-xs-4">
+    <div id="settings" class="col-xs-4">
       <div class="settingsItem">
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{paper-icon icon="group" class=dimmerOnClass}} Groups <span class="caret"></span>
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{paper-icon icon="group" class=dimmerOnClass}}Groups <span class="caret"></span>
         </span>
 
         {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed}}
@@ -16,7 +16,7 @@
 
       <div class="settingsItem">
         <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{paper-icon icon="settings" class=dimmerOnClass}} Settings <span class="caret"></span>
+          {{paper-icon icon="settings" class=dimmerOnClass}}Settings <span class="caret"></span>
         </span>
 
         <ul id="appSettings" class="dropdown-menu">

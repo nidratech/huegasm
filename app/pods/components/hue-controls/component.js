@@ -37,7 +37,7 @@ export default Em.Component.extend({
 
   didInsertElement(){
     // here's a weird way to automatically initialize bootstrap tooltips
-    var self = this, observer = new MutationObserver(function(mutations) {
+    var observer = new MutationObserver(function(mutations) {
       var haveTooltip = !mutations.every(function(mutation) {
         return Em.isEmpty(mutation.addedNodes) || Em.isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
       });

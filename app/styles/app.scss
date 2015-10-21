@@ -393,18 +393,17 @@ md-toolbar {
   width: 100%;
   padding: 10px 0 10px 10px;
   margin: 0;
+  .group-add {
+    margin-right: 5px;
+  }
 }
 
 .newGroupRow{
-  border-style: solid;
-  border-width: 3px;
-  border-color: #f6c653 #bd6a23 #b6631f #e8ab4a;
-  background: #d79922;
-  color: black;
+  background: white;
 }
 
 .newGroupRow:hover {
-  background-color: lighten(#d79922, 10%);
+  background-color: darken(white, 5%);
 }
 
 .groupRow:hover * .close {
@@ -862,7 +861,7 @@ body.dimmerOn {
   color: white;
   background: #242424;
   .md-track, .color {
-    background: white !important;
+    background: white;
   }
   .playlistItem {
     color: #cdcdcd;
@@ -874,10 +873,10 @@ body.dimmerOn {
   .playlistItem:hover {
     background: darken(#2D2D2D, 10%);
   }
-  .close {
+  .playlistItem .close {
     color: #cdcdcd !important;
   }
-  .close:hover {
+  .playlistItem .close:hover {
     color: white !important;
   }
   svg {

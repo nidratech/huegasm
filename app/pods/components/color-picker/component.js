@@ -9,6 +9,14 @@ export default Em.Component.extend({
   canvasContext: null,
 
   actions: {
+    mouseMove(){
+      if(this.get('pressingDown')){
+        this.send('colorSelect');
+      }
+    },
+    mouseUp(){
+      this.set('pressingDown', false);
+    },
     colorSelect() {
       var canvasOffset = Em.$(this.get('canvas')).offset();
       var canvasX = Math.floor(event.pageX - canvasOffset.left), canvasY = Math.floor(event.pageY - canvasOffset.top);
@@ -17,11 +25,15 @@ export default Em.Component.extend({
       var imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1);
       var pixel = imageData.data;
 
+      this.set('pressingDown', true);
+
       if( !(pixel[0] === 0 && pixel[1] === 0 && pixel[2] === 0) ) {
         this.set('rgb', [pixel[0], pixel[1], pixel[2]]);
       }
     }
   },
+
+  pressingDown: false,
 
   // https://dzone.com/articles/creating-your-own-html5
   didInsertElement(){

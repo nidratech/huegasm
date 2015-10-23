@@ -87,7 +87,6 @@ export default Em.Mixin.create({
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
-  visualizationsDisplayed: false,
   audioStream: null,
   dimmerOn: false,
   isShowingAddSoundCloudModal: false,

@@ -3,8 +3,8 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    emberCliFontAwesome: {
-      useScss: true
+    fingerprint: {
+      exclude: ['flare4.png', 'vor8.2.png', 'colo.png']
     }
   });
 

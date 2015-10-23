@@ -1,8 +1,8 @@
 import Em from 'ember';
-import musicControlMixin from './mixins/music-tab';
+import helperMixin from './mixins/helpers';
 import visualizerMixin from './mixins/visualizer';
 
-export default Em.Component.extend(musicControlMixin, visualizerMixin, {
+export default Em.Component.extend(helperMixin, visualizerMixin, {
   classNames: ['col-lg-10', 'col-lg-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'musicTab',
@@ -16,6 +16,12 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    setVisName(name){
+      this.set('currentVisName', name);
+    },
+    hideTooltip(){
+      Em.$(event.target).parent().parent().find('.tooltip').remove()
+    },
     gotoURL(URL){
       Em.$('.tooltip').remove();
       window.open(URL, '_blank');
@@ -279,9 +285,6 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
 
         this.send('goToSong', nextSong, true, true);
       }
-    },
-    toggleVisualizations() {
-      this.toggleProperty('visualizationsDisplayed');
     },
     fullscreen() {},
     seekChanged(position) {
@@ -663,7 +666,7 @@ export default Em.Component.extend(musicControlMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

@@ -10,6 +10,7 @@ $footerHeight: 40px;
 $playerBottomHeight: 340px;
 $secondaryThemeColor: #F12B24;
 $glowingText: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+$dimmerOnButtonColor: #404040;
 
   // BRIDGE FINDER
 html {
@@ -868,13 +869,13 @@ body.dimmerOn {
   }
   .playlistItem {
     color: #cdcdcd;
-    background: #2D2D2D;
+    background: $dimmerOnButtonColor;
   }
   .playlistItem.active {
-    background: darken(#2D2D2D, 13%) !important;
+    background: darken($dimmerOnButtonColor, 15%) !important;
   }
   .playlistItem:hover {
-    background: darken(#2D2D2D, 10%);
+    background: darken($dimmerOnButtonColor, 10%);
   }
   .playlistItem .close {
     color: #cdcdcd !important;
@@ -898,10 +899,10 @@ body.dimmerOn {
     }
   }
   .addNewMusic {
-    background: #2D2D2D;
+    background: $dimmerOnButtonColor
   }
   .addNewMusic:hover {
-    background: darken(#2D2D2D, 5%);
+    background: darken($dimmerOnButtonColor, 5%);
   }
 }
 
@@ -959,9 +960,12 @@ button.md-warn {
   background: $secondaryThemeColor;
 }
 
-.ember-modal-dialog {
+div.ember-modal-dialog {
   padding: 20px;
   color: black;
+  md-input-container input {
+    color: black !important;
+  }
 }
 
 .addMusicButton {
@@ -999,4 +1003,22 @@ button.md-warn {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.credits {
+  border-top: 1px solid black;
+}
+
+.check {
+  margin-left: 10px;
+  position: relative;
+  top: -4px;
+}
+
+.visualizersMenu {
+  left: -165px;
+}
+
+.displayIcon {
+  background:url(assets/images/favicons/favicon-194x194.png) center center no-repeat;
 }

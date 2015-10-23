@@ -1,7 +1,8 @@
 <div class="row">
-  <div id="playerArea" class="col-sm-8 col-xs-12" {{action "playerAreaPlay"}}>
+  <div id="playerArea" class="col-sm-8 col-xs-12 {{if (eq "None" currentVisName) "displayIcon"}}" {{action "playerAreaPlay"}}>
     <canvas id="visualization"></canvas>
     <div id="playNotification" class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
+
     <div id="playerControls">
       {{#if usingLocalAudio}}
         {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
@@ -26,10 +27,25 @@
       <span class="pull-right">
         {{#if scUrl}}
           <a href="#" data-toggle="tooltip" data-placement="top" class="soundCloudLink bootstrapTooltip" data-title="Listen on SoundCloud" {{action "gotoURL" scUrl}}>
-              <img src="assets/images/sc-white.png" />
+            <img src="assets/images/sc-white.png" />
           </a>
         {{/if}}
-        <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "toggleVisualizations"}}>{{paper-icon icon="remove-red-eye" class="playerControllIcon"}}</span>
+        <span class="dropup">
+          <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "hideTooltip"}}>
+              {{paper-icon icon="remove-red-eye" class="playerControllIcon"}}
+            </span>
+          </span>
+
+          <ul class="dropdown-menu visualizersMenu">
+            {{#each visNames as |name|}}
+              <li><a href="#" {{action "setVisName" name}}>{{name}} {{#if (eq currentVisName name)}}{{paper-icon icon="check"}}{{/if}}</a></li>
+            {{/each}}
+
+            <li><a href="" class="credits" {{action "gotoURL" "http://do.adive.in/music/"}}>Music visualizations by Vor</a></li>
+          </ul>
+        </span>
+
         <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}</span>
       </span>
     </div>

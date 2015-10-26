@@ -563,16 +563,20 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       var activeLights = this.get('activeLights'),
         transitionTime = this.get('transitionTime') * 10,
         onBeatBriAndColor = this.get('onBeatBriAndColor'),
-        self = this,
+        lightsData = this.get('lightsData'),
         color = null,
-        stimulateLight = function (light, brightness, hue) {
+        stimulateLight = (light, brightness, hue) => {
           var options = {'bri': brightness, 'transitiontime': transitionTime};
 
           if(!Em.isNone(hue)) {
             options.hue = hue;
           }
 
-          Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+          if(lightsData[light].state.on === false){
+            options.on = true;
+          }
+
+          Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
             data: JSON.stringify(options),
             contentType: 'application/json',
             type: 'PUT'

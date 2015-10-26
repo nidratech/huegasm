@@ -146,7 +146,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
           this.send('removeAudio', playQueuePointer);
 
-          if(event.target.error.code){
+          if(event.target.error.code === 2){
             this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
           } else {
             this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
@@ -170,13 +170,11 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         }
 
         if(scrollToSong){
-          var playListArea = Em.$('#playListArea');
-
           // this is just a bad workaround to make sure that the track has been rendered to the playlist
           Em.run.later(()=>{
-            var track = Em.$('.track'+index);
+            var track = Em.$('.track'+index), playListArea = Em.$('#playListArea');
 
-            if(!Em.isNone(track) && !Em.isNone(track.offset)) {
+            if(!Em.isNone(track) && !Em.isNone(track.offset())) {
               playListArea.animate({
                 scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop()
               });
@@ -361,6 +359,9 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         this.set('audioMode', value);
       }
     },
+    playQueuePointerChanged(value){
+      this.send('goToSong', value, false, true);
+    },
     clickSpeaker(){
       this.simulateKick(1);
     },
@@ -393,7 +394,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
             picture = "data:" + tags.picture.format + ";base64," + window.btoa(base64String);
           }
 
-          playQueue.pushObject({filename: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title, picture: picture });
+          playQueue.pushObject({fileName: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title, picture: picture, local: true });
 
           ID3.clearAll();
 
@@ -435,7 +436,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
   saveSongBeatPreferences() {
     var song = this.get('playQueue')[this.get('playQueuePointer')],
-      title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
+      title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences');
 
     songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency') };
@@ -512,7 +513,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           title += (' - ' + song.artist);
         }
       } else {
-        title = song.filename;
+        title = song.fileName;
       }
 
       title += '- Huegasm';

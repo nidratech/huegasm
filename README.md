@@ -5,7 +5,6 @@ Music awesomeness for hue lights.
 # TODO
 ## FEATURES
 - app intro with intro.js
-- music visualizations with three.js
 - microphone mode
 - about, help page, youtube video
 

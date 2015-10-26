@@ -77,7 +77,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
-  usingMicSupported: false,
+  usingMicSupported: true,
   // 0 - local, 1 - mic, possibly more to come
   audioMode: 0,
   usingLocalAudio: Em.computed.equal('audioMode', 0),
@@ -104,6 +104,9 @@ export default Em.Mixin.create({
   },
   failedToPlayFileHtml: function(fileName){
     return '<div class="alert alert-danger" role="alert">Failed to play file ( ' + fileName + ' ).</div>';
+  },
+  failedToDecodeFileHtml: function(fileName){
+    return '<div class="alert alert-danger" role="alert">Failed to decode file ( ' + fileName + ' ).</div>';
   },
 
   scUrl: function(){
@@ -214,10 +217,10 @@ export default Em.Mixin.create({
   }.property('repeat'),
 
   playingIcon: function () {
-    if(this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0){
-      return 'replay';
-    } else if (this.get('playing')) {
+    if(this.get('playing')){
       return 'pause';
+    } else if(this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0){
+      return 'replay';
     } else {
       return 'play-arrow';
     }
@@ -286,8 +289,9 @@ export default Em.Mixin.create({
   }.property('volumeMuted', 'volume'),
 
   onOptionChange: function(self, option){
-    this.get('storage').set('huegasm.' + option, this.get(option));
-  }.observes('randomTransition', 'onBeatBriAndColor'),
+    option = option.replace('.[]', '');
+    this.get('storage').set('huegasm.' + option, this.get(option), { compress: true });
+  }.observes('randomTransition', 'onBeatBriAndColor', 'playQueue.[]', 'playQueuePointer'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';

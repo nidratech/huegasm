@@ -19,8 +19,7 @@
     "locallyjs": "~0.3.2",
     "matchMedia": "~0.2.0",
     "nouislider": "^8.0.1",
-    "qunit": "~1.18.0",
-    "three.js": "~0.72.0"
+    "qunit": "~1.18.0"
   },
   "resolutions": {
     "ember": "~2.1.0",

@@ -14,6 +14,7 @@ export default Em.Component.extend({
         type: 'POST'
       });
 
+      // crappy code to redraw the lights
       newGroupsData['9999'] = newGroupData;
 
       this.setProperties({

@@ -56,11 +56,11 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
   padding-right: 5px;
   text-align: right;
   z-index: 3;
-  font-size:16px
+  font-size: 16px;
 }
 
 .settingsItem {
-  margin-left: 15px;
+  margin-left: 10px;
   position: relative;
   display: inline-block;
   transition: 0.1s all ease-in-out;
@@ -477,14 +477,14 @@ md-switch.md-default-theme.md-checked .md-thumb {
   width: 100%;
   color: white !important;
   z-index: 20;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7));
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
   .tooltip.top {
     margin-top: -17px;
   }
   .tooltip-arrow {
     display: none;
   }
-  .play-arrow, .pause {
+  .play-arrow, .pause, .replay {
     font-size: 30px;
   }
 }
@@ -966,6 +966,9 @@ div.ember-modal-dialog {
   md-input-container input {
     color: black !important;
   }
+  md-input-container label {
+    color: rgba(0, 0, 0, 0.26);
+  }
 }
 
 .addMusicButton {
@@ -1005,10 +1008,6 @@ div.ember-modal-dialog {
   height: 100%;
 }
 
-.credits {
-  border-top: 1px solid black;
-}
-
 .check {
   margin-left: 10px;
   position: relative;
@@ -1016,9 +1015,13 @@ div.ember-modal-dialog {
 }
 
 .visualizersMenu {
-  left: -165px;
+  left: -135px;
 }
 
 .displayIcon {
-  background:url(assets/images/favicons/favicon-194x194.png) center center no-repeat;
+  background:url(images/favicons/favicon-90x90.png) center center no-repeat;
+}
+
+.keyboard-arrow-down {
+  font-size: 20px;
 }

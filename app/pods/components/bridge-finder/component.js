@@ -32,7 +32,7 @@ export default Em.Component.extend({
     findBridgeByIp() {
       var manualBridgeIp = this.get('manualBridgeIp'), self = this;
 
-      if (manualBridgeIp.toLowerCase() === 'trial') {
+      if (manualBridgeIp.toLowerCase() === 'trial' || manualBridgeIp.toLowerCase() === 'offline') {
         this.setProperties({
           trial: true,
           bridgeIp: 'trial',

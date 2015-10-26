@@ -16,11 +16,22 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   }.observes('active'),
 
   actions: {
+    clearPlaylist(){
+      this.get('playQueue').clear();
+    },
     setVisName(name){
       this.set('currentVisName', name);
     },
     hideTooltip(){
-      Em.$(event.target).parent().parent().find('.tooltip').remove()
+      Em.$(event.target).parent().parent().find('.tooltip').remove();
+    },
+    gotoSCURL(URL){
+      // need to pause the music since soundcloud is going to start playing this song anyways
+      if(this.get('playing')){
+        this.send('play');
+      }
+
+      this.send('gotoURL', URL);
     },
     gotoURL(URL){
       Em.$('.tooltip').remove();
@@ -66,8 +77,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
             processResult(resultObj);
           }
 
-          if(this.get('playQueuePointer') === -1 && !this.get('firstVisit')){
-            this.send('next');
+          if(this.get('playQueuePointer') === -1){
+            if(this.get('firstVisit')){
+              this.send('goToSong', 0);
+            } else {
+              this.send('next');
+            }
           }
         }, () => {
           this.get('notify').alert({html: this.get('urlNotFoundHtml')(URL)});
@@ -125,13 +140,17 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         audio.oncanplay = ()=>{
           this.set('timeTotal', Math.floor(audio.duration));
         };
-        audio.onerror = ()=>{
+        audio.onerror = (event)=>{
           var playQueuePointer =this.get('playQueuePointer'),
             song = this.get('playQueue')[playQueuePointer];
 
           this.send('removeAudio', playQueuePointer);
 
-          this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
+          if(event.target.error.code){
+            this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
+          } else {
+            this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
+          }
         };
         audio.ontimeupdate = ()=>{
           this.set('timeElapsed', Math.floor(audio.currentTime));
@@ -157,7 +176,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           Em.run.later(()=>{
             var track = Em.$('.track'+index);
 
-            if(!Em.isNone(track)) {
+            if(!Em.isNone(track) && !Em.isNone(track.offset)) {
               playListArea.animate({
                 scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop()
               });
@@ -212,7 +231,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
           // replay song
           if(this.get('timeElapsed') === timeTotal && timeTotal !== 0){
-            this.send('seekChanged', 0);
+            this.send('next', true);
+            return;
           }
 
           dancer.play();
@@ -626,6 +646,10 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   init() {
     this._super();
 
+    window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
     var dancer = new Dancer(),
       self = this,
       storage = this.get('storage'),
@@ -642,31 +666,16 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
     kick.on();
 
-    //dancer.bind('update', function(){
-    //  var waveform = this.getWaveform(), spectrum = this.getSpectrum(), sumS = 0, sumW = 0;
-    //  for (let i = 0, l = spectrum.length; i < l && i < 512; i++ ) {
-    //    sumS += spectrum[i];
-    //  }
-    //
-    //  for (let i = 0, l = waveform.length; i < l && i < 512; i++ ) {
-    //    sumW += waveform[i];
-    //  }
-    //
-    //  //console.log('sumW: ' + sumW + ', sumS: ' + sumS);
-    //});
-
     this.setProperties({
       dancer: dancer,
       kick: kick
     });
 
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
     if(navigator.getUserMedia === undefined){
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
@@ -684,6 +693,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   },
 
   didInsertElement() {
+    this._super();
+
     var self = this;
 
     Em.$('#fileInput').on('change', function () {
@@ -712,13 +723,11 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       }
     });
 
-    // demo tracks
+     // demo tracks
     if(this.get('firstVisit')){
-      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/jacobanthony43/jacobychillcatalystbarstommisch');
-      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/odesza/light-feat-little-dragon');
-      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/sinusic-prod/lisboa');
-      // TODO: uncomment and test
-      //this.get('storage').set('huegasm.firstVisit', false);
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/tracks');
+
+      this.get('storage').set('huegasm.firstVisit', false);
     }
 
     if(!this.get('playerBottomDisplayed')) {

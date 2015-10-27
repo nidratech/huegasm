@@ -61,8 +61,8 @@ export default Em.Component.extend({
       this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
     }
 
-    if (this.get('storage').get('huegasm.selectedTab')) {
-      this.set('selectedTab', Number(this.get('storage').get('huegasm.selectedTab')));
+    if (!Em.isNone(this.get('storage').get('huegasm.selectedTab'))) {
+      this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
     }
   },
 

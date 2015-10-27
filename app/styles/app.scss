@@ -1025,3 +1025,19 @@ div.ember-modal-dialog {
 .keyboard-arrow-down {
   font-size: 20px;
 }
+
+#extraOptionsMenu {
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3px 15px;
+  position: absolute;
+  bottom: -37px;
+  right: 17px;
+  border-radius: 0 0 5px 5px;
+  opacity: 0.3;
+}
+
+#extraOptionsMenu:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.7);
+}

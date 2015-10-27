@@ -144,10 +144,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           var playQueuePointer =this.get('playQueuePointer'),
             song = this.get('playQueue')[playQueuePointer];
 
-          this.send('removeAudio', playQueuePointer);
+          if(song.local){
+            this.send('removeAudio', playQueuePointer);
+          } else {
+            this.send('next', true);
+          }
 
-          debugger;
-          
           if(event.target.error.code === 2){
             this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
           } else {
@@ -251,9 +253,9 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         this.changePlayerControl('volumeMuted', false);
       }
     },
-    next(userTriggered) {
+    next(repeatAll) {
       var playQueuePointer = this.get('playQueuePointer'),
-        playQueueLength = this.get('playQueue.length'),
+        playQueue = this.get('playQueue'),
         nextSong = (playQueuePointer + 1),
         repeat = this.get('repeat'),
         shuffle = this.get('shuffle');
@@ -261,29 +263,30 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.get('beatHistory').clear();
 
       if(repeat === 2){ // repeating one song takes precedence over shuffling
-        if(playQueuePointer === -1 && playQueueLength > 0) {
+        if(playQueuePointer === -1 && playQueue.length > 0) {
           nextSong = 0;
         } else {
           nextSong = playQueuePointer;
         }
-      } else if(shuffle){
+      } else if(shuffle){ // next shuffle song
         var shufflePlayed = this.get('shufflePlayed');
 
         // played all the song in shuffle mode
-        if(shufflePlayed.length === playQueueLength){
+        if(shufflePlayed.length === playQueue.length){
           shufflePlayed.clear();
           this.send('play', true);
           return;
         }
 
+        // we're going to assume that the song URL is the id
         do {
-          nextSong = Math.floor(Math.random() * playQueueLength);
-        } while(shufflePlayed.contains(nextSong));
+          nextSong = Math.floor(Math.random() * playQueue.length);
+        } while(shufflePlayed.contains(playQueue[nextSong].url));
 
-        shufflePlayed.pushObject(nextSong);
-      } else if(nextSong > playQueueLength-1){
-        if(repeat === 1 || userTriggered){
-          nextSong = nextSong % playQueueLength;
+        shufflePlayed.pushObject(playQueue[nextSong].url);
+      } else if(nextSong > playQueue.length-1){
+        if(repeat === 1 || repeatAll){
+          nextSong = nextSong % playQueue.length;
         } else {
           this.send('play', true);
           return;
@@ -296,11 +299,37 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       if(this.get('timeElapsed') > 5) {
         this.send('seekChanged', 0);
       } else {
-        var nextSong = this.get('playQueuePointer');
-        nextSong--;
+        var nextSong = this.get('playQueuePointer'),
+          playQueue = this.get('playQueue');
 
-        if(nextSong < 0) {
-          nextSong = this.get('playQueue.length') - 1;
+        if(this.get('shuffle') && !Em.isNone(playQueue[nextSong])) { // go to the previously shuffled song
+          var shufflePlayed = this.get('shufflePlayed'),
+            shuffledSongIndx = this.get('shufflePlayed').indexOf(playQueue[nextSong].url),
+            i = 0;
+
+          if(shufflePlayed.length > 0 && shuffledSongIndx !== -1){ // only if there was one
+            nextSong = shuffledSongIndx - 1;
+
+            if(nextSong < 0){
+              nextSong = shufflePlayed.length - 1;
+            }
+
+            playQueue.some(function(item){ // try to find the previous song id
+              if(item.url === shufflePlayed[nextSong]){
+                nextSong = i;
+                return true;
+              }
+              i++;
+
+              return false;
+            });
+          }
+        } else {
+          nextSong--;
+
+          if(nextSong < 0) {
+            nextSong = playQueue.length - 1;
+          }
         }
 
         this.send('goToSong', nextSong, true, true);

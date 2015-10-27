@@ -18,7 +18,7 @@ export default Em.Mixin.create({
     this.get('storage').set('huegasm.currentVisName', currentVisName);
   }.observes('currentVisName'),
 
-  didInsertElement(){
+  doDancerBind(){
     var dancer = this.get('dancer'),
       canvasEl = Em.$('#visualization')[0],
       ctx = canvasEl.getContext('2d'),
@@ -69,6 +69,10 @@ export default Em.Mixin.create({
         }
       }
     });
+  },
+
+  didInsertElement(){
+    this.doDancerBind();
   }
 })
 ;

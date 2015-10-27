@@ -2,11 +2,7 @@
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
-    fingerprint: {
-      exclude: ['flare4.png', 'vor8.2.png', 'colo.png']
-    }
-  });
+  var app = new EmberApp(defaults);
 
   app.import('vendor/dancer.js');
   app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');

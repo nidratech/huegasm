@@ -18,15 +18,16 @@ export default Em.Component.extend({
     changeTab(tabName){
       var index = this.get('tabList').indexOf(tabName);
       this.set('selectedTab', index);
-      localStorage.setItem('huegasm.selectedTab', index);
+      this.get('storage').set('huegasm.selectedTab', index);
     },
     clearBridge() {
-      delete localStorage['huegasm.bridgeUsername'];
-      delete localStorage['huegasm.bridgeIp'];
+      var storage = this.get('storage');
+      storage.remove('huegasm.bridgeUsername');
+      storage.remove('huegasm.bridgeIp');
       location.reload();
     },
     clearAllSettings() {
-      localStorage.clear();
+      this.get('storage').clear();
       location.reload();
     }
   },
@@ -60,8 +61,8 @@ export default Em.Component.extend({
       this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
     }
 
-    if (localStorage.getItem('huegasm.selectedTab')) {
-      this.set('selectedTab', Number(localStorage.getItem('huegasm.selectedTab')));
+    if (this.get('storage').get('huegasm.selectedTab')) {
+      this.set('selectedTab', Number(this.get('storage').get('huegasm.selectedTab')));
     }
   },
 

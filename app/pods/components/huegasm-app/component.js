@@ -43,7 +43,7 @@ export default Em.Component.extend({
   init(){
     this._super();
 
-    var storage = new window.Locally.Store();
+    var storage = new window.Locally.Store({ compress: true });
     this.set('storage', storage);
 
     ['bridgeIp', 'bridgeUsername', 'dimmerOn'].forEach((item) => {

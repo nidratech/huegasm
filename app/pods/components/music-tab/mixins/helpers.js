@@ -290,7 +290,7 @@ export default Em.Mixin.create({
 
   onOptionChange: function(self, option){
     option = option.replace('.[]', '');
-    this.get('storage').set('huegasm.' + option, this.get(option), { compress: true });
+    this.get('storage').set('huegasm.' + option, this.get(option));
   }.observes('randomTransition', 'onBeatBriAndColor', 'playQueue.[]', 'playQueuePointer'),
 
   onRepeatChange: function () {

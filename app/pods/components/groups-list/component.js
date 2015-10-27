@@ -59,7 +59,7 @@ export default Em.Component.extend({
       }
     });
 
-    localStorage.setItem('huegasm.selectedGroup', groupIdSelection);
+    this.get('storage').set('huegasm.selectedGroup', groupIdSelection);
 
     if(!Em.isNone(groupIdSelection) && !Em.isEmpty(lights)){
       this.set('activeLights', lights);
@@ -67,7 +67,7 @@ export default Em.Component.extend({
   }.observes('groupIdSelection', 'groupsArrData'),
 
   didInsertElement(){
-    var selectGroup = '0', storageItem = localStorage.getItem('huegasm.selectedGroup');
+    var selectGroup = '0', storageItem = this.get('storage').get('huegasm.selectedGroup');
 
     if(storageItem){
       selectGroup = storageItem;

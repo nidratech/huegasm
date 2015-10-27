@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Mixin.create({
-  currentVisName: 'Wave',
+  currentVisName: 'None',
 
   visNames: ['None', 'Bars', 'Wave'],
 
@@ -35,7 +35,7 @@ export default Em.Mixin.create({
       ctx.clearRect(0, 0, w, h);
 
       if (currentVisName === 'Wave') {
-        let width = 2,
+        let width = 1,
           count = 1024,
           gradient = ctx.createLinearGradient(0, 0, 0, 300);
 

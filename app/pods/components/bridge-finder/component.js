@@ -76,7 +76,7 @@ export default Em.Component.extend({
 
           if (status === 'success' && result.length === 1) {
             this.set('bridgeIp', result[0].internalipaddress);
-            localStorage.setItem('huegasm.bridgeIp', result[0].internalipaddress);
+            this.get('storage').set('huegasm.bridgeIp', result[0].internalipaddress);
             bridgeFindStatus = 'success';
           } else if (result.length > 1) {
             var multipleBridgeIps = this.get('multipleBridgeIps');
@@ -121,7 +121,7 @@ export default Em.Component.extend({
         if (status === 'success') {
           if (!result[0].error) {
             self.set('bridgeUsername', result[0].success.username);
-            localStorage.setItem('huegasm.bridgeUsername', result[0].success.username);
+            this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
             clearInterval(self.get('bridgePingIntervalHandle'));
             self.set('bridgePingIntervalHandle', null);
           }

@@ -146,6 +146,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
           this.send('removeAudio', playQueuePointer);
 
+          debugger;
+          
           if(event.target.error.code === 2){
             this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
           } else {
@@ -442,7 +444,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency') };
 
     this.set('usingBeatPreferences', true);
-    this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences, { compress: true });
+    this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
   },
 
   loadSongBeatPreferences() {

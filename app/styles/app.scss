@@ -68,7 +68,7 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
   span md-icon {
     position: relative;
     bottom: 5px;
-    right: 10px;
+    right: 5px;
   }
 }
 
@@ -158,7 +158,7 @@ md-progress-linear {
   background: white;
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   width: 175px;
-  left: -115px;
+  left: -85px;
   top: 20px;
   border: none;
   color: black;
@@ -269,7 +269,7 @@ md-slider.md-default-theme .md-thumb:after {
   border-radius: 0 0 5px 5px;
   width: 300px;
   top: 20px;
-  left: -240px;
+  left: -210px;
   position: absolute;
   background-color: white;
   max-height: 400px;

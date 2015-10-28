@@ -21,7 +21,7 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' connect.soundcloud.com",
+      'script-src': "'self' 'unsafe-inline' connect.soundcloud.com",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
       'img-src': "'self' *.sndcdn.com  data:",

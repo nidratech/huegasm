@@ -15,12 +15,13 @@
       </div>
 
       <div class="settingsItem">
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settingsItemSettings">
           {{paper-icon icon="settings" class=dimmerOnClass}}Settings <span class="caret"></span>
         </span>
 
         <ul id="appSettings" class="dropdown-menu">
           <li {{action "clearBridge"}}><a href="#">Switch bridge</a></li>
+          <li {{action "startIntro"}}><a href="#">Replay intro</a></li>
           <li {{action "clearAllSettings"}}><a href="#">Clear application settings</a></li>
         </ul>
       </div>
@@ -28,5 +29,6 @@
   </div>
 
   {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected dimmerOn=dimmerOn}}
-  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage}}
+
+  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage firstVisit=firstVisit action="startIntro"}}
 {{/if}}

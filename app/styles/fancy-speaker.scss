@@ -24,7 +24,6 @@ $vibrateblurouter: 2px;
 @keyframes vibrateInner {
   50% {
     -webkit-filter: blur($vibrateblurinner);
-    filter: blur($vibrateblurinner);
     transform: scale(1.05);
   }
 }
@@ -33,37 +32,30 @@ $vibrateblurouter: 2px;
   0% {
     -webkit-filter: blur($vibrateblurouter);
     filter: blur($vibrateblurouter);
-    border: 15px solid #333;
   }
   30% {
     -webkit-filter: blur(0);
     filter: blur(0);
-    border: 17px solid #333;
   }
   50% {
     -webkit-filter: blur($vibrateblurouter);
     filter: blur($vibrateblurouter);
-    border: 15px solid #333;
   }
   65% {
     -webkit-filter: blur(0);
     filter: blur(0);
-    border: 17px solid #333;
   }
   70% {
     -webkit-filter: blur($vibrateblurouter);
     filter: blur($vibrateblurouter);
-    border: 15px solid #333;
   }
   80% {
     -webkit-filter: blur($vibrateblurouter);
     filter: blur($vibrateblurouter);
-    border: 17px solid #333;
   }
   100% {
     -webkit-filter: blur($vibrateblurouter);
     filter: blur($vibrateblurouter);
-    border: 15px solid #333;
   }
 }
 

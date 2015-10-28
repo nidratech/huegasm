@@ -94,18 +94,18 @@ export default Em.Mixin.create({
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
-  notStreamableHtml: function(fileNames){
+  notStreamableHtml(fileNames){
     var html =  '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
 
     return html;
   },
-  urlNotFoundHtml: function(url){
+  urlNotFoundHtml(url){
     return '<div class="alert alert-danger" role="alert">The URL ( ' + url + ' ) could not be resolved.</div>';
   },
-  failedToPlayFileHtml: function(fileName){
+  failedToPlayFileHtml(fileName){
     return '<div class="alert alert-danger" role="alert">Failed to play file ( ' + fileName + ' ).</div>';
   },
-  failedToDecodeFileHtml: function(fileName){
+  failedToDecodeFileHtml(fileName){
     return '<div class="alert alert-danger" role="alert">Failed to decode file ( ' + fileName + ' ).</div>';
   },
 
@@ -113,12 +113,12 @@ export default Em.Mixin.create({
     var rtn = null,
       currentSong = this.get('playQueue')[this.get('playQueuePointer')];
 
-    if(currentSong && currentSong.scUrl){
+    if(currentSong && currentSong.scUrl && !this.get('usingMicAudio')){
       rtn = currentSong.scUrl;
     }
 
     return rtn;
-  }.property('playQueuePointer', 'playQueue.[]'),
+  }.property('playQueuePointer', 'playQueue.[]', 'usingMicAudio'),
 
   playQueueEmpty: Em.computed.empty('playQueue'),
   playQueueNotEmpty: Em.computed.notEmpty('playQueue'),
@@ -305,6 +305,16 @@ export default Em.Mixin.create({
     this.changeTooltipText(type, tooltipTxt);
   }.observes('repeat').on('init'),
 
+  onUsingMicAudioChange: function(){
+    var tooltipTxt = 'Listen to audio through mic', type = 'usingMicAudio';
+
+    if (this.get(type)) {
+      tooltipTxt = 'Listen to audio files';
+    }
+
+    this.changeTooltipText(type, tooltipTxt);
+  }.observes('usingMicAudio').on('init'),
+
   onShuffleChange: function () {
     var tooltipTxt = 'Shuffle', type = 'shuffle';
 
@@ -336,16 +346,16 @@ export default Em.Mixin.create({
   }.observes('volumeMuted').on('init'),
 
   onPrevChange: function() {
-    if(this.get('playQueueMultiple')){
+    if(this.get('playQueueNotEmpty')){
       var tooltipTxt = 'Previous', type = 'prev';
 
-      if(this.get('timeElapsed') > 5) {
+      if(this.get('timeElapsed') > 5 || this.get('playQueue').length === 1) {
         tooltipTxt = 'Replay';
       }
 
       this.changeTooltipText(type, tooltipTxt);
     }
-  }.observes('timeElapsed', 'playQueueMultiple'),
+  }.observes('timeElapsed', 'playQueueNotEmpty', 'playQueue.[]'),
 
   onPlayingChange: function () {
     var tooltipTxt = 'Play', type = 'playing';

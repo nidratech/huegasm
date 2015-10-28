@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" id="step1">
   <div id="playerArea" class="col-sm-8 col-xs-12 {{if (eq "None" currentVisName) "displayIcon"}}" {{action "playerAreaPlay"}}>
     <canvas id="visualization"></canvas>
     <div id="playNotification" class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
@@ -7,7 +7,7 @@
       {{#if usingLocalAudio}}
         {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
 
-        {{#if playQueueMultiple}}
+        {{#if playQueueNotEmpty}}
           <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip"
                 data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
           -->{{/if}}<!--
@@ -74,13 +74,13 @@
   {{/if}}
 
   {{#if usingMicSupported}}
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Listen to audio through mic" {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="usingMicAudioTooltip" data-title={{usingMicAudioTooltipTxt}} {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
   {{/if}}
 </div>
 
 {{#if usingMicAudio}}
-  <div id="playAreaMic">
-    {{paper-icon icon="mic"}}
+  <div id="playAreaMic" class="{{if dimmerOn "dimmerOn"}}">
+    {{paper-icon icon="mic" class=dimmerOnClass}}
   </div>
 {{else}}
   {{#if usingLocalAudio}}
@@ -142,7 +142,7 @@
 </span>
 {{/if}}
 
-<div class="row">
+<div class="row" id="beatOptionRow">
 <div class="beatOption col-xs-3">
   <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Beat Threshold</span>
 {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
@@ -191,32 +191,33 @@
 </div>
 
 <div id="beatContainer" class="col-sm-5 col-xs-12">
-{{#if speakerViewed}}
-<div class="bezel">
-<div class="rivet1"></div>
-<div class="rivet2"></div>
-<div class="rivet3"></div>
-<div class="rivet4"></div>
-<div class="rivet5"></div>
-<div class="rivet6"></div>
-<div class="rivet7"></div>
-<div class="rivet8"></div>
+  {{#if speakerViewed}}
+    <div class="bezel">
+    <div class="rivet1"></div>
+    <div class="rivet2"></div>
+    <div class="rivet3"></div>
+    <div class="rivet4"></div>
+    <div class="rivet5"></div>
+    <div class="rivet6"></div>
+    <div class="rivet7"></div>
+    <div class="rivet8"></div>
 
-<div id="beatSpeakerCenterOuter">
-<div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
-</div>
-</div>
-</div>
-{{else}}
-<div id="beatHistory">
-{{#each beatHistory as |item|}}
-<p>{{{item}}}</p>
-{{/each}}
-</div>
-{{#paper-switch checked=debugFiltered class="debugFilteredSwitch"}} {{debugFilteredText}} {{/paper-switch}}
-{{/if}}
+    <div id="beatSpeakerCenterOuter">
+    <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
+    </div>
+    </div>
+    </div>
+  {{else}}
+    <div id="beatHistory">
+    {{#each beatHistory as |item|}}
+      <p>{{{item}}}</p>
+    {{/each}}
+    </div>
 
-{{#paper-switch checked=speakerViewed class="speakerSwitch"}} {{speakerLabel}} {{/paper-switch}}
+    {{#paper-switch checked=debugFiltered class="debugFilteredSwitch"}} {{debugFilteredText}} {{/paper-switch}}
+  {{/if}}
+
+  {{#paper-switch checked=speakerViewed class="speakerSwitch"}} {{speakerLabel}} {{/paper-switch}}
 </div>
 </div>
 

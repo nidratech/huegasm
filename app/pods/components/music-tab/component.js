@@ -744,6 +744,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       event.preventDefault();
     });
 
+    Em.$(document).keypress((event) => {
+      if(event.which === 32 && event.target.type !== 'text'){
+        this.send('play');
+      }
+    });
+
     // control the volume by scrolling up/down
     Em.$('#playerArea').on('mousewheel', function(event) {
       if(self.get('playQueueNotEmpty')) {
@@ -762,12 +768,17 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
      // demo tracks
     if(this.get('firstVisit')){
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/tracks');
-
       this.get('storage').set('huegasm.firstVisit', false);
     }
 
     if(!this.get('playerBottomDisplayed')) {
       Em.$('#playerBottom').hide();
     }
+
+    if(this.get('firstVisit')){
+
+    }
+
+    this.sendAction();
   }
 });

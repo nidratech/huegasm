@@ -6,7 +6,8 @@
     "Dancer",
     "ID3",
     "FileAPIReader",
-    "SC"
+    "SC",
+    "introJs"
   ],
   "browser": true,
   "boss": true,

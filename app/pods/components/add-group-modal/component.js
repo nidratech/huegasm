@@ -35,11 +35,9 @@ export default Em.Component.extend({
   },
 
   didInsertElement: function() {
-    var self = this;
-
-    Em.$(document).keypress(function(event) {
-      if(!self.get('saveDisabled') && event.which === 13) {
-        self.send('save');
+    Em.$(document).keypress((event) => {
+      if(!this.get('saveDisabled') && event.which === 13) {
+        this.send('save');
       }
     });
   },

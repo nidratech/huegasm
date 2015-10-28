@@ -1,23 +1,23 @@
-{{#paper-list class="lightsTab"}}
+{{#paper-list}}
   {{#paper-item class="item"}}
-    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup" dimmerOn=dimmerOn}}
+    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup" dimmerOn=dimmerOn id="activeLights"}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="power-settings-new" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Selected lights are turned on/off">Power</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="The selected lights to be on/off">Power</p>
     {{#paper-switch checked=lightsOn disabled=trial skipProxy=trial}} {{lightsOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="brightness-4" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Brightness level of the selected lights">Brightness</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="The brightness level of the selected lights">Brightness</p>
     {{paper-slider flex=true min='1' max='254' value=lightsBrightness disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
   {{#paper-item elementId="colorRow"}}
     {{paper-icon icon="color-lens" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Color of the selected lights">Color</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="The color of the selected lights">Color</p>
   {{/paper-item}}
 
   <div class="relative">

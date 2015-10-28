@@ -178,7 +178,7 @@ md-list-item .md-no-style {
   padding: 0;
 }
 
-.lightsTab {
+#lightsTab {
   min-height: 400px;
 }
 
@@ -913,13 +913,14 @@ body.dimmerOn {
 .loop.dimmerOn,
 .group.dimmerOn,
 .settings.dimmerOn,
+.mic.dimmerOn,
 .library-music.dimmerOn {
   color: inherit !important;
   text-shadow: $glowingText;
   opacity: 0.9 !important;
 }
 
-.dimmerWrapper {
+#dimmerWrapper {
   position: absolute;
   left: -50px;
   bottom: -16px;
@@ -1040,4 +1041,19 @@ div.ember-modal-dialog {
 #extraOptionsMenu:hover {
   opacity: 1;
   background: rgba(0, 0, 0, 0.7);
+}
+
+.introjs-helperNumberLayer {
+  line-height: 17px;
+  padding: 0;
+  width: 23px;
+  height: 23px;
+}
+
+.introjs-tooltip {
+  color: black;
+}
+
+#settings.introjs-fixParent{
+  position: inherit !important;
 }

@@ -3,6 +3,7 @@ import Em from 'ember';
 export default Em.Component.extend({
   classNames: ['col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
+  elementId: 'lightsTab',
 
   activeLights: [],
   lightsData: null,

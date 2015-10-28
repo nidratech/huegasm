@@ -39,12 +39,12 @@ export default Em.Component.extend({
           {
             element: '#musicTab',
             intro: 'This is the music tab. Here you\'ll be able to play music and synchronize it with your active lights.<br><br>' +
-            '<i>TIP: Control which lights are active through the <b>Lights</b> tab or through the <b>Groups</b> menu dropdown.</i>'
+            '<i><b>TIP</b>: Control which lights are active through the <b>Lights</b> tab or through the <b>Groups</b> menu dropdown.</i>'
           },
           {
             element: '#playlist',
             intro: 'You can add and select music to play from your playlist here. You may add local audio files, stream music from soundcloud or stream music into the application fromn your mic.<br><br>' +
-            '<i>TIP: Songs added through soundcloud will be saved for when you visit this page again.</i>'
+            '<i><b>TIP</b>: Songs added through soundcloud will be saved for when you visit this page again.</i>'
           },
           {
             element: '#playerArea',
@@ -57,7 +57,8 @@ export default Em.Component.extend({
             '<b>Beat Interval</b> - The minimum amount of time between each registered beat <br>' +
             '<b>Frequency Range</b> - The frequency range of the sound to listen on for the beat<br>' +
             '<b>Transition Time</b> - The time it takes for a light to change color or brightness<br><br>' +
-            '<i>TIP: Beat settings are saved per song as indicated by the red start icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>'
+            '<i><b>TIP</b>: Beat settings are saved per song as indicated by the red start icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
+            position: 'top'
           },
           {
             element: '#beatOptionButtonGroup',
@@ -65,12 +66,14 @@ export default Em.Component.extend({
             '<b>Default</b> - Revert to the default beat detection settings<br>' +
             '<b>Random/Sequential</b> - The transition order of lights on beat<br>' +
             '<b>Brightness/Brightness & Color</b> - The properties of the lights to change on beat<br><br>' +
-            '<i>TIP: Turn the colorloop \'on\' in the <b>Lights</b> tab and set only the brightness to change on beat for a cool visual effect.</i>'
+            '<i><b>TIP</b>: Turn the colorloop \'on\' in the <b>Lights</b> tab and set only the brightness to change on beat for a cool visual effect.</i>',
+            position: 'top'
           },
           {
             element: '#beatContainer',
             intro: 'An interactive speaker that will bump on a registered beat. Switch over to the <b>Debug View</b> to see the intesity of all the registered and unregistered beats.<br><br>' +
-            '<i>TIP: Click on the center of the speaker to simulate a beat.</i>'
+            '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
+            position: 'top'
           },
           {
             element: '#lightsTab',
@@ -93,13 +96,13 @@ export default Em.Component.extend({
           {
             element: Em.$('.settingsItem')[1],
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
-            '<b>WARNING:</b> clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
+            '<b>WARNING</b>: clearing application settings will resto re the application to its original state. This will even delete your playlist and any saved song beat preferences.',
             position: 'left'
           },
           {
             element: '#dimmerWrapper',
-            intro: 'Enjoy the application. ;) <br><br>' +
-            '<i>TIP: click on the lightbulb to turn off the lights.</i>',
+            intro: 'And that\'s it...Enjoy the application. ;) <br><br>' +
+            '<i><b>TIP</b>: click on the lightbulb to turn off the lights.</i>',
             position: 'top'
           }
         ]
@@ -133,15 +136,17 @@ export default Em.Component.extend({
         }
       });
 
-      intro.onexit(()=>{
+      var onFinish = ()=>{
         this.set('activeTab', 1);
         Em.$('#musicTab').removeClass('hidden');
         Em.$('#lightsTab').addClass('hidden');
         Em.$('.navigationItem').eq(0).removeClass('active');
         Em.$('.navigationItem').eq(1).addClass('active');
         playerBottom.hide();
-      });
+      };
 
+      intro.onexit(onFinish);
+      intro.oncomplete(onFinish);
       intro.start();
     }
   },
@@ -223,20 +228,21 @@ export default Em.Component.extend({
   pauseLightUpdates: false,
 
   updateLightData(){
-    var self = this, fail = function() {
+    var fail = ()=>{
       clearInterval(self.get('lightsDataIntervalHandle'));
-      self.setProperties({
-        bridgeIp: null,
-        bridgeUsername: null
-      });
+      
+      this.get('storage').remove('huegasm.bridgeIp');
+      this.get('storage').remove('huegasm.bridgeUsername');
+
+      location.reload();
     };
 
     if(!this.get('pauseLightUpdates')){
-      Em.$.get(this.get('apiURL') + '/lights', function (result, status) {
+      Em.$.get(this.get('apiURL') + '/lights', (result, status)=>{
         if(!Em.isNone(result[0]) && !Em.isNone(result[0].error)){
           fail();
-        } else if (status === 'success' && JSON.stringify(self.get('lightsData')) !== JSON.stringify(result)) {
-          self.set('lightsData', result);
+        } else if (status === 'success' && JSON.stringify(this.get('lightsData')) !== JSON.stringify(result)) {
+          this.set('lightsData', result);
         }
       }).fail(fail);
     }

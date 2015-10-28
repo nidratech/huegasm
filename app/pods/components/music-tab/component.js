@@ -769,16 +769,11 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     if(this.get('firstVisit')){
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/tracks');
       this.get('storage').set('huegasm.firstVisit', false);
+      this.sendAction();
     }
 
     if(!this.get('playerBottomDisplayed')) {
       Em.$('#playerBottom').hide();
     }
-
-    if(this.get('firstVisit')){
-
-    }
-
-    this.sendAction();
   }
 });

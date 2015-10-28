@@ -7,7 +7,6 @@ Music awesomeness for hue lights.
 - youtube video
 
 ## BUGS
-- BUGS BUGS BUGS
 
 ## POSSIBLE FUTURE FEATURES
 - better visualizations

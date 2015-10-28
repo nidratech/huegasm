@@ -18,16 +18,31 @@ export default Em.Mixin.create({
     this.get('storage').set('huegasm.currentVisName', currentVisName);
   }.observes('currentVisName'),
 
-  doDancerBind(){
+  didInsertElement(){
     var dancer = this.get('dancer'),
-      canvasEl = Em.$('#visualization')[0],
-      ctx = canvasEl.getContext('2d'),
-      spacing = 0,
-      h = canvasEl.height,
-      w = canvasEl.width;
+      canvas = Em.$('#visualization')[0],
+      playerArea = Em.$('#playerArea'),
+      ctx = canvas.getContext('2d'),
+      spacing = 2,
+      h = Em.$('#playerArea').height(), w;
+
+    canvas.height = h;
+
+    // must be done to preserver resolution so that things don't appear blurry
+    // note that the height is set to 400px via css so it doesn't need to be recalculated
+    var syncCanvasHeight = ()=>{
+      w = playerArea.width();
+      canvas.width = w;
+    };
+
+    syncCanvasHeight();
+
+    Em.$(window).on('resize', syncCanvasHeight);
 
     dancer.bind('update', () => {
-      var currentVisName = this.get('currentVisName');
+      var currentVisName = this.get('currentVisName'),
+        gradient = ctx.createLinearGradient(0, 0, 0, h);
+
       if(currentVisName === 'None'){
         return;
       }
@@ -35,12 +50,11 @@ export default Em.Mixin.create({
       ctx.clearRect(0, 0, w, h);
 
       if (currentVisName === 'Wave') {
-        let width = 1,
-          count = 1024,
-          gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        let width = 3,
+          count = 1024;
 
+        gradient.addColorStop(0.6, 'white');
         gradient.addColorStop(0, '#0036FA');
-        gradient.addColorStop(0.3, 'white');
 
         ctx.lineWidth = 1;
         ctx.strokeStyle = gradient;
@@ -55,24 +69,19 @@ export default Em.Mixin.create({
         ctx.closePath();
       } else if (currentVisName === 'Bars') {
         let width = 4,
-          count = 128,
-          gradient = ctx.createLinearGradient(0, 0, 0, 300);
+          count = 128;
 
-        gradient.addColorStop(0.5, '#0f0');
-        gradient.addColorStop(0.4, '#ff0');
-        gradient.addColorStop(0, '#F12B24');
+        gradient.addColorStop(1, '#0f0');
+        gradient.addColorStop(0.6, '#ff0');
+        gradient.addColorStop(0.2, '#F12B24');
 
         ctx.fillStyle = gradient;
         var spectrum = dancer.getSpectrum();
         for (let i = 0, l = spectrum.length; i < l && i < count; i++) {
-          ctx.fillRect(i * ( spacing + width ), h, width, -spectrum[i] * h - 23);
+          ctx.fillRect(i * ( spacing + width ), h, width, -spectrum[i] * h - 60);
         }
       }
     });
-  },
-
-  didInsertElement(){
-    this.doDancerBind();
   }
 })
 ;

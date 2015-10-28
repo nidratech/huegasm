@@ -109,7 +109,8 @@ export default Em.Component.extend({
   }.observes('bridgeIp').on('init'),
 
   pingBridgeUser() {
-    var bridgeIp = this.get('bridgeIp'), self = this, bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'),
+    var bridgeIp = this.get('bridgeIp'),
+      bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'),
       bridgeUsernamePingMaxTime = this.get('bridgeUsernamePingMaxTime');
 
     if (bridgeIp !== null && bridgeUserNamePingIntervalProgress < 100) {
@@ -117,24 +118,26 @@ export default Em.Component.extend({
         data: JSON.stringify({"devicetype": "huegasm"}),
         contentType: 'application/json',
         type: 'POST'
-      }).done(function (result, status) {
+      }).done((result, status)=>{
         if (status === 'success') {
           if (!result[0].error) {
-            self.set('bridgeUsername', result[0].success.username);
+            this.setProperties({
+              bridgeUsername: result[0].success.username,
+              bridgePingIntervalHandle: null
+            });
+
             this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
-            clearInterval(self.get('bridgePingIntervalHandle'));
-            self.set('bridgePingIntervalHandle', null);
+            clearInterval(this.get('bridgePingIntervalHandle'));
           }
-          self.set('bridgeAuthenticateError', result[0].internalipaddress);
+          this.set('bridgeAuthenticateError', result[0].internalipaddress);
         }
 
-        self.set('bridgeAuthenticateReachedStatus', status);
+        this.set('bridgeAuthenticateReachedStatus', status);
       });
 
       this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime')/bridgeUsernamePingMaxTime*100);
     } else {
       clearInterval(this.get('bridgePingIntervalHandle'));
-      this.set('bridgePingIntervalHandle', null);
     }
   },
 

@@ -3,10 +3,6 @@ import helperMixin from './mixins/helpers';
 import visualizerMixin from './mixins/visualizer';
 
 export default Em.Component.extend(helperMixin, visualizerMixin, {
-  classNames: ['col-lg-10', 'col-lg-offset-1', 'col-xs-12'],
-  classNameBindings: ['active::hidden'],
-  elementId: 'musicTab',
-
   onActiveChange: function(){
     if(this.get('active')){
       Em.$('#playNotification').removeClass('fadeOut');
@@ -112,6 +108,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         this.send('volumeChanged', this.get('volume'));
       }
 
+      // restore the old beat preferences ( before the user went into mic mode )
+      if(!Em.isNone(this.get('oldThreshold'))){
+        this.set('threshold', this.get('oldThreshold'));
+        this.set('frequency', this.get('oldFrequency'));
+      }
+
       document.title = 'Huegasm';
     },
     useMicAudio() {
@@ -163,7 +165,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           this.send('next');
         };
 
-        dancer.load(audio);
+        dancer.load(audio, 1);
 
         this.set('playQueuePointer', index);
 
@@ -375,6 +377,11 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     thresholdChanged(value) {
       this.changePlayerControl('threshold', value, true);
     },
+    micBoostChanged(value) {
+      this.set('micBoost', value);
+      this.get('storage').set('huegasm.micBoost', value);
+      this.get('dancer').setBoost(value);
+    },
     intervalChanged(value){
       this.changePlayerControl('interval', value, true);
     },
@@ -470,7 +477,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences');
 
-    songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency') };
+    songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency')};
 
     this.set('usingBeatPreferences', true);
     this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
@@ -519,7 +526,18 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         });
 
         document.title = 'Listening to Mic - Huegasm';
-        dancer.load(stream, true);
+
+        dancer.load(stream, this.get('micBoost'), true);
+        this.set('usingBeatPreferences', false);
+
+        // much more sensitive beath preference settings are needed for mic mode
+        this.setProperties({
+          oldFrequency: this.get('frequency'),
+          oldThreshold: this.get('threshold'),
+          threshold: 0.1,
+          frequency: [0,10]
+        });
+
         dancer.setVolume(0);
       },
       (err) => {
@@ -711,7 +729,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
@@ -751,16 +769,16 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     });
 
     // control the volume by scrolling up/down
-    Em.$('#playerArea').on('mousewheel', function(event) {
-      if(self.get('playQueueNotEmpty')) {
+    Em.$('#playerArea').on('mousewheel', (event)=>{
+      if(this.get('playQueueNotEmpty') && !this.get('usingMicAudio')) {
         var scrollSize = 5;
 
         if(event.deltaY < 0) {
           scrollSize *= -1;
         }
-        var newVolume = self.get('volume') + scrollSize;
+        var newVolume = this.get('volume') + scrollSize;
 
-        self.send('volumeChanged', newVolume < 0 ? 0 : newVolume);
+        this.send('volumeChanged', newVolume < 0 ? 0 : newVolume);
         event.preventDefault();
       }
     });

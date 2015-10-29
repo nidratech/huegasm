@@ -32,7 +32,8 @@ export default Em.Component.extend({
     },
     startIntro(){
       var intro = introJs(),
-        playerBottom = Em.$('#playerBottom');
+        playerBottom = Em.$('#playerBottom'),
+        beatDetectionAreaArrowIcon = Em.$('#beatDetectionAreaArrowIcon');
 
       intro.setOptions({
         steps: [
@@ -43,26 +44,31 @@ export default Em.Component.extend({
           },
           {
             element: '#playlist',
-            intro: 'You can add and select music to play from your playlist here. You may add local audio files, stream music from soundcloud or stream music into the application fromn your mic.<br><br>' +
+            intro: 'You can add and select music to play from your playlist here. You may listen to local audio files, stream music from soundcloud or stream directly from a connected microphone.<br><br>' +
             '<i><b>TIP</b>: Songs added through soundcloud will be saved for when you visit this page again.</i>'
           },
           {
+            element: '#usingMicAudioTooltip',
+            intro: 'This icon will trigger the mode in which the application will listen to your microphone.<br>' +
+            'Note that this is a highly experimental feature that will require your authorization to be able to listen to the microphone. Also note that the beat detection will not be nearly as accurate in this mode.'
+          },
+          {
             element: '#playerArea',
-            intro: 'The audio playback may be controlled with the controls here. Basic music visualization effects may be shown here by selecting them from the menu ( eyeball in the bottom right ).'
+            intro: 'The audio playback may be controlled with the controls here. Basic music visualization effects may be shown here by selecting them from the menu ( eyeball icon in the bottom right ).'
           },
           {
             element: '#beatOptionRow',
-            intro: 'Beat detection settings:<br>' +
+            intro: 'These are the beat detection settings:<br>' +
             '<b>Beat Threshold</b> - The minimum sound intensity for the beat to register<br>' +
             '<b>Beat Interval</b> - The minimum amount of time between each registered beat <br>' +
             '<b>Frequency Range</b> - The frequency range of the sound to listen on for the beat<br>' +
             '<b>Transition Time</b> - The time it takes for a light to change color or brightness<br><br>' +
-            '<i><b>TIP</b>: Beat settings are saved per song as indicated by the red start icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
+            '<i><b>TIP</b>: Beat settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
             position: 'top'
           },
           {
             element: '#beatOptionButtonGroup',
-            intro: 'Some additional options:<br>' +
+            intro: 'Some additional settings:<br>' +
             '<b>Default</b> - Revert to the default beat detection settings<br>' +
             '<b>Random/Sequential</b> - The transition order of lights on beat<br>' +
             '<b>Brightness/Brightness & Color</b> - The properties of the lights to change on beat<br><br>' +
@@ -71,14 +77,14 @@ export default Em.Component.extend({
           },
           {
             element: '#beatContainer',
-            intro: 'An interactive speaker that will bump on a registered beat. Switch over to the <b>Debug View</b> to see the intesity of all the registered and unregistered beats.<br><br>' +
+            intro: 'An interactive speaker that will bump when a beat is registered. Switch over to the <b>Debug View</b> to see the intesity of all the registered and unregistered beats.<br><br>' +
             '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
             position: 'top'
           },
           {
             element: '#lightsTab',
             intro: 'This is the lights tab. Here you\'ll be able to change various light properties:<br>' +
-            '<b>Power</b> - The selected lights to be on/off<br>' +
+            '<b>Power</b> - Turn the selected lights on/off<br>' +
             '<b>Brightness</b> - The brightness level of the selected lights<br>' +
             '<b>Color</b> - The color of the selected lights<br>' +
             '<b>Strobe</b> - Selected lights will flash in sequential order<br>' +
@@ -86,11 +92,12 @@ export default Em.Component.extend({
           },
           {
             element: '#activeLights',
-            intro: 'These icons represent the hue lights in your system. Active lights will be controlled by the application while the inactive lights will have a red X over them and will not be controlled. You may toggle a light\'s active state by clicking on it'
+            intro: 'These icons represent the hue lights in your system. Active lights will be controlled by the application while the inactive lights will have a red X over them and will not be controlled.<br>' +
+            'You may toggle a light\'s state by clicking on it.'
           },
           {
             element: Em.$('.settingsItem')[0],
-            intro: 'Groups allow for saving and selecting sets of lights.',
+            intro: 'The Groups menu allows for saving and quickly selecting groups of lights.',
             position: 'left'
           },
           {
@@ -101,18 +108,19 @@ export default Em.Component.extend({
           },
           {
             element: '#dimmerWrapper',
-            intro: 'And that\'s it...Enjoy the application. ;) <br><br>' +
-            '<i><b>TIP</b>: click on the lightbulb to turn off the lights.</i>',
+            intro: 'And that\'s it...Feel free to reach out to me through the link at the bottom of the page.<br>' +
+            'Hope you enjoy the application. ;)<br><br>' +
+            '<i><b>TIP</b>: click on the lightbulb to switch to a darker theme.</i>',
             position: 'top'
           }
         ]
       });
 
-      // it's not pretty but it works
+      // it's VERY ugly but it works
       intro.onchange((element) => {
         this.set('dimmerOn', false);
 
-        if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea' || element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer'){
+        if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea' || element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer' || element.id === 'usingMicAudioTooltip'){
           Em.$('#musicTab').removeClass('hidden');
           Em.$('#lightsTab').addClass('hidden');
           Em.$('.navigationItem').eq(0).removeClass('active');
@@ -126,11 +134,16 @@ export default Em.Component.extend({
 
         if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea'){
           playerBottom.hide();
+
+          if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
+            beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-up').addClass('keyboard-arrow-down');
+          }
         } else if(element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer'){
           playerBottom.show();
-        } else if(element.id === 'lightsTab'){
-          Em.$('#musicTab').addClass('hidden');
-          Em.$('#lightsTab').removeClass('hidden');
+
+          if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-down')){
+            beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-down').addClass('keyboard-arrow-up');
+          }
         } else if(element.id === 'dimmerWrapper'){
           Em.$(document).click();
         }
@@ -142,12 +155,20 @@ export default Em.Component.extend({
         Em.$('#lightsTab').addClass('hidden');
         Em.$('.navigationItem').eq(0).removeClass('active');
         Em.$('.navigationItem').eq(1).addClass('active');
-        playerBottom.hide();
+
+        if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
+          playerBottom.show();
+        } else {
+          playerBottom.hide();
+        }
       };
 
-      intro.onexit(onFinish);
-      intro.oncomplete(onFinish);
-      intro.start();
+      // skip hidden/missing elements
+      intro.onafterchange((element)=>{
+        if(Em.$(element).hasClass('introjsFloatingElement')){
+          Em.$('.introjs-nextbutton').click();
+        }
+      }).onexit(onFinish).oncomplete(onFinish).start();
     }
   },
 
@@ -229,8 +250,8 @@ export default Em.Component.extend({
 
   updateLightData(){
     var fail = ()=>{
-      clearInterval(self.get('lightsDataIntervalHandle'));
-      
+      clearInterval(this.get('lightsDataIntervalHandle'));
+
       this.get('storage').remove('huegasm.bridgeIp');
       this.get('storage').remove('huegasm.bridgeUsername');
 

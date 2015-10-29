@@ -3,8 +3,6 @@ Music awesomeness for hue lights.
 
 # TODO
 ## FEATURES
-- microphone mode
-- youtube video
 
 ## BUGS
 

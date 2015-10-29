@@ -18,7 +18,7 @@
 
   Dancer.prototype = {
 
-    load : function ( source, useMic ) {
+    load : function ( source, micBoost, useMic ) {
       // Loading an Audio element
       if ( source instanceof HTMLElement ) {
         this.source = source;
@@ -35,7 +35,8 @@
       }
 
       this.useMic = useMic === true;
-      this.audio = this.audioAdapter.load(this.source, this.useMic);
+      this.boost = micBoost ? micBoost : 1;
+      this.audio = this.audioAdapter.load(this.source, this.useMic, this.boost);
 
       return this;
     },
@@ -56,6 +57,10 @@
       return this;
     },
 
+    setBoost : function ( boost ) {
+      this.audioAdapter.setBoost( boost );
+      return this;
+    },
 
     /* Actions */
     createKick : function ( options ) {
@@ -380,10 +385,11 @@
 
   adapter.prototype = {
 
-    load : function (_source, useMic) {
+    load : function (_source, useMic, boost) {
       var _this = this;
       this.audio = _source;
       this.useMic = useMic;
+      this.boost = boost;
 
       this.isLoaded = false;
       this.progress = 0;
@@ -401,7 +407,7 @@
 
       this.gain = this.context.createGain();
 
-      this.fft = new FFT( SAMPLE_SIZE / 2, SAMPLE_RATE );
+      this.fft = new FFT( SAMPLE_SIZE / 2, SAMPLE_RATE, this.boost );
       this.signal = new Float32Array( SAMPLE_SIZE / 2 );
 
       if ( this.audio.readyState < 3 ) {
@@ -433,6 +439,14 @@
 
     setVolume : function ( volume ) {
       this.gain.gain.value = volume;
+    },
+
+    setBoost : function( boost ){
+      if(this.fft){
+        this.fft.setBoost(boost);
+      }
+
+      this.boost = boost;
     },
 
     getVolume : function () {
@@ -495,7 +509,7 @@
 
     this.source.connect(this.proc);
     this.source.connect(this.gain);
-    //this.source.connect( this.filter );
+    this.source.connect( this.filter );
     this.gain.connect(this.context.destination);
     this.proc.connect(this.context.destination);
     //this.filter.connect( this.context.destination );
@@ -765,10 +779,11 @@
  */
 
 // Fourier Transform Module used by DFT, FFT, RFFT
-function FourierTransform(bufferSize, sampleRate) {
+function FourierTransform(bufferSize, sampleRate, boost) {
   this.bufferSize = bufferSize;
   this.sampleRate = sampleRate;
   this.bandwidth  = 2 / bufferSize * sampleRate / 2;
+  this.boost = boost ? boost : 1;
 
   this.spectrum   = new Float32Array(bufferSize/2);
   this.real       = new Float32Array(bufferSize);
@@ -788,10 +803,15 @@ function FourierTransform(bufferSize, sampleRate) {
     return this.bandwidth * index + this.bandwidth / 2;
   };
 
+  this.setBoost = function(boost){
+    this.boost = boost;
+  };
+
   this.calculateSpectrum = function() {
     var spectrum  = this.spectrum,
         real      = this.real,
         imag      = this.imag,
+        boost     = this.boost,
         bSi       = 2 / this.bufferSize,
         sqrt      = Math.sqrt,
         rval,
@@ -808,7 +828,7 @@ function FourierTransform(bufferSize, sampleRate) {
         this.peak = mag;
       }
 
-      spectrum[i] = mag;
+      spectrum[i] = mag * boost;
     }
   };
 }
@@ -819,11 +839,12 @@ function FourierTransform(bufferSize, sampleRate) {
  *
  * @param {Number} bufferSize The size of the sample buffer to be computed. Must be power of 2
  * @param {Number} sampleRate The sampleRate of the buffer (eg. 44100)
+ * @param {Number} boost The coefficient
  *
  * @constructor
  */
-function FFT(bufferSize, sampleRate) {
-  FourierTransform.call(this, bufferSize, sampleRate);
+function FFT(bufferSize, sampleRate, boost) {
+  FourierTransform.call(this, bufferSize, sampleRate, boost);
 
   this.reverseTable = new Uint32Array(bufferSize);
 

@@ -43,9 +43,7 @@
             {{/each}}
           </ul>
         </span>
-
-{{!--<span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Full screen" {{action "fullscreen"}}>{{paper-icon icon="fullscreen"  class="playerControllIcon"}}</span>--}}
-</span>
+      </span>
 </div>
 </div>
 
@@ -80,7 +78,11 @@
 
 {{#if usingMicAudio}}
   <div id="playAreaMic" class="{{if dimmerOn "dimmerOn"}}">
-    {{paper-icon icon="mic" class=dimmerOnClass}}
+  <div id="micBoost" class="beatOption">
+      <span data-toggle="tooltip" data-placement="bottom auto" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Microphone Boost</span>
+    {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+      <div class="text-center">{{micBoost}}</div>
+  </div>
   </div>
 {{else}}
   {{#if usingLocalAudio}}
@@ -130,7 +132,7 @@
 
 <div id="slideToggle" class="text-center cursorPointer row" {{action "slideTogglePlayerBottom"}}>
 <div class="col-xs-offset-5 col-xs-2">
-{{paper-icon icon=beatDetectionArrowIcon}}
+  {{paper-icon icon=beatDetectionAreaArrowIcon id="beatDetectionAreaArrowIcon"}}
 </div>
 </div>
 

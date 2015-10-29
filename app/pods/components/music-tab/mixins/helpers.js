@@ -1,6 +1,10 @@
 import Em from 'ember';
 
 export default Em.Mixin.create({
+  classNames: ['col-lg-10', 'col-lg-offset-2', 'col-xs-12'],
+  classNameBindings: ['active::hidden'],
+  elementId: 'musicTab',
+
   dancer: null,
 
   notify: Em.inject.service('notify'),
@@ -23,7 +27,7 @@ export default Em.Mixin.create({
     interval: {
       range: {min: 0, max: 0.5},
       step: 0.01,
-      defaultValue: 0.15,
+      defaultValue: 0.1,
       pips: {
         mode: 'positions',
         values: [0,20,40,60,80,100],
@@ -61,13 +65,30 @@ export default Em.Mixin.create({
           from: function ( value ) { return value; }
         }
       }
+    },
+    micBoost: {
+      range:  {min: 1, max: 11},
+      step: 0.5,
+      defaultValue: 5,
+      pips: {
+        mode: 'positions',
+        values: [0,20,40,60,80,100],
+        density: 10,
+        format: {
+          to: function ( value ) {return value;},
+          from: function ( value ) { return value; }
+        }
+      }
     }
   },
 
   transitionTime: 0.1,
   threshold: 0.3,
-  interval: 0.15,
+  interval: 0.1,
   frequency: [0,4],
+  micBoost: 5,
+  oldThreshold: null,
+  oldFrequency: null,
 
   playQueuePointer: -1,
   playQueue: Em.A(),
@@ -380,7 +401,7 @@ export default Em.Mixin.create({
     }
   },
 
-  beatDetectionArrowIcon: function(){
+  beatDetectionAreaArrowIcon: function(){
     if(!this.get('playerBottomDisplayed')){
       return 'keyboard-arrow-down';
     } else {

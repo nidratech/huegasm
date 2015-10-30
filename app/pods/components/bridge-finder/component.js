@@ -119,17 +119,10 @@ export default Em.Component.extend({
         contentType: 'application/json',
         type: 'POST'
       }).done((result, status)=>{
-        if (status === 'success') {
-          if (!result[0].error) {
-            this.setProperties({
-              bridgeUsername: result[0].success.username,
-              bridgePingIntervalHandle: null
-            });
-
-            this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
-            clearInterval(this.get('bridgePingIntervalHandle'));
-          }
-          this.set('bridgeAuthenticateError', result[0].internalipaddress);
+        if (status === 'success' && !result[0].error) {
+          this.clearBridgePingIntervalHandle();
+          this.set('bridgeUsername', result[0].success.username);
+          this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
         }
 
         this.set('bridgeAuthenticateReachedStatus', status);
@@ -137,8 +130,13 @@ export default Em.Component.extend({
 
       this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime')/bridgeUsernamePingMaxTime*100);
     } else {
-      clearInterval(this.get('bridgePingIntervalHandle'));
+      this.clearBridgePingIntervalHandle();
     }
+  },
+
+  clearBridgePingIntervalHandle(){
+    clearInterval(this.get('bridgePingIntervalHandle'));
+    this.set('bridgePingIntervalHandle', null);
   },
 
   isAuthenticating: function(){

@@ -66,7 +66,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           if(resultObj instanceof Array){
             resultObj.forEach(processResult);
           } else {
-
             processResult(resultObj);
           }
 

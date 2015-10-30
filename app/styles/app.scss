@@ -27,6 +27,8 @@ body {
 #introPic {
   display: block;
   margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
 }
 
 .introParagraph {
@@ -335,10 +337,6 @@ md-slider.md-default-theme .md-thumb:after {
     margin-top: 1px;
     margin-left: 2px;
   }
-}
-
-.lightUnreachable {
-  display: none;
 }
 
 .lightActive {
@@ -900,7 +898,6 @@ body.dimmerOn {
   }
   svg {
     -webkit-filter: drop-shadow(0 0 5px #228DFF);
-    filter: drop-shadow(0 0 5px #228DFF);
   }
   md-input-container {
     label {

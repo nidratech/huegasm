@@ -10,7 +10,7 @@ export default Em.Component.extend({
 
   actions: {
     clickLight(id, data){
-      var light = Em.$(event.target);
+      var light = Em.$('.light'+id);
 
       if(!light.hasClass('bootstrapTooltip')){
         light = light.parent();
@@ -68,7 +68,7 @@ export default Em.Component.extend({
     if(!this.get('isHovering')){
       var lightsData = this.get('lightsData'), lightsList = Em.A(), type;
       for (var key in lightsData) {
-        if (lightsData.hasOwnProperty(key)) {
+        if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
           switch(lightsData[key].modelid){
             case 'LCT001':
               type = 'a19';
@@ -114,8 +114,6 @@ export default Em.Component.extend({
 
           if(!this.get('activeLights').contains(key)){
             activeClass = 'lightInactive';
-          } else if(!lightsData[key].state.reachable){
-            activeClass = 'lightUnreachable';
           }
 
           lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass});

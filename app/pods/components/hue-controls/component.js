@@ -198,7 +198,8 @@ export default Em.Component.extend({
 
     if(!this.get('trial')) {
       this.doUpdateGroupsData();
-      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 1000));
+      this.updateLightData();
+      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
     }
 
     if (!Em.isNone(this.get('storage').get('huegasm.selectedTab'))) {
@@ -208,17 +209,14 @@ export default Em.Component.extend({
 
   onUpdateGroupsDataChange: function(){
     if(this.get('updateGroupsData')){
-      var self = this;
-      setTimeout(function(){ self.doUpdateGroupsData(); }, 1000);
+      setTimeout(()=>{ this.doUpdateGroupsData(); }, 1000);
     }
   }.observes('updateGroupsData'),
 
   doUpdateGroupsData(){
-    var self = this;
-
-    Em.$.get(this.get('apiURL') + '/groups', function (result, status) {
+    Em.$.get(this.get('apiURL') + '/groups', (result, status)=>{
       if (status === 'success' ) {
-        self.set('groupsData', result);
+        this.set('groupsData', result);
       }
     });
 

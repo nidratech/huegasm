@@ -916,6 +916,12 @@ body.dimmerOn {
   .addNewMusic:hover {
     background: darken($dimmerOnButtonColor, 5%);
   }
+  #extraOptionsMenu {
+    opacity: 0.7;
+  }
+  #extraOptionsMenu:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
 }
 
 .power-settings-new.dimmerOn,
@@ -1048,7 +1054,7 @@ div.ember-modal-dialog {
 
 #extraOptionsMenu:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .introjs-helperNumberLayer {

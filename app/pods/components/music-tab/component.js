@@ -19,7 +19,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('currentVisName', name);
     },
     hideTooltip(){
-      Em.$(event.target).parent().parent().find('.tooltip').remove();
+      Em.$('.tooltip').remove();
     },
     gotoSCURL(URL){
       // need to pause the music since soundcloud is going to start playing this song anyways

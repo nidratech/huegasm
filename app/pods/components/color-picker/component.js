@@ -1,35 +1,35 @@
 import Em from 'ember';
 
 export default Em.Component.extend({
-  classNames:['colorpicker'],
+  classNames: ['colorpicker'],
 
   rgb: null,
 
   canvas: null,
   canvasContext: null,
 
-  actions: {
-    mouseMove(){
-      if(this.get('pressingDown')){
-        this.send('colorSelect');
-      }
-    },
-    mouseUp(){
-      this.set('pressingDown', false);
-    },
-    colorSelect() {
-      var canvasOffset = Em.$(this.get('canvas')).offset();
-      var canvasX = Math.floor(event.pageX - canvasOffset.left), canvasY = Math.floor(event.pageY - canvasOffset.top);
+  mouseUp(){
+    this.set('pressingDown', false);
+  },
 
-      // get current pixel
-      var imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1);
-      var pixel = imageData.data;
+  mouseMove(event){
+    if (this.get('pressingDown')) {
+      this.mouseDown(event);
+    }
+  },
 
-      this.set('pressingDown', true);
+  mouseDown(event){
+    var canvasOffset = Em.$(this.get('canvas')).offset();
+    var canvasX = Math.floor(event.pageX - canvasOffset.left), canvasY = Math.floor(event.pageY - canvasOffset.top);
 
-      if( !(pixel[0] === 0 && pixel[1] === 0 && pixel[2] === 0) ) {
-        this.set('rgb', [pixel[0], pixel[1], pixel[2]]);
-      }
+    // get current pixel
+    var imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1);
+    var pixel = imageData.data;
+
+    this.set('pressingDown', true);
+
+    if (!(pixel[0] === 0 && pixel[1] === 0 && pixel[2] === 0)) {
+      this.set('rgb', [pixel[0], pixel[1], pixel[2]]);
     }
   },
 
@@ -42,7 +42,7 @@ export default Em.Component.extend({
       canvasContext = canvas.getContext('2d'),
       image = new Image();
 
-    image.src ='assets/images/colormap.png';
+    image.src = 'assets/images/colormap.png';
     image.onload = function () {
       canvasContext.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
     };

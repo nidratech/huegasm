@@ -45,12 +45,11 @@ export default Em.Component.extend({
   },
 
   didInsertElement() {
-    var self = this;
     // TODO figure out how to convert this
     //this.xyToRgb(0.5,0.5);
-    Em.$(document).click(function() {
-      if(self.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, #colorRow').length) {
-        self.toggleProperty('colorPickerDisplayed');
+    Em.$(document).click((event)=>{
+      if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, #colorRow').length) {
+        this.toggleProperty('colorPickerDisplayed');
       }
     });
 

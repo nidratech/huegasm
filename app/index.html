@@ -34,6 +34,13 @@
     <meta name="msapplication-config" content="assets/images/favicons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
+    <link rel="stylesheet" integrity="" href="assets/vendor.css">
+    <link rel="stylesheet" href="assets/huegasm.css">
+
+    {{content-for 'head-footer'}}
+
+    <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
+
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -42,18 +49,7 @@
 
       ga('create', 'UA-69470561-1', 'auto');
       ga('send', 'pageview');
-
     </script>
-
-    <link rel="stylesheet" integrity="" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/huegasm.css">
-
-    <script src="https://connect.soundcloud.com/sdk/sdk-3.0.0.js"></script>
-
-    <!--<script src="//apis.google.com/js/client.js"></script>-->
-    <!--<script src="//www.youtube.com/iframe_api"></script>-->
-
-    {{content-for 'head-footer'}}
   </head>
   <body>
     {{content-for 'body'}}

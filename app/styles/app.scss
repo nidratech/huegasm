@@ -20,8 +20,17 @@ html {
 
 body {
   font-family: 'Slabo 27px', serif;
-  margin-bottom: $footerHeight + 20px;
+  margin-bottom: $footerHeight + 30px;
   position: static;
+}
+
+#introPic {
+  display: block;
+  margin: 0 auto;
+}
+
+.introParagraph {
+  margin-bottom: 30px;
 }
 
 .goButton {
@@ -35,6 +44,10 @@ body {
   }
 }
 
+.introjs-overlay{
+  background: black;
+}
+
 .goButton:hover {
   background: darken(#3f51b5, 10%) !important;
 }
@@ -45,6 +58,9 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
 }
 .md-button {
   flex-direction: unset;
+  span {
+    width: 100%;
+  }
 }
 
 .alert {
@@ -1031,7 +1047,6 @@ div.ember-modal-dialog {
   bottom: -37px;
   right: 17px;
   border-radius: 0 0 5px 5px;
-  opacity: 0.3;
 }
 
 #extraOptionsMenu:hover {
@@ -1067,9 +1082,4 @@ div.ember-modal-dialog {
 
 #micBoost {
   margin-top: 50px;
-}
-
-#introPic {
-  display: block;
-  margin: 0 auto;
 }

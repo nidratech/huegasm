@@ -39,17 +39,17 @@ export default Em.Component.extend({
         steps: [
           {
             element: '#musicTab',
-            intro: 'This is the music tab. Here you\'ll be able to play music and synchronize it with your active lights.<br><br>' +
+            intro: 'This is the music tab. You\'ll use this to play music and synchronize it with your active lights.<br><br>' +
             '<i><b>TIP</b>: Control which lights are active through the <b>Lights</b> tab or through the <b>Groups</b> menu dropdown.</i>'
           },
           {
             element: '#playlist',
             intro: 'You can add and select music to play from your playlist here. You may listen to local audio files, stream music from soundcloud or stream directly from a connected microphone.<br><br>' +
-            '<i><b>TIP</b>: Songs added through soundcloud will be saved for when you visit this page again.</i>'
+            '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
           },
           {
             element: '#usingMicAudioTooltip',
-            intro: 'This icon will trigger the mode in which the application will listen to your microphone.<br>' +
+            intro: 'This icon will toggle microphone mode - a mode in which the application will listen to sound through your mic.<br>' +
             'Note that this is a highly experimental feature that will require your authorization to be able to listen to the microphone. Also note that the beat detection will not be nearly as accurate in this mode.'
           },
           {

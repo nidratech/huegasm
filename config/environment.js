@@ -21,7 +21,7 @@ module.exports = function(environment) {
 
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' connect.soundcloud.com",
+      'script-src': "'self' 'unsafe-inline' connect.soundcloud.com www.google-analytics.com",
       'font-src': "'self' fonts.gstatic.com",
       'connect-src': "'self' *",
       'img-src': "'self' *.sndcdn.com  data:",
@@ -53,7 +53,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.baseURL = '/huegasm';
+    //ENV.baseURL = '/huegasm';
   }
 
   return ENV;

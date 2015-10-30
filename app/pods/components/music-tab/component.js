@@ -65,12 +65,13 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
           if(resultObj instanceof Array){
             resultObj.forEach(processResult);
-
-            if(failedSongs.length > 0) {
-              this.get('notify').alert({html: this.get('notStreamableHtml')(failedSongs)});
-            }
           } else {
+
             processResult(resultObj);
+          }
+
+          if(failedSongs.length > 0) {
+            this.get('notify').alert({html: this.get('notStreamableHtml')(failedSongs)});
           }
 
           if(this.get('playQueuePointer') === -1){

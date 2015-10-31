@@ -23,6 +23,7 @@ export default Em.Component.extend({
   manualBridgeIp: null,
   manualBridgeIpNotFound: false,
   multipleBridgeIps: [],
+  error: false,
 
   actions: {
     retry(){
@@ -126,6 +127,9 @@ export default Em.Component.extend({
         }
 
         this.set('bridgeAuthenticateReachedStatus', status);
+      }).fail(()=>{
+        this.clearBridgePingIntervalHandle();
+        this.set('error', true);
       });
 
       this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime')/bridgeUsernamePingMaxTime*100);

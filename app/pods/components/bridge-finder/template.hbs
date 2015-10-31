@@ -1,13 +1,20 @@
 <div class="title">Huegasm</div>
 {{#unless bridgeUsername}}
   {{#if bridgeIp}}
-    <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
-    {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
-    {{#if isAuthenticating}}
-      <p>Your bridge IP is <b>{{bridgeIp}}</b> <br>
-        Press the button on your bridge to authenticate this application.</p>
+    {{#if error}}
+        <p>Huegasm encountered a critical error while trying to connect to your bridge.<br><br>
+            This likely happened because you're using an outdated browser and/or because your browser does not support <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>. Feel free to contact me through the link at the bottom of the page if you feel like this is not the case.<br>
+            For the best browsing experience on this site ( and every other one known to man ) please switch to <a href="https://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a></p>.
     {{else}}
-      <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
+      <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
+      {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
+
+      {{#if isAuthenticating}}
+        <p>Your bridge IP is <b>{{bridgeIp}}</b> <br>
+          Press the button on your bridge to authenticate this application.</p>
+      {{else}}
+          <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
+      {{/if}}
     {{/if}}
   {{else}}
     {{#unless bridgeFindStatus}}

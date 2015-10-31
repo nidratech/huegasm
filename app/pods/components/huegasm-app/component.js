@@ -46,12 +46,15 @@ export default Em.Component.extend({
     var storage = new window.Locally.Store({ compress: true });
     this.set('storage', storage);
 
-    ['bridgeIp', 'bridgeUsername', 'dimmerOn'].forEach((item) => {
-      var storedValue = storage.get('huegasm.' + item);
+    if(!Em.isNone(storage.get('huegasm.dimmerOn'))) {
+      this.set('dimmerOn', storage.get('huegasm.dimmerOn'));
+    }
 
-      if(storedValue) {
-        this.set(item, storage.get('huegasm.' + item));
-      }
-    });
+    if(!Em.isNone(storage.get('huegasm.bridgeIp')) && !Em.isNone(storage.get('huegasm.bridgeUsername'))) {
+      this.setProperties({
+        bridgeIp: storage.get('huegasm.bridgeIp'),
+        bridgeUsername: storage.get('huegasm.bridgeUsername')
+      });
+    }
   }
 });

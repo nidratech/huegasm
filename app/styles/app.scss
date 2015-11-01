@@ -81,7 +81,6 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
 }
 
 .settingsItem {
-  margin-left: 10px;
   position: relative;
   display: inline-block;
   transition: 0.1s all ease-in-out;
@@ -91,6 +90,10 @@ md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
     bottom: 5px;
     right: 5px;
   }
+}
+
+.settingsItem:nth-of-type(2){
+  margin-left: 10px;
 }
 
 md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {

@@ -50,7 +50,7 @@ export default Em.Component.extend({
       this.set('dimmerOn', storage.get('huegasm.dimmerOn'));
     }
 
-    if(!Em.isNone(storage.get('huegasm.bridgeIp')) && !Em.isNone(storage.get('huegasm.bridgeUsername'))) {
+    if(!Em.isEmpty(storage.get('huegasm.bridgeIp')) && !Em.isEmpty(storage.get('huegasm.bridgeUsername'))) {
       this.setProperties({
         bridgeIp: storage.get('huegasm.bridgeIp'),
         bridgeUsername: storage.get('huegasm.bridgeUsername')

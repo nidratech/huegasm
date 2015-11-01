@@ -19,7 +19,7 @@
                   -->{{/if}}<!--
           --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip"
                    data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
-                  -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar"}}
+                  -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar" class="hidden-xs"}}
 
         <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
       {{/if}}
@@ -27,7 +27,8 @@
       <span class="pull-right">
         {{#if scUrl}}
           <a href="#" data-toggle="tooltip" data-placement="top" class="soundCloudLink bootstrapTooltip" data-title="Listen on SoundCloud" {{action "gotoSCURL" scUrl}}>
-            <img src="assets/images/sc-white.png" />
+            <img src="assets/images/sc-white.png" class="hidden-xs" />
+              <img src="assets/images/sc-white-sm.png" class="visible-xs-inline" />
           </a>
         {{/if}}
         <span class="dropup">

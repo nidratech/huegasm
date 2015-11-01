@@ -485,7 +485,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
   loadSongBeatPreferences() {
     var song = this.get('playQueue')[this.get('playQueuePointer')],
-      title = Em.isEmpty(song.artist) ? song.filename : song.artist + '-' + song.title,
+      title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences'),
       preference = songBeatPreferences[title],
       oldBeatPrefCache = this.get('oldBeatPrefCache'),

@@ -634,6 +634,19 @@ md-switch.md-default-theme.md-checked .md-thumb {
   transition-duration: 0.2s;
 }
 
+// mobile overrides
+@media(max-width:767px) {
+  .noUi-pips-vertical {
+    display: none;
+  }
+  #seekSlider {
+    height: 8px;
+    .noUi-handle {
+      opacity: 1 !important;
+    }
+  }
+}
+
 #seekSlider:hover {
   height: 8px;
 }
@@ -790,9 +803,13 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 #beatOptionButtonGroup {
   margin: 20px 0 10px 0;
+  .beatOption:nth-of-type(2) md-switch {
+    margin-left: 10px;
+  }
 }
 
 .beatOption {
+  padding: 0;
   text-align: center;
   md-switch {
     margin: 0;

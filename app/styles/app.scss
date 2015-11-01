@@ -137,7 +137,7 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
 
 .bridgeFinder, .readyBlock {
   text-align: center;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 // preloading image
@@ -147,7 +147,7 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
 }
 
 .title {
-  font-size: 30px;
+  font-size: 34px;
   margin-bottom: 30px;
 }
 
@@ -644,6 +644,12 @@ md-switch.md-default-theme.md-checked .md-thumb {
     .noUi-handle {
       opacity: 1 !important;
     }
+  }
+  .settingsItem:nth-of-type(2){
+    margin-left: 0;
+  }
+  #seekSlider {
+    margin-bottom: 15px;
   }
 }
 

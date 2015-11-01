@@ -63,7 +63,7 @@
       <li><a href="#" {{action "toggleIsShowingAddSoundCloudModal"}}>SoundCloud</a></li>
     </ul>
 
-    {{#if playQueueNotEmpty}}
+    {{#if (and usingLocalAudio playQueueNotEmpty)}}
         <div id="extraOptionsMenu" class="hidden-xs">
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
@@ -72,11 +72,14 @@
     {{/if}}
   {{/if}}
 
+  {{#if usingMicSupported}}
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="usingMicAudioTooltip" data-title={{usingMicAudioTooltipTxt}} {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
+  {{/if}}
+
+  {{#if usingLocalAudio}}
     <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip visible-xs-inline" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
     <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip visible-xs-inline" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
     <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip visible-xs-inline" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
-  {{#if usingMicSupported}}
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="usingMicAudioTooltip" data-title={{usingMicAudioTooltipTxt}} {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
   {{/if}}
 </div>
 

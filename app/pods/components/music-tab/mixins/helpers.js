@@ -11,23 +11,9 @@ export default Em.Mixin.create({
 
   beatOptions: {
     threshold: {
-      range: {min: 0.1, max: 1.0},
+      range: {min: 0, max: 1.0},
       step: 0.01,
       defaultValue: 0.3,
-      pips: {
-        mode: 'positions',
-        values: [0,25,50,75,100],
-        density: 3,
-        format: {
-          to: function ( value ) {return value;},
-          from: function ( value ) { return value; }
-        }
-      }
-    },
-    interval: {
-      range: {min: 0, max: 0.5},
-      step: 0.01,
-      defaultValue: 0.1,
       pips: {
         mode: 'positions',
         values: [0,20,40,60,80,100],
@@ -70,14 +56,11 @@ export default Em.Mixin.create({
 
   transitionTime: 0.1,
   threshold: 0.3,
-  interval: 0.1,
   micBoost: 5,
   oldThreshold: null,
 
   playQueuePointer: -1,
   playQueue: Em.A(),
-  beatHistory: Em.A(),
-  maxBeatHistorySize: 200,
   timeElapsed: 0,
   timeTotal: 0,
   lastLightBopIndex: 0,
@@ -162,39 +145,6 @@ export default Em.Mixin.create({
   pauseLightUpdates: function(){
     return this.get('playing');
   }.property('playing'),
-
-  speakerViewed: true,
-  debugFiltered: false,
-  speakerLabel: function() {
-    this.get('storage').set('huegasm.speakerViewed', this.get('speakerViewed'));
-
-    if(this.get('speakerViewed')){
-      this.get('beatHistory').clear();
-      return 'Speaker View';
-    } else {
-      return 'Debug View';
-    }
-  }.property('speakerViewed'),
-  debugFilteredText: function(){
-    var debugFiltered = this.get('debugFiltered');
-    this.get('storage').set('huegasm.debugFiltered', debugFiltered);
-    Em.$('#beatHistory .filterBeat').css('display', debugFiltered === true ? 'inline' : 'none');
-
-    if(debugFiltered){
-      return 'View Filtered';
-    } else {
-      return 'Hide Filtered';
-    }
-  }.property('debugFiltered'),
-
-  randomTransition: true,
-  randomTransitionLabel: function() {
-    if(this.get('randomTransition')){
-      return 'Random';
-    } else {
-      return 'Sequential';
-    }
-  }.property('randomTransition'),
 
   onBeatBriAndColor: true,
   onBeatBriAndColorLabel: function() {
@@ -296,7 +246,7 @@ export default Em.Mixin.create({
   onOptionChange: function(self, option){
     option = option.replace('.[]', '');
     this.get('storage').set('huegasm.' + option, this.get(option));
-  }.observes('randomTransition', 'onBeatBriAndColor', 'playQueue.[]', 'playQueuePointer'),
+  }.observes('onBeatBriAndColor', 'playQueue.[]', 'playQueuePointer'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';

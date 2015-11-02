@@ -146,79 +146,50 @@
 <div id="playerBottom" class="row {{if dimmerOn "dimmerOn"}}">
 <div id="beatArea" class="col-sm-7 col-xs-12">
 {{#if usingBeatPreferences}}
-  <span data-toggle="tooltip" data-placement="bottom auto" data-title="Using your saved beat preferences from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
+  <span data-toggle="tooltip" data-placement="bottom" data-title="Using your saved beat preferences from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
   {{paper-icon id="saveBeatPreferencesStar" icon="star"}}
   </span>
 {{/if}}
 
 <div class="row" id="beatOptionRow">
-<div class="beatOption col-xs-4">
-  <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Beat Threshold</span>
-{{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-  <div class="text-center">{{threshold}}</div>
+  <div class="beatOption col-xs-4">
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Sensitivity</span>
+  {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+  </div>
+
+  <div class="beatOption col-xs-4">
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
+    {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
+  </div>
+
+  <div class="beatOption col-xs-4">
+    {{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip"
+                                                                    data-placement="bottom auto"
+                                                                    data-title="The properties of the lights to change on beat"
+                                                                    class="optionDescription bootstrapTooltip">
+      {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
+  </div>
 </div>
 
-<div class="beatOption col-xs-4">
-<span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum amount of time between each registered beat" class="optionDescription bootstrapTooltip">Beat Interval</span>
-{{range-slider start=interval orientation="vertical" step=beatOptions.interval.step range=beatOptions.interval.range slide="intervalChanged" pips=beatOptions.interval.pips}}
-<div class="text-center">{{interval}} sec</div>
 </div>
 
-<div class="beatOption col-xs-4">
-<span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
-{{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
-<div class="text-center">{{transitionTime}} sec</div>
-</div>
-</div>
-
-<div id="beatOptionButtonGroup" class="row">
-<div class="beatOption col-xs-3">
-{{#paper-button raised=true warn=true action="defaultControls"}}Default{{/paper-button}}
-</div>
-<div class="beatOption col-xs-4">
-{{#paper-switch checked=randomTransition disabled=trial}}<span data-toggle="tooltip"
-                                                         data-placement="bottom auto"
-                                                         data-title="The transition order of lights on beat"
-                                                         class="optionDescription bootstrapTooltip">{{randomTransitionLabel}}</span>{{/paper-switch}}
-</div>
-<div class="beatOption col-xs-5">
-{{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip"
-                                                          data-placement="bottom auto"
-                                                          data-title="The properties of the lights to change on beat"
-                                                          class="optionDescription bootstrapTooltip"> {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
-</div>
-</div>
-</div>
-
-<div id="beatContainer" class="col-sm-5 col-xs-12">
-  {{#if speakerViewed}}
+  <div id="beatContainer" class="col-sm-5 col-xs-12">
     <div class="bezel">
-    <div class="rivet1"></div>
-    <div class="rivet2"></div>
-    <div class="rivet3"></div>
-    <div class="rivet4"></div>
-    <div class="rivet5"></div>
-    <div class="rivet6"></div>
-    <div class="rivet7"></div>
-    <div class="rivet8"></div>
+      <div class="rivet1"></div>
+      <div class="rivet2"></div>
+      <div class="rivet3"></div>
+      <div class="rivet4"></div>
+      <div class="rivet5"></div>
+      <div class="rivet6"></div>
+      <div class="rivet7"></div>
+      <div class="rivet8"></div>
 
-    <div id="beatSpeakerCenterOuter">
-    <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
+      <div id="beatSpeakerCenterOuter">
+        <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
+      </div>
+      </div>
     </div>
-    </div>
-    </div>
-  {{else}}
-    <div id="beatHistory">
-    {{#each beatHistory as |item|}}
-      <p>{{{item}}}</p>
-    {{/each}}
-    </div>
-
-    {{#paper-switch checked=debugFiltered class="debugFilteredSwitch"}} {{debugFilteredText}} {{/paper-switch}}
-  {{/if}}
-
-  {{#paper-switch checked=speakerViewed class="speakerSwitch"}} {{speakerLabel}} {{/paper-switch}}
-</div>
+  </div>
 </div>
 
 {{ember-notify closeAfter=5000}}

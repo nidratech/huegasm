@@ -67,15 +67,6 @@ export default Em.Component.extend({
             position: 'top'
           },
           {
-            element: '#beatOptionButtonGroup',
-            intro: 'Some additional settings:<br>' +
-            '<b>Default</b> - Revert to the default beat detection settings<br>' +
-            '<b>Random/Sequential</b> - The transition order of lights on beat<br>' +
-            '<b>Brightness/Brightness & Color</b> - The properties of the lights to change on beat<br><br>' +
-            '<i><b>TIP</b>: Turn the colorloop \'on\' in the <b>Lights</b> tab and set only the brightness to change on beat for a cool visual effect.</i>',
-            position: 'top'
-          },
-          {
             element: '#beatContainer',
             intro: 'An interactive speaker that will bump when a beat is registered. Switch over to the <b>Debug View</b> to see the intesity of all the registered and unregistered beats.<br><br>' +
             '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',

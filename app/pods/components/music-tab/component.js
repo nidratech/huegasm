@@ -198,13 +198,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         this.send('goToSong', index, true, true);
       }
     },
-    defaultControls(){
-      var beatOptions = this.get('beatOptions');
-
-      this.changePlayerControl('threshold', beatOptions.threshold.defaultValue);
-      this.changePlayerControl('interval', beatOptions.interval.defaultValue);
-      this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue);
-    },
     playerAreaPlay(){
       if(Em.isEmpty(Em.$('#playerControls:hover')) && this.get('playQueuePointer') !== -1 ){
         this.send('play');
@@ -259,8 +252,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         nextSong = (playQueuePointer + 1),
         repeat = this.get('repeat'),
         shuffle = this.get('shuffle');
-
-      this.get('beatHistory').clear();
 
       if(repeat === 2){ // repeating one song takes precedence over shuffling
         if(playQueuePointer === -1 && playQueue.length > 0) {
@@ -380,9 +371,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.get('storage').set('huegasm.micBoost', value);
       this.get('dancer').setBoost(value);
     },
-    intervalChanged(value){
-      this.changePlayerControl('interval', value, true);
-    },
     audioModeChanged(value){
       if(value === 1) {
         this.startUsingMic();
@@ -454,6 +442,11 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   changePlayerControl(name, value, saveBeatPrefs){
     this.set(name, value);
 
+
+    if(name === 'threshold'){
+      this.get('kick').set({threshold: value});
+    }
+
     if(saveBeatPrefs && this.get('usingLocalAudio') && this.get('playQueuePointer') !== -1){
       this.saveSongBeatPreferences();
     }
@@ -466,7 +459,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences');
 
-    songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval')};
+    songBeatPreferences[title] = {threshold: this.get('threshold')};
 
     this.set('usingBeatPreferences', true);
     this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
@@ -481,14 +474,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       newOldBeatPrefCache = null;
 
     if(!Em.isNone(preference)) { // load existing beat prefs
-      newOldBeatPrefCache = {threshold: this.get('threshold'), interval: this.get('interval')};
+      newOldBeatPrefCache = {threshold: this.get('threshold')};
 
       this.changePlayerControl('threshold', preference.threshold);
-      this.changePlayerControl('interval', preference.interval);
       this.set('usingBeatPreferences', true);
     } else if(!Em.isNone(oldBeatPrefCache)) { // revert to using beat prefs before the remembered song
       this.changePlayerControl('threshold', oldBeatPrefCache.threshold);
-      this.changePlayerControl('interval', oldBeatPrefCache.interval);
       this.set('usingBeatPreferences', false);
     }
 
@@ -517,7 +508,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         dancer.load(stream, this.get('micBoost'), true);
         this.set('usingBeatPreferences', false);
 
-        // much more sensitive beath preference settings are needed for mic mode
+        // much more sensitive beat preference settings are needed for mic mode
         this.setProperties({
           oldThreshold: this.get('threshold'),
           threshold: 0.1
@@ -589,97 +580,65 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
-  simulateKick(mag) {
-    var validBeat = (this.get('threshold') < mag),
-      beatInterval = this.get('interval');
+  simulateKick() {
+    var activeLights = this.get('activeLights'),
+      transitionTime = this.get('transitionTime') * 10,
+      onBeatBriAndColor = this.get('onBeatBriAndColor'),
+      lightsData = this.get('lightsData'),
+      color = null,
+      beatInterval = 1,
+      stimulateLight = (light, brightness, hue) => {
+        var options = {'bri': brightness, 'transitiontime': transitionTime};
 
-    if(validBeat){
-      var activeLights = this.get('activeLights'),
-        transitionTime = this.get('transitionTime') * 10,
-        onBeatBriAndColor = this.get('onBeatBriAndColor'),
-        lightsData = this.get('lightsData'),
-        color = null,
-        stimulateLight = (light, brightness, hue) => {
-          var options = {'bri': brightness, 'transitiontime': transitionTime};
+        if(!Em.isNone(hue)) {
+          options.hue = hue;
+        }
 
-          if(!Em.isNone(hue)) {
-            options.hue = hue;
-          }
+        if(lightsData[light].state.on === false){
+          options.on = true;
+        }
 
-          if(lightsData[light].state.on === false){
-            options.on = true;
-          }
+        Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify(options),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      };
 
-          Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-            data: JSON.stringify(options),
-            contentType: 'application/json',
-            type: 'PUT'
-          });
-        };
+    if(activeLights.length > 0){
+      var lastLightBopIndex = this.get('lastLightBopIndex'),
+        lightBopIndex,
+        light;
 
-      if(activeLights.length > 0){
-        var lastLightBopIndex = this.get('lastLightBopIndex'),
-          randomTransition = this.get('randomTransition'),
-          lightBopIndex,
-          light;
+      lightBopIndex = Math.floor(Math.random() * activeLights.length);
 
-        if(randomTransition) {
+      // let's try not to select the same light twice in a row
+      if(activeLights.length > 1) {
+        while(lightBopIndex === lastLightBopIndex) {
           lightBopIndex = Math.floor(Math.random() * activeLights.length);
-
-          // let's try not to select the same light twice in a row
-          if(activeLights.length > 1) {
-            while(lightBopIndex === lastLightBopIndex) {
-              lightBopIndex = Math.floor(Math.random() * activeLights.length);
-            }
-          }
-        } else {
-          lightBopIndex = (lastLightBopIndex + 1) % activeLights.length;
         }
-
-        light = activeLights[lightBopIndex];
-        this.set('lastLightBopIndex', lightBopIndex);
-
-        if(onBeatBriAndColor) {
-          color = Math.floor(Math.random() * 65535);
-        }
-
-        stimulateLight(light, 254, color);
-        setTimeout(stimulateLight, transitionTime + 50, light, 1);
       }
+
+      light = activeLights[lightBopIndex];
+      this.set('lastLightBopIndex', lightBopIndex);
+
+      if(onBeatBriAndColor) {
+        color = Math.floor(Math.random() * 65535);
+      }
+
+      stimulateLight(light, 254, color);
+      setTimeout(stimulateLight, transitionTime + 50, light, 1);
     }
 
-    if(beatInterval > 0 && validBeat){
-      this.set('paused', true);
-      setTimeout(() => {
-        this.set('paused', false);
-      }, beatInterval * 1000);
-    }
+    this.set('paused', true);
+    setTimeout(() => {
+      this.set('paused', false);
+    }, beatInterval * 100);
 
     //work the music beat area
-    if(this.get('speakerViewed')){
-      if(validBeat){
-        // simulate the speaker vibration by running a CSS animation on it
-        Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');
-        Em.$('#beatSpeakerCenterInner').removeClass('vibrateInner').prop('offsetWidth', Em.$('#beatSpeakerCenterInner').prop('offsetWidth')).addClass('vibrateInner');
-      }
-    } else {
-      var beatHistory = this.get('beatHistory'),
-        debugFiltered = this.get('debugFiltered'),
-        maxSize = this.get('maxBeatHistorySize'),
-        html = 'Beat intesity of <b>' + mag.toFixed(3) + '</b> at <b>' + this.get('timeElapsedTxt') + '</b>';
-
-      if(!validBeat){
-        if(!debugFiltered){
-          return;
-        }
-        html = '<span class="filterBeat">' + html + ' ( filtered ) </span>';
-      }
-      beatHistory.unshiftObjects(html);
-
-      if(beatHistory.length > maxSize){
-        beatHistory.popObject();
-      }
-    }
+    // simulate the speaker vibration by running a CSS animation on it
+    Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');
+    Em.$('#beatSpeakerCenterInner').removeClass('vibrateInner').prop('offsetWidth', Em.$('#beatSpeakerCenterInner').prop('offsetWidth')).addClass('vibrateInner');
   },
 
   init() {
@@ -690,13 +649,13 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
     var dancer = new Dancer(),
-      self = this,
       storage = this.get('storage'),
       kick = dancer.createKick({
-        threshold: this.beatOptions.threshold.range.min,
-        onKick: function (mag) {
-          if (self.get('paused') === false) {
-            self.simulateKick(mag);
+        frequency: [0,100],
+        threshold: this.get('threshold'),
+        onKick: (mag) => {
+          if (this.get('paused') === false) {
+            this.simulateKick(mag);
           }
         }
       });
@@ -712,14 +671,14 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'transitionTime', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach((item)=>{
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
-        if(Em.isNone(self.actions[item+'Changed'])){
-          self.set(item, itemVal);
+        if(Em.isNone(this.actions[item+'Changed'])){
+          this.set(item, itemVal);
         } else {
-          self.send(item + 'Changed', itemVal);
+          this.send(item + 'Changed', itemVal);
         }
       }
     });

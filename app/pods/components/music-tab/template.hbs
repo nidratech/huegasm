@@ -152,28 +152,19 @@
 {{/if}}
 
 <div class="row" id="beatOptionRow">
-<div class="beatOption col-xs-3">
+<div class="beatOption col-xs-4">
   <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Beat Threshold</span>
 {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
   <div class="text-center">{{threshold}}</div>
 </div>
 
-<div class="beatOption col-xs-3">
+<div class="beatOption col-xs-4">
 <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum amount of time between each registered beat" class="optionDescription bootstrapTooltip">Beat Interval</span>
 {{range-slider start=interval orientation="vertical" step=beatOptions.interval.step range=beatOptions.interval.range slide="intervalChanged" pips=beatOptions.interval.pips}}
 <div class="text-center">{{interval}} sec</div>
 </div>
 
-<div class="beatOption col-xs-3">
-<span data-toggle="tooltip" data-placement="bottom auto" data-title="The frequency range of the sound to listen on for the beat" class="optionDescription bootstrapTooltip">Frequency Range</span>
-{{range-slider start=frequency orientation="vertical" step=beatOptions.frequency.step range=beatOptions.frequency.range connect=true slide="frequencyChanged" pips=beatOptions.frequency.pips}}
-<div class="text-center">[{{#each frequency as |item index|}}{{item}}{{#unless index}}
-,{{/unless}}{{/each}}
-]
-</div>
-</div>
-
-<div class="beatOption col-xs-3">
+<div class="beatOption col-xs-4">
 <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
 {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
 <div class="text-center">{{transitionTime}} sec</div>

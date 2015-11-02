@@ -38,20 +38,6 @@ export default Em.Mixin.create({
         }
       }
     },
-    frequency: {
-      range:  {min: 0, max: 10},
-      step: 1,
-      defaultValue: [0,4],
-      pips: {
-        mode: 'values',
-        values: [0,2,4,6,8,10],
-        density: 10,
-        format: {
-          to: function ( value ) {return value;},
-          from: function ( value ) { return value; }
-        }
-      }
-    },
     transitionTime: {
       range:  {min: 0, max: 0.5},
       step: 0.1,
@@ -85,10 +71,8 @@ export default Em.Mixin.create({
   transitionTime: 0.1,
   threshold: 0.3,
   interval: 0.1,
-  frequency: [0,4],
   micBoost: 5,
   oldThreshold: null,
-  oldFrequency: null,
 
   playQueuePointer: -1,
   playQueue: Em.A(),

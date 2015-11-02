@@ -111,7 +111,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       // restore the old beat preferences ( before the user went into mic mode )
       if(!Em.isNone(this.get('oldThreshold'))){
         this.set('threshold', this.get('oldThreshold'));
-        this.set('frequency', this.get('oldFrequency'));
       }
 
       document.title = 'Huegasm';
@@ -204,7 +203,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
       this.changePlayerControl('threshold', beatOptions.threshold.defaultValue);
       this.changePlayerControl('interval', beatOptions.interval.defaultValue);
-      this.changePlayerControl('frequency', beatOptions.frequency.defaultValue);
       this.changePlayerControl('transitionTime', beatOptions.transitionTime.defaultValue);
     },
     playerAreaPlay(){
@@ -385,9 +383,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     intervalChanged(value){
       this.changePlayerControl('interval', value, true);
     },
-    frequencyChanged(value){
-      this.changePlayerControl('frequency', value, true);
-    },
     audioModeChanged(value){
       if(value === 1) {
         this.startUsingMic();
@@ -463,12 +458,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.saveSongBeatPreferences();
     }
 
-    if(name === 'frequency'){
-      var options = {};
-      options[name] = value;
-      this.get('kick').set(options);
-    }
-
     this.get('storage').set('huegasm.' + name, value);
   },
 
@@ -477,7 +466,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
       songBeatPreferences = this.get('songBeatPreferences');
 
-    songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency')};
+    songBeatPreferences[title] = {threshold: this.get('threshold'), interval: this.get('interval')};
 
     this.set('usingBeatPreferences', true);
     this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
@@ -492,16 +481,14 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       newOldBeatPrefCache = null;
 
     if(!Em.isNone(preference)) { // load existing beat prefs
-      newOldBeatPrefCache = {threshold: this.get('threshold'), interval: this.get('interval'), frequency: this.get('frequency') };
+      newOldBeatPrefCache = {threshold: this.get('threshold'), interval: this.get('interval')};
 
       this.changePlayerControl('threshold', preference.threshold);
       this.changePlayerControl('interval', preference.interval);
-      this.changePlayerControl('frequency', preference.frequency);
       this.set('usingBeatPreferences', true);
     } else if(!Em.isNone(oldBeatPrefCache)) { // revert to using beat prefs before the remembered song
       this.changePlayerControl('threshold', oldBeatPrefCache.threshold);
       this.changePlayerControl('interval', oldBeatPrefCache.interval);
-      this.changePlayerControl('frequency', oldBeatPrefCache.frequency);
       this.set('usingBeatPreferences', false);
     }
 
@@ -532,10 +519,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
         // much more sensitive beath preference settings are needed for mic mode
         this.setProperties({
-          oldFrequency: this.get('frequency'),
           oldThreshold: this.get('threshold'),
-          threshold: 0.1,
-          frequency: [0,10]
+          threshold: 0.1
         });
 
         dancer.setVolume(0);
@@ -707,10 +692,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     var dancer = new Dancer(),
       self = this,
       storage = this.get('storage'),
-      frequency = this.get('frequency'),
       kick = dancer.createKick({
         threshold: this.beatOptions.threshold.range.min,
-        frequency: frequency,
         onKick: function (mag) {
           if (self.get('paused') === false) {
             self.simulateKick(mag);
@@ -729,7 +712,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'frequency', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach(function (item) {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'interval', 'speakerViewed', 'transitionTime', 'randomTransition', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'debugFiltered', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach(function (item) {
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

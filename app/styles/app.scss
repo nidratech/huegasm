@@ -636,9 +636,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 // mobile overrides
 @media(max-width:767px) {
-  .noUi-pips-vertical {
-    display: none;
-  }
   #seekSlider {
     height: 8px;
     .noUi-handle {
@@ -804,7 +801,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 .savedStarTooltip + .tooltip .tooltip-arrow {
-  margin-left: 8px;
+  margin-left: 12px;
 }
 
 #beatOptionButtonGroup {

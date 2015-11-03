@@ -33,7 +33,7 @@ export default Em.Mixin.create({
         values: [0,20,40,60,80,100],
         density: 10,
         format: {
-          to: function ( value ) {return value;},
+          to: function ( value ) {return 'x'+value;},
           from: function ( value ) { return value; }
         }
       }

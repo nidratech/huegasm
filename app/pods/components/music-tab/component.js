@@ -95,7 +95,13 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.changePlayerControl('audioMode', 0);
 
       if(!Em.isNone(audioStream)){
-        audioStream.stop();
+        var tracks = audioStream.getVideoTracks();
+        if (tracks && tracks[0] && tracks[0].stop) tracks[0].stop();
+
+        if (audioStream.stop) {
+          // deprecated, may be removed in future
+          audioStream.stop();
+        }
 
         this.setProperties({
           audioStream: null,

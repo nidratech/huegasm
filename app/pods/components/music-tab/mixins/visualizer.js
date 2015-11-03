@@ -41,9 +41,11 @@ export default Em.Mixin.create({
 
     dancer.bind('update', () => {
       var currentVisName = this.get('currentVisName'),
-        gradient = ctx.createLinearGradient(0, 0, 0, h);
+        gradient = ctx.createLinearGradient(0, 0, 0, h),
+        pageHidden = document.hidden || document.msHidden || document.webkitHidden || document.mozHidden;
 
-      if(currentVisName === 'None'){
+      // dont do anything if the page is hidden or no visualization
+      if(currentVisName === 'None' || pageHidden){
         return;
       }
 

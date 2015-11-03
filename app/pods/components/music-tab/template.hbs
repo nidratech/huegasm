@@ -152,14 +152,9 @@
 {{/if}}
 
 <div class="row" id="beatOptionRow">
-  <div class="beatOption col-xs-4">
+  <div class="beatOption col-xs-8">
     <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Sensitivity</span>
   {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-  </div>
-
-  <div class="beatOption col-xs-4">
-    <span data-toggle="tooltip" data-placement="bottom auto" data-title="The time it takes for a light to change color or brightness" class="optionDescription bootstrapTooltip">Transition Time</span>
-    {{range-slider start=transitionTime orientation="vertical" step=beatOptions.transitionTime.step range=beatOptions.transitionTime.range slide="transitionTimeChanged" pips=beatOptions.transitionTime.pips}}
   </div>
 
   <div class="beatOption col-xs-4">

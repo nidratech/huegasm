@@ -63,7 +63,7 @@ export default Em.Component.extend({
             '<b>Beat Interval</b> - The minimum amount of time between each registered beat <br>' +
             '<b>Frequency Range</b> - The frequency range of the sound to listen on for the beat<br>' +
             '<b>Transition Time</b> - The time it takes for a light to change color or brightness<br><br>' +
-            '<i><b>TIP</b>: Beat settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
+            '<i><b>TIP</b>: Beat detection settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
             position: 'top'
           },
           {
@@ -109,8 +109,6 @@ export default Em.Component.extend({
 
       // it's VERY ugly but it works
       intro.onchange((element) => {
-        this.set('dimmerOn', false);
-
         if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea' || element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer' || element.id === 'usingMicAudioTooltip'){
           Em.$('#musicTab').removeClass('hidden');
           Em.$('#lightsTab').addClass('hidden');
@@ -156,7 +154,8 @@ export default Em.Component.extend({
 
       // skip hidden/missing elements
       intro.onafterchange((element)=>{
-        if(Em.$(element).hasClass('introjsFloatingElement')){
+        var elem = Em.$(element);
+        if(elem.hasClass('introjsFloatingElement') || elem.html() === '<!---->'){
           Em.$('.introjs-nextbutton').click();
         }
       }).onexit(onFinish).oncomplete(onFinish).start();

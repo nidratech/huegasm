@@ -357,9 +357,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     repeatChanged(value) {
       this.changePlayerControl('repeat', Em.isNone(value) ? (this.get('repeat') + 1) % 3 : value);
     },
-    transitionTimeChanged(value) {
-      this.changePlayerControl('transitionTime', value);
-    },
     playerBottomDisplayedChanged(value) {
       this.changePlayerControl('playerBottomDisplayed', value);
     },
@@ -580,9 +577,11 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
-  simulateKick() {
+  simulateKick(mag, ratioKick) {
+    console.log(mag + ',' + ratioKick);
+
     var activeLights = this.get('activeLights'),
-      transitionTime = this.get('transitionTime') * 10,
+      transitionTime = 100,
       onBeatBriAndColor = this.get('onBeatBriAndColor'),
       lightsData = this.get('lightsData'),
       color = null,
@@ -651,11 +650,10 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     var dancer = new Dancer(),
       storage = this.get('storage'),
       kick = dancer.createKick({
-        frequency: [0,100],
         threshold: this.get('threshold'),
-        onKick: (mag) => {
+        onKick: (mag, ratioKick) => {
           if (this.get('paused') === false) {
-            this.simulateKick(mag);
+            this.simulateKick(mag, ratioKick);
           }
         }
       });
@@ -671,7 +669,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'transitionTime', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach((item)=>{
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

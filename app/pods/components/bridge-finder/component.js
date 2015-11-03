@@ -31,7 +31,7 @@ export default Em.Component.extend({
     },
 
     findBridgeByIp() {
-      var manualBridgeIp = this.get('manualBridgeIp'), self = this;
+      var manualBridgeIp = this.get('manualBridgeIp');
 
       if (manualBridgeIp.toLowerCase() === 'trial' || manualBridgeIp.toLowerCase() === 'offline') {
         this.setProperties({
@@ -44,11 +44,11 @@ export default Em.Component.extend({
           data: JSON.stringify({"devicetype": "huegasm"}),
           contentType: 'application/json',
           type: 'POST'
-        }).fail(function () {
-          self.set('manualBridgeIpNotFound', true);
-          setTimeout(function(){ self.set('manualBridgeIpNotFound', false); }, 5000);
-        }).then(function () {
-          self.set('bridgeIp', manualBridgeIp);
+        }).fail(() => {
+          this.set('manualBridgeIpNotFound', true);
+          setTimeout(() => { this.set('manualBridgeIpNotFound', false); }, 5000);
+        }).then(() => {
+          this.set('bridgeIp', manualBridgeIp);
         });
       }
     }

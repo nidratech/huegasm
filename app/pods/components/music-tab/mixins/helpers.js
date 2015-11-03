@@ -11,27 +11,13 @@ export default Em.Mixin.create({
 
   beatOptions: {
     threshold: {
-      range: {min: 0, max: 1.0},
+      range: {min: 0, max: 0.6},
       step: 0.01,
       defaultValue: 0.3,
       pips: {
         mode: 'positions',
         values: [0,20,40,60,80,100],
         density: 3,
-        format: {
-          to: function ( value ) {return value;},
-          from: function ( value ) { return value; }
-        }
-      }
-    },
-    transitionTime: {
-      range:  {min: 0, max: 0.5},
-      step: 0.1,
-      defaultValue: 0.1,
-      pips: {
-        mode: 'positions',
-        values: [0,20,40,60,80,100],
-        density: 10,
         format: {
           to: function ( value ) {return value;},
           from: function ( value ) { return value; }
@@ -54,7 +40,6 @@ export default Em.Mixin.create({
     }
   },
 
-  transitionTime: 0.1,
   threshold: 0.3,
   micBoost: 5,
   oldThreshold: null,

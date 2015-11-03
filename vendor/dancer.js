@@ -288,13 +288,16 @@
   var Kick = function ( dancer, o ) {
     o = o || {};
     this.dancer    = dancer;
-    this.frequency = o.frequency !== undefined ? o.frequency : [ 0, 10 ];
+    this.frequency = o.frequency !== undefined ? o.frequency : [ 0, 5 ];
     this.threshold = o.threshold !== undefined ? o.threshold :  0.3;
     this.decay     = o.decay     !== undefined ? o.decay     :  0.02;
     this.onKick    = o.onKick;
     this.offKick   = o.offKick;
     this.isOn      = false;
     this.currentThreshold = this.threshold;
+    this.previousMag = 0;
+    this.canUseRatio = true;
+    this.canUseRatioHandle = null;
 
     var _this = this;
     this.dancer.bind( 'update', function () {
@@ -323,16 +326,32 @@
 
     onUpdate : function () {
       if ( !this.isOn ) { return; }
-      var magnitude = this.maxAmplitude( this.frequency );
 
-      if ( magnitude >= this.currentThreshold &&
-          magnitude >= this.threshold ) {
+      var magnitude = this.maxAmplitude(this.frequency);
+
+      if (magnitude >= this.currentThreshold && magnitude >= this.threshold) {
         this.currentThreshold = magnitude;
-        this.onKick && this.onKick.call( this.dancer, magnitude );
-        console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxKICK:' + magnitude);
+        this.onKick && this.onKick.call(this.dancer, magnitude);
+        this.canUseRatio = false;
+
+        if(this.canUseRatioHandle) {
+          clearTimeout(this.canUseRatioHandle);
+          this.canUseRatioHandle = null;
+        }
+
+        var self = this;
+        this.canUseRatioHandle = setTimeout(function(){
+          self.canUseRatio = true;
+        }, 2000);
       } else {
-        this.offKick && this.offKick.call( this.dancer, magnitude );
+        if(magnitude/this.previousMag > this.threshold*5 && magnitude>0.1 && this.canUseRatio) {
+          this.onKick && this.onKick.call(this.dancer, magnitude, magnitude/this.previousMag);
+        } else {
+          this.offKick && this.offKick.call(this.dancer, magnitude);
+        }
+
         this.currentThreshold -= this.decay;
+        this.previousMag = (magnitude > 0) ? magnitude : 0.0001;
       }
     },
     maxAmplitude : function ( frequency ) {
@@ -361,15 +380,11 @@
     SAMPLE_RATE = 44100;
 
   var adapter = function ( dancer ) {
-    var context = new AudioContext();//, filter = context.createBiquadFilter();
-
-    //filter.type = "lowpass";
-    //filter.frequency.value = 440;
+    var context = new AudioContext();
 
     this.dancer = dancer;
     this.audio = new Audio();
     this.context = context;
-    //this.filter = filter;
   };
 
   adapter.prototype = {
@@ -498,10 +513,8 @@
 
     this.source.connect(this.proc);
     this.source.connect(this.gain);
-    //this.source.connect( this.filter );
     this.gain.connect(this.context.destination);
     this.proc.connect(this.context.destination);
-    //this.filter.connect( this.context.destination );
 
     this.isLoaded = true;
     this.progress = 1;

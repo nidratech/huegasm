@@ -96,7 +96,9 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
       if(!Em.isNone(audioStream)){
         var tracks = audioStream.getVideoTracks();
-        if (tracks && tracks[0] && tracks[0].stop) tracks[0].stop();
+        if (tracks && tracks[0] && tracks[0].stop) {
+          tracks[0].stop();
+        }
 
         if (audioStream.stop) {
           // deprecated, may be removed in future
@@ -459,14 +461,16 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   },
 
   saveSongBeatPreferences() {
-    var song = this.get('playQueue')[this.get('playQueuePointer')],
-      title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
-      songBeatPreferences = this.get('songBeatPreferences');
+    var song = this.get('playQueue')[this.get('playQueuePointer')];
+    if(song) {
+      var title = Em.isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
+        songBeatPreferences = this.get('songBeatPreferences');
 
-    songBeatPreferences[title] = {threshold: this.get('threshold')};
+      songBeatPreferences[title] = {threshold: this.get('threshold')};
 
-    this.set('usingBeatPreferences', true);
-    this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
+      this.set('usingBeatPreferences', true);
+      this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
+    }
   },
 
   loadSongBeatPreferences() {
@@ -584,17 +588,16 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
-  simulateKick(mag, ratioKick) {
-    console.log(mag + ',' + ratioKick);
+  simulateKick(mag, ratioKickMag) {
+    console.log(mag + ',' + ratioKickMag);
 
     var activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
-      beatInterval = 1,
       stimulateLight = (light, brightness, hue) => {
         var options = {'bri': brightness};
 
-        if(this.get('blinkingTransitions')) {
+        if(this.get('flashingTransitions')) {
           options['transitiontime'] = 0;
         } else {
           options['transitiontime'] = 1;
@@ -618,6 +621,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     if(activeLights.length > 0){
       var lastLightBopIndex = this.get('lastLightBopIndex'),
         lightBopIndex,
+        brightnessOnBeat = 254,
         light;
 
       lightBopIndex = Math.floor(Math.random() * activeLights.length);
@@ -636,17 +640,20 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         color = Math.floor(Math.random() * 65535);
       }
 
-      stimulateLight(light, 254, color);
+      if(ratioKickMag) {
+        brightnessOnBeat /= 2;
+      }
+
+      stimulateLight(light, brightnessOnBeat, color);
       setTimeout(stimulateLight, 100, light, 1);
     }
 
     this.set('paused', true);
     setTimeout(() => {
       this.set('paused', false);
-    }, beatInterval * 100);
+    }, 100);
 
-    //work the music beat area
-    // simulate the speaker vibration by running a CSS animation on it
+    //work the music beat area - simulate the speaker vibration by running a CSS animation on it
     Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');
     Em.$('#beatSpeakerCenterInner').removeClass('vibrateInner').prop('offsetWidth', Em.$('#beatSpeakerCenterInner').prop('offsetWidth')).addClass('vibrateInner');
   },
@@ -662,9 +669,9 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       storage = this.get('storage'),
       kick = dancer.createKick({
         threshold: this.get('threshold'),
-        onKick: (mag, ratioKick) => {
+        onKick: (mag, ratioKickMag) => {
           if (this.get('paused') === false) {
-            this.simulateKick(mag, ratioKick);
+            this.simulateKick(mag, ratioKickMag);
           }
         }
       });
@@ -680,7 +687,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'blinkingTransitions'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions'].forEach((item)=>{
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

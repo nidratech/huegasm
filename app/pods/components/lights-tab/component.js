@@ -101,7 +101,10 @@ export default Em.Component.extend({
     this.set('colorLoopOn', newValue);
   }.observes('lightsData.@each.state.effect', 'activeLights.[]', 'strobeOn'),
   onColorLoopOnChange: function(){
-    var lightsData = this.get('lightsData'), activeLights = this.get('activeLights'), colorLoopsOn = this.get('colorLoopOn'), self = this;
+    var lightsData = this.get('lightsData'),
+      activeLights = this.get('activeLights'),
+      colorLoopsOn = this.get('colorLoopOn'),
+      effect = colorLoopsOn ? 'colorloop' : 'none';
 
     var colorLoopsOnSystem = activeLights.some(function(light) {
       return lightsData[light].state.effect === 'colorloop';
@@ -109,12 +112,14 @@ export default Em.Component.extend({
 
     // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
     if(colorLoopsOn !== colorLoopsOnSystem){
-      activeLights.forEach(function (light) {
-        Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({"effect": colorLoopsOn ? 'colorloop' : 'none'}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
+      activeLights.forEach((light)=>{
+        if(this.get('lightsData')[light].state.effect !== effect) {
+          Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+            data: JSON.stringify({'effect': effect }),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+        }
       });
     }
   }.observes('colorLoopOn'),

@@ -142,14 +142,14 @@
 <div id="playerBottom" class="row {{if dimmerOn "dimmerOn"}}">
 <div id="beatArea" class="col-sm-7 col-xs-12">
 {{#if usingBeatPreferences}}
-  <span data-toggle="tooltip" data-placement="bottom" data-title="Using your saved beat preferences from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
+  <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
   {{paper-icon id="saveBeatPreferencesStar" icon="star"}}
   </span>
 {{/if}}
 
 <div class="row" id="beatOptionRow">
   <div class="beatOption {{if usingMicAudio "col-xs-4" "col-xs-8"}}">
-    <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Sensitivity</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrapTooltip">Sensitivity</span>
   {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
   </div>
 
@@ -160,9 +160,14 @@
       </div>
   {{/if}}
 
-  <div class="beatOption col-xs-4 text-left">
-    {{#paper-checkbox checked=blinkingTransitions}}Blinking transitions{{/paper-checkbox}}
-    {{#paper-checkbox checked=colorloopMode}}Colorloop Mode{{/paper-checkbox}}
+  <div id="lightOption" class="beatOption col-xs-4">
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrapTooltip">
+      {{#paper-checkbox checked=flashingTransitions}}Flashing Transitions{{/paper-checkbox}}
+    </span>
+
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Slowly cycle the lights through all the colors while the music is playing" class="bootstrapTooltip">
+      {{#paper-checkbox checked=colorloopMode}}Colorloop Mode{{/paper-checkbox}}
+    </span>
   </div>
 </div>
 

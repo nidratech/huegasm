@@ -11,15 +11,25 @@ export default Em.Mixin.create({
 
   beatOptions: {
     threshold: {
-      range: {min: 0, max: 0.6},
+      range: {min: 0, max: 0.5},
       step: 0.01,
       defaultValue: 0.3,
       pips: {
-        mode: 'positions',
-        values: [0,20,40,60,80,100],
-        density: 3,
+        mode: 'values',
+        values: [0, 0.25, 0.5],
+        density: 10,
         format: {
-          to: function ( value ) {return value;},
+          to: function ( value ) {
+            if(value === 0) {
+              value = 'More';
+            } else if(value === 0.25) {
+              value = 'Neutral';
+            } else {
+              value = 'Less';
+            }
+
+            return value;
+          },
           from: function ( value ) { return value; }
         }
       }
@@ -43,7 +53,7 @@ export default Em.Mixin.create({
   threshold: 0.3,
   micBoost: 5,
   oldThreshold: null,
-  blinkingTransitions: false,
+  flashingTransitions: false,
 
   playQueuePointer: -1,
   playQueue: Em.A(),
@@ -221,14 +231,10 @@ export default Em.Mixin.create({
   }.property('volumeMuted', 'volume'),
 
   onColorloopModeChange: function(){
-    this.get('activeLights').forEach((light) => {
-      Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-        data: JSON.stringify({'effect': (this.get('playing') && this.get('colorloopMode')) ? 'colorloop' : 'none'}),
-        contentType: 'application/json',
-        type: 'PUT'
-      });
-    });
-  }.observes('colorloopMode'),
+    var colorLoop = ((this.get('playing') || this.get('usingMicAudio')) && this.get('colorloopMode')) ? true : false;
+
+    this.set('colorLoopOn', colorLoop);
+  }.observes('colorloopMode', 'usingMicAudio', 'playing'),
 
   onOptionChange: function(self, option){
     option = option.replace('.[]', '');

@@ -31,9 +31,12 @@ export default Em.Component.extend({
       location.reload();
     },
     startIntro(){
-      var intro = introJs(),
+      var introJs = introJs,
+        intro = introJs(),
         playerBottom = Em.$('#playerBottom'),
         beatDetectionAreaArrowIcon = Em.$('#beatDetectionAreaArrowIcon');
+
+      this.set('dimmerOn', false);
 
       intro.setOptions({
         steps: [
@@ -49,7 +52,7 @@ export default Em.Component.extend({
           },
           {
             element: '#usingMicAudioTooltip',
-            intro: 'This icon will toggle microphone mode - a mode in which the application will listen to sound through your mic.<br>' +
+            intro: 'This icon will toggle microphone mode in which the application will listen to sound through your mic.<br>' +
             'Note that this is a highly experimental feature that will require your authorization to be able to listen to the microphone. Also note that the beat detection will not be nearly as accurate in this mode.'
           },
           {
@@ -58,17 +61,16 @@ export default Em.Component.extend({
           },
           {
             element: '#beatOptionRow',
-            intro: 'These are the beat detection settings:<br>' +
-            '<b>Beat Threshold</b> - The minimum sound intensity for the beat to register<br>' +
-            '<b>Beat Interval</b> - The minimum amount of time between each registered beat <br>' +
-            '<b>Frequency Range</b> - The frequency range of the sound to listen on for the beat<br>' +
-            '<b>Transition Time</b> - The time it takes for a light to change color or brightness<br><br>' +
-            '<i><b>TIP</b>: Beat detection settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
+            intro: 'These are the settings for the music tab:<br>' +
+            '<b>Sensitivity</b> - The sensitivity of the beat detector ( more sensitivity results in more registered beats )<br>' +
+            '<b>Flashing Transitions</b> - Quickly flash the lights on beat<br>' +
+            '<b>Colorloop Mode</b> - Slowly cycle the lights through all the colors while the music is playing<br>' +
+            '<i><b>TIP</b>: Your sensitivity settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
             position: 'top'
           },
           {
             element: '#beatContainer',
-            intro: 'An interactive speaker that will bump when a beat is registered. Switch over to the <b>Debug View</b> to see the intesity of all the registered and unregistered beats.<br><br>' +
+            intro: 'An interactive speaker that will bump when a beat is registered. <br><br>' +
             '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
             position: 'top'
           },

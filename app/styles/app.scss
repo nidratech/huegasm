@@ -56,7 +56,6 @@ md-checkbox.md-default-theme .md-icon {
 
 md-checkbox.md-default-theme.md-checked .md-icon {
   background: $secondaryThemeColor;
-
 }
 
 .text-left {
@@ -67,10 +66,6 @@ md-checkbox.md-default-theme.md-checked .md-icon {
   background: darken(#3f51b5, 10%) !important;
 }
 
-// Ember paper hax for FF
-md-progress-circular[md-mode=indeterminate] .md-spinner-wrapper {
-  transform: none !important;
-}
 .md-button {
   flex-direction: unset;
   span {
@@ -489,9 +484,20 @@ md-toolbar {
   margin: 0;
 }
 
+#beatOptionRow {
+  height: 250px;
+}
+
+#lightOption {
+  text-align: left !important;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
 #musicTab{
   padding: 0;
-  margin-bottom: $footerHeight + 50px;
+  margin-bottom: $footerHeight + 30px;
 }
 
 #slideToggle {
@@ -661,6 +667,9 @@ md-switch.md-default-theme.md-checked .md-thumb {
   #seekSlider {
     margin-bottom: 15px;
   }
+  .beatOption {
+    text-align: center !important;
+  }
 }
 
 #seekSlider:hover {
@@ -804,7 +813,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
   border: 1px solid #797979;
 }
 .noUi-vertical {
-  height: 170px;
+  height: 200px;
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -831,10 +840,13 @@ md-switch.md-default-theme.md-checked .md-thumb {
     margin: 0;
   }
   .optionDescription {
-    font-size: 13px;
+    font-size: 16px;
   }
   button {
     margin-top: 0;
+  }
+  .tooltip {
+    margin: 0;
   }
 }
 
@@ -925,7 +937,7 @@ body.dimmerOn {
     background: darken($dimmerOnButtonColor, 5%);
   }
   #extraOptionsMenu {
-    opacity: 0.7;
+    opacity: 0.8;
   }
   #extraOptionsMenu:hover {
     background: rgba(0, 0, 0, 0.9);

@@ -46,8 +46,21 @@ body {
   }
 }
 
-.introjs-overlay{
+.introjs-overlay {
   background: black;
+}
+
+md-checkbox.md-default-theme .md-icon {
+  border-color: inherit !important;
+}
+
+md-checkbox.md-default-theme.md-checked .md-icon {
+  background: $secondaryThemeColor;
+
+}
+
+.text-left {
+  text-align: left !important;
 }
 
 .goButton:hover {
@@ -694,7 +707,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
     text-align: center;
     width: 100%;
   }
-  .library-music {
+  .library-music, .mic {
     position: absolute;
     top: 40%;
     font-size: 100px;
@@ -926,6 +939,7 @@ body.dimmerOn {
 .loop.dimmerOn,
 .group.dimmerOn,
 .settings.dimmerOn,
+.mic.dimmerOn,
 .library-music.dimmerOn {
   color: inherit !important;
   text-shadow: $glowingText;
@@ -1076,8 +1090,4 @@ div.ember-modal-dialog {
   height: 10px;
   width: 10px;
   top: -2px;
-}
-
-#micBoost {
-  margin-top: 50px;
 }

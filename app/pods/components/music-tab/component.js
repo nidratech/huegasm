@@ -233,6 +233,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           dancer.play();
         }
 
+        this.onColorloopModeChange();
         this.toggleProperty('playing');
       }
     },
@@ -581,13 +582,17 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     console.log(mag + ',' + ratioKick);
 
     var activeLights = this.get('activeLights'),
-      transitionTime = 100,
-      onBeatBriAndColor = this.get('onBeatBriAndColor'),
       lightsData = this.get('lightsData'),
       color = null,
       beatInterval = 1,
       stimulateLight = (light, brightness, hue) => {
-        var options = {'bri': brightness, 'transitiontime': transitionTime};
+        var options = {'bri': brightness};
+
+        if(this.get('blinkingTransitions')) {
+          options['transitiontime'] = 0;
+        } else {
+          options['transitiontime'] = 1;
+        }
 
         if(!Em.isNone(hue)) {
           options.hue = hue;
@@ -621,12 +626,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       light = activeLights[lightBopIndex];
       this.set('lastLightBopIndex', lightBopIndex);
 
-      if(onBeatBriAndColor) {
+      if(!this.get('colorloopMode')) {
         color = Math.floor(Math.random() * 65535);
       }
 
       stimulateLight(light, 254, color);
-      setTimeout(stimulateLight, transitionTime + 50, light, 1);
+      setTimeout(stimulateLight, 100, light, 1);
     }
 
     this.set('paused', true);
@@ -669,7 +674,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'onBeatBriAndColor', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'blinkingTransitions'].forEach((item)=>{
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

@@ -85,11 +85,7 @@
 
 {{#if usingMicAudio}}
   <div id="playAreaMic" class="{{if dimmerOn "dimmerOn"}}">
-  <div id="micBoost" class="beatOption">
-      <span data-toggle="tooltip" data-placement="bottom auto" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Microphone Boost</span>
-    {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
-      <div class="text-center">{{micBoost}}</div>
-  </div>
+    {{paper-icon icon="mic" class=dimmerOnClass}}
   </div>
 {{else}}
   {{#if usingLocalAudio}}
@@ -152,17 +148,22 @@
 {{/if}}
 
 <div class="row" id="beatOptionRow">
-  <div class="beatOption col-xs-8">
+  <div class="beatOption {{if usingMicAudio "col-xs-4" "col-xs-8"}}">
     <span data-toggle="tooltip" data-placement="bottom auto" data-title="The minimum sound intensity for the beat to register" class="optionDescription bootstrapTooltip">Sensitivity</span>
   {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
   </div>
 
-  <div class="beatOption col-xs-4">
-    {{#paper-switch checked=onBeatBriAndColor disabled=trial}}<span data-toggle="tooltip"
-                                                                    data-placement="bottom auto"
-                                                                    data-title="The properties of the lights to change on beat"
-                                                                    class="optionDescription bootstrapTooltip">
-      {{onBeatBriAndColorLabel}}</span>{{/paper-switch}}
+  {{#if usingMicAudio}}
+      <div class="beatOption col-xs-4">
+          <span data-toggle="tooltip" data-placement="bottom auto" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Microphone Boost</span>
+        {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+          <div class="text-center">{{micBoost}}</div>
+      </div>
+  {{/if}}
+
+  <div class="beatOption col-xs-4 text-left">
+    {{#paper-checkbox checked=blinkingTransitions}}Blinking transitions{{/paper-checkbox}}
+    {{#paper-checkbox checked=colorloopMode}}Colorloop Mode{{/paper-checkbox}}
   </div>
 </div>
 

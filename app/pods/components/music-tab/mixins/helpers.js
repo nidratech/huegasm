@@ -43,6 +43,7 @@ export default Em.Mixin.create({
   threshold: 0.3,
   micBoost: 5,
   oldThreshold: null,
+  blinkingTransitions: false,
 
   playQueuePointer: -1,
   playQueue: Em.A(),
@@ -130,15 +131,6 @@ export default Em.Mixin.create({
   pauseLightUpdates: function(){
     return this.get('playing');
   }.property('playing'),
-
-  onBeatBriAndColor: true,
-  onBeatBriAndColorLabel: function() {
-    if(this.get('onBeatBriAndColor')){
-      return 'Brightness & Color';
-    } else {
-      return 'Brightness';
-    }
-  }.property('onBeatBriAndColor'),
 
   micIcon: function () {
     if (this.get('usingMicAudio')) {
@@ -228,10 +220,20 @@ export default Em.Mixin.create({
     }
   }.property('volumeMuted', 'volume'),
 
+  onColorloopModeChange: function(){
+    this.get('activeLights').forEach((light) => {
+      Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+        data: JSON.stringify({'effect': (this.get('playing') && this.get('colorloopMode')) ? 'colorloop' : 'none'}),
+        contentType: 'application/json',
+        type: 'PUT'
+      });
+    });
+  }.observes('colorloopMode'),
+
   onOptionChange: function(self, option){
     option = option.replace('.[]', '');
     this.get('storage').set('huegasm.' + option, this.get(option));
-  }.observes('onBeatBriAndColor', 'playQueue.[]', 'playQueuePointer'),
+  }.observes('blinkingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';

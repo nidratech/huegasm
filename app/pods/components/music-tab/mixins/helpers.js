@@ -53,7 +53,6 @@ export default Em.Mixin.create({
   threshold: 0.3,
   micBoost: 5,
   oldThreshold: null,
-  flashingTransitions: false,
 
   playQueuePointer: -1,
   playQueue: Em.A(),
@@ -74,6 +73,9 @@ export default Em.Mixin.create({
   audioStream: null,
   dimmerOn: false,
   isShowingAddSoundCloudModal: false,
+
+  colorloopMode: false,
+  flashingTransitions: false,
 
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',

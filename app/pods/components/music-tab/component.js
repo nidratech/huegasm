@@ -19,7 +19,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('currentVisName', name);
     },
     hideTooltip(){
-      Em.$('.tooltip').remove();
+      Em.$('.bootstrapTooltip').tooltip('hide');
     },
     gotoSCURL(URL){
       // need to pause the music since soundcloud is going to start playing this song anyways
@@ -589,15 +589,14 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   },
 
   simulateKick(mag, ratioKickMag) {
-    console.log(mag + ',' + ratioKickMag);
-
     var activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
+      transitiontime = this.get('flashingTransitions'),
       stimulateLight = (light, brightness, hue) => {
         var options = {'bri': brightness};
 
-        if(this.get('flashingTransitions')) {
+        if(transitiontime) {
           options['transitiontime'] = 0;
         } else {
           options['transitiontime'] = 1;
@@ -616,7 +615,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           contentType: 'application/json',
           type: 'PUT'
         });
-      };
+      },
+      timeToBriOff = 100;
 
     if(activeLights.length > 0){
       var lastLightBopIndex = this.get('lastLightBopIndex'),
@@ -644,14 +644,18 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         brightnessOnBeat /= 2;
       }
 
+      if(transitiontime){
+        timeToBriOff = 80;
+      }
+
       stimulateLight(light, brightnessOnBeat, color);
-      setTimeout(stimulateLight, 100, light, 1);
+      setTimeout(stimulateLight, timeToBriOff, light, 1);
     }
 
     this.set('paused', true);
     setTimeout(() => {
       this.set('paused', false);
-    }, 100);
+    }, 150);
 
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
     Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');

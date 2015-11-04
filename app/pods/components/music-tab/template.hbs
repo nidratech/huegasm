@@ -149,13 +149,13 @@
 
 <div class="row" id="beatOptionRow">
   <div class="beatOption {{if usingMicAudio "col-xs-4" "col-xs-8"}}">
-    <span data-toggle="tooltip" data-placement="bottom auto" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrapTooltip">Sensitivity</span>
+    <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrapTooltip">Sensitivity</span>
   {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
   </div>
 
   {{#if usingMicAudio}}
       <div class="beatOption col-xs-4">
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Microphone boost</span>
+          <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Microphone boost</span>
         {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
       </div>
   {{/if}}

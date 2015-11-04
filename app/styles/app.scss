@@ -7,7 +7,7 @@
 $playerHeight: 400px;
 $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
-$playerBottomHeight: 300px;
+$playerBottomHeight: 250px;
 $secondaryThemeColor: #F12B24;
 $glowingText: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #228DFF;
 $dimmerOnButtonColor: #404040;
@@ -823,16 +823,17 @@ md-switch.md-default-theme.md-checked .md-thumb {
 #beatArea {
   height: $playerBottomHeight;
   position: relative;
-  padding: 20px 0 0 0;
 }
 
 .noUi-target {
   margin: 0 auto;
 }
+
 .noUi-base, .noUi-background {
   background-color: #ADADAD;
   border: 1px solid #797979;
 }
+
 .noUi-vertical {
   height: 200px;
   margin-top: 15px;

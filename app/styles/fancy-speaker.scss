@@ -1,7 +1,7 @@
 /* Variables */
-$centersize: 100px;
-$center1size: 250px;
-$bezelsize: 285px;
+$centersize: 80px;
+$center1size: 205px;
+$bezelsize: 240px;
 $vibratesize: $centersize*1.06;
 $vibratemargin:-$vibratesize/2;
 $vibrateblurinner: 3px;
@@ -64,8 +64,8 @@ $vibrateblurouter: 2px;
   height: $centersize;
   width: $centersize;
   position: absolute;
-  bottom: 60px;
-  right: 60px;
+  bottom: 47px;
+  right: 47px;
   -webkit-filter: blur(1px);
   filter: blur(1px);
   background: rgb(0,0,0);

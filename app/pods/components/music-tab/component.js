@@ -164,6 +164,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
           } else {
             this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
           }
+
+          this.set('usingBeatPreferences', false);
         };
         audio.ontimeupdate = ()=>{
           this.set('timeElapsed', Math.floor(audio.currentTime));

@@ -31,8 +31,8 @@ export default Em.Component.extend({
       location.reload();
     },
     startIntro(){
-      var introJs = introJs,
-        intro = introJs(),
+      var INTRO = introJs,
+        intro = INTRO(),
         playerBottom = Em.$('#playerBottom'),
         beatDetectionAreaArrowIcon = Em.$('#beatDetectionAreaArrowIcon');
 

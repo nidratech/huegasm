@@ -588,7 +588,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     this.set('dragLeaveTimeoutHandle', setTimeout(function(){ self.set('dragging', false); }, 500));
   },
 
-  simulateKick(mag, ratioKickMag) {
+  simulateKick(/*mag, ratioKickMag*/) {
     var activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
@@ -638,10 +638,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
       if(!this.get('colorloopMode')) {
         color = Math.floor(Math.random() * 65535);
-      }
-
-      if(ratioKickMag) {
-        brightnessOnBeat /= 2;
       }
 
       if(transitiontime){
@@ -713,10 +709,15 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
     var self = this;
 
+    // file input code
     Em.$('#fileInput').on('change', function () {
       var files = this.files;
       self.send('handleNewFiles', files);
-      this.value = null;
+      this.value = null; // reset in case upload the second file again
+    });
+
+    Em.$(document).on('click', '.alert', (event)=>{
+      Em.$(event.target).addClass('removed');
     });
 
     // prevent space/text selection when the user repeatedly clicks on the center

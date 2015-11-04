@@ -77,6 +77,22 @@ md-checkbox.md-default-theme.md-checked .md-icon {
   margin-bottom: 0;
 }
 
+.removed {
+  animation: disapear 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes disapear{
+  50% {
+    -webkit-transform: translateX(-5%);
+    transform: translateX(-5%);
+  }
+  100% {
+    -webkit-transform: translateX(200%);
+    transform: translateX(200%);
+  }
+}
+
 .relative {
   position: relative;
 }
@@ -370,6 +386,7 @@ md-slider.md-default-theme .md-thumb:after {
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   }
   img:hover {
+    -webkit-transform: scale(1.2);
     transform: scale(1.2);
   }
 }
@@ -493,6 +510,10 @@ md-toolbar {
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
+  .tooltip {
+    margin-top: 5px !important;
+    margin-left: -30px !important;
+  }
 }
 
 #musicTab{
@@ -582,10 +603,10 @@ md-switch.md-default-theme.md-checked .md-thumb {
     opacity: 0.8;
     font-size: 24px;
   }
-
   to {
     opacity: 0;
     transform: scale(3);
+    -webkit-transform: scale(3);
   }
 }
 

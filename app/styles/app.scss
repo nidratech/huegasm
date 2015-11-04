@@ -836,7 +836,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 .noUi-vertical {
   height: 200px;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 15px;
 }
 
@@ -850,13 +850,10 @@ md-switch.md-default-theme.md-checked .md-thumb {
 
 #beatOptionButtonGroup {
   margin: 20px 0 10px 0;
-  .beatOption:nth-of-type(2) md-switch {
-    margin-left: 10px;
-  }
 }
 
 .beatOption {
-  padding: 0;
+  padding: 5px 0;
   text-align: center;
   md-switch {
     margin: 0;

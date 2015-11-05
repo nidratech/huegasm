@@ -23,11 +23,9 @@ export default Em.Component.extend({
 
   dimmerOnClass: function(){
     var dimmerOn = this.get('dimmerOn'),
-      storage = this.get('storage'),
-      className = null;
+      storage = this.get('storage');
 
     if(dimmerOn){
-      className = 'dimmerBulbOn';
       Em.$('body').addClass('dimmerOn');
       Em.$('html').addClass('dimmerOn');
     } else {
@@ -36,9 +34,7 @@ export default Em.Component.extend({
     }
 
     storage.set('huegasm.dimmerOn', dimmerOn);
-
-    return className;
-  }.property('dimmerOn'),
+  }.observes('dimmerOn'),
 
   init(){
     this._super();

@@ -889,12 +889,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   margin-top: 10px;
 }
 
-.dimmerBulbOn {
-  fill: gold;
-  stroke: gold;
-  stroke-width: 10px;
-}
-
 div.dimmerOn {
   color: white !important;
   background: #171717 !important;
@@ -978,10 +972,9 @@ body.dimmerOn {
   left: -50px;
   bottom: -10px;
   cursor: pointer;
-  svg {
-    width: 40px;
-    height: 40px;
-  }
+  width: 35px;
+  height: 40px;
+  background: url(images/bulb.svg) center center no-repeat;
 }
 
 .noUi-value-vertical {

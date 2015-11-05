@@ -142,8 +142,8 @@
 <div id="playerBottom" class="row {{if dimmerOn "dimmerOn"}}">
 <div id="beatArea" class="col-sm-7 col-xs-12">
 {{#if usingBeatPreferences}}
-  <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip">
-  {{paper-icon id="saveBeatPreferencesStar" class=dimmerOnClass icon="star"}}
+  <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrapTooltip savedStarTooltip" id="saveBeatPreferencesStar">
+  {{paper-icon class=dimmerOnClass icon="star"}}
   </span>
 {{/if}}
 

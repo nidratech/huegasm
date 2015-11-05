@@ -844,10 +844,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   cursor: auto !important;
 }
 
-.savedStarTooltip + .tooltip .tooltip-arrow {
-  margin-left: 12px;
-}
-
 #beatOptionButtonGroup {
   margin: 20px 0 10px 0;
 }
@@ -1011,8 +1007,10 @@ body.dimmerOn {
   position: absolute;
   top: 3px;
   left: 3px;
-  color: $secondaryThemeColor !important;
-  font-size: 25px;
+  md-icon {
+    color: $secondaryThemeColor !important;
+    font-size: 25px;
+  }
 }
 
 button.md-warn {

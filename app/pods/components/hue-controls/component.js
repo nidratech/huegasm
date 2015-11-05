@@ -107,7 +107,7 @@ export default Em.Component.extend({
             element: '#dimmerWrapper',
             intro: 'And that\'s it...Feel free to reach out to me through the link at the bottom of the page.<br>' +
             'Hope you enjoy the application. ;)<br><br>' +
-            '<i><b>TIP</b>: click on the lightbulb to switch to a darker theme.</i>',
+            '<i><b>TIP</b>: click on the icon to switch to a darker theme.</i>',
             position: 'top'
           }
         ]

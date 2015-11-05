@@ -41,8 +41,12 @@ export default Em.Component.extend({
       intro.setOptions({
         steps: [
           {
+            intro: 'Welcome to Huegasm.<br>' +
+            'This short wizard will guide you through the functionality available with this web application.'
+          },
+          {
             element: '#musicTab',
-            intro: 'This is the music tab. You\'ll use this to play music and synchronize it with your active lights.<br><br>' +
+            intro: 'This is the music player. You\'ll use this to play music and synchronize it with your active lights.<br><br>' +
             '<i><b>TIP</b>: Control which lights are active through the <b>Lights</b> tab or through the <b>Groups</b> menu dropdown.</i>'
           },
           {
@@ -157,7 +161,7 @@ export default Em.Component.extend({
       // skip hidden/missing elements
       intro.onafterchange((element)=>{
         var elem = Em.$(element);
-        if(elem.hasClass('introjsFloatingElement') || elem.html() === '<!---->'){
+        if(elem.html() === '<!---->'){
           Em.$('.introjs-nextbutton').click();
         }
       }).onexit(onFinish).oncomplete(onFinish).start();

@@ -9,7 +9,7 @@ $playerDefaultIconColor: #BBBBBB;
 $footerHeight: 40px;
 $playerBottomHeight: 250px;
 $secondaryThemeColor: #F12B24;
-$glowingText: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #228DFF;
+$glowingText: 0 0 2px #fff, 0 0 8px #fff, 0 0 20px #228DFF;
 $dimmerOnButtonColor: #404040;
 
   // BRIDGE FINDER
@@ -256,7 +256,7 @@ md-list-item .md-no-style {
 // preload images
 #hueControls:after, md-progress-circular:after {
   display: none;
-  content: url(images/colormap.png) url(images/missingArtwork.png) url(images/sc-white.png) url(images/favicons/favicon-90x90.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
+  content: url(images/colormap.png) url(images/missingArtwork.png) url(images/sc-white.png) url(images/favicons/favicon-96x96.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
 }
 
 .navigation {
@@ -1076,7 +1076,7 @@ div.ember-modal-dialog {
 }
 
 .displayIcon {
-  background:url(images/favicons/favicon-90x90.png) center center no-repeat;
+  background:url(images/favicons/favicon-96x96.png) center center no-repeat;
 }
 
 .keyboard-arrow-down {

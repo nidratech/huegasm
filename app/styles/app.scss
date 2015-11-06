@@ -975,9 +975,10 @@ body.dimmerOn {
   left: -50px;
   bottom: -10px;
   cursor: pointer;
-  width: 35px;
+  width: 40px;
   height: 40px;
-  background: url(images/bulb.svg) center center no-repeat;
+  background: url(images/favicons/favicon-96x96.png) center center no-repeat;
+  background-size: 40px 40px;
 }
 
 .noUi-value-vertical {

@@ -24,7 +24,7 @@ export default Em.Mixin.create({
       playerArea = Em.$('#playerArea'),
       ctx = canvas.getContext('2d'),
       spacing = 2,
-      h = Em.$('#playerArea').height(), w;
+      h = playerArea.height(), w;
 
     canvas.height = h;
 
@@ -45,7 +45,7 @@ export default Em.Mixin.create({
         pageHidden = document.hidden || document.msHidden || document.webkitHidden || document.mozHidden;
 
       // dont do anything if the page is hidden or no visualization
-      if(currentVisName === 'None' || pageHidden){
+      if(currentVisName === 'None' || pageHidden || !this.get('active')){
         return;
       }
 
@@ -85,5 +85,4 @@ export default Em.Mixin.create({
       }
     });
   }
-})
-;
+});

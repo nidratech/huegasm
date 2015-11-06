@@ -216,7 +216,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       }
     },
     play(replayPause) {
-      var dancer = this.get('dancer'), playQueuePointer = this.get('playQueuePointer');
+      var dancer = this.get('dancer'),
+        playQueuePointer = this.get('playQueuePointer');
 
       if(playQueuePointer !== -1 ) {
         if (this.get('playing')) {
@@ -239,6 +240,8 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
             this.send('next', true);
             return;
           }
+
+          Em.$(window).trigger('resize'); // workaround to redraw the canvas for the vitualizer
 
           dancer.play();
         }
@@ -377,7 +380,10 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     micBoostChanged(value) {
       this.set('micBoost', value);
       this.get('storage').set('huegasm.micBoost', value);
-      this.get('dancer').setBoost(value);
+
+      if(this.get('usingMicAudio')) {
+        this.get('dancer').setBoost(value);
+      }
     },
     audioModeChanged(value){
       if(value === 1) {
@@ -394,12 +400,12 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     clickSpeaker(){
       this.simulateKick(1);
     },
-    dropFiles(){
+    dropFiles(files){
       this.setProperties({
         dragging: false,
         draggingOverPlayListArea: false
       });
-      this.send('handleNewFiles', event.dataTransfer.files);
+      this.send('handleNewFiles', files);
     },
     playListAreaDragOver(){
       this.set('draggingOverPlayListArea', true);
@@ -731,6 +737,10 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       if(event.which === 32 && event.target.type !== 'text'){
         this.send('play');
       }
+    });
+
+    this.$().on('drop', '#playListArea', (event)=>{
+      this.send('dropFiles', event.dataTransfer.files);
     });
 
     // control the volume by scrolling up/down

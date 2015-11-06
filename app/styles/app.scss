@@ -514,7 +514,7 @@ md-toolbar {
   transform: translateY(-50%);
   .tooltip {
     margin-top: 5px !important;
-    margin-left: -30px !important;
+    left: 0 !important;
   }
 }
 
@@ -825,6 +825,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 #beatArea {
   height: $playerBottomHeight;
   position: relative;
+  padding: 0;
 }
 
 .noUi-target {

@@ -23,7 +23,7 @@ export default Em.Mixin.create({
             if(value === 0) {
               value = 'More';
             } else if(value === 0.25) {
-              value = 'Neutral';
+              value = '';
             } else {
               value = 'Less';
             }

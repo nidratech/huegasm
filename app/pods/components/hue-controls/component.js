@@ -41,8 +41,7 @@ export default Em.Component.extend({
       intro.setOptions({
         steps: [
           {
-            intro: 'Welcome to Huegasm.<br>' +
-            'This short wizard will guide you through the functionality available with this web application.'
+            intro: 'Welcome! This short wizard will introduce you to Huegasm.'
           },
           {
             element: '#musicTab',

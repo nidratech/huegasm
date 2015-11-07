@@ -138,6 +138,25 @@ export default Em.Mixin.create({
   storage: null,
   firstVisit: true,
 
+  largeArtworkPic: function(){
+    var pic = null,
+      currentVisName = this.get('currentVisName'),
+      usingMicAudio = this.get('usingMicAudio'),
+      playQueuePointer = this.get('playQueuePointer'),
+      playQueue = this.get('playQueue');
+
+    if(playQueuePointer !== -1 && !usingMicAudio && currentVisName === 'None'){
+      var song = playQueue[playQueuePointer];
+      if(song.scUrl){
+        pic = song.picture.replace('67x67', '500x500');
+      } else {
+        pic = song.picture;
+      }
+    }
+
+    return pic;
+  }.property('playQueuePointer', 'usingMicAudio', 'currentVisName'),
+
   // used to insure that we don't replay the same thing multiple times in shuffle mode
   shufflePlayed: [],
   pauseLightUpdates: function(){

@@ -23,18 +23,22 @@ export default Em.Component.extend({
 
   dimmerOnClass: function(){
     var dimmerOn = this.get('dimmerOn'),
-      storage = this.get('storage');
+      storage = this.get('storage'),
+      dimmerOnClass = null;
 
     if(dimmerOn){
       Em.$('body').addClass('dimmerOn');
       Em.$('html').addClass('dimmerOn');
+      dimmerOnClass = 'active';
     } else {
       Em.$('body').removeClass('dimmerOn');
       Em.$('html').removeClass('dimmerOn');
     }
 
     storage.set('huegasm.dimmerOn', dimmerOn);
-  }.observes('dimmerOn'),
+
+    return dimmerOnClass;
+  }.property('dimmerOn'),
 
   init(){
     this._super();

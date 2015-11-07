@@ -1071,7 +1071,19 @@ div.ember-modal-dialog {
 }
 
 .displayIcon {
-  background:url(/favicon-96x96.png) center center no-repeat;
+  background: url(/favicon-96x96.png) center center no-repeat;
+  background-size: 80px 80px;
+}
+
+#artwork {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  img {
+    display: block;
+    margin: 0 auto;
+    max-height: 400px;
+  }
 }
 
 .keyboard-arrow-down {

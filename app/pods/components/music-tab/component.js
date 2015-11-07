@@ -44,7 +44,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
                 var picture = null;
 
                 if(result.artwork_url){
-                  picture = result.artwork_url;
+                  picture = result.artwork_url.replace('large', 't67x67');
                 } else if(result.user.avatar_url){
                   picture = result.user.avatar_url;
                 }

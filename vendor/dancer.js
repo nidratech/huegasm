@@ -342,7 +342,7 @@
         var self = this;
         this.canUseRatioHandle = setTimeout(function(){
           self.canUseRatio = true;
-        }, 2000);
+        }, 5000);
       } else {
         if(magnitude/this.previousMag > this.threshold*5 && magnitude>0.1 && this.canUseRatio) {
           this.onKick && this.onKick.call(this.dancer, magnitude, magnitude/this.previousMag);

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Huegasm</title>
-    <meta name="description" content="Huegasm is a free web application for controlling your Philips Hue lights...oh and it's kind of awesome at syncing music with your lights.">
+    <meta name="description" content="Huegasm is a free web application for controlling your Philips Hue lights...oh and it's pretty awesome at synchronizing your music with your lights.">
     <meta name="keywords" content="huegasm,hue,philips hue,music player">
     <meta name="author" content="Egor Philippov">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,8 @@
     <link type="text/plain" rel="author" href="http://www.huegasm.com/humans.txt" />
 
     <base href="/" />
-<meta name="huegasm/config/environment" content="%7B%22modulePrefix%22%3A%22huegasm%22%2C%22podModulePrefix%22%3A%22huegasm/pods%22%2C%22environment%22%3A%22production%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22huegasm%22%2C%22version%22%3A%221.0.0+6689cc63%22%7D%2C%22contentSecurityPolicy%22%3A%7B%22default-src%22%3A%22%27none%27%22%2C%22script-src%22%3A%22%27self%27%20%27unsafe-inline%27%20connect.soundcloud.com%20www.google-analytics.com%22%2C%22font-src%22%3A%22%27self%27%20fonts.gstatic.com%22%2C%22connect-src%22%3A%22%27self%27%20*%22%2C%22img-src%22%3A%22%27self%27%20*.sndcdn.com%20%20www.google-analytics.com%20data%3A%22%2C%22media-src%22%3A%22%27self%27%20api.soundcloud.com%20*.sndcdn.com%20blob%3A%22%2C%22style-src%22%3A%22%27self%27%20%27unsafe-inline%27%20fonts.googleapis.com%22%2C%22object-src%22%3A%22%27self%27%20connect.soundcloud.com%22%2C%22frame-src%22%3A%22%27self%27%22%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22exportApplicationGlobal%22%3Afalse%2C%22ember-devtools%22%3A%7B%22global%22%3Atrue%2C%22enabled%22%3Afalse%7D%7D" />
+<meta name="huegasm/config/environment" content="%7B%22modulePrefix%22%3A%22huegasm%22%2C%22podModulePrefix%22%3A%22huegasm/pods%22%2C%22environment%22%3A%22production%22%2C%22baseURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22huegasm%22%2C%22version%22%3A%221.0.0+%22%7D%2C%22contentSecurityPolicy%22%3A%7B%22child-src%22%3A%22blob%3A%22%2C%22default-src%22%3A%22%27none%27%22%2C%22script-src%22%3A%22%27self%27%20%27unsafe-inline%27%20connect.soundcloud.com%20www.google-analytics.com%22%2C%22font-src%22%3A%22%27self%27%20fonts.gstatic.com%22%2C%22connect-src%22%3A%22%27self%27%20*%22%2C%22img-src%22%3A%22%27self%27%20*.sndcdn.com%20%20www.google-analytics.com%20data%3A%22%2C%22media-src%22%3A%22%27self%27%20api.soundcloud.com%20*.sndcdn.com%20blob%3A%22%2C%22style-src%22%3A%22%27self%27%20%27unsafe-inline%27%20fonts.googleapis.com%22%2C%22object-src%22%3A%22%27self%27%20connect.soundcloud.com%22%2C%22frame-src%22%3A%22%27self%27%22%7D%2C%22contentSecurityPolicyHeader%22%3A%22Content-Security-Policy-Report-Only%22%2C%22exportApplicationGlobal%22%3Afalse%2C%22ember-devtools%22%3A%7B%22global%22%3Atrue%2C%22enabled%22%3Afalse%7D%7D" />
+<div id='paper-wormhole'></div>
 
     <link href='//fonts.googleapis.com/css?family=Slabo+27px' rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -37,8 +38,8 @@
     <meta name="msapplication-TileImage" content="/mstile-144x144-d0f5793c169182fda72b0482cff658e3.png">
     <meta name="theme-color" content="#ffffff">
 
-    <link rel="stylesheet" integrity="" href="assets/vendor-69116e5a2ecdac86e57c664fce4e61cb.css">
-    <link rel="stylesheet" href="assets/huegasm-da1a3f2fc8dd56cf8577804a857fbf5a.css">
+    <link rel="stylesheet" href="assets/vendor-69116e5a2ecdac86e57c664fce4e61cb.css" integrity="sha256-GkLAxYZn8Okh6MzhPAN36frd4oUtQynp22e+uWvJ4MQ= sha512-u7++pdflyk8xMTswY3qkBA9twYZNpJag2D/GdxGZ92Au/WXyV2bhIv9RtIRwcREfwKddMi6MY5LA0vAyz4GrDg==" >
+    <link rel="stylesheet" href="assets/huegasm-7f16a55875ed991d6f41e2f3122cd50a.css">
 
     
 
@@ -57,8 +58,8 @@
   <body>
     
 
-    <script src="assets/vendor-00d8b375bf577b525389331308b70a58.js"></script>
-    <script src="assets/huegasm-075704b0642b886da64b82bc60e3cb49.js"></script>
+    <script src="assets/vendor-b0b164f788e4ac8a15e69f35365f94f1.js"></script>
+    <script src="assets/huegasm-5fc5cbad0825b8b910b043239099fa90.js"></script>
 
     
   </body>

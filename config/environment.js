@@ -20,6 +20,7 @@ module.exports = function(environment) {
     },
 
     contentSecurityPolicy: {
+      'child-src': "blob:",
       'default-src': "'none'",
       'script-src': "'self' 'unsafe-inline' connect.soundcloud.com www.google-analytics.com",
       'font-src': "'self' fonts.gstatic.com",

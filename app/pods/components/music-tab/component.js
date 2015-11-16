@@ -191,7 +191,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
             if(!Em.isNone(track) && !Em.isNone(track.offset())) {
               playListArea.animate({
-                scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop()
+                scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop() - 30
               });
             }
           }, 1000);
@@ -762,6 +762,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     if(this.get('firstVisit')){
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/tracks');
       this.get('storage').set('huegasm.firstVisit', false);
+
       this.sendAction();
     }
 

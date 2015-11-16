@@ -103,7 +103,7 @@ export default Em.Component.extend({
             position: 'left'
           },
           {
-            element: '#dimmerWrapper',
+            element: '#dimmer',
             intro: 'And that\'s it...Feel free to reach out to me through the link at the bottom of the page.<br>' +
             'Hope you enjoy the application. ;)<br><br>' +
             '<i><b>TIP</b>: click on the icon to switch to a darker theme.</i>',
@@ -138,7 +138,7 @@ export default Em.Component.extend({
           if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-down')){
             beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-down').addClass('keyboard-arrow-up');
           }
-        } else if(element.id === 'dimmerWrapper'){
+        } else if(element.id === 'dimmer'){
           Em.$(document).click();
         }
       });
@@ -155,6 +155,19 @@ export default Em.Component.extend({
         } else {
           playerBottom.hide();
         }
+      }, onExit = ()=>{
+        var dimmer = Em.$('#dimmer');
+
+        onFinish();
+        dimmer.popover({
+          trigger: 'manual',
+          placement: 'top',
+          content: 'Click on this icon to toggle the dark theme.'
+        }).popover('show');
+
+        setTimeout(()=>{
+          dimmer.popover('hide');
+        }, 5000);
       };
 
       // skip hidden/missing elements
@@ -163,7 +176,7 @@ export default Em.Component.extend({
         if(elem.html() === '<!---->'){
           Em.$('.introjs-nextbutton').click();
         }
-      }).onexit(onFinish).oncomplete(onFinish).start();
+      }).onexit(onExit).oncomplete(onFinish).start();
     }
   },
 

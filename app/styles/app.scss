@@ -24,13 +24,6 @@ body {
   position: static;
 }
 
-#introPic {
-  display: block;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 600px;
-}
-
 .introParagraph {
   margin-bottom: 30px;
 }
@@ -289,13 +282,13 @@ md-list-item .md-no-style {
 }
 
 .colorpicker {
-  padding: 10px;
+  padding: 5px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   color: #FFFFFF;
   position: absolute;
-  width: 275px;
-  height: 275px;
+  width: 266px;
+  height: 266px;
   right: 6px;
   top: -9px;
   z-index: 3;
@@ -954,6 +947,9 @@ body.dimmerOn {
   #extraOptionsMenu:hover {
     background: rgba(0, 0, 0, 0.9);
   }
+  .popover-content {
+    color: black !important;
+  }
 }
 
 .power-settings-new.dimmerOn,
@@ -971,7 +967,7 @@ body.dimmerOn {
   opacity: 0.9 !important;
 }
 
-#dimmerWrapper {
+#dimmer {
   position: absolute;
   left: -50px;
   bottom: -10px;

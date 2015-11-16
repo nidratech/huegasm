@@ -21,12 +21,12 @@ export default Em.Component.extend({
 
   ready: false,
 
-  dimmerOnClass: function(){
+  dimmerOnClass: function () {
     var dimmerOn = this.get('dimmerOn'),
       storage = this.get('storage'),
       dimmerOnClass = null;
 
-    if(dimmerOn){
+    if (dimmerOn) {
       Em.$('body').addClass('dimmerOn');
       Em.$('html').addClass('dimmerOn');
       dimmerOnClass = 'active';
@@ -43,18 +43,22 @@ export default Em.Component.extend({
   init(){
     this._super();
 
-    var storage = new window.Locally.Store({ compress: true });
+    var storage = new window.Locally.Store({compress: true});
     this.set('storage', storage);
 
-    if(!Em.isNone(storage.get('huegasm.dimmerOn'))) {
+    if (!Em.isNone(storage.get('huegasm.dimmerOn'))) {
       this.set('dimmerOn', storage.get('huegasm.dimmerOn'));
     }
 
-    if(!Em.isEmpty(storage.get('huegasm.bridgeIp')) && !Em.isEmpty(storage.get('huegasm.bridgeUsername'))) {
+    if (!Em.isEmpty(storage.get('huegasm.bridgeIp')) && !Em.isEmpty(storage.get('huegasm.bridgeUsername'))) {
       this.setProperties({
         bridgeIp: storage.get('huegasm.bridgeIp'),
         bridgeUsername: storage.get('huegasm.bridgeUsername')
       });
     }
-  }
+  },
+
+  year: function () {
+    return new Date().getFullYear();
+  }.property()
 });

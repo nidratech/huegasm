@@ -1,7 +1,7 @@
 import Em from 'ember';
 
 export default Em.Mixin.create({
-  classNames: ['col-lg-10', 'col-lg-offset-2', 'col-xs-12'],
+  classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'musicTab',
 

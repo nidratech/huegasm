@@ -70,11 +70,13 @@ export default Em.Mixin.create({
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
+  ambienceModeHandle: null,
   audioStream: null,
   dimmerOn: false,
   isShowingAddSoundCloudModal: false,
 
   colorloopMode: false,
+  ambienceMode: false,
   flashingTransitions: false,
 
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
@@ -260,7 +262,7 @@ export default Em.Mixin.create({
   onOptionChange: function(self, option){
     option = option.replace('.[]', '');
     this.get('storage').set('huegasm.' + option, this.get(option));
-  }.observes('blinkingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode'),
+  }.observes('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', 'ambienceMode'),
 
   onRepeatChange: function () {
     var tooltipTxt = 'Repeat all', type = 'repeat';

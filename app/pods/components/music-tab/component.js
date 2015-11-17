@@ -502,6 +502,18 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     this.set('oldBeatPrefCache', newOldBeatPrefCache);
   },
 
+  onAmbienceModeChange: function() {
+    if(this.get('ambienceMode') && this.get('playing')) {
+      this.set('ambienceModeHandle', setInterval(()=> {
+        //TODO
+        console.log('DOING AMBIENCE STUFF');
+      }, 2000));
+    } else if(this.get('ambienceModeHandle')) {
+      clearInterval(this.get('ambienceModeHandle'));
+      this.set('ambienceModeHandle', null);
+    }
+  }.observes('ambienceMode', 'playing'),
+
   startUsingMic() {
     navigator.getUserMedia(
       {audio: true},
@@ -695,7 +707,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode'].forEach((item)=>{
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 

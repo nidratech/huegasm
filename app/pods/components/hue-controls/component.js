@@ -68,6 +68,7 @@ export default Em.Component.extend({
             '<b>Sensitivity</b> - The sensitivity of the beat detector ( more sensitivity results in more registered beats )<br>' +
             '<b>Flashing Transitions</b> - Quickly flash the lights on beat<br>' +
             '<b>Colorloop Mode</b> - Slowly cycle the lights through all the colors while the music is playing<br>' +
+            '<b>Ambience Mode</b> - Periodically turn the lights on and off to create a cool looking ambience<br>' +
             '<i><b>TIP</b>: Your sensitivity settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
             position: 'top'
           },

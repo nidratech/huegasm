@@ -254,14 +254,20 @@ export default Em.Component.extend({
   }.observes('strobeOn'),
 
   strobeStep() {
-    var lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('activeLights').length + 1), self = this;
+    var lastStrobeLight = (this.get('lastStrobeLight') + 1) % (this.get('activeLights').length + 1),
+      turnOnOptions = {'on': true, 'transitiontime': 0, 'alert': 'select'};
+
+    // random light if in cololoop mode
+    if(this.get('colorloopMode')) {
+      turnOnOptions.hue = Math.floor(Math.random() * 65535);
+    }
 
     Em.$.ajax(this.get('apiURL') + '/lights/' + lastStrobeLight + '/state', {
-      data: JSON.stringify({'on': true, 'transitiontime': 0, 'alert': 'select'}),
+      data: JSON.stringify(turnOnOptions),
       contentType: 'application/json',
       type: 'PUT'
     });
-    Em.$.ajax(self.get('apiURL') + '/lights/' + lastStrobeLight + '/state', {
+    Em.$.ajax(this.get('apiURL') + '/lights/' + lastStrobeLight + '/state', {
       data: JSON.stringify({'on': false, 'transitiontime': 0}),
       contentType: 'application/json',
       type: 'PUT'

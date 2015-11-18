@@ -61,19 +61,19 @@ export default Em.Component.extend({
   rgb: [255, 255, 255],
   rgbPreview: function() {
     var rgb = this.get('rgb'),
-      self = this,
       xy = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
 
     this.set('colorLoopOn', false);
 
-    this.get('activeLights').forEach(function (light) {
-      Em.$.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+    this.get('activeLights').forEach((light) => {
+      Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
         data: JSON.stringify({"xy": xy}),
         contentType: 'application/json',
         type: 'PUT'
       });
     });
 
+    this.set('colorLoopOn', false);
     Em.$('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
   }.observes('rgb'),
 
@@ -82,24 +82,12 @@ export default Em.Component.extend({
       return null;
     }
 
-    return "toggleColorpicker";
+    return 'toggleColorpicker';
   }.property('trial'),
 
   // COLOR LOOP related stuff
   colorLoopOn: false,
-  colorLoopDependenciesChanged: function(){
-    var lightsData = this.get('lightsData'), newValue;
 
-    if(this.get('strobeOn')){
-      newValue = false;
-    } else {
-      newValue = this.get('activeLights').some(function(light) {
-        return lightsData[light].state.effect === 'colorloop';
-      });
-    }
-
-    this.set('colorLoopOn', newValue);
-  }.observes('lightsData.@each.state.effect', 'activeLights.[]', 'strobeOn'),
   onColorLoopOnChange: function(){
     var lightsData = this.get('lightsData'),
       activeLights = this.get('activeLights'),
@@ -249,6 +237,7 @@ export default Em.Component.extend({
         }
       }
 
+      setTimeout(()=>{this.onColorLoopOnChange();}, 2000);
       clearInterval(this.get('strobeOnInervalHandle'));
     }
   }.observes('strobeOn'),
@@ -258,7 +247,7 @@ export default Em.Component.extend({
       turnOnOptions = {'on': true, 'transitiontime': 0, 'alert': 'select'};
 
     // random light if in cololoop mode
-    if(this.get('colorloopMode')) {
+    if(this.get('colorLoopOn')) {
       turnOnOptions.hue = Math.floor(Math.random() * 65535);
     }
 

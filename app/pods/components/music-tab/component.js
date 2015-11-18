@@ -503,12 +503,64 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   },
 
   onAmbienceModeChange: function() {
+    var activeLights = this.get('activeLights'),
+      workedLights = [],
+      lightOff = (light)=>{
+        Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify({'on': false, 'transitiontime': 20}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      };
+
     if(this.get('ambienceMode') && this.get('playing')) {
+      activeLights.forEach((light)=>{
+        lightOff(light);
+      });
+
       this.set('ambienceModeHandle', setInterval(()=> {
-        //TODO
-        console.log('DOING AMBIENCE STUFF');
+        var lights = [],
+          transitionTime = Math.floor(Math.random()*30 + 4);
+
+        for(let i=0; i < activeLights.length/2; i++){
+          let l = activeLights[Math.floor(Math.random()*activeLights.length)];
+          if(!lights.contains(l) && !workedLights.contains(l)){
+            lights.push(l);
+          }
+        }
+
+        lights.forEach((light)=>{
+          workedLights.push(light);
+
+          Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+            data: JSON.stringify({'on': true, 'hue': Math.floor(Math.random()*65535), 'bri': Math.floor(Math.random()*200) + 1, 'transitiontime': transitionTime}),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+
+          setTimeout(()=>{
+            Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+              data: JSON.stringify({'hue': Math.floor(Math.random()*65535), 'bri': Math.floor(Math.random()*204) + 51, 'transitiontime': transitionTime}),
+              contentType: 'application/json',
+              type: 'PUT'
+            });
+
+            setTimeout(()=>{
+              lightOff(light);
+              workedLights.removeObject(light);
+            }, transitionTime * 100);
+          }, transitionTime*100);
+        });
       }, 2000));
     } else if(this.get('ambienceModeHandle')) {
+      activeLights.forEach((light)=>{
+        Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify({'on': true}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      });
+
       clearInterval(this.get('ambienceModeHandle'));
       this.set('ambienceModeHandle', null);
     }
@@ -638,7 +690,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       },
       timeToBriOff = 100;
 
-    if(activeLights.length > 0){
+    if(activeLights.length > 0 && !this.get('ambienceMode')){
       var lastLightBopIndex = this.get('lastLightBopIndex'),
         lightBopIndex,
         brightnessOnBeat = 254,

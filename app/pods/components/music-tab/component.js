@@ -502,58 +502,78 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     this.set('oldBeatPrefCache', newOldBeatPrefCache);
   },
 
-  onAmbienceModeChange: function() {
+  doAmbienceLightChange: function(justOneLight){
     var activeLights = this.get('activeLights'),
-      workedLights = [],
+      lightsData = this.get('lightsData'),
+      workedLights = this.get('ambienceWorkedLights'),
+      ambienceWorkedLightsHandles = this.get('ambienceWorkedLightsHandles'),
       lightOff = (light)=>{
-        Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({'on': false, 'transitiontime': 20}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      };
-
-    if(this.get('ambienceMode') && this.get('playing')) {
-      activeLights.forEach((light)=>{
-        lightOff(light);
-      });
-
-      this.set('ambienceModeHandle', setInterval(()=> {
-        var lights = [],
-          transitionTime = Math.floor(Math.random()*30 + 4);
-
-        for(let i=0; i < activeLights.length/2; i++){
-          let l = activeLights[Math.floor(Math.random()*activeLights.length)];
-          if(!lights.contains(l) && !workedLights.contains(l)){
-            lights.push(l);
-          }
-        }
-
-        lights.forEach((light)=>{
-          workedLights.push(light);
-
+        if(this.get('ambienceMode')){
           Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-            data: JSON.stringify({'on': true, 'hue': Math.floor(Math.random()*65535), 'bri': Math.floor(Math.random()*200) + 1, 'transitiontime': transitionTime}),
+            data: JSON.stringify({'on': false, 'transitiontime': 20}),
             contentType: 'application/json',
             type: 'PUT'
           });
+        }
+      },
+      lights = [],
+      transitionTime = Math.floor(Math.random()*20),
+      iterations = justOneLight ? 1 : activeLights.length/2;
 
-          setTimeout(()=>{
-            Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-              data: JSON.stringify({'hue': Math.floor(Math.random()*65535), 'bri': Math.floor(Math.random()*204) + 51, 'transitiontime': transitionTime}),
-              contentType: 'application/json',
-              type: 'PUT'
-            });
+    // pick some random lights
+    for(let i=0; i < iterations; i++){
+      let l = activeLights[Math.floor(Math.random()*activeLights.length)];
 
-            setTimeout(()=>{
-              lightOff(light);
-              workedLights.removeObject(light);
-            }, transitionTime * 100);
-          }, transitionTime*100);
-        });
-      }, 2000));
+      if(!lights.contains(l) && !workedLights.contains(l)){
+        lights.push(l);
+        workedLights.push(l);
+      } else if(justOneLight && workedLights.length !== activeLights.length){ // work a light if we only need one
+        while(workedLights.contains(l)){
+          l = activeLights[Math.floor(Math.random()*activeLights.length)];
+        }
+
+        lights.push(l);
+        workedLights.push(l);
+      }
+    }
+
+    lights.forEach((light)=>{
+      var options = {'hue': Math.floor(Math.random()*65535), 'bri': Math.floor(Math.random()*200) + 1, 'transitiontime': transitionTime};
+
+      if(lightsData[light].state.on === false){
+        options.on = true;
+      }
+
+      Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+        data: JSON.stringify(options),
+        contentType: 'application/json',
+        type: 'PUT'
+      });
+
+      // stop the light from turning off
+      if(ambienceWorkedLightsHandles[light]){
+        clearTimeout(ambienceWorkedLightsHandles[light]);
+        delete ambienceWorkedLightsHandles[light];
+      }
+
+      // turn the light off after it's been idle for a while
+      ambienceWorkedLightsHandles[light] = setTimeout(()=>{
+        lightOff(light);
+        workedLights.removeObject(light);
+        delete ambienceWorkedLightsHandles[light];
+      }, transitionTime * 100 + 1000);
+    });
+  },
+
+  onAmbienceModeChange: function() {
+    if(this.get('ambienceMode') && this.get('playing')) {
+      this.set('ambienceModeHandle', setInterval(()=> {this.doAmbienceLightChange();}, 5000));
+      this.setProperties({
+        'colorloopMode': false,
+        'flashingTransitions': false
+      });
     } else if(this.get('ambienceModeHandle')) {
-      activeLights.forEach((light)=>{
+      this.get('activeLights').forEach((light)=>{
         Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
           data: JSON.stringify({'on': true}),
           contentType: 'application/json',
@@ -724,6 +744,10 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     setTimeout(() => {
       this.set('paused', false);
     }, 150);
+
+    if(this.get('ambienceMode') && activeLights.length > 0){
+      this.doAmbienceLightChange(true);
+    }
 
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
     Em.$('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', Em.$('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');

@@ -139,6 +139,8 @@ export default Em.Mixin.create({
   oldBeatPrefCache: null,
   storage: null,
   firstVisit: true,
+  ambienceWorkedLights: [],
+  ambienceWorkedLightsHandles: {},
 
   largeArtworkPic: function(){
     var pic = null,

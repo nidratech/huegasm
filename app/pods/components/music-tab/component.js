@@ -508,7 +508,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       workedLights = this.get('ambienceWorkedLights'),
       ambienceWorkedLightsHandles = this.get('ambienceWorkedLightsHandles'),
       lightOff = (light)=>{
-        if(this.get('ambienceMode')){
+        if(this.get('ambienceMode') && this.get('playing')){
           Em.$.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
             data: JSON.stringify({'on': false, 'transitiontime': 20}),
             contentType: 'application/json',

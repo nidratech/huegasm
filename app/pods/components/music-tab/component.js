@@ -155,7 +155,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
             song = this.get('playQueue')[playQueuePointer];
 
           if(this.get('soundCloudFuckUps') >= this.get('maxSoundCloudFuckUps')) {
-            this.get('notify').alert({html: this.get('tooManySoundCloudFuckUps')});
+            this.get('notify').alert({html: this.get('tooManySoundCloudFuckUps'), closeAfter: 10000});
             this.send('play');
             this.set('soundCloudFuckUps', 0);
           } else {

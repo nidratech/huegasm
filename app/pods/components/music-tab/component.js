@@ -148,24 +148,32 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         audio.crossOrigin = "anonymous";
         audio.oncanplay = ()=>{
           this.set('timeTotal', Math.floor(audio.duration));
+          this.set('soundCloudFuckUps', 0);
         };
         audio.onerror = (event)=>{
           var playQueuePointer =this.get('playQueuePointer'),
             song = this.get('playQueue')[playQueuePointer];
 
-          if(song.local){
-            this.send('removeAudio', playQueuePointer);
+          if(this.get('soundCloudFuckUps') >= this.get('maxSoundCloudFuckUps')) {
+            this.get('notify').alert({html: this.get('tooManySoundCloudFuckUps')});
+            this.send('play');
+            this.set('soundCloudFuckUps', 0);
           } else {
-            this.send('next', true);
-          }
+            if(song.local){
+              this.send('removeAudio', playQueuePointer);
+            } else {
+              this.send('next', true);
+            }
 
-          if(event.target.error.code === 2){
-            this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
-          } else {
-            this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
-          }
+            if(event.target.error.code === 2){
+              this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
+            } else {
+              this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
+            }
 
-          this.set('usingBeatPreferences', false);
+            this.set('usingBeatPreferences', false);
+            this.incrementProperty('soundCloudFuckUps');
+          }
         };
         audio.ontimeupdate = ()=>{
           this.set('timeElapsed', Math.floor(audio.currentTime));

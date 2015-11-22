@@ -82,6 +82,7 @@ export default Em.Mixin.create({
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
+  tooManySoundCloudFuckUps: '<div class="alert alert-danger" role="alert">The SoundCloud API is not seving the audio properly. More details <a href="https://www.soundcloudcommunity.com/soundcloud/topics/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header" target="_blank">HERE</a>.</div>',
   notStreamableHtml(fileNames){
     var html =  '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
 
@@ -141,6 +142,9 @@ export default Em.Mixin.create({
   firstVisit: true,
   ambienceWorkedLights: [],
   ambienceWorkedLightsHandles: {},
+
+  soundCloudFuckUps: 0,
+  maxSoundCloudFuckUps: 3,
 
   largeArtworkPic: function(){
     var pic = null,

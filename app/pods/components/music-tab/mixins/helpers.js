@@ -34,6 +34,30 @@ export default Em.Mixin.create({
         }
       }
     },
+    hueRange: {
+      range: {min: 0, max: 65535},
+      step: 1,
+      defaultValue: 0.3,
+      pips: {
+        mode: 'values',
+        values: [0, 25500, 46920, 65535],
+        density: 10,
+        format: {
+          to: function ( value ) {
+            if(value === 0 || value === 65535) {
+              value = 'Red';
+            } else if(value === 25500 ) {
+              value = 'Green';
+            } else {
+              value = 'Blue';
+            }
+
+            return value;
+          },
+          from: function ( value ) { return value; }
+        }
+      }
+    },
     micBoost: {
       range:  {min: 1, max: 11},
       step: 0.5,
@@ -51,6 +75,7 @@ export default Em.Mixin.create({
   },
 
   threshold: 0.3,
+  hueRange: [0, 65535],
   micBoost: 5,
   oldThreshold: null,
 
@@ -60,7 +85,7 @@ export default Em.Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
-  usingMicSupported: true,
+  usingMicSupported: false,
   // 0 - local, 1 - mic, possibly more to come
   audioMode: 0,
   usingLocalAudio: Em.computed.equal('audioMode', 0),

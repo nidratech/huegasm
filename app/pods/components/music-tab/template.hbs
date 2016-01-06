@@ -64,13 +64,13 @@
       <li><a href="#" {{action "toggleIsShowingAddSoundCloudModal"}}>SoundCloud</a></li>
     </ul>
 
-    {{#if (and usingLocalAudio playQueueNotEmpty)}}
+    {{!--{{#if (and usingLocalAudio playQueueNotEmpty)}}
         <div id="extraOptionsMenu" class="hidden-xs">
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
             <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
         </div>
-    {{/if}}
+    {{/if}} --}}
   {{/if}}
 
   {{#if usingMicSupported}}
@@ -78,9 +78,9 @@
   {{/if}}
 
   {{#if usingLocalAudio}}
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip visible-xs-inline" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip visible-xs-inline" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip visible-xs-inline" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltipe" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
   {{/if}}
 </div>
 
@@ -154,6 +154,11 @@
   {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
   </div>
 
+    <div class="beatOption col-xs-4">
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The hue range that the lights may change to on beat." class="optionDescription bootstrapTooltip">Hue Range</span>
+      {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+    </div>
+
   {{#if usingMicAudio}}
       <div class="beatOption col-xs-4">
           <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Mic Boost</span>
@@ -161,7 +166,7 @@
       </div>
   {{/if}}
 
-  <div id="lightOption" class="beatOption {{if usingMicAudio "col-xs-4" "col-sm-4 col-xs-8"}}">
+  <div id="lightOption" class="beatOption col-xs-4">
     <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrapTooltip" {{action "hideTooltip" on="mouseLeave"}}>
       {{#paper-checkbox checked=flashingTransitions}}Flashing Transitions{{/paper-checkbox}}
     </span>
@@ -170,33 +175,33 @@
       {{#paper-checkbox checked=colorloopMode}}Colorloop{{/paper-checkbox}}
     </span>
 
-    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrapTooltip" {{action "hideTooltip" on="mouseLeave"}}>
-      {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
-    </span>
+{{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrapTooltip" {{action "hideTooltip" on="mouseLeave"}}>
+  {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
+</span>--}}
+</div>
+</div>
+
+</div>
+
+<div id="beatContainer" class="col-sm-5 col-xs-12">
+<div class="bezel">
+  <div class="rivet1"></div>
+  <div class="rivet2"></div>
+  <div class="rivet3"></div>
+  <div class="rivet4"></div>
+  <div class="rivet5"></div>
+  <div class="rivet6"></div>
+  <div class="rivet7"></div>
+  <div class="rivet8"></div>
+
+  <div id="beatSpeakerCenterOuter">
+    <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
+  </div>
   </div>
 </div>
-
+</div>
 </div>
 
-  <div id="beatContainer" class="col-sm-5 col-xs-12">
-    <div class="bezel">
-      <div class="rivet1"></div>
-      <div class="rivet2"></div>
-      <div class="rivet3"></div>
-      <div class="rivet4"></div>
-      <div class="rivet5"></div>
-      <div class="rivet6"></div>
-      <div class="rivet7"></div>
-      <div class="rivet8"></div>
-
-      <div id="beatSpeakerCenterOuter">
-        <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-{{ember-notify closeAfter=5000}}
+{{ember-notify closeAfter=100000 classPrefix="customNotify"}}
 
 {{add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

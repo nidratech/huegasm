@@ -54,11 +54,6 @@ export default Em.Component.extend({
             '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
           },
           {
-            element: '#usingMicAudioTooltip',
-            intro: 'This icon will toggle microphone mode in which the application will listen to sound through your mic.<br>' +
-            'Note that this is a highly experimental feature that will require your authorization to be able to listen to the microphone. Also note that the beat detection will not be nearly as accurate in this mode.'
-          },
-          {
             element: '#playerArea',
             intro: 'The audio playback may be controlled with the controls here. Basic music visualization effects may be shown here by selecting them from the menu ( eyeball icon in the bottom right ).'
           },
@@ -66,9 +61,9 @@ export default Em.Component.extend({
             element: '#beatOptionRow',
             intro: 'These are the settings for the music tab:<br>' +
             '<b>Sensitivity</b> - The sensitivity of the beat detector ( more sensitivity results in more registered beats )<br>' +
+            '<b>Hue Range</b> - The hue range that the lights may change to on beat.<br>' +
             '<b>Flashing Transitions</b> - Quickly flash the lights on beat<br>' +
             '<b>Colorloop</b> - Slowly cycle the lights through all the colors while the music is playing<br>' +
-            '<b>Ambience</b> - Periodically turn the lights on and off to create a cool looking ambience<br>' +
             '<i><b>TIP</b>: Your sensitivity settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
             position: 'top'
           },

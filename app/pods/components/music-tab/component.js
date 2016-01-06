@@ -155,7 +155,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
             song = this.get('playQueue')[playQueuePointer];
 
           if(this.get('soundCloudFuckUps') >= this.get('maxSoundCloudFuckUps')) {
-            this.get('notify').alert({html: this.get('tooManySoundCloudFuckUps'), closeAfter: 10000});
+            this.get('notify').alert({html: this.get('tooManySoundCloudFuckUps')});
             this.send('play');
             this.set('soundCloudFuckUps', 0);
           } else {
@@ -385,6 +385,9 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     thresholdChanged(value) {
       this.changePlayerControl('threshold', value, true);
     },
+    hueRangeChanged(value) {
+      this.changePlayerControl('hueRange', value);
+    },
     micBoostChanged(value) {
       this.set('micBoost', value);
       this.get('storage').set('huegasm.micBoost', value);
@@ -464,7 +467,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
   changePlayerControl(name, value, saveBeatPrefs){
     this.set(name, value);
 
-
     if(name === 'threshold'){
       this.get('kick').set({threshold: value});
     }
@@ -514,6 +516,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     var activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       workedLights = this.get('ambienceWorkedLights'),
+      hueRange = this.get('hueRange'),
       ambienceWorkedLightsHandles = this.get('ambienceWorkedLightsHandles'),
       lightOff = (light)=>{
         if(this.get('ambienceMode') && this.get('playing')){
@@ -546,7 +549,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
     }
 
     lights.forEach((light)=>{
-      var options = {'hue': Math.floor(Math.random()*65535), 'bri': Math.floor(Math.random()*200) + 1, 'transitiontime': transitionTime};
+      var options = {'hue': Math.floor(Math.random()*(hueRange[1] - hueRange[0] + 1)+hueRange[0]), 'bri': Math.floor(Math.random()*200) + 1, 'transitiontime': transitionTime};
 
       if(lightsData[light].state.on === false){
         options.on = true;
@@ -737,7 +740,9 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('lastLightBopIndex', lightBopIndex);
 
       if(!this.get('colorloopMode')) {
-        color = Math.floor(Math.random() * 65535);
+          var hueRange = this.get('hueRange');
+
+          color = Math.floor(Math.random()*(hueRange[1] - hueRange[0] + 1)+hueRange[0]);
       }
 
       if(transitiontime){
@@ -791,7 +796,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
       if (!Em.isNone(storage.get('huegasm.' + item))) {
         var itemVal = storage.get('huegasm.' + item);
 
@@ -861,7 +866,10 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/ahh-ooh-carefree-with-me');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/odesza/light-feat-little-dragon');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/crywolf-slow-burn');
-
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/clozee-red-forest');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/elo-method-subranger-solace');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/90-pounds-of-pete-waited-too-long-feat-devon-baldwin');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/draper-eyes-open');
 
       this.get('storage').set('huegasm.firstVisit', false);
 

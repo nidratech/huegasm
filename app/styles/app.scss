@@ -51,6 +51,13 @@ md-checkbox.md-default-theme.md-checked .md-icon {
   background: $secondaryThemeColor;
 }
 
+md-checkbox .md-label {
+  width: 125px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .text-left {
   text-align: left !important;
 }
@@ -742,9 +749,15 @@ md-switch.md-default-theme.md-checked .md-thumb {
   }
 }
 
-.ember-notify-cn {
+.customNotify {
   top: 0;
-  bottom: auto;
+  position: absolute;
+  right: 20px;
+  max-width: 400px;
+  .alert-box {
+    position: relative;
+    overflow: hidden;
+  }
 }
 
 .songArtist {

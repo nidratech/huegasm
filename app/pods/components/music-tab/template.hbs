@@ -79,7 +79,7 @@
 
   {{#if usingLocalAudio}}
     <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltipe" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
     <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
   {{/if}}
 </div>
@@ -155,7 +155,7 @@
   </div>
 
     <div class="beatOption col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom" data-title="The hue range that the lights may change to on beat." class="optionDescription bootstrapTooltip">Hue Range</span>
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="optionDescription bootstrapTooltip">Hue Range</span>
       {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
     </div>
 

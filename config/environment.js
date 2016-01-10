@@ -29,7 +29,7 @@ module.exports = function(environment) {
       'media-src': "'self' api.soundcloud.com *.sndcdn.com blob:",
       'style-src': "'self' 'unsafe-inline' fonts.googleapis.com",
       'object-src': "'self' connect.soundcloud.com",
-      'frame-src': "'self'"
+      'frame-src': "'self' www.youtube.com"
     }
   };
 

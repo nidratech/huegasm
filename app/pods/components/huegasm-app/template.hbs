@@ -6,10 +6,11 @@
   {{else}}
     <div class="readyBlock">
       <div class="title"><img src="assets/images/logo.png" alt="Huegasm"></div>
-      <p class="introParagraph">Huegasm is a free web application for controlling your <a href="http://www2.meethue.com/en-ca/">Philips Hue lights</a>...oh and it's pretty awesome at synchronizing your music with your lights.</p>
-
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/te2r2Lph3OM" frameborder="0" allowfullscreen></iframe>
-
+      <p id="intro">Your lights, meet your music. Huegasm.</p>
+      <p id="introParagraph">Huegasm is a free web application for managing and synchronizing your <a href="http://www2.meethue.com/en-ca/">Philips Hue lights</a> with the beat of your music.</p>
+      <!--<div class="embedContainer">-->
+          <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/te2r2Lph3OM" frameborder="0" allowfullscreen></iframe>-->
+      <!--</div>-->
       {{#paper-button raised=true primary=true action="isReady" class="goButton center-block"}}Go!{{/paper-button}}
     </div>
   {{/if}}

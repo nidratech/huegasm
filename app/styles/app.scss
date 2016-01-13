@@ -24,8 +24,15 @@ body {
   position: static;
 }
 
-.introParagraph {
-  margin-bottom: 30px;
+#intro {
+  font-size: 18px;
+}
+
+#introParagraph {
+  margin-bottom: 50px;
+}
+
+.embedContainer {
 }
 
 .goButton {
@@ -34,7 +41,7 @@ body {
   width: 100px;
   height: 100px;
   span {
-    font-size: 20px;
+    font-size: 28px;
     width: 100%;
   }
 }
@@ -152,6 +159,9 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   p {
     padding-left: 0;
     text-align: center;
+  }
+  a {
+    margin-left: 5px;
   }
 }
 

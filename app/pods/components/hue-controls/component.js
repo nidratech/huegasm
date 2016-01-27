@@ -95,13 +95,12 @@ export default Em.Component.extend({
           {
             element: Em.$('.settingsItem')[1],
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
-            '<b>WARNING</b>: clearing application settings will resto re the application to its original state. This will even delete your playlist and any saved song beat preferences.',
+            '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
             position: 'left'
           },
           {
             element: '#dimmer',
-            intro: 'And that\'s it...Feel free to reach out to me through the link at the bottom of the page.<br>' +
-            'Hope you enjoy the application. ;)<br><br>' +
+            intro: 'And that\'s it...Hope you enjoy the application. ;)<br><br>' +
             '<i><b>TIP</b>: click on the icon to switch to a darker theme.</i>',
             position: 'top'
           }

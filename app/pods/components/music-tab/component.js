@@ -199,7 +199,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
 
             if(!Em.isNone(track) && !Em.isNone(track.offset())) {
               playListArea.animate({
-                scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop() - 30
+                scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop()
               });
             }
           }, 1000);
@@ -348,7 +348,6 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
         this.send('goToSong', nextSong, true, true);
       }
     },
-    fullscreen() {},
     seekChanged(position) {
       var dancer = this.get('dancer');
 

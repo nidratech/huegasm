@@ -30,7 +30,7 @@
     "ember-cli-ic-ajax": "0.2.4",
     "ember-cli-inject-live-reload": "^1.3.1",
     "ember-cli-nouislider": "0.7.0",
-    "ember-cli-qunit": "^1.0.4",
+    "ember-cli-qunit": "^1.2.1",
     "ember-cli-release": "1.0.0-beta.1",
     "ember-cli-sass": "5.2.1",
     "ember-cli-sri": "^2.0.0",
@@ -41,7 +41,7 @@
     "ember-export-application-global": "^1.0.4",
     "ember-modal-dialog": "0.8.3",
     "ember-notify": "^4.0.1",
-    "ember-paper": "https://github.com/miguelcobain/ember-paper.git",
+    "ember-paper": "^0.2.10",
     "ember-truth-helpers": "1.2.0"
   }
 }

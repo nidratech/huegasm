@@ -861,6 +861,7 @@ export default Em.Component.extend(helperMixin, visualizerMixin, {
      // demo tracks
     if(this.get('firstVisit')){
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/candyland-speechless-feat-rkcb');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/vallis-alps-young-feki-remix');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/andrew-luce-when-to-love-you-feat-chelsea-cutler');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/ahh-ooh-carefree-with-me');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/odesza/light-feat-little-dragon');

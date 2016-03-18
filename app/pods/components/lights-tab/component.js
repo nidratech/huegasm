@@ -45,8 +45,6 @@ export default Em.Component.extend({
   },
 
   didInsertElement() {
-    // TODO figure out how to convert this
-    //this.xyToRgb(0.5,0.5);
     Em.$(document).click((event)=>{
       if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !Em.$(event.target).closest('.colorpicker, #colorRow').length) {
         this.toggleProperty('colorPickerDisplayed');
@@ -112,18 +110,18 @@ export default Em.Component.extend({
     }
   }.observes('colorLoopOn'),
 
+  lightsOn: false,
+
   // determines whether the lights are on/off for the lights switch
-  lightsOn: function(){
-    var lightsData = this.get('lightsData');
+  lightsOnCHange: function(){
+    if(!this.get('strobeOn')){
+      var lightsData = this.get('lightsData'), lightsOn = this.get('activeLights').some(function(light) {
+        return lightsData[light].state.on === true;
+      });
 
-    if(this.get('strobeOn')){
-      return false;
+      this.set('lightsOn', lightsOn);
     }
-
-    return this.get('activeLights').some(function(light) {
-      return lightsData[light].state.on === true;
-    });
-  }.property('lightsData.@each.state.on', 'activeLights.[]', 'strobeOn'),
+  }.observes('lightsData.@each.state.on', 'activeLights.[]'),
 
   // determines the average brightness of the hue system for the brightness slider
   lightsBrightness: function(){
@@ -156,8 +154,6 @@ export default Em.Component.extend({
       });
     }
   }.observes('lightsOn'),
-
-
 
   onBrightnessChanged: function(){
     var lightsData = this.get('lightsData'), lightsBrightnessSystem = false, lightsBrightness = this.get('lightsBrightness'), activeLights = this.get('activeLights'), self = this;

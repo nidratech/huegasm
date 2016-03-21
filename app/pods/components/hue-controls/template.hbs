@@ -1,0 +1,34 @@
+{{#if ready}}
+  <div class="row navigation">
+    <div class="col-sm-4 col-sm-offset-4 col-xs-8">
+      {{#each tabData as |tab|}}
+        <span class="navigationItem cursorPointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+      {{/each}}
+    </div>
+
+    <div id="settings" class="col-xs-4">
+      <div class="settingsItem">
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{paper-icon icon="group" class=dimmerOnClass}}Groups <span class="caret"></span>
+        </span>
+
+        {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed storage=storage}}
+      </div>
+
+      <div class="settingsItem">
+        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settingsItemSettings">
+          {{paper-icon icon="settings" class=dimmerOnClass}}Settings <span class="caret"></span>
+        </span>
+
+        <ul id="appSettings" class="dropdown-menu">
+          <li {{action "clearBridge"}}><a href="#">Switch bridge</a></li>
+          <li {{action "startIntro"}}><a href="#">Restart tutorial</a></li>
+          <li {{action "clearAllSettings"}}><a href="#">Reset settings</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
+
+  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+{{/if}}

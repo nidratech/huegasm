@@ -1,0 +1,10 @@
+{{#if isShowingModal}}
+  {{#modal-dialog close="close" alignment="center" translucentOverlay=true}}
+
+    <p>Are you sure you want to delete group "{{groupName}}"?</p>
+
+    {{#paper-button action="close"}}Close{{/paper-button}}
+    {{#paper-button class="pull-right" action="delete" primary=true}}Delete{{/paper-button}}
+
+  {{/modal-dialog}}
+{{/if}}

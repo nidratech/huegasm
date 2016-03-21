@@ -1,4 +1,13 @@
-# huegasm
-www.huegasm.com
+# Huegasm
+Music awesomeness for hue lights.
 
-This repository here is strictly for hosting huegasm on github pages.
+# TODO
+## FEATURES
+
+## BUGS
+
+## POSSIBLE FUTURE FEATURES
+- better visualizations
+- beat settings by interval
+- auto beat detection mode
+- display player time when hovering over seek bar

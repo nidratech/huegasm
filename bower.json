@@ -1,0 +1,19 @@
+{
+  "name": "huegasm",
+  "dependencies": {
+    "bootstrap-sass": "~3.3.5",
+    "ember": "~2.4.1",
+    "ember-cli-shims": "0.1.0",
+    "ember-cli-test-loader": "0.2.2",
+    "ember-load-initializers": "0.5.1",
+    "ember-qunit-notifications": "0.1.0",
+    "hammerjs": "~2.0.4",
+    "intro.js": "~1.1.1",
+    "JavaScript-ID3-Reader": "https://github.com/aadsm/JavaScript-ID3-Reader.git",
+    "jquery-mousewheel": "~3.1.13",
+    "locallyjs": "~0.3.2",
+    "matchMedia": "~0.2.0",
+    "nouislider": "^8.3.0",
+    "HackTimer": "https://github.com/turuslan/HackTimer.git#~1.0.0"
+  }
+}

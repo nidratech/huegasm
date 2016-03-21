@@ -1,0 +1,207 @@
+<div class="row" id="step1">
+  <div id="playerArea" class="col-sm-8 col-xs-12 {{if (eq "None" currentVisName) "displayIcon"}}" {{action "playerAreaPlay"}}>
+  <canvas id="visualization"></canvas>
+  <div id="artwork"><img src={{largeArtworkPic}}></div>
+  <div id="playNotification" class="material-icons {{if fadeOutNotification "fadeOut"}} {{if playing "play-arrow" "pause"}}"></div>
+
+    <div id="playerControls">
+      {{#if usingLocalAudio}}
+        {{range-slider start=seekPosition min=0 max=100 id="seekSlider" slide="seekChanged"}}
+
+        {{#if playQueueNotEmpty}}
+          <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="prevTooltip"
+                data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="playerControllIcon"}}</span><!--
+          -->{{/if}}<!--
+                    --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrapTooltip"
+                             data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="playerControllIcon"}}</span><!--
+                  -->{{#if playQueueMultiple}}<!--
+                --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip"
+                         data-title="Next" {{action "next" true}}>{{paper-icon icon="skip-next" action="" class="playerControllIcon"}}</span><!--
+                  -->{{/if}}<!--
+          --><span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" id="volumeMutedTooltip"
+                   data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
+                  -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volumeBar" class="hidden-xs"}}
+
+        <div id="playerTimeControls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
+      {{/if}}
+
+      <span class="pull-right">
+        {{#if scUrl}}
+          <a href="#" data-toggle="tooltip" data-placement="top" class="soundCloudLink bootstrapTooltip" data-title="Listen on SoundCloud" {{action "gotoSCURL" scUrl}}>
+            <img src="assets/images/sc-white.png" class="hidden-xs" />
+              <img src="assets/images/sc-white-sm.png" class="visible-xs-inline" />
+          </a>
+        {{/if}}
+        <span class="dropup">
+          <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span data-toggle="tooltip" data-placement="top" class="bootstrapTooltip" data-title="Visualizations" {{action "hideTooltip"}}>
+              {{paper-icon icon="remove-red-eye" class="playerControllIcon"}}
+            </span>
+          </span>
+
+          <ul class="dropdown-menu visualizersMenu">
+            {{#each visNames as |name|}}
+              <li><a href="#" {{action "setVisName" name}}>{{name}} {{#if (eq currentVisName name)}}{{paper-icon icon="check"}}{{/if}}</a></li>
+            {{/each}}
+          </ul>
+        </span>
+      </span>
+</div>
+</div>
+
+<div id="playlist" class="col-sm-4 col-xs-12">
+<input id="fileInput" type="file" accept="audio/*" multiple="true"/>
+
+<div id="playListControls">
+  {{#if usingLocalAudio}}
+    <button class="dropdown-toggle pull-right addNewMusic" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      Add new music
+      <span class="caret"></span>
+    </button>
+
+    <ul id="addMusicChoices" class="dropdown-menu">
+      <li><a href="#" {{action "addLocalAudio"}}>Local</a></li>
+      <li><a href="#" {{action "toggleIsShowingAddSoundCloudModal"}}>SoundCloud</a></li>
+    </ul>
+
+    {{!--{{#if (and usingLocalAudio playQueueNotEmpty)}}
+        <div id="extraOptionsMenu" class="hidden-xs">
+            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
+            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
+        </div>
+    {{/if}} --}}
+  {{/if}}
+
+  {{#if usingMicSupported}}
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="usingMicAudioTooltip" data-title={{usingMicAudioTooltipTxt}} {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
+  {{/if}}
+
+  {{#if usingLocalAudio}}
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="playerControllIcon"}}</span>
+  {{/if}}
+</div>
+
+{{#if usingMicAudio}}
+  <div id="playAreaMic" class="{{if dimmerOn "dimmerOn"}}">
+    {{paper-icon icon="mic" class=dimmerOnClass}}
+  </div>
+{{else}}
+  {{#if usingLocalAudio}}
+    <div id="playListArea" class={{playListAreaClass}} {{action "addLocalAudio"}} {{action "playListAreaDragOver" on="dragOver"}} {{action "playListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
+      {{#if (or playQueueEmpty dragging)}}
+        <div id="dragHere">
+          {{#if dragging}}
+            Drag your music files here
+          {{else}}
+            Add your music files here
+          {{/if}}
+        </div>
+        {{paper-icon icon="library-music" class=dimmerOnClass}}
+      {{/if}}
+
+      {{#each playQueue as |item index|}}
+        <div class="playlistItem cursorPointer track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
+          {{#if item.picture}}
+            <img class="albumArt" src={{item.picture}}>
+          {{else}}
+              <img class="albumArt" src="assets/images/missingArtwork.png">
+          {{/if}}
+
+          <div class="songInfo">
+            {{#if item.title}}
+              <div class="songTitle">{{item.title}}</div>
+              <div class="songArtist">
+                {{#if item.artistUrl}}
+                    <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
+                {{else}}
+                    {{item.artist}}
+                {{/if}}
+              </div>
+            {{else}}
+              {{item.fileName}}
+            {{/if}}
+          </div>
+
+          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" data-container="body" class="audioRemoveButton cursorPointer bootstrapTooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</span>
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
+{{/if}}
+</div>
+</div>
+
+<div id="slideToggle" class="text-center cursorPointer row" {{action "slideTogglePlayerBottom"}}>
+<div class="col-xs-offset-5 col-xs-2">
+  {{paper-icon icon=beatDetectionAreaArrowIcon id="beatDetectionAreaArrowIcon"}}
+</div>
+</div>
+
+<div id="playerBottom" class="row {{if dimmerOn "dimmerOn"}}">
+<div id="beatArea" class="col-sm-7 col-xs-12">
+{{#if usingBeatPreferences}}
+  <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrapTooltip" id="saveBeatPreferencesStar">
+  {{paper-icon class=dimmerOnClass icon="star"}}
+  </span>
+{{/if}}
+
+<div class="row" id="beatOptionRow">
+  <div class="beatOption col-xs-4">
+    <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrapTooltip">Sensitivity</span>
+  {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+  </div>
+
+    <div class="beatOption col-xs-4">
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="optionDescription bootstrapTooltip">Hue Range</span>
+      {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+    </div>
+
+  {{#if usingMicAudio}}
+      <div class="beatOption col-xs-4">
+          <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrapTooltip">Mic Boost</span>
+        {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+      </div>
+  {{/if}}
+
+  <div id="lightOption" class="beatOption col-xs-4">
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrapTooltip" {{action "hideTooltip" on="mouseLeave"}}>
+      {{#paper-checkbox checked=flashingTransitions}}Flashing Transitions{{/paper-checkbox}}
+    </span>
+
+    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Slowly cycle the lights through all the colors" class="bootstrapTooltip" {{action "hideTooltip" on="mouseLeave"}}>
+      {{#paper-checkbox checked=colorloopMode}}Colorloop{{/paper-checkbox}}
+    </span>
+
+{{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrapTooltip" {{action "hideTooltip" on="mouseLeave"}}>
+  {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
+</span>--}}
+</div>
+</div>
+
+</div>
+
+<div id="beatContainer" class="col-sm-5 hidden-xs">
+<div class="bezel">
+  <div class="rivet1"></div>
+  <div class="rivet2"></div>
+  <div class="rivet3"></div>
+  <div class="rivet4"></div>
+  <div class="rivet5"></div>
+  <div class="rivet6"></div>
+  <div class="rivet7"></div>
+  <div class="rivet8"></div>
+
+  <div id="beatSpeakerCenterOuter">
+    <div id="beatSpeakerCenterInner" class="cursorPointer" {{action "clickSpeaker"}}>
+  </div>
+  </div>
+</div>
+</div>
+</div>
+
+{{ember-notify closeAfter=100000 classPrefix="customNotify"}}
+
+{{add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

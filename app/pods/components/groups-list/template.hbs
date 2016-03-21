@@ -1,0 +1,15 @@
+{{#paper-list}}
+  {{#paper-item class="newGroupRow"}}
+    <div class="newGroup" {{action "toggleAddGroupsModal"}}>{{paper-icon icon="group-add"}} Add a new group</div>
+  {{/paper-item}}
+
+  {{#each groupsArrData as |group|}}
+    {{#paper-item class=group.rowClass}}
+      <div class="groupSelect" {{action "selectGroup" group.data.key}}>{{group.name}}</div> {{#if group.deletable}}<span data-toggle="tooltip" data-placement="top auto" title="Remove Group" class="bootstrapTooltip removeButton cursorPointer" {{action "toggleConfirmDeleteGroupsModal" group.name group.data.key}}>{{paper-icon icon="close"}}</span>{{/if}}
+    {{/paper-item}}
+  {{/each}}
+{{/paper-list}}
+
+{{add-group-modal lightsData=lightsData groupsData=groupsData isShowingModal=isShowingAddGroupsModal apiURL=apiURL updateGroupsData=updateGroupsData action="toggleAddGroupsModal"}}
+
+{{delete-group-modal groupName=deleteGroupName groupId=deleteGroupId groupsData=groupsData isShowingModal=isShowingConfirmDeleteModal apiURL=apiURL updateGroupsData=updateGroupsData groupIdSelection=groupIdSelection action="toggleConfirmDeleteGroupsModal"}}

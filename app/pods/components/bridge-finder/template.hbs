@@ -1,0 +1,54 @@
+<div class="title"><img src="assets/images/logo.png" alt="Huegasm"></div>
+{{#unless bridgeUsername}}
+  {{#if bridgeIp}}
+    {{#if error}}
+        <p>Huegasm encountered a critical error while trying to connect to your bridge.<br><br>
+            This likely happened because you're using an outdated browser and/or because your browser does not support <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>. Feel free to contact me through the link at the bottom of the page if you feel like this is not the case.<br>
+            For the best browsing experience on this site ( and every other one known to man ) please switch to <a href="https://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a></p>.
+    {{else}}
+      <img src="assets/images/pressButtonBridge.png" id="pressButtonBridgeImg">
+      {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
+
+      {{#if isAuthenticating}}
+        <p>Your bridge IP is <b>{{bridgeIp}}</b> <br>
+          Press the button on your bridge to authenticate this application.</p>
+      {{else}}
+          <p>You failed to press the button. <a class="noTextDecoration" href="#" {{action 'retry'}}>RETRY</a></p>
+      {{/if}}
+    {{/if}}
+  {{else}}
+    {{#unless bridgeFindStatus}}
+      {{paper-progress-circular}}
+      <p>Trying to find your bridge's IP.</p>
+    {{/unless}}
+
+    {{#if bridgeFindMultiple}}
+      <p>Found multiple hue bridges. <br>
+        Please select the one you want to use for this application.</p>
+
+      <div id="bridgeButtonGroup">
+        {{#each multipleBridgeIps as |bridge|}}
+          {{#paper-radio value=bridge selected=bridgeIp}}{{bridge}}{{/paper-radio}}
+        {{/each}}
+      </div>
+    {{else}}
+      {{#if bridgeFindFail}}
+        <p>A hue bridge could not be automatically found on your network. <br>
+          Enter one manually? <br><br>
+          ( or type <b>offline</b> to look around )
+        </p>
+
+        <span id="bridgeInput">
+          {{paper-input label="Hue bridge IP address" value=manualBridgeIp}}
+          {{#paper-button action="findBridgeByIp" raised=true primary=true}}Find{{/paper-button}}
+        </span>
+
+        {{#if manualBridgeIpNotFound}}
+          <p class="bg-danger">
+            Could not find a bridge with that IP address.
+          </p>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+{{/unless}}

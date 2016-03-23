@@ -1,10 +1,9 @@
 # Huegasm
 Music awesomeness for hue lights.
 
-# TODO
-## FEATURES
+It lives at http://www.huegasm.com
 
-## BUGS
+
 
 ## POSSIBLE FUTURE FEATURES
 - better visualizations

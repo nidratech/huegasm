@@ -98,24 +98,13 @@ md-checkbox .md-label {
   }
 }
 
+.ember-notify-default.ember-notify-cn {
+  top: 20px;
+}
+
 .alert {
   margin-bottom: 0;
-}
-
-.removed {
-  animation: disapear 1s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes disapear{
-  50% {
-    -webkit-transform: translateX(-5%);
-    transform: translateX(-5%);
-  }
-  100% {
-    -webkit-transform: translateX(200%);
-    transform: translateX(200%);
-  }
+  border: none;
 }
 
 .relative {
@@ -774,17 +763,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
     opacity: 0.5;
     width: 100%;
     text-align: center;
-  }
-}
-
-.customNotify {
-  top: 0;
-  position: absolute;
-  right: 20px;
-  max-width: 400px;
-  .alert-box {
-    position: relative;
-    overflow: hidden;
   }
 }
 

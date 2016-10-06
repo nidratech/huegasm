@@ -35,8 +35,8 @@
     <meta name="msapplication-TileImage" content="/mstile-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
-    <link rel="stylesheet" integrity="" href="assets/vendor.css">
-    <link rel="stylesheet" integrity="" href="assets/huegasm.css">
+    <link rel="stylesheet" integrity="" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" integrity="" href="{{rootURL}}assets/huegasm.css">
 
     {{content-for 'head-footer'}}
 
@@ -55,8 +55,8 @@
   <body>
     {{content-for 'body'}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/huegasm.js"></script>
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/huegasm.js"></script>
 
     {{content-for 'body-footer'}}
   </body>

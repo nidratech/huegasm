@@ -1,0 +1,93 @@
+@import 'variables';
+
+div.dimmerOn {
+  color: white !important;
+  background: #171717 !important;
+}
+
+html.dimmerOn {
+  color: white;
+  background: #242424;
+}
+
+body.dimmerOn {
+  color: white;
+  background: #242424;
+  .md-track {
+    background: white;
+  }
+  .color {
+    border: 1px solid white;
+  }
+  .playlistItem {
+    color: #cdcdcd;
+    background: $dimmerOnButtonColor;
+  }
+  .playlistItem.active {
+    background: darken($dimmerOnButtonColor, 15%) !important;
+  }
+  .playlistItem:hover {
+    background: darken($dimmerOnButtonColor, 10%);
+  }
+  .playlistItem .close {
+    color: #cdcdcd !important;
+  }
+  .playlistItem .close:hover {
+    color: white !important;
+  }
+  svg {
+    -webkit-filter: drop-shadow(0 0 5px #228DFF);
+  }
+  md-input-container {
+    label {
+      color: white;
+    }
+    input {
+      border-bottom-color: white !important;
+    }
+    input {
+      color: white !important;
+    }
+  }
+  .addNewMusic {
+    background: $dimmerOnButtonColor
+  }
+  .addNewMusic:hover {
+    background: darken($dimmerOnButtonColor, 5%);
+  }
+  #extraOptionsMenu {
+    opacity: 0.8;
+  }
+  #extraOptionsMenu:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
+  .popover-content {
+    color: black !important;
+  }
+}
+
+.power-settings-new.dimmerOn,
+.brightness-4.dimmerOn,
+.color-lens.dimmerOn,
+.flare.dimmerOn,
+.loop.dimmerOn,
+.group.dimmerOn,
+.settings.dimmerOn,
+.mic.dimmerOn,
+.star.dimmerOn,
+.library-music.dimmerOn {
+  color: inherit !important;
+  text-shadow: $glowingText;
+  opacity: 0.9 !important;
+}
+
+#dimmer {
+  position: absolute;
+  left: -50px;
+  bottom: -10px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: url(/favicon-96x96.png) center center no-repeat;
+  background-size: 40px 40px;
+}

@@ -1,18 +1,16 @@
-@import 'ember-paper';
 @import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
+
+@import 'bridge-finder';
+@import 'common';
+@import 'dimmer';
 @import 'fancy-speaker';
+@import 'index';
+@import 'introjs';
+@import 'paper';
+@import 'variables';
 
-$playerHeight: 400px;
-$playerDefaultIconColor: #BBBBBB;
-$footerHeight: 40px;
-$playerBottomHeight: 250px;
-$secondaryThemeColor: #F12B24;
-$glowingText: 0 0 2px #fff, 0 0 8px #fff, 0 0 20px #228DFF;
-$dimmerOnButtonColor: #404040;
-
-// BRIDGE FINDER
 html {
   min-height: 100%;
   height: auto;
@@ -24,80 +22,6 @@ body {
   position: static;
 }
 
-#intro {
-  font-size: 18px;
-}
-
-#introParagraph {
-  margin-bottom: 50px;
-}
-
-.embedContainer {
-  position:relative;
-  padding-bottom:56.25%;
-  padding-top:30px;
-  height:0;
-  overflow:hidden;
-}
-
-.embedContainerWrapper {
-  max-width: 600px;
-  margin: auto;
-}
-
-.embedContainer iframe, .embedContainer object, .embedContainer embed {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-
-.goButton {
-  margin-top: 20px;
-  border-radius: 100% !important;
-  width: 100px;
-  height: 100px;
-  span {
-    font-size: 28px;
-    width: 100%;
-  }
-}
-
-.introjs-overlay {
-  background: black;
-}
-
-md-checkbox.md-default-theme .md-icon {
-  border-color: inherit !important;
-}
-
-md-checkbox.md-default-theme.md-checked .md-icon {
-  background: $secondaryThemeColor;
-}
-
-md-checkbox .md-label {
-  width: 125px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.text-left {
-  text-align: left !important;
-}
-
-.goButton:hover {
-  background: darken(#3f51b5, 10%) !important;
-}
-
-.md-button {
-  flex-direction: unset;
-  span {
-    width: 100%;
-  }
-}
-
 .ember-notify-default.ember-notify-cn {
   top: 20px;
 }
@@ -107,10 +31,6 @@ md-checkbox .md-label {
   border: none;
 }
 
-.relative {
-  position: relative;
-}
-
 #settings {
   padding-right: 5px;
   text-align: right;
@@ -118,39 +38,13 @@ md-checkbox .md-label {
   font-size: 16px;
 }
 
-.settingsItem {
-  position: relative;
-  display: inline-block;
-  transition: 0.1s all ease-in-out;
-  cursor: pointer;
-  span md-icon {
-    position: relative;
-    bottom: 5px;
-    right: 5px;
-  }
-}
-
 .settingsItem:nth-of-type(2){
   margin-left: 10px;
-}
-
-md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {
-  cursor: not-allowed;
 }
 
 .settingsItem .settings::before, .settingsItem .group::before {
   font-size: 28px;
   transition: 0.1s all ease-in-out;
-}
-
-.settingsItem span:hover {
-  text-decoration: underline;
-  md-icon.group {
-    color: black !important;
-  }
-  md-icon.settings {
-    color: black !important;
-  }
 }
 
 .ember-app {
@@ -176,17 +70,6 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   cursor: pointer;
 }
 
-.bridgeFinder, .readyBlock {
-  text-align: center;
-  padding-top: 10px;
-}
-
-// preloading image
-.readyBlock:after {
-  display: none;
-  content: url(images/pressButtonBridge.png);
-}
-
 .title {
   margin-bottom: 30px;
   img {
@@ -194,29 +77,10 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   }
 }
 
-#bridgeInput {
-  md-input-container {
-    max-width: 200px;
-    margin: 0 auto;
-  }
-}
-
-md-progress-circular {
-  margin: 0 auto 20px auto !important;
-}
-
-md-progress-linear {
-  margin-bottom: 50px;
-}
-
 #pressButtonBridgeImg {
   width: 200px;
   margin: 0 auto 30px auto;
   display: inherit;
-}
-
-.noTextDecoration {
-  text-decoration: none;
 }
 
 #bridgeButtonGroup {
@@ -237,19 +101,6 @@ md-progress-linear {
   color: black;
 }
 
-.bootstrapTooltip md-icon {
-  font-size: 22px;
-  cursor: pointer;
-  -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
-}
-
-md-list {
-  padding: 0;
-}
-
-md-list-item .md-no-style {
-  padding: 0;
-}
 
 #lightsTab {
   min-height: 400px;
@@ -330,19 +181,6 @@ md-list-item .md-no-style {
 }
 
 // LIGHT GROUP
-md-slider {
-  cursor: pointer;
-}
-
-md-slider.md-default-theme .md-thumb:after {
-  border-color: $secondaryThemeColor;
-  background-color: $secondaryThemeColor;
-}
-
-.paper-sidenav {
-  overflow: visible;
-}
-
 #groupList {
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
   border-radius: 0 0 5px 5px;
@@ -414,10 +252,6 @@ md-slider.md-default-theme .md-thumb:after {
   background-color: rgba(0, 0, 0, 0.50);
 }
 
-md-icon {
-  color: rgba(0, 0, 0, 0.54) !important;
-}
-
 .addButton {
   width: 100%;
   cursor: pointer;
@@ -434,15 +268,10 @@ md-icon {
   text-align: left;
 }
 
-md-toolbar {
-  background-color: inherit !important;
-}
-
 // GROUP CONTROL
 .groupRow {
   transition: 0.1s all ease-in-out;
 }
-
 
 .groupRow.selectedRow {
   background-color: #7F7F7F !important;
@@ -550,14 +379,6 @@ md-toolbar {
 
 #slideToggle:hover{
   color: lighten($playerDefaultIconColor, 30%) !important;;
-}
-
-md-switch.md-default-theme.md-checked .md-bar {
-  background-color: rgba(241, 43, 36, 0.5);
-}
-
-md-switch.md-default-theme.md-checked .md-thumb {
-  background-color: $secondaryThemeColor;
 }
 
 #playerControls {
@@ -905,98 +726,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
   margin-top: 10px;
 }
 
-div.dimmerOn {
-  color: white !important;
-  background: #171717 !important;
-}
-
-html.dimmerOn {
-  color: white;
-  background: #242424;
-}
-
-body.dimmerOn {
-  color: white;
-  background: #242424;
-  .md-track {
-    background: white;
-  }
-  .color {
-    border: 1px solid white;
-  }
-  .playlistItem {
-    color: #cdcdcd;
-    background: $dimmerOnButtonColor;
-  }
-  .playlistItem.active {
-    background: darken($dimmerOnButtonColor, 15%) !important;
-  }
-  .playlistItem:hover {
-    background: darken($dimmerOnButtonColor, 10%);
-  }
-  .playlistItem .close {
-    color: #cdcdcd !important;
-  }
-  .playlistItem .close:hover {
-    color: white !important;
-  }
-  svg {
-    -webkit-filter: drop-shadow(0 0 5px #228DFF);
-  }
-  md-input-container {
-    label {
-      color: white;
-    }
-    input {
-      border-bottom-color: white !important;
-    }
-    input {
-      color: white !important;
-    }
-  }
-  .addNewMusic {
-    background: $dimmerOnButtonColor
-  }
-  .addNewMusic:hover {
-    background: darken($dimmerOnButtonColor, 5%);
-  }
-  #extraOptionsMenu {
-    opacity: 0.8;
-  }
-  #extraOptionsMenu:hover {
-    background: rgba(0, 0, 0, 0.9);
-  }
-  .popover-content {
-    color: black !important;
-  }
-}
-
-.power-settings-new.dimmerOn,
-.brightness-4.dimmerOn,
-.color-lens.dimmerOn,
-.flare.dimmerOn,
-.loop.dimmerOn,
-.group.dimmerOn,
-.settings.dimmerOn,
-.mic.dimmerOn,
-.star.dimmerOn,
-.library-music.dimmerOn {
-  color: inherit !important;
-  text-shadow: $glowingText;
-  opacity: 0.9 !important;
-}
-
-#dimmer {
-  position: absolute;
-  left: -50px;
-  bottom: -10px;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  background: url(/favicon-96x96.png) center center no-repeat;
-  background-size: 40px 40px;
-}
-
 .noUi-value-vertical {
   margin-top: -10px;
 }
@@ -1118,30 +847,4 @@ div.ember-modal-dialog {
 #extraOptionsMenu:hover {
   opacity: 1;
   background: rgba(0, 0, 0, 0.8);
-}
-
-.introjs-helperNumberLayer {
-  line-height: 17px;
-  padding: 0;
-  width: 23px;
-  height: 23px;
-}
-
-#settings.introjs-fixParent{
-  position: inherit !important;
-}
-
-.introjs-tooltip {
-  color: black;
-}
-
-.introjs-skipbutton{
-  color: $secondaryThemeColor;
-}
-
-.introjs-bullets ul li a.active {
-  position: relative;
-  height: 10px;
-  width: 10px;
-  top: -2px;
 }

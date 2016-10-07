@@ -1,0 +1,109 @@
+@import 'ember-paper';
+@import 'variables';
+
+md-checkbox.md-default-theme .md-icon {
+  border-color: inherit !important;
+}
+
+md-checkbox.md-default-theme.md-checked .md-icon {
+  background: $secondaryThemeColor;
+}
+
+md-checkbox .md-label {
+  width: 125px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.md-button {
+  flex-direction: unset;
+  span {
+    width: 100%;
+  }
+}
+
+md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {
+  cursor: not-allowed;
+}
+
+#bridgeInput {
+  md-input-container {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}
+
+md-progress-circular {
+  margin: 0 auto 20px auto !important;
+}
+
+md-progress-linear {
+  margin-bottom: 50px;
+}
+
+.settingsItem span:hover {
+  text-decoration: underline;
+  md-icon.group {
+    color: black !important;
+  }
+  md-icon.settings {
+    color: black !important;
+  }
+}
+
+
+.settingsItem {
+  position: relative;
+  display: inline-block;
+  transition: 0.1s all ease-in-out;
+  cursor: pointer;
+  span md-icon {
+    position: relative;
+    bottom: 5px;
+    right: 5px;
+  }
+}
+
+.bootstrapTooltip md-icon {
+  font-size: 22px;
+  cursor: pointer;
+  -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
+}
+
+md-list {
+  padding: 0;
+}
+
+md-list-item .md-no-style {
+  padding: 0;
+}
+
+md-slider {
+  cursor: pointer;
+}
+
+md-slider.md-default-theme .md-thumb:after {
+  border-color: $secondaryThemeColor;
+  background-color: $secondaryThemeColor;
+}
+
+.paper-sidenav {
+  overflow: visible;
+}
+
+md-icon {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+md-toolbar {
+  background-color: inherit !important;
+}
+
+md-switch.md-default-theme.md-checked .md-bar {
+  background-color: rgba(241, 43, 36, 0.5);
+}
+
+md-switch.md-default-theme.md-checked .md-thumb {
+  background-color: $secondaryThemeColor;
+}

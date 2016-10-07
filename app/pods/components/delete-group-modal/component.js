@@ -1,19 +1,24 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  $
+} = Ember;
+
+export default Component.extend({
   actions: {
     close: function(){
       this.sendAction();
     },
     delete: function(){
-      var groupId = this.get('groupId');
+      let groupId = this.get('groupId');
 
-      Em.$.ajax(this.get('apiURL') + '/groups/' + groupId, {
+      $.ajax(this.get('apiURL') + '/groups/' + groupId, {
         contentType: 'application/json',
         type: 'DELETE'
       });
 
-      var groupsData = this.get('groupsData'), newGroupsData = [];
+      let groupsData = this.get('groupsData'), newGroupsData = [];
       for (let key in groupsData) {
         if(groupsData.hasOwnProperty(key) && groupsData[key].name !== this.get('groupName') ){
           newGroupsData[key] = groupsData[key];

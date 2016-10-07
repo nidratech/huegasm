@@ -1,65 +1,51 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  observer,
+  computed,
+  on,
+  isNone,
+  $
+} = Ember;
+
+export default Component.extend({
   classNames: ['container', 'bridgeFinder'],
-
   bridgeIp: null,
   trial: false,
   bridgeUsername: null,
-
   bridgeFindStatus: null,
-  bridgeFindSuccess: Em.computed.equal('bridgeFindStatus', 'success'),
-  bridgeFindMultiple: Em.computed.equal('bridgeFindStatus', 'multiple'),
-  bridgeFindFail: Em.computed.equal('bridgeFindStatus', 'fail'),
-
-  // 30 seconds
-  bridgeUsernamePingMaxTime: 30000,
+  bridgeFindSuccess: computed.equal('bridgeFindStatus', 'success'),
+  bridgeFindMultiple: computed.equal('bridgeFindStatus', 'multiple'),
+  bridgeFindFail: computed.equal('bridgeFindStatus', 'fail'),
+  bridgeUsernamePingMaxTime: 30000, // 30 seconds
   bridgeUsernamePingIntervalTime: 1000,
   bridgeUserNamePingIntervalProgress: 0,
-
   bridgePingIntervalHandle: null,
   bridgeAuthenticateReachedStatus: null,
-
   manualBridgeIp: null,
   manualBridgeIpNotFound: false,
   multipleBridgeIps: [],
   error: false,
 
-  actions: {
-    retry(){
-      this.onBridgeIpChange();
-    },
+  isAuthenticating: computed('bridgePingIntervalHandle', function(){
+    return this.get('bridgePingIntervalHandle') !== null;
+  }),
 
-    findBridgeByIp() {
-      var manualBridgeIp = this.get('manualBridgeIp');
-
-      if (manualBridgeIp.toLowerCase() === 'trial' || manualBridgeIp.toLowerCase() === 'offline') {
-        this.setProperties({
-          trial: true,
-          bridgeIp: 'trial',
-          bridgeUsername: 'trial'
-        });
-      } else {
-        Em.$.ajax('http://' + manualBridgeIp + '/api', {
-          data: JSON.stringify({"devicetype": "huegasm"}),
-          contentType: 'application/json',
-          type: 'POST'
-        }).fail(() => {
-          this.set('manualBridgeIpNotFound', true);
-          setTimeout(() => { this.set('manualBridgeIpNotFound', false); }, 5000);
-        }).then(() => {
-          this.set('bridgeIp', manualBridgeIp);
-        });
-      }
+  // try to authenticate against the bridge here
+  onBridgeIpChange: on('init', observer('bridgeIp', function(){
+    if(!this.get('trial') && !this.get('isAuthenticating')) {
+      this.setProperties({
+        bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
+        bridgeUserNamePingIntervalProgress: 0
+      });
     }
-  },
+  })),
 
   didInsertElement() {
-    var self = this;
-
-    Em.$(document).keypress(function(event) {
-      if(!Em.isNone(self.get('manualBridgeIp')) && event.which === 13) {
-        self.send('findBridgeByIp');
+    $(document).keypress((event)=>{
+      if(!isNone(this.get('manualBridgeIp')) && event.which === 13) {
+        this.send('findBridgeByIp');
       }
     });
   },
@@ -69,18 +55,18 @@ export default Em.Component.extend({
     this._super();
 
     if(this.get('bridgeIp') === null) {
-      Em.$.ajax('https://www.meethue.com/api/nupnp', {
+      $.ajax('https://www.meethue.com/api/nupnp', {
         timeout: 30000
       })
       .done((result, status)=> {
-          var bridgeFindStatus = 'fail';
+          let bridgeFindStatus = 'fail';
 
           if (status === 'success' && result.length === 1) {
             this.set('bridgeIp', result[0].internalipaddress);
             this.get('storage').set('huegasm.bridgeIp', result[0].internalipaddress);
             bridgeFindStatus = 'success';
           } else if (result.length > 1) {
-            var multipleBridgeIps = this.get('multipleBridgeIps');
+            let multipleBridgeIps = this.get('multipleBridgeIps');
 
             result.forEach(function (item) {
               multipleBridgeIps.pushObject(item.internalipaddress);
@@ -99,23 +85,13 @@ export default Em.Component.extend({
     }
   },
 
-  // try to authenticate against the bridge here
-  onBridgeIpChange: function () {
-    if(!this.get('trial') && !this.get('isAuthenticating')) {
-      this.setProperties({
-        bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
-        bridgeUserNamePingIntervalProgress: 0
-      });
-    }
-  }.observes('bridgeIp').on('init'),
-
   pingBridgeUser() {
-    var bridgeIp = this.get('bridgeIp'),
+    let bridgeIp = this.get('bridgeIp'),
       bridgeUserNamePingIntervalProgress = this.get('bridgeUserNamePingIntervalProgress'),
       bridgeUsernamePingMaxTime = this.get('bridgeUsernamePingMaxTime');
 
     if (bridgeIp !== null && bridgeUserNamePingIntervalProgress < 100) {
-      Em.$.ajax('http://' + bridgeIp + '/api', {
+      $.ajax('http://' + bridgeIp + '/api', {
         data: JSON.stringify({"devicetype": "huegasm"}),
         contentType: 'application/json',
         type: 'POST'
@@ -143,7 +119,32 @@ export default Em.Component.extend({
     this.set('bridgePingIntervalHandle', null);
   },
 
-  isAuthenticating: function(){
-    return this.get('bridgePingIntervalHandle') !== null;
-  }.property('bridgePingIntervalHandle')
+  actions: {
+    retry(){
+      this.onBridgeIpChange();
+    },
+
+    findBridgeByIp() {
+      let manualBridgeIp = this.get('manualBridgeIp');
+
+      if (manualBridgeIp.toLowerCase() === 'trial' || manualBridgeIp.toLowerCase() === 'offline') {
+        this.setProperties({
+          trial: true,
+          bridgeIp: 'trial',
+          bridgeUsername: 'trial'
+        });
+      } else {
+        $.ajax('http://' + manualBridgeIp + '/api', {
+          data: JSON.stringify({"devicetype": "huegasm"}),
+          contentType: 'application/json',
+          type: 'POST'
+        }).fail(() => {
+          this.set('manualBridgeIpNotFound', true);
+          setTimeout(() => { this.set('manualBridgeIpNotFound', false); }, 5000);
+        }).then(() => {
+          this.set('bridgeIp', manualBridgeIp);
+        });
+      }
+    }
+  },
 });

@@ -1,12 +1,16 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  $
+} = Ember;
+
+export default Component.extend({
   classNames: ['colorpicker'],
-
   rgb: null,
-
   canvas: null,
   canvasContext: null,
+  pressingDown: false,
 
   mouseUp(){
     this.set('pressingDown', false);
@@ -19,12 +23,13 @@ export default Em.Component.extend({
   },
 
   mouseDown(event){
-    var canvasOffset = Em.$(this.get('canvas')).offset();
-    var canvasX = Math.floor(event.pageX - canvasOffset.left), canvasY = Math.floor(event.pageY - canvasOffset.top);
+    let canvasOffset = $(this.get('canvas')).offset(),
+      canvasX = Math.floor(event.pageX - canvasOffset.left),
+      canvasY = Math.floor(event.pageY - canvasOffset.top);
 
     // get current pixel
-    var imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1);
-    var pixel = imageData.data;
+    let imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1),
+      pixel = imageData.data;
 
     this.set('pressingDown', true);
 
@@ -33,12 +38,10 @@ export default Em.Component.extend({
     }
   },
 
-  pressingDown: false,
-
   // https://dzone.com/articles/creating-your-own-html5
   didInsertElement(){
     // handle color changes
-    var canvas = Em.$('#picker')[0],
+    let canvas = $('#picker')[0],
       canvasContext = canvas.getContext('2d'),
       image = new Image();
 

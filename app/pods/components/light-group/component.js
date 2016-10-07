@@ -1,73 +1,26 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  observer,
+  isEmpty,
+  $,
+  A
+} = Ember;
 
+export default Component.extend({
   classNames: ['lightGroup'],
-
   isHovering: false,
-
-  lightsList: Em.A(),
-
-  actions: {
-    clickLight(id, data){
-      var light = Em.$('.light'+id);
-
-      if(!light.hasClass('bootstrapTooltip')){
-        light = light.parent();
-      }
-
-      if(light.hasClass('lightInactive')){
-        light.addClass('lightActive').removeClass('lightInactive');
-      } else if(light.hasClass('lightActive')){
-        light.addClass('lightInactive').removeClass('lightActive');
-      }
-
-      this.sendAction('action', id, data);
-    },
-    lightStartHover(id){
-      var hoveredLight = this.get('lightsList').filter(function(light){
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
-
-      if(!Em.isEmpty(hoveredLight) && this.get('noHover') !== true){
-        Em.$.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
-          data: JSON.stringify({"alert": "lselect"}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      }
-
-      this.set('isHovering', true);
-    },
-    lightStopHover(id){
-      var hoveredLight = this.get('lightsList').filter(function(light){
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
-
-      if(!Em.isEmpty(hoveredLight) && this.get('noHover') !== true){
-        Em.$.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
-          data: JSON.stringify({"alert": "none"}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      }
-
-      this.set('isHovering', false);
-      this.onLightsDataChange();
-    }
-  },
-
-  didInsertElement() {
-    if(this.get('lightsData')){
-      this.onLightsDataChange();
-    }
-  },
+  lightsList: A(),
 
   // list of all the lights in the hue system
-  onLightsDataChange: function(){
+  onLightsDataChange: observer('lightsData', 'activeLights.[]', 'dimmerOn', function(){
     if(!this.get('isHovering')){
-      var lightsData = this.get('lightsData'), lightsList = Em.A(), type;
-      for (var key in lightsData) {
+      let lightsData = this.get('lightsData'),
+        lightsList = A(),
+        type;
+
+      for (let key in lightsData) {
         if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
           switch(lightsData[key].modelid){
             case 'LCT001':
@@ -110,7 +63,7 @@ export default Em.Component.extend({
               type = 'a19';
           }
 
-          var activeClass = 'lightActive';
+          let activeClass = 'lightActive';
 
           if(!this.get('activeLights').contains(key)){
             activeClass = 'lightInactive';
@@ -122,5 +75,60 @@ export default Em.Component.extend({
 
       this.set('lightsList', lightsList);
     }
-  }.observes('lightsData', 'activeLights.[]', 'dimmerOn')
+  }),
+
+  didInsertElement() {
+    if(this.get('lightsData')){
+      this.onLightsDataChange();
+    }
+  },
+
+  actions: {
+    clickLight(id, data){
+      let light = $('.light'+id);
+
+      if(!light.hasClass('bootstrapTooltip')){
+        light = light.parent();
+      }
+
+      if(light.hasClass('lightInactive')){
+        light.addClass('lightActive').removeClass('lightInactive');
+      } else if(light.hasClass('lightActive')){
+        light.addClass('lightInactive').removeClass('lightActive');
+      }
+
+      this.sendAction('action', id, data);
+    },
+    lightStartHover(id){
+      let hoveredLight = this.get('lightsList').filter(function(light){
+        return light.activeClass !== 'unreachable' && light.id === id[0];
+      });
+
+      if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
+        $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
+          data: JSON.stringify({"alert": "lselect"}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      }
+
+      this.set('isHovering', true);
+    },
+    lightStopHover(id){
+      let hoveredLight = this.get('lightsList').filter(function(light){
+        return light.activeClass !== 'unreachable' && light.id === id[0];
+      });
+
+      if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
+        $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
+          data: JSON.stringify({"alert": "none"}),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      }
+
+      this.set('isHovering', false);
+      this.onLightsDataChange();
+    }
+  }
 });

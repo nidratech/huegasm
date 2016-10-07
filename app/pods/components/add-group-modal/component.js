@@ -1,14 +1,48 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  observer,
+  computed,
+  isEmpty,
+  isNone,
+  $
+} = Ember;
+
+export default Component.extend({
+  groupName: null,
+  selectedLights: [],
+
+  onIsShowingModalChange: observer('isShowingModal', function(){
+    if(this.get('isShowingModal')){
+      this.setProperties({
+        selectedLights: [],
+        groupName: null
+      });
+    }
+  }),
+
+  saveDisabled: computed('groupName', 'selectedLights.[]', function(){
+    return isNone(this.get('groupName')) || isEmpty(this.get('selectedLights')) || isEmpty(this.get('groupName').trim());
+  }),
+
+  didInsertElement: function() {
+    $(document).keypress((event) => {
+      if(!this.get('saveDisabled') && event.which === 13) {
+        this.send('save');
+      }
+    });
+  },
+
   actions: {
     close: function(){
       this.sendAction();
     },
     save: function(){
-      var newGroupData = {"name": this.get('groupName'), "lights": this.get('selectedLights')}, newGroupsData = this.get('groupsData');
+      let newGroupData = {"name": this.get('groupName'), "lights": this.get('selectedLights')},
+        newGroupsData = this.get('groupsData');
 
-      Em.$.ajax(this.get('apiURL') + '/groups', {
+      $.ajax(this.get('apiURL') + '/groups', {
         data: JSON.stringify(newGroupData),
         contentType: 'application/json',
         type: 'POST'
@@ -24,7 +58,7 @@ export default Em.Component.extend({
       this.sendAction();
     },
     clickLight: function(id) {
-      var selectedLights = this.get('selectedLights');
+      let selectedLights = this.get('selectedLights');
 
       if(selectedLights.contains(id)){
         selectedLights.removeObject(id);
@@ -32,30 +66,5 @@ export default Em.Component.extend({
         selectedLights.pushObject(id);
       }
     }
-  },
-
-  didInsertElement: function() {
-    Em.$(document).keypress((event) => {
-      if(!this.get('saveDisabled') && event.which === 13) {
-        this.send('save');
-      }
-    });
-  },
-
-  groupName: null,
-
-  selectedLights: [],
-
-  onIsShowingModalChange: function(){
-    if(this.get('isShowingModal')){
-      this.setProperties({
-        selectedLights: [],
-        groupName: null
-      });
-    }
-  }.observes('isShowingModal'),
-
-  saveDisabled: function(){
-    return Em.isNone(this.get('groupName')) || Em.isEmpty(this.get('selectedLights')) || Em.isEmpty(this.get('groupName').trim());
-  }.property('groupName', 'selectedLights.[]')
+  }
 });

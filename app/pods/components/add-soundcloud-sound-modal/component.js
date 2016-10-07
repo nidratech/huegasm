@@ -1,6 +1,39 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  observer,
+  computed,
+  isEmpty,
+  isNone,
+  $
+} = Ember;
+
+export default Component.extend({
+  url: null,
+
+  onIsShowingModalChange: observer('isShowingModal', function(){
+    if(this.get('isShowingModal')){
+      this.set('url', null);
+      setTimeout(()=>{
+        $('md-input-container input').focus();
+      }, 500);
+    }
+
+  }),
+
+  saveDisabled: computed('url', function(){
+    return isNone(this.get('url')) || isEmpty(this.get('url').trim());
+  }),
+
+  didInsertElement: function() {
+    $(document).keypress((event)=>{
+      if(!this.get('saveDisabled') && event.which === 13) {
+        this.send('add');
+      }
+    });
+  },
+
   actions: {
     close () {
       this.sendAction();
@@ -8,31 +41,5 @@ export default Em.Component.extend({
     add (){
       this.sendAction('action', this.get('url'));
     }
-  },
-
-  url: null,
-
-  onIsShowingModalChange: function(){
-    if(this.get('isShowingModal')){
-      this.set('url', null);
-      setTimeout(()=>{
-        Em.$('md-input-container input').focus();
-      }, 500);
-    }
-
-  }.observes('isShowingModal'),
-
-  didInsertElement: function() {
-    var self = this;
-
-    Em.$(document).keypress(function(event) {
-      if(!self.get('saveDisabled') && event.which === 13) {
-        self.send('add');
-      }
-    });
-  },
-
-  saveDisabled: function(){
-    return Em.isNone(this.get('url')) || Em.isEmpty(this.get('url').trim());
-  }.property('url')
+  }
 });

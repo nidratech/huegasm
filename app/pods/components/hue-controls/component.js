@@ -1,27 +1,136 @@
-import Em from 'ember';
+import Ember from 'ember';
 
-export default Em.Component.extend({
+const {
+  Component,
+  observer,
+  computed,
+  isEmpty,
+  isNone,
+  run,
+  $
+} = Ember;
+
+export default Component.extend({
   classNames: ['container-fluid'],
   elementId: 'hueControls',
-
   bridgeIp: null,
   manualBridgeIp: null,
   bridgeUsername: null,
-
   updateGroupsData: true,
   groupsData: null,
   lightsData: null,
-
   activeLights: [],
+  tabList: ["Lights", "Music"],
+  selectedTab: 1,
+  pauseLightUpdates: false,
+
+  lightsTabSelected: computed.equal('selectedTab', 0),
+  musicTabSelected: computed.equal('selectedTab', 1),
+
+  dimmerOnClass: computed('dimmerOn', function(){
+    return this.get('dimmerOn') ? 'dimmerOn' : null;
+  }),
+
+  ready: computed('lightsData', 'trial', function() {
+    return this.get('trial') || !isNone(this.get('lightsData'));
+  }),
+
+  apiURL: computed('bridgeIp', 'bridgeUsername', function(){
+    return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
+  }),
+
+  tabData: computed('tabList', 'selectedTab', function(){
+    let tabData = [], selectedTab = this.get('selectedTab');
+
+    this.get('tabList').forEach(function(tab, i){
+      let selected = false;
+
+      if(i === selectedTab){
+        selected = true;
+      }
+
+      tabData.push({"name": tab, "selected": selected });
+    });
+
+    return tabData;
+  }),
+
+  didInsertElement(){
+    // here's a weird way to automatically initialize bootstrap tooltips
+    let observer = new MutationObserver(function(mutations) {
+      let haveTooltip = !mutations.every(function(mutation) {
+        return isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
+      });
+
+      if(haveTooltip) {
+        run.once(this, function(){
+          $('.bootstrapTooltip').tooltip();
+        });
+      }
+    });
+
+    observer.observe($('#hueControls')[0], {childList: true, subtree: true});
+  },
+
+  init() {
+    this._super();
+
+    if(!this.get('trial')) {
+      this.doUpdateGroupsData();
+      this.updateLightData();
+      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
+    }
+
+    if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
+      this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
+    }
+  },
+
+  onUpdateGroupsDataChange: observer('updateGroupsData', function(){
+    if(this.get('updateGroupsData')){
+      setTimeout(()=>{ this.doUpdateGroupsData(); }, 1000);
+    }
+  }),
+
+  doUpdateGroupsData(){
+    $.get(this.get('apiURL') + '/groups', (result, status)=>{
+      if (status === 'success' ) {
+        this.set('groupsData', result);
+      }
+    });
+
+    this.toggleProperty('updateGroupsData');
+  },
+
+  updateLightData(){
+    let fail = ()=>{
+      clearInterval(this.get('lightsDataIntervalHandle'));
+
+      this.get('storage').remove('huegasm.bridgeIp');
+      this.get('storage').remove('huegasm.bridgeUsername');
+
+      location.reload();
+    };
+
+    if(!this.get('pauseLightUpdates')){
+      $.get(this.get('apiURL') + '/lights', (result, status)=>{
+        if(!isNone(result[0]) && !isNone(result[0].error)){
+          fail();
+        } else if (status === 'success' && JSON.stringify(this.get('lightsData')) !== JSON.stringify(result)) {
+          this.set('lightsData', result);
+        }
+      }).fail(fail);
+    }
+  },
 
   actions: {
     changeTab(tabName){
-      var index = this.get('tabList').indexOf(tabName);
+      let index = this.get('tabList').indexOf(tabName);
       this.set('selectedTab', index);
       this.get('storage').set('huegasm.selectedTab', index);
     },
     clearBridge() {
-      var storage = this.get('storage');
+      let storage = this.get('storage');
       storage.remove('huegasm.bridgeUsername');
       storage.remove('huegasm.bridgeIp');
       location.reload();
@@ -31,10 +140,10 @@ export default Em.Component.extend({
       location.reload();
     },
     startIntro(){
-      var INTRO = introJs,
+      let INTRO = introJs,
         intro = INTRO(),
-        playerBottom = Em.$('#playerBottom'),
-        beatDetectionAreaArrowIcon = Em.$('#beatDetectionAreaArrowIcon');
+        playerBottom = $('#playerBottom'),
+        beatDetectionAreaArrowIcon = $('#beatDetectionAreaArrowIcon');
 
       this.set('dimmerOn', false);
 
@@ -88,12 +197,12 @@ export default Em.Component.extend({
             'You may toggle a light\'s state by clicking on it.'
           },
           {
-            element: Em.$('.settingsItem')[0],
+            element: $('.settingsItem')[0],
             intro: 'The Groups menu allows for saving and quickly selecting groups of lights.',
             position: 'left'
           },
           {
-            element: Em.$('.settingsItem')[1],
+            element: $('.settingsItem')[1],
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
             '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
             position: 'left'
@@ -110,15 +219,15 @@ export default Em.Component.extend({
       // it's VERY ugly but it works
       intro.onchange((element) => {
         if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea' || element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer' || element.id === 'usingMicAudioTooltip'){
-          Em.$('#musicTab').removeClass('hidden');
-          Em.$('#lightsTab').addClass('hidden');
-          Em.$('.navigationItem').eq(0).removeClass('active');
-          Em.$('.navigationItem').eq(1).addClass('active');
+          $('#musicTab').removeClass('hidden');
+          $('#lightsTab').addClass('hidden');
+          $('.navigationItem').eq(0).removeClass('active');
+          $('.navigationItem').eq(1).addClass('active');
         } else {
-          Em.$('#lightsTab').removeClass('hidden');
-          Em.$('#musicTab').addClass('hidden');
-          Em.$('.navigationItem').eq(1).removeClass('active');
-          Em.$('.navigationItem').eq(0).addClass('active');
+          $('#lightsTab').removeClass('hidden');
+          $('#musicTab').addClass('hidden');
+          $('.navigationItem').eq(1).removeClass('active');
+          $('.navigationItem').eq(0).addClass('active');
         }
 
         if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea'){
@@ -134,16 +243,16 @@ export default Em.Component.extend({
             beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-down').addClass('keyboard-arrow-up');
           }
         } else if(element.id === 'dimmer'){
-          Em.$(document).click();
+          $(document).click();
         }
       });
 
-      var onFinish = ()=>{
+      let onFinish = ()=>{
         this.set('activeTab', 1);
-        Em.$('#musicTab').removeClass('hidden');
-        Em.$('#lightsTab').addClass('hidden');
-        Em.$('.navigationItem').eq(0).removeClass('active');
-        Em.$('.navigationItem').eq(1).addClass('active');
+        $('#musicTab').removeClass('hidden');
+        $('#lightsTab').addClass('hidden');
+        $('.navigationItem').eq(0).removeClass('active');
+        $('.navigationItem').eq(1).addClass('active');
 
         if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
           playerBottom.show();
@@ -151,7 +260,7 @@ export default Em.Component.extend({
           playerBottom.hide();
         }
       }, onExit = ()=>{
-        var dimmer = Em.$('#dimmer');
+        let dimmer = $('#dimmer');
 
         onFinish();
         dimmer.popover({
@@ -167,114 +276,11 @@ export default Em.Component.extend({
 
       // skip hidden/missing elements
       intro.onafterchange((element)=>{
-        var elem = Em.$(element);
+        let elem = $(element);
         if(elem.html() === '<!---->'){
-          Em.$('.introjs-nextbutton').click();
+          $('.introjs-nextbutton').click();
         }
       }).onexit(onExit).oncomplete(onFinish).start();
     }
-  },
-
-  apiURL: function(){
-    return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
-  }.property('bridgeIp', 'bridgeUsername'),
-
-  didInsertElement(){
-    // here's a weird way to automatically initialize bootstrap tooltips
-    var observer = new MutationObserver(function(mutations) {
-      var haveTooltip = !mutations.every(function(mutation) {
-        return Em.isEmpty(mutation.addedNodes) || Em.isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
-      });
-
-      if(haveTooltip) {
-        Em.run.once(this, function(){
-          Em.$('.bootstrapTooltip').tooltip();
-        });
-      }
-    });
-
-    observer.observe(Em.$('#hueControls')[0], {childList: true, subtree: true});
-  },
-
-  init() {
-    this._super();
-
-    if(!this.get('trial')) {
-      this.doUpdateGroupsData();
-      this.updateLightData();
-      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
-    }
-
-    if (!Em.isNone(this.get('storage').get('huegasm.selectedTab'))) {
-      this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
-    }
-  },
-
-  onUpdateGroupsDataChange: function(){
-    if(this.get('updateGroupsData')){
-      setTimeout(()=>{ this.doUpdateGroupsData(); }, 1000);
-    }
-  }.observes('updateGroupsData'),
-
-  doUpdateGroupsData(){
-    Em.$.get(this.get('apiURL') + '/groups', (result, status)=>{
-      if (status === 'success' ) {
-        this.set('groupsData', result);
-      }
-    });
-
-    this.toggleProperty('updateGroupsData');
-  },
-
-  tabList: ["Lights", "Music"],
-  selectedTab: 1,
-  tabData: function(){
-    var tabData = [], selectedTab = this.get('selectedTab');
-
-    this.get('tabList').forEach(function(tab, i){
-      var selected = false;
-
-      if(i === selectedTab){
-        selected = true;
-      }
-
-      tabData.push({"name": tab, "selected": selected });
-    });
-
-    return tabData;
-  }.property('tabList', 'selectedTab'),
-
-  lightsTabSelected: Em.computed.equal('selectedTab', 0),
-  musicTabSelected: Em.computed.equal('selectedTab', 1),
-
-  pauseLightUpdates: false,
-
-  updateLightData(){
-    var fail = ()=>{
-      clearInterval(this.get('lightsDataIntervalHandle'));
-
-      this.get('storage').remove('huegasm.bridgeIp');
-      this.get('storage').remove('huegasm.bridgeUsername');
-
-      location.reload();
-    };
-
-    if(!this.get('pauseLightUpdates')){
-      Em.$.get(this.get('apiURL') + '/lights', (result, status)=>{
-        if(!Em.isNone(result[0]) && !Em.isNone(result[0].error)){
-          fail();
-        } else if (status === 'success' && JSON.stringify(this.get('lightsData')) !== JSON.stringify(result)) {
-          this.set('lightsData', result);
-        }
-      }).fail(fail);
-    }
-  },
-
-  dimmerOnClass: function(){
-    return this.get('dimmerOn') ? 'dimmerOn' : null;
-  }.property('dimmerOn'),
-
-  ready: function() {
-    return this.get('trial') || !Em.isNone(this.get('lightsData'));
-  }.property('lightsData', 'trial')
+  }
 });

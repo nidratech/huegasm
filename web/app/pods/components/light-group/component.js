@@ -9,7 +9,7 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['lightGroup'],
+  classNames: ['light-group'],
   isHovering: false,
   lightsList: A(),
 
@@ -63,10 +63,10 @@ export default Component.extend({
               type = 'a19';
           }
 
-          let activeClass = 'lightActive';
+          let activeClass = 'light-active';
 
           if(!this.get('activeLights').contains(key)){
-            activeClass = 'lightInactive';
+            activeClass = 'light-inactive';
           }
 
           lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass});
@@ -87,14 +87,14 @@ export default Component.extend({
     clickLight(id, data){
       let light = $('.light'+id);
 
-      if(!light.hasClass('bootstrapTooltip')){
+      if(!light.hasClass('bootstrap-tooltip')){
         light = light.parent();
       }
 
-      if(light.hasClass('lightInactive')){
-        light.addClass('lightActive').removeClass('lightInactive');
-      } else if(light.hasClass('lightActive')){
-        light.addClass('lightInactive').removeClass('lightActive');
+      if(light.hasClass('light-inactive')){
+        light.addClass('light-active').removeClass('light-inactive');
+      } else if(light.hasClass('light-active')){
+        light.addClass('light-inactive').removeClass('light-active');
       }
 
       this.sendAction('action', id, data);

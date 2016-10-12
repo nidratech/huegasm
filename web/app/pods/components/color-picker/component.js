@@ -6,7 +6,7 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['colorpicker'],
+  classNames: ['color-picker'],
   rgb: null,
   canvas: null,
   canvasContext: null,

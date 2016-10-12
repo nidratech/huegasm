@@ -12,7 +12,7 @@ const {
 
 export default Component.extend({
   classNames: ['container-fluid'],
-  elementId: 'hueControls',
+  elementId: 'hue-controls',
   bridgeIp: null,
   manualBridgeIp: null,
   bridgeUsername: null,
@@ -64,12 +64,12 @@ export default Component.extend({
 
       if(haveTooltip) {
         run.once(this, function(){
-          $('.bootstrapTooltip').tooltip();
+          $('.bootstrap-tooltip').tooltip();
         });
       }
     });
 
-    observer.observe($('#hueControls')[0], {childList: true, subtree: true});
+    observer.observe($('#hue-controls')[0], {childList: true, subtree: true});
   },
 
   init() {
@@ -142,8 +142,8 @@ export default Component.extend({
     startIntro(){
       let INTRO = introJs,
         intro = INTRO(),
-        playerBottom = $('#playerBottom'),
-        beatDetectionAreaArrowIcon = $('#beatDetectionAreaArrowIcon');
+        playerBottom = $('#player-bottom'),
+        beatDetectionAreaArrowIcon = $('#beat-detection-area-arrow-icon');
 
       this.set('dimmerOn', false);
 
@@ -153,7 +153,7 @@ export default Component.extend({
             intro: 'Welcome! This short tutorial will introduce you to Huegasm.'
           },
           {
-            element: '#musicTab',
+            element: '#music-tab',
             intro: 'This is the music player. You\'ll use this to play music and synchronize it with your active lights.<br><br>' +
             '<i><b>TIP</b>: Control which lights are active through the <b>Lights</b> tab or through the <b>Groups</b> menu dropdown.</i>'
           },
@@ -163,11 +163,11 @@ export default Component.extend({
             '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
           },
           {
-            element: '#playerArea',
+            element: '#player-area',
             intro: 'The audio playback may be controlled with the controls here. Basic music visualization effects may be shown here by selecting them from the menu ( eyeball icon in the bottom right ).'
           },
           {
-            element: '#beatOptionRow',
+            element: '#beat-option-row',
             intro: 'These are the settings for the music tab:<br>' +
             '<b>Sensitivity</b> - The sensitivity of the beat detector ( more sensitivity results in more registered beats )<br>' +
             '<b>Hue Range</b> - The hue range that the lights may change to on beat.<br>' +
@@ -177,13 +177,13 @@ export default Component.extend({
             position: 'top'
           },
           {
-            element: '#beatContainer',
+            element: '#beat-container',
             intro: 'An interactive speaker that will bump when a beat is registered. <br><br>' +
             '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
             position: 'top'
           },
           {
-            element: '#lightsTab',
+            element: '#lights-tab',
             intro: 'This is the lights tab. Here you\'ll be able to change various light properties:<br>' +
             '<b>Power</b> - Turn the selected lights on/off<br>' +
             '<b>Brightness</b> - The brightness level of the selected lights<br>' +
@@ -192,17 +192,17 @@ export default Component.extend({
             '<b>Colorloop</b> - Selected lights will slowly cycle through all the colors<br>'
           },
           {
-            element: '#activeLights',
+            element: '#active-lights',
             intro: 'These icons represent the hue lights in your system. Active lights will be controlled by the application while the inactive lights will have a red X over them and will not be controlled.<br>' +
             'You may toggle a light\'s state by clicking on it.'
           },
           {
-            element: $('.settingsItem')[0],
+            element: $('.settings-item')[0],
             intro: 'The Groups menu allows for saving and quickly selecting groups of lights.',
             position: 'left'
           },
           {
-            element: $('.settingsItem')[1],
+            element: $('.settings-item')[1],
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
             '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
             position: 'left'
@@ -216,27 +216,27 @@ export default Component.extend({
         ]
       });
 
-      // it's VERY ugly but it works
+      // it's VERY ugly but it works... the jQuery massacre :'(
       intro.onchange((element) => {
-        if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea' || element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer' || element.id === 'usingMicAudioTooltip'){
-          $('#musicTab').removeClass('hidden');
-          $('#lightsTab').addClass('hidden');
-          $('.navigationItem').eq(0).removeClass('active');
-          $('.navigationItem').eq(1).addClass('active');
+        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip'){
+          $('#music-tab').removeClass('hidden');
+          $('#lights-tab').addClass('hidden');
+          $('.navigation-item').eq(0).removeClass('active');
+          $('.navigation-item').eq(1).addClass('active');
         } else {
-          $('#lightsTab').removeClass('hidden');
-          $('#musicTab').addClass('hidden');
-          $('.navigationItem').eq(1).removeClass('active');
-          $('.navigationItem').eq(0).addClass('active');
+          $('#lights-tab').removeClass('hidden');
+          $('#music-tab').addClass('hidden');
+          $('.navigation-item').eq(1).removeClass('active');
+          $('.navigation-item').eq(0).addClass('active');
         }
 
-        if(element.id === 'musicTab' || element.id === 'playlist' || element.id === 'playerArea'){
+        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area'){
           playerBottom.hide();
 
           if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
             beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-up').addClass('keyboard-arrow-down');
           }
-        } else if(element.id === 'beatOptionRow' || element.id === 'beatOptionButtonGroup' || element.id === 'beatContainer'){
+        } else if(element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container'){
           playerBottom.show();
 
           if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-down')){
@@ -249,10 +249,10 @@ export default Component.extend({
 
       let onFinish = ()=>{
         this.set('activeTab', 1);
-        $('#musicTab').removeClass('hidden');
-        $('#lightsTab').addClass('hidden');
-        $('.navigationItem').eq(0).removeClass('active');
-        $('.navigationItem').eq(1).addClass('active');
+        $('#music-tab').removeClass('hidden');
+        $('#lights-tab').addClass('hidden');
+        $('.navigation-item').eq(0).removeClass('active');
+        $('.navigation-item').eq(1).addClass('active');
 
         if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
           playerBottom.show();

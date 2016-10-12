@@ -1,4 +1,4 @@
-@import 'variables';
+@import 'huegasm-variables';
 
 div.dimmerOn {
   color: white !important;
@@ -19,20 +19,20 @@ body.dimmerOn {
   .color {
     border: 1px solid white;
   }
-  .playlistItem {
+  .playlist-item {
     color: #cdcdcd;
     background: $dimmerOnButtonColor;
   }
-  .playlistItem.active {
+  .playlist-item.active {
     background: darken($dimmerOnButtonColor, 15%) !important;
   }
-  .playlistItem:hover {
+  .playlist-item:hover {
     background: darken($dimmerOnButtonColor, 10%);
   }
-  .playlistItem .close {
+  .playlist-item .close {
     color: #cdcdcd !important;
   }
-  .playlistItem .close:hover {
+  .playlist-item .close:hover {
     color: white !important;
   }
   svg {
@@ -49,16 +49,16 @@ body.dimmerOn {
       color: white !important;
     }
   }
-  .addNewMusic {
+  .add-new-music {
     background: $dimmerOnButtonColor
   }
-  .addNewMusic:hover {
+  .add-new-music:hover {
     background: darken($dimmerOnButtonColor, 5%);
   }
-  #extraOptionsMenu {
+  #extra-options-menu {
     opacity: 0.8;
   }
-  #extraOptionsMenu:hover {
+  #extra-options-menu:hover {
     background: rgba(0, 0, 0, 0.9);
   }
   .popover-content {

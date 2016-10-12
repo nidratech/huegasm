@@ -14,7 +14,7 @@ const {
 export default Mixin.create({
   classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
-  elementId: 'musicTab',
+  elementId: 'music-tab',
 
   dancer: null,
 
@@ -124,7 +124,6 @@ export default Mixin.create({
   paused: false,
   // audio: playing or paused
   playing: false,
-  fadeOutNotification: false,
   songBeatPreferences: {},
   usingBeatPreferences: false,
   oldBeatPrefCache: null,
@@ -236,14 +235,14 @@ export default Mixin.create({
   }),
 
   playListAreaClass: computed('dragging', 'draggingOverPlayListArea', 'dimmerOn', function(){
-    let classes = 'cursorPointer';
+    let classes = 'pointer';
 
     if(this.get('dragging')){
-      classes += ' dragHereHighlight';
+      classes += ' drag-here-highlight';
     }
 
     if(this.get('draggingOverPlayListArea')){
-      classes += ' draggingOver';
+      classes += ' dragging-over';
     }
 
     if(this.get('dimmerOn')){
@@ -258,7 +257,7 @@ export default Mixin.create({
   }),
 
   volumeMutedClass: computed('volumeMuted', function(){
-    let classes = 'playerControllIcon volumeButton';
+    let classes = 'player-control-icon volumeButton';
 
     if(this.get('volumeMuted')){
       classes += ' active';
@@ -268,19 +267,19 @@ export default Mixin.create({
   }),
 
   usingLocalAudioClass: computed('usingLocalAudio', function(){
-    return this.get('usingLocalAudio') ? 'playerControllIcon active' : 'playerControllIcon';
+    return this.get('usingLocalAudio') ? 'player-control-icon active' : 'player-control-icon';
   }),
 
   usingMicAudioClass: computed('usingMicAudio', function(){
-    return this.get('usingMicAudio') ? 'playerControllIcon active' : 'playerControllIcon';
+    return this.get('usingMicAudio') ? 'player-control-icon active' : 'player-control-icon';
   }),
 
   repeatClass: computed('repeat', function(){
-    return this.get('repeat') !== 0 ? 'playerControllIcon active' : 'playerControllIcon';
+    return this.get('repeat') !== 0 ? 'player-control-icon active' : 'player-control-icon';
   }),
 
   shuffleClass: computed('shuffle', function(){
-    return this.get('shuffle') ? 'playerControllIcon active' : 'playerControllIcon';
+    return this.get('shuffle') ? 'player-control-icon active' : 'player-control-icon';
   }),
 
   volumeIcon: computed('volumeMuted', 'volume', function() {

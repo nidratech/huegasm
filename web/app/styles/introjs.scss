@@ -1,16 +1,10 @@
-@import 'variables';
+@import 'huegasm-variables';
 
 .introjs-overlay {
   background: black;
 }
 
-.introjs-helperNumberLayer {
-  padding: 0;
-  width: 23px;
-  height: 23px;
-}
-
-#settings.introjs-fixParent{
+#settings.introjs-fixParent {
   position: inherit !important;
 }
 
@@ -18,7 +12,7 @@
   color: black;
 }
 
-.introjs-skipbutton{
+.introjs-skipbutton {
   color: $secondaryThemeColor;
 }
 

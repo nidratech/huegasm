@@ -1,9 +1,12 @@
 # Huegasm
+
 Music awesomeness for hue lights.
 
 It lives at http://www.huegasm.com
 
-
+# Current priorities
+- modernize the app
+- create a hybrid app with Cardova
 
 ## POSSIBLE FUTURE FEATURES
 - better visualizations

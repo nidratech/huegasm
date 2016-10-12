@@ -10,7 +10,7 @@ const {
 export default Component.extend({
   classNames: ['col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
-  elementId: 'lightsTab',
+  elementId: 'lights-tab',
 
   activeLights: [],
   lightsData: null,
@@ -39,7 +39,7 @@ export default Component.extend({
       return null;
     }
 
-    return 'toggleColorpicker';
+    return 'toggleColorPicker';
   }),
 
   // determines the average brightness of the hue system for the brightness slider
@@ -109,7 +109,9 @@ export default Component.extend({
   }),
 
   onLightsOnChange: observer('lightsOn', function(){
-    let lightsData = this.get('lightsData'), activeLights = this.get('activeLights'), lightsOn = this.get('lightsOn'), self = this;
+    let lightsData = this.get('lightsData'),
+      activeLights = this.get('activeLights'),
+      lightsOn = this.get('lightsOn');
 
     let lightsOnSystem = activeLights.some(function(light) {
       return lightsData[light].state.on === true;
@@ -117,8 +119,8 @@ export default Component.extend({
 
     // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
     if(lightsOn !== lightsOnSystem){
-      activeLights.forEach(function (light) {
-        $.ajax(self.get('apiURL') + '/lights/' + light + '/state', {
+      activeLights.forEach((light)=>{
+        $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
           data: JSON.stringify({"on": lightsOn}),
           contentType: 'application/json',
           type: 'PUT'
@@ -128,7 +130,10 @@ export default Component.extend({
   }),
 
   onBrightnessChanged: observer('lightsBrightness', function(){
-    let lightsData = this.get('lightsData'), lightsBrightnessSystem = false, lightsBrightness = this.get('lightsBrightness'), activeLights = this.get('activeLights'), self = this;
+    let lightsData = this.get('lightsData'),
+      lightsBrightnessSystem = false,
+      lightsBrightness = this.get('lightsBrightness'),
+      activeLights = this.get('activeLights');
 
     activeLights.forEach(function(light){
       lightsBrightnessSystem += lightsData[light].state.bri;
@@ -138,8 +143,8 @@ export default Component.extend({
 
     // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
     if(lightsBrightness !== lightsBrightnessSystem){
-      activeLights.forEach(function(light){
-        $.ajax(self.get('apiURL')  + '/lights/' + light + '/state', {
+      activeLights.forEach((light)=>{
+        $.ajax(this.get('apiURL')  + '/lights/' + light + '/state', {
           data: JSON.stringify({"bri": lightsBrightness}),
           contentType: 'application/json',
           type: 'PUT'
@@ -150,13 +155,13 @@ export default Component.extend({
 
   didInsertElement() {
     $(document).click((event)=>{
-      if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !$(event.target).closest('.colorpicker, #colorRow').length) {
+      if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !$(event.target).closest('.color-picker, #color-row').length) {
         this.toggleProperty('colorPickerDisplayed');
       }
     });
 
-    $(document).on('click', '#colorRow', () => {
-      this.send('toggleColorpicker');
+    $(document).on('click', '#color-row', () => {
+      this.send('toggleColorPicker');
     });
   },
 
@@ -187,7 +192,7 @@ export default Component.extend({
         });
       }
     },
-    toggleColorpicker() {
+    toggleColorPicker() {
       this.toggleProperty('colorPickerDisplayed');
     }
   },
@@ -202,7 +207,7 @@ export default Component.extend({
   lastStrobeLight: 0,
 
   onStrobeOnChange: observer('strobeOn', function () {
-    let lightsData = this.get('lightsData'), self = this;
+    let lightsData = this.get('lightsData');
 
     if (this.get('strobeOn')) {
       this.set('preStrobeOnLightsDataCache', lightsData);
@@ -224,11 +229,11 @@ export default Component.extend({
 
       this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 200));
     } else { // revert the light system to pre-strobe
-      let preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = function (lightIndx) {
-        $.ajax(self.get('apiURL') + '/lights/' + lightIndx + '/state', {
+      let preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = (lightIndex)=> {
+        $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
           data: JSON.stringify({
-            'on': preStrobeOnLightsDataCache[lightIndx].state.on,
-            'sat': preStrobeOnLightsDataCache[lightIndx].state.sat
+            'on': preStrobeOnLightsDataCache[lightIndex].state.on,
+            'sat': preStrobeOnLightsDataCache[lightIndex].state.sat
           }),
           contentType: 'application/json',
           type: 'PUT'

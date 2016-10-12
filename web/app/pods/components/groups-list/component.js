@@ -10,7 +10,7 @@ const {
 
 export default Component.extend({
   classNames: ['dropdown-menu'],
-  elementId: 'groupList',
+  elementId: 'group-list',
   tagName: null,
   groupIdSelection: null,
 
@@ -22,14 +22,14 @@ export default Component.extend({
         ids.push(key);
       }
     }
-    groupsArrData.push({name: 'All', data: {lights: ids, key: '0' }, rowClass: groupIdSelection === '0' ? 'groupRow selectedRow' : 'groupRow', deletable: false});
+    groupsArrData.push({name: 'All', data: {lights: ids, key: '0' }, rowClass: groupIdSelection === '0' ? 'group-row selected-row' : 'group-row', deletable: false});
 
     for (let key in groupsData) {
       if (groupsData.hasOwnProperty(key)) {
-        let rowClass = 'groupRow';
+        let rowClass = 'group-row';
 
         if(key === groupIdSelection){
-          rowClass += ' selectedRow';
+          rowClass += ' selected-row';
         }
 
         groupsArrData.push({name: groupsData[key].name, data: {lights: groupsData[key].lights, key: key}, rowClass: rowClass, deletable: true});

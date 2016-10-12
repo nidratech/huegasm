@@ -2,22 +2,22 @@
   font-size: 18px;
 }
 
-#introParagraph {
+#intro-paragraph {
   margin-bottom: 50px;
 }
 
-.bridgeFinder, .readyBlock {
+.bridgeFinder, .ready-block {
   text-align: center;
   padding-top: 10px;
 }
 
 // preloading image
-.readyBlock:after {
+.ready-block:after {
   display: none;
   content: url(images/pressButtonBridge.png);
 }
 
-.embedContainer {
+.embed-container {
   position:relative;
   padding-bottom:56.25%;
   padding-top:30px;
@@ -25,12 +25,12 @@
   overflow:hidden;
 }
 
-.embedContainerWrapper {
+.embed-container-wrapper {
   max-width: 600px;
   margin: auto;
 }
 
-.embedContainer iframe, .embedContainer object, .embedContainer embed {
+.embed-container iframe, .embed-container object, .embed-container embed {
   position:absolute;
   top:0;
   left:0;
@@ -38,7 +38,7 @@
   height:100%;
 }
 
-.goButton {
+.go-button {
   margin-top: 20px;
   border-radius: 100% !important;
   width: 100px;

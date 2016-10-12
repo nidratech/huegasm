@@ -1,27 +1,27 @@
 {{#paper-list}}
   {{#paper-item class="item"}}
-    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontalLightGroup" dimmerOn=dimmerOn id="activeLights"}}
+    {{light-group lightsData=lightsData activeLights=activeLights action='clickLight' apiURL=apiURL classNames="horizontal-light-group" dimmerOn=dimmerOn id="active-lights"}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="power-settings-new" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Turn the selected lights on/off">Power</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Turn the selected lights on/off">Power</p>
     {{#paper-switch checked=lightsOn disabled=trial skipProxy=trial}} {{lightsOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon icon="brightness-4" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="The brightness level of the selected lights">Brightness</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip lights-control-tooltip" data-title="The brightness level of the selected lights">Brightness</p>
     {{paper-slider flex=true min='1' max='254' value=lightsBrightness disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
-  {{#paper-item elementId="colorRow"}}
+  {{#paper-item elementId="color-row"}}
     {{paper-icon icon="color-lens" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="The color of the selected lights">Color</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip lights-control-tooltip" data-title="The color of the selected lights">Color</p>
   {{/paper-item}}
 
   <div class="relative">
-    {{#paper-button raised=true class="color" action="toggleColorpicker" disabled=trial}}{{/paper-button}}
+    {{#paper-button raised=true class="color" action="toggleColorPicker" disabled=trial}}{{/paper-button}}
 
     {{#if colorPickerDisplayed}}
       {{color-picker lightsData=lightsData activeLights=activeLights rgb=rgb}}
@@ -30,13 +30,13 @@
 
   {{#paper-item}}
     {{paper-icon icon="flare" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Selected lights will flash in sequential order">Strobe</p>
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Selected lights will flash in sequential order">Strobe</p>
     {{#paper-switch checked=strobeOn disabled=trial skipProxy=trial}} {{strobeOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 
   {{#paper-item}}
-    {{paper-icon icon="color-lens" class=dimmerOnClass}} {{paper-icon icon="loop" id="loopAddition" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrapTooltip lightCtrlTooltip" data-title="Selected lights will slowly cycle through all the colors">Colorloop</p>
+    {{paper-icon icon="color-lens" class=dimmerOnClass}} {{paper-icon icon="loop" id="loop-addition" class=dimmerOnClass}}
+    <p data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Selected lights will slowly cycle through all the colors">Colorloop</p>
     {{#paper-switch checked=colorLoopOn disabled=trial skipProxy=trial}} {{colorloopOnTxt}} {{/paper-switch}}
   {{/paper-item}}
 {{/paper-list}}

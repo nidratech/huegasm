@@ -1,0 +1,88 @@
+#app-settings {
+  position: absolute;
+  background: white;
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
+  width: 175px;
+  left: -85px;
+  top: 20px;
+  border: none;
+  color: black;
+}
+
+#lights-tab {
+  min-height: 400px;
+}
+
+.lights-control-tooltip + .tooltip {
+  left: -20px !important;
+}
+
+#color-row {
+  cursor: pointer;
+}
+
+#color-row * .tooltip {
+  left: -7px !important;
+}
+
+#hue-controls {
+  max-width: 1200px;
+  position: relative;
+}
+
+// preload images
+#hue-controls:after, md-progress-circular:after {
+  display: none;
+  content: url(images/colormap.png) url(images/missingArtwork.png) url(images/sc-white.png) url(/favicon-96x96.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
+}
+
+.navigation {
+  text-align: center;
+  padding: 30px 0;
+}
+
+.navigation-item {
+  font-size: 18px;
+  padding: 0 10px 0 10px;
+}
+
+.navigation-item.active {
+  font-weight: bold;
+  cursor: default;
+  text-decoration: none !important;
+}
+
+.navigation-item:hover {
+  text-decoration: underline;
+}
+
+.color {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: -53px;
+  right: 0;
+}
+
+.color-picker {
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+  position: absolute;
+  width: 266px;
+  height: 266px;
+  right: 6px;
+  top: -9px;
+  z-index: 3;
+}
+
+#picker {
+  cursor: crosshair;
+}
+
+#loop-addition {
+  position: absolute;
+  left: 18px;
+  top: 13px;
+  font-size: 16px;
+}

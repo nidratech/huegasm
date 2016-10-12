@@ -27,7 +27,7 @@ export default Mixin.create({
   didInsertElement(){
     let dancer = this.get('dancer'),
       canvas = $('#visualization')[0],
-      playerArea = $('#playerArea'),
+      playerArea = $('#player-area'),
       ctx = canvas.getContext('2d'),
       spacing = 2,
       h = playerArea.height(), w;

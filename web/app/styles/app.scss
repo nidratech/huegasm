@@ -1,6 +1,8 @@
-@import 'bower_components/bootstrap-sass/assets/stylesheets/_bootstrap';
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
+
+@import 'bootstrap'; // used to take out bootstrap scss modules that we don't need
+@import 'paper';
 
 @import 'bridge-finder';
 @import 'common';
@@ -8,8 +10,12 @@
 @import 'fancy-speaker';
 @import 'index';
 @import 'introjs';
-@import 'paper';
-@import 'variables';
+@import 'group-controls';
+@import 'hue-controls';
+@import 'huegasm-variables';
+@import 'light-group';
+@import 'music-tab';
+@import 'noui-slider';
 
 html {
   min-height: 100%;
@@ -17,34 +23,12 @@ html {
 }
 
 body {
-  font-family: 'Slabo 27px', serif;
   margin-bottom: $footerHeight + 30px;
   position: static;
 }
 
-.ember-notify-default.ember-notify-cn {
-  top: 20px;
-}
-
-.alert {
-  margin-bottom: 0;
-  border: none;
-}
-
-#settings {
-  padding-right: 5px;
-  text-align: right;
-  z-index: 3;
-  font-size: 16px;
-}
-
-.settingsItem:nth-of-type(2){
-  margin-left: 10px;
-}
-
-.settingsItem .settings::before, .settingsItem .group::before {
-  font-size: 28px;
-  transition: 0.1s all ease-in-out;
+body, button {
+  font-family: 'Slabo 27px', serif;
 }
 
 .ember-app {
@@ -66,691 +50,35 @@ body {
   }
 }
 
-.cursorPointer {
-  cursor: pointer;
+.ember-notify-default.ember-notify-cn {
+  top: 20px;
+}
+
+.alert {
+  margin-bottom: 0;
+  border: none;
+}
+
+#settings {
+  padding-right: 5px;
+  text-align: right;
+  z-index: 3;
+  font-size: 16px;
+}
+
+.settings-item:nth-of-type(2){
+  margin-left: 10px;
+}
+
+.settings-item .settings::before, .settings-item .group::before {
+  font-size: 28px;
+  transition: 0.1s all ease-in-out;
 }
 
 .title {
   margin-bottom: 30px;
   img {
     width: 200px;
-  }
-}
-
-#pressButtonBridgeImg {
-  width: 200px;
-  margin: 0 auto 30px auto;
-  display: inherit;
-}
-
-#bridgeButtonGroup {
-  width: 150px;
-  margin: 30px auto;
-  text-align: left;
-}
-
-// HUE CONTROLS
-#appSettings {
-  position: absolute;
-  background: white;
-  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
-  width: 175px;
-  left: -85px;
-  top: 20px;
-  border: none;
-  color: black;
-}
-
-
-#lightsTab {
-  min-height: 400px;
-}
-
-.lightCtrlTooltip + .tooltip {
-  left: -20px !important;
-}
-
-#colorRow {
-  cursor: pointer;
-}
-
-#colorRow * .tooltip {
-  left: -7px !important;
-}
-
-#hueControls {
-  max-width: 1200px;
-  position: relative;
-}
-
-// preload images
-#hueControls:after, md-progress-circular:after {
-  display: none;
-  content: url(images/colormap.png) url(images/missingArtwork.png) url(images/sc-white.png) url(/favicon-96x96.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
-}
-
-.navigation {
-  text-align: center;
-  padding: 30px 0;
-}
-
-.navigationItem {
-  font-size: 18px;
-  padding: 0 10px 0 10px;
-}
-
-.navigationItem.active {
-  font-weight: bold;
-  cursor: default;
-  text-decoration: none !important;
-}
-
-.navigationItem:hover {
-  text-decoration: underline;
-}
-
-.color {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: -53px;
-  right: 0;
-}
-
-.colorpicker {
-  padding: 5px;
-  background: rgba(0, 0, 0, 0.7);
-  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
-  color: #FFFFFF;
-  position: absolute;
-  width: 266px;
-  height: 266px;
-  right: 6px;
-  top: -9px;
-  z-index: 3;
-}
-
-#picker {
-  cursor: crosshair;
-}
-
-#loopAddition {
-  position: absolute;
-  left: 18px;
-  top: 13px;
-  font-size: 16px;
-}
-
-// LIGHT GROUP
-#groupList {
-  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
-  border-radius: 0 0 5px 5px;
-  width: 300px;
-  top: 20px;
-  left: -210px;
-  position: absolute;
-  background-color: white;
-  max-height: 400px;
-  overflow: auto;
-  text-align: left;
-  padding: 0;
-  color: black;
-}
-
-.lightGroup {
-  margin: 0 auto 0 auto;
-  .tooltip.top {
-    margin-top: 4px;
-    margin-left: 0;
-  }
-  div {
-    display: inline-block;
-  }
-}
-
-.lightInactive {
-  cursor: pointer;
-  position: relative;
-}
-
-.lightInactive::before {
-  font-weight: bold;
-  position: absolute;
-  content: "X";
-  top: -10px;
-  left: 5px;
-  font-size: 40px;
-  color: rgba(255, 0, 0, 0.37);
-  font-family: cursive;
-}
-
-.horizontalLightGroup {
-  .lightInactive::before {
-    top: -9px;
-    left: 6px;
-  }
-  .tooltip.top {
-    margin-top: 1px;
-    margin-left: 2px;
-  }
-}
-
-.lightActive {
-  cursor: pointer;
-
-  img {
-    transition-duration: 0.3s;
-    transition-property: transform;
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  }
-  img:hover {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
-}
-
-.ember-modal-overlay.translucent {
-  background-color: rgba(0, 0, 0, 0.50);
-}
-
-.addButton {
-  width: 100%;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.removeButton {
-  margin: 10px 0 10px 60px;
-}
-
-.sideNavTitle {
-  margin-left: 16px;
-  margin-top: 10px;
-  text-align: left;
-}
-
-// GROUP CONTROL
-.groupRow {
-  transition: 0.1s all ease-in-out;
-}
-
-.groupRow.selectedRow {
-  background-color: #7F7F7F !important;
-  color: white;
-}
-
-.groupRow:hover {
-  background-color: #DEDEDE;
-}
-
-.groupRow.selectedRow .groupSelect {
-  cursor: default;
-}
-
-.groupSelect {
-  cursor: pointer;
-  padding: 10px 0 10px 10px;
-  width: 70%;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.newGroup {
-  font-size: 18px;
-  min-height: 100%;
-  width: 100%;
-  padding: 10px 0 10px 10px;
-  margin: 0;
-  .group-add {
-    margin-right: 5px;
-  }
-}
-
-.newGroupRow{
-  background: white;
-}
-
-.newGroupRow:hover {
-  background-color: darken(white, 5%);
-}
-
-.groupRow:hover * .close {
-  display: block;
-}
-
-.groupRow:hover * .close {
-  display: block;
-}
-
-.selectedRow * .close {
-  color: white !important;
-}
-
-.selectedRow.groupRow * .close:hover {
-  color: darken(white, 20%) !important;
-}
-
-.close:hover {
-  color: darken(#333333, 5%) !important;
-}
-
-.close:hover {
-  opacity: 1;
-}
-
-.close {
-  font-size: 18px !important;
-  color: rgb(51, 51, 51);
-  display: none;
-  opacity: 1;
-  text-shadow: none;
-}
-
-// MUSIC TAB
-.row {
-  margin: 0;
-}
-
-#beatOptionRow {
-  height: 250px;
-}
-
-#lightOption {
-  text-align: left !important;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  .tooltip {
-    margin-top: 5px !important;
-    left: 0 !important;
-  }
-}
-
-#musicTab{
-  padding: 0;
-  margin-bottom: $footerHeight + 30px;
-}
-
-#slideToggle {
-  color: $playerDefaultIconColor;
-  background: #730B07;
-  div md-icon {
-    color: inherit !important;
-  }
-}
-
-#slideToggle:hover{
-  color: lighten($playerDefaultIconColor, 30%) !important;;
-}
-
-#playerControls {
-  transition: all 0.2s ease-in-out;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 5px 10px;
-  width: 100%;
-  color: white !important;
-  z-index: 20;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-  .tooltip.top {
-    margin-top: -17px;
-  }
-  .tooltip-arrow {
-    display: none;
-  }
-  .play-arrow, .pause, .replay {
-    font-size: 30px;
-  }
-}
-
-#playerTimeControls {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  display: inline-block;
-  margin-left: 1em;
-}
-
-.playerControllIcon {
-  color: $playerDefaultIconColor !important;
-  transition-duration: 0.1s;
-  margin-right: 5px;
-}
-
-.playerControllIcon.active {
-  color: $secondaryThemeColor !important;
-}
-
-.playerControllIcon:hover {
-  color: white !important;
-}
-
-#playNotification {
-  position: relative;
-  color: white;
-  top: 50%;
-  left: 50%;
-  opacity: 0;
-  background: black;
-  border-radius: 100%;
-}
-
-.fadeOut {
-  animation-duration: 1s;
-  animation-name: fadeOut;
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 0.8;
-    font-size: 24px;
-  }
-  to {
-    opacity: 0;
-    transform: scale(3);
-    -webkit-transform: scale(3);
-  }
-}
-
-#playerArea {
-  height: $playerHeight;
-  background-color: black;
-  display: inline-block;
-  padding: 0;
-}
-
-#playlist {
-  height: $playerHeight;
-  background-color: #1E1E1E;
-  padding: 0 5px 0 5px;
-}
-
-#playerArea * .noUi-origin {
-  background-color: black;
-  border-radius: 5px;
-}
-
-#playerArea * .noUi-base {
-  background-color: $secondaryThemeColor;
-  border-radius: 5px;
-}
-
-.noUi-base {
-  cursor: pointer;
-}
-
-.noUi-connect {
-  background-color: $secondaryThemeColor;
-}
-
-#volumeBar {
-  width: 5em;
-  height: 0.4em;
-  display: inline-block;
-}
-
-.noUi-handle {
-  cursor: pointer;
-}
-
-.noUi-horizontal .noUi-handle {
-  width: 0.4em;
-  height: 1.3em;
-  left: -0.071em;
-  top: -0.500em;
-  transition-duration: 0.1s;
-  background: $playerDefaultIconColor !important;
-}
-
-.noUi-horizontal .noUi-handle:hover {
-  background: white !important;
-}
-
-#playerArea * .noUi-handle::after, #playerArea * .noUi-handle::before {
-  content: none;
-}
-
-#seekSlider {
-  height: 6px;
-  margin-bottom: 10px;
-  transition-duration: 0.2s;
-}
-
-// mobile overrides
-@media(max-width:767px) {
-  #seekSlider {
-    height: 8px;
-    .noUi-handle {
-      opacity: 1 !important;
-    }
-  }
-  .settingsItem:nth-of-type(2){
-    margin-left: 0;
-  }
-  #seekSlider {
-    margin-bottom: 15px;
-  }
-  .beatOption {
-    text-align: center !important;
-  }
-}
-
-#seekSlider:hover {
-  height: 8px;
-}
-
-#seekSlider:hover * .noUi-handle {
-  opacity: 1;
-}
-
-#seekSlider * .noUi-handle {
-  border: none;
-  height: 13px;
-  width: 13px;
-  border-radius: 50%;
-  top: -4px;
-  left: -6px;
-  opacity: 0;
-  transition-duration: 0.1s;
-  background-color: $secondaryThemeColor !important;
-  box-shadow: none;
-}
-
-#playListControls {
-  min-height: 30px;
-  margin-top: 5px;
-  border-bottom: 1px solid #3a3a3a;
-  position: relative;
-}
-
-#playListArea, #playAreaMic {
-  background-color: white;
-  width: 100%;
-  height: 350px;
-  margin: 10px auto 0 auto;
-  border-radius: 5px;
-  transition: 0.1s all ease-in-out;
-  position: relative;
-  overflow: auto;
-  #dragHere {
-    position: absolute;
-    top: 27%;
-    font-size: 20px;
-    text-align: center;
-    width: 100%;
-  }
-  .library-music, .mic {
-    position: absolute;
-    top: 40%;
-    font-size: 100px;
-    opacity: 0.5;
-    width: 100%;
-    text-align: center;
-  }
-}
-
-.songArtist {
-  font-weight: bold;
-}
-
-#playListArea.dragHereHighlight {
-  background-color: white;
-  border: 5px dotted #5383ff;
-}
-
-#playListArea.draggingOver {
-  background-color: darken(white, 5%);
-  box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
-}
-
-#fileInput {
-  width: 1px;
-  height: 1px;
-  visibility: hidden;
-}
-
-.playlistItem {
-  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
-  border-top: 1px solid rgba(128,128,128,0.3);
-  height: 62px;
-  font-family: 'Open Sans', sans-serif;
-  padding: 0 20px 0 5px;
-  position: relative;
-  color: black;
-  background: darken(white, 5%);
-  .close {
-    font-size: 18px;
-  }
-  .albumArt {
-    height: 60px;
-    float: left;
-    margin-right: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-  }
-  .songInfo {
-    .songTitle {
-      max-height: 40px;
-      overflow: hidden;
-    }
-    .songArtist {
-      max-height: 20px;
-      overflow: hidden;
-    }
-  }
-  .audioRemoveButton {
-    position: absolute;
-    top: 20px;
-    right: 5px;
-  }
-}
-
-.playlistItem.active {
-  background: darken(white, 15%) !important;
-  border-top: 1px solid $secondaryThemeColor;
-  border-bottom: 1px solid $secondaryThemeColor;
-}
-
-.playlistItem:hover {
-  background: darken(white, 10%);
-  .close {
-    display: block;
-  }
-}
-
-#beatArea {
-  height: $playerBottomHeight;
-  position: relative;
-  padding: 0;
-}
-
-.noUi-target {
-  margin: 0 auto;
-}
-
-.noUi-base, .noUi-background {
-  background-color: #ADADAD;
-  border: 1px solid #797979;
-}
-
-.noUi-vertical {
-  height: 200px;
-  margin-top: 10px;
-  margin-bottom: 15px;
-}
-
-.star {
-  cursor: auto !important;
-}
-
-#beatOptionButtonGroup {
-  margin: 20px 0 10px 0;
-}
-
-.beatOption {
-  padding: 5px 0;
-  text-align: center;
-  md-switch {
-    margin: 0;
-  }
-  .optionDescription {
-    font-size: 16px;
-  }
-  button {
-    margin-top: 0;
-  }
-  .tooltip {
-    margin: 0;
-  }
-}
-
-#playerBottom {
-  color: black;
-  border: 1px solid black;
-  width: 100%;
-  background: white;
-}
-
-#beatContainer {
-  padding: 0;
-  height: $playerBottomHeight;
-}
-
-#beatArea .lightGroup {
-  margin: 10px 20px 0 40px;
-  float: right;
-  div {
-    display: block;
-    padding: 10px;
-  }
-}
-
-#playerButtonGroup {
-  margin-top: 10px;
-}
-
-.noUi-value-vertical {
-  margin-top: -10px;
-}
-
-.noUi-value-vertical, .noUi-pips {
-  color: inherit !important;
-  font: 400 14px 'Slabo 27px';
-}
-
-.noUi-vertical .noUi-handle {
-  border: 1px solid #A3A0A0;
-  width: 26px;
-}
-
-.noUi-vertical .noUi-handle:after, .noUi-vertical .noUi-handle:before{
-  background: grey;
-}
-
-#saveBeatPreferencesStar {
-  position: absolute;
-  top: 3px;
-  z-index: 1000;
-  md-icon {
-    color: $secondaryThemeColor !important;
-    font-size: 25px;
   }
 }
 
@@ -769,82 +97,26 @@ div.ember-modal-dialog {
   }
 }
 
-.addMusicButton {
-  float: right;
-  color: white;
+// fancy webkit scrollbars
+::-webkit-scrollbar {
+  -webkit-appearance: none;
 }
 
-#addMusicChoices {
-  min-width: initial;
-  right: 0;
-  left: initial;
-  width: 100px;
-  top: 25px;
+::-webkit-scrollbar:vertical {
+  width: 12px;
 }
 
-.addNewMusic {
-  padding: 0 5px 0 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  background: #f8f8f8;
-  border: none;
+::-webkit-scrollbar:horizontal {
+  height: 12px;
 }
 
-.addNewMusic:hover {
-  background: darken(#f8f8f8, 5%);
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 }
 
-.soundCloudLink {
-  margin-right: 5px;
-}
-
-#visualization {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.check {
-  margin-left: 10px;
-  position: relative;
-  top: -4px;
-}
-
-.visualizersMenu {
-  left: -135px;
-}
-
-.displayIcon {
-  background: url(/favicon-96x96.png) center center no-repeat;
-  background-size: 80px 80px;
-}
-
-#artwork {
-  position: absolute;
-  width: 100%;
-  overflow: hidden;
-  img {
-    display: block;
-    margin: 0 auto;
-    max-height: 400px;
-  }
-}
-
-.keyboard-arrow-down {
-  font-size: 20px;
-}
-
-#extraOptionsMenu {
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 3px 15px;
-  position: absolute;
-  bottom: -39px;
-  right: 17px;
-  border-radius: 0 0 5px 5px;
-}
-
-#extraOptionsMenu:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.8);
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
 }

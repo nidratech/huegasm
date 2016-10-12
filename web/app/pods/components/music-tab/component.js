@@ -12,14 +12,6 @@ const {
 } = Ember;
 
 export default Component.extend(helperMixin, visualizerMixin, {
-  onActiveChange: observer('active', function(){
-    if(this.get('active')){
-      $('#playNotification').removeClass('fadeOut');
-      $('#beatSpeakerCenterOuter').removeClass('vibrateOuter');
-      $('#beatSpeakerCenterInner').removeClass('vibrateInner');
-    }
-  }),
-
   onAmbienceModeChange: observer('ambienceMode', 'playing', function(){
     if(this.get('ambienceMode') && this.get('playing')) {
       this.set('ambienceModeHandle', setInterval(()=> {this.doAmbienceLightChange();}, 5000));
@@ -318,8 +310,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
     }
 
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
-    $('#beatSpeakerCenterOuter').removeClass('vibrateOuter').prop('offsetWidth', $('#beatSpeakerCenterOuter').prop('offsetWidth')).addClass('vibrateOuter');
-    $('#beatSpeakerCenterInner').removeClass('vibrateInner').prop('offsetWidth', $('#beatSpeakerCenterInner').prop('offsetWidth')).addClass('vibrateInner');
+    $('#beat-speaker-center-outer').velocity({blur: 3}, 100).velocity({blur: 0}, 100);
+    $('#beat-speaker-center-inner').velocity({scale: 1.05}, 100).velocity({scale: 1}, 100);
   },
 
   init() {
@@ -374,7 +366,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     let self = this;
 
     // file input code
-    $('#fileInput').on('change', function () {
+    $('#file-input').on('change', function() {
       let files = this.files;
       self.send('handleNewFiles', files);
       this.value = null; // reset in case upload the second file again
@@ -385,7 +377,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     });
 
     // prevent space/text selection when the user repeatedly clicks on the center
-    $('#beatContainer').on('mousedown', '#beatSpeakerCenterInner', function(event) {
+    $('#beat-container').on('mousedown', '#beat-speaker-center-inner', function(event) {
       event.preventDefault();
     });
 
@@ -395,12 +387,12 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
     });
 
-    this.$().on('drop', '#playListArea', (event)=>{
+    this.$().on('drop', '#play-list-area', (event)=>{
       this.send('dropFiles', event.dataTransfer.files);
     });
 
     // control the volume by scrolling up/down
-    $('#playerArea').on('mousewheel', (event)=>{
+    $('#player-area').on('mousewheel', (event)=>{
       if(this.get('playQueueNotEmpty') && !this.get('usingMicAudio')) {
         let scrollSize = 5;
 
@@ -432,7 +424,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     }
 
     if(!this.get('playerBottomDisplayed')) {
-      $('#playerBottom').hide();
+      $('#player-bottom').hide();
     }
   },
 
@@ -444,7 +436,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.set('currentVisName', name);
     },
     hideTooltip(){
-      $('.bootstrapTooltip').tooltip('hide');
+      $('.bootstrap-tooltip').tooltip('hide');
     },
     gotoSCURL(URL){
       // need to pause the music since soundcloud is going to start playing this song anyways
@@ -556,7 +548,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
     },
     slideTogglePlayerBottom(){
-      this.$('#playerBottom').slideToggle();
+      let elem = this.$('#player-bottom');
+
+      elem.velocity(elem.is(':visible') ? 'slideUp' : 'slideDown', { duration: 500 });
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
     goToSong(index, playSong, scrollToSong){
@@ -620,12 +614,10 @@ export default Component.extend(helperMixin, visualizerMixin, {
         if(scrollToSong){
           // this is just a bad workaround to make sure that the track has been rendered to the playlist
           run.later(()=>{
-            let track = $('.track'+index), playListArea = $('#playListArea');
+            let track = $('.track'+index);
 
             if(!isNone(track) && !isNone(track.offset())) {
-              playListArea.animate({
-                scrollTop: track.offset().top - playListArea.offset().top + playListArea.scrollTop()
-              });
+              track.velocity('scroll');
             }
           }, 1000);
         }
@@ -642,10 +634,10 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
     },
     playerAreaPlay(){
-      if(isEmpty($('#playerControls:hover')) && this.get('playQueuePointer') !== -1 ){
+      if(isEmpty($('#player-controls:hover')) && this.get('playQueuePointer') !== -1 ){
         this.send('play');
-        this.set('fadeOutNotification', true);
-        $('#playNotification').removeClass('fadeOut').prop('offsetWidth', $('#playNotification').prop('offsetWidth')).addClass('fadeOut');
+
+        $('#play-notification').velocity({opacity: 0.8, scale: 1}, 0).velocity({opacity: 0, scale: 3}, 500);
       }
     },
     play(replayPause) {
@@ -795,7 +787,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
     },
     addLocalAudio: function () {
-      $('#fileInput').click();
+      $('#file-input').click();
     },
     shuffleChanged(value) {
       this.changePlayerControl('shuffle', isNone(value) ? !this.get('shuffle') : value);
@@ -842,16 +834,16 @@ export default Component.extend(helperMixin, visualizerMixin, {
       });
       this.send('handleNewFiles', files);
     },
-    playListAreaDragOver(){
+    playerListAreaDragOver(){
       this.set('draggingOverPlayListArea', true);
     },
-    playListAreaDragLeave(){
+    playerListAreaDragLeave(){
       this.set('draggingOverPlayListArea', false);
     },
     handleNewFiles(files){
       let self = this,
         playQueue = this.get('playQueue'),
-        updatePlayQueue = ()=>{
+        updatePlayQueue = function(){
           let tags = ID3.getAllTags("local"),
             picture = null;
 
@@ -864,7 +856,14 @@ export default Component.extend(helperMixin, visualizerMixin, {
             picture = "data:" + tags.picture.format + ";base64," + window.btoa(base64String);
           }
 
-          playQueue.pushObject({fileName: this.name.replace(/\.[^/.]+$/, ""), url: URL.createObjectURL(this), artist: tags.artist, title: tags.title, picture: picture, local: true });
+          playQueue.pushObject({
+            fileName: this.name.replace(/\.[^/.]+$/, ""),
+            url: URL.createObjectURL(this),
+            artist: tags.artist,
+            title: tags.title,
+            picture: picture,
+            local: true
+          });
 
           ID3.clearAll();
 

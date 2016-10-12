@@ -1,5 +1,5 @@
 @import 'ember-paper';
-@import 'variables';
+@import 'huegasm-variables';
 
 md-checkbox.md-default-theme .md-icon {
   border-color: inherit !important;
@@ -27,13 +27,6 @@ md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-sli
   cursor: not-allowed;
 }
 
-#bridgeInput {
-  md-input-container {
-    max-width: 200px;
-    margin: 0 auto;
-  }
-}
-
 md-progress-circular {
   margin: 0 auto 20px auto !important;
 }
@@ -42,7 +35,7 @@ md-progress-linear {
   margin-bottom: 50px;
 }
 
-.settingsItem span:hover {
+.settings-item span:hover {
   text-decoration: underline;
   md-icon.group {
     color: black !important;
@@ -52,8 +45,7 @@ md-progress-linear {
   }
 }
 
-
-.settingsItem {
+.settings-item {
   position: relative;
   display: inline-block;
   transition: 0.1s all ease-in-out;
@@ -65,7 +57,7 @@ md-progress-linear {
   }
 }
 
-.bootstrapTooltip md-icon {
+.bootstrap-tooltip md-icon {
   font-size: 22px;
   cursor: pointer;
   -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering

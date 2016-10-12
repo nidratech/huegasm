@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  margin-bottom: $footerHeight + 30px;
+  margin-bottom: $footerHeight;
   position: static;
 }
 
@@ -40,11 +40,14 @@ body, button {
   left: 0;
   bottom: 0;
   width: 100%;
+  text-align: center;
   height: $footerHeight;
-  p {
-    padding-left: 0;
-    text-align: center;
-  }
+}
+
+#footer-text {
+  display: inline-block;
+  position: relative;
+  bottom: 10px;
   a {
     margin-left: 5px;
   }

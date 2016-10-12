@@ -27,13 +27,13 @@
 {{/if}}
 
 <footer id="footer">
-   <p>
-     <span class="relative">
-       <span id="dimmer" {{action "toggleDimmer"}} class={{dimmerOnClass}}></span>© {{year}}
+   <div id="dimmer" {{action "toggleDimmer"}} class={{dimmerOnClass}}></div>
 
-       <a href="http://egorphilippov.me" target="_blank" rel="noopener noreferrer">
-         Egor Philippov
-       </a>
-     </span>
-   </p>
+  <div id="footer-text">
+    © {{year}}
+
+    <a href="http://www.egorphilippov.me" div="" target="_blank" rel="noopener noreferrer">
+      Egor Philippov
+    </a>
+  </div>
 </footer>

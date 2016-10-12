@@ -466,7 +466,12 @@ export default Component.extend(helperMixin, visualizerMixin, {
                     picture = result.user.avatar_url;
                   }
 
-                  this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title, artworkUrl: result.artwork_url, picture: picture });
+                  $.get(picture)
+                    .done(()=>{
+                      this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title, picture: picture });
+                    }).fail(()=>{ // no picture
+                      this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title });
+                  });
                 } else {
                   failedSongs.push(result.title);
                 }
@@ -617,7 +622,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
             let track = $('.track'+index);
 
             if(!isNone(track) && !isNone(track.offset())) {
-              track.velocity('scroll');
+              track.velocity('scroll', { container: $('#play-list-area') });
             }
           }, 1000);
         }

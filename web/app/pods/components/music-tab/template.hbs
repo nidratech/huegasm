@@ -6,7 +6,7 @@
 
     <div id="player-controls">
       {{#if usingLocalAudio}}
-        {{range-slider start=seekPosition min=0 max=100 id="seek-slider" slide="seekChanged"}}
+        {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
 
         {{#if playQueueNotEmpty}}
           <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip"
@@ -20,7 +20,7 @@
                   -->{{/if}}<!--
           --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
                    data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
-                  -->{{range-slider start=volume min=0 max=100 slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
+                  -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
 
         <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
       {{/if}}
@@ -141,67 +141,74 @@
 </div>
 
 <div id="player-bottom" class="row {{if dimmerOn "dimmerOn"}}">
-<div id="beat-area" class="col-sm-7 col-xs-12">
-{{#if usingBeatPreferences}}
-  <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrap-tooltip" id="save-beat-preferences-star">
-  {{paper-icon class=dimmerOnClass icon="star"}}
-  </span>
-{{/if}}
+  <div id="beat-area" class="col-sm-7 col-xs-12">
+    {{#if usingBeatPreferences}}
+      <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrap-tooltip" id="save-beat-preferences-star">
+      {{paper-icon class=dimmerOnClass icon="star"}}
+      </span>
+    {{/if}}
 
-<div class="row" id="beat-option-row">
-  <div class="beat-option col-xs-4">
-    <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrap-tooltip">Sensitivity</span>
-  {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-  </div>
-
-    <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="optionDescription bootstrap-tooltip">Hue Range</span>
-      {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
-    </div>
-
-  {{#if usingMicAudio}}
+    <div class="row" id="beat-option-row">
       <div class="beat-option col-xs-4">
-          <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrap-tooltip">Mic Boost</span>
-        {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrap-tooltip">
+          Sensitivity
+        </span>
+
+      {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
       </div>
-  {{/if}}
 
-  <div id="light-option" class="beat-option col-xs-4">
-    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-      {{#paper-checkbox checked=flashingTransitions}}Flashing Transitions{{/paper-checkbox}}
-    </span>
+      <div class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="optionDescription bootstrap-tooltip">
+          Hue Range
+        </span>
 
-    <span data-toggle="tooltip" data-placement="bottom auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-      {{#paper-checkbox checked=colorloopMode}}Colorloop{{/paper-checkbox}}
-    </span>
+        {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+      </div>
 
-{{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-  {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
-</span>--}}
-</div>
-</div>
+      {{#if usingMicAudio}}
+          <div class="beat-option col-xs-4">
+            <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrap-tooltip">
+              Mic Boost
+            </span>
 
-</div>
+            {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+          </div>
+      {{/if}}
 
-<div id="beat-container" class="col-sm-5">
-<div class="bezel">
-  <div class="rivet1"></div>
-  <div class="rivet2"></div>
-  <div class="rivet3"></div>
-  <div class="rivet4"></div>
-  <div class="rivet5"></div>
-  <div class="rivet6"></div>
-  <div class="rivet7"></div>
-  <div class="rivet8"></div>
+      <div id="light-option" class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+          {{#paper-checkbox checked=flashingTransitions}}Flashing Transitions{{/paper-checkbox}}
+        </span>
 
-  <div id="beat-speaker-center-outer">
-    <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}>
+        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+          {{#paper-checkbox checked=colorloopMode}}Colorloop{{/paper-checkbox}}
+        </span>
+
+      {{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+        {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
+      </span>--}}
+      </div>
+    </div>
   </div>
+
+  <div id="beat-container" class="col-sm-5 col-xs-12">
+    <div class="bezel">
+      <div class="rivet1"></div>
+      <div class="rivet2"></div>
+      <div class="rivet3"></div>
+      <div class="rivet4"></div>
+      <div class="rivet5"></div>
+      <div class="rivet6"></div>
+      <div class="rivet7"></div>
+      <div class="rivet8"></div>
+
+      <div id="beat-speaker-center-outer">
+        <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}></div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 </div>
 
 {{ember-notify messageStyle='bootstrap' closeAfter=5000}}
 
-{{add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}
+{{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

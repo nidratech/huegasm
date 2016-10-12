@@ -10,7 +10,7 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['container', 'bridgeFinder'],
+  classNames: ['container', 'bridge-finder'],
   bridgeIp: null,
   trial: false,
   bridgeUsername: null,

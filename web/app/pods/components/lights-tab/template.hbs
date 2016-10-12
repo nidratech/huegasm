@@ -24,7 +24,7 @@
     {{#paper-button raised=true class="color" action="toggleColorPicker" disabled=trial}}{{/paper-button}}
 
     {{#if colorPickerDisplayed}}
-      {{color-picker lightsData=lightsData activeLights=activeLights rgb=rgb}}
+      {{lights-tab/color-picker lightsData=lightsData activeLights=activeLights rgb=rgb}}
     {{/if}}
   </div>
 

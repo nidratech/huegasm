@@ -7,8 +7,8 @@
 @import 'bridge-finder';
 @import 'common';
 @import 'dimmer';
+@import 'ember-notify';
 @import 'fancy-speaker';
-@import 'index';
 @import 'introjs';
 @import 'group-controls';
 @import 'hue-controls';
@@ -48,10 +48,6 @@ body, button {
   a {
     margin-left: 5px;
   }
-}
-
-.ember-notify-default.ember-notify-cn {
-  top: 20px;
 }
 
 .alert {

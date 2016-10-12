@@ -138,10 +138,14 @@ export default Mixin.create({
   // used to insure that we don't replay the same thing multiple times in shuffle mode
   shufflePlayed: [],
 
+  // noUiSlider connection specification
+  filledConnect: [true, false],
+  hueRangeConnect: [false, true, false],
+
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
-  tooManySoundCloudFuckUps: '<div class="alert alert-danger" role="alert">The SoundCloud API is not seving the audio properly. More details <a href="https://www.soundcloudcommunity.com/soundcloud/topics/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header" target="_blank">HERE</a>.</div>',
+  tooManySoundCloudFuckUps: '<div class="alert alert-danger" role="alert">The SoundCloud API is not seving the audio properly. More details <a href="https://www.soundcloudcommunity.com/soundcloud/topics/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header" target="_blank" rel="noopener noreferrer">HERE</a>.</div>',
   notStreamableHtml(fileNames){
     let html =  '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
 
@@ -194,7 +198,7 @@ export default Mixin.create({
 
     if(playQueuePointer !== -1 && !usingMicAudio && currentVisName === 'None'){
       let song = playQueue[playQueuePointer];
-      if(song.scUrl){
+      if(song.scUrl && !isNone(song.picture)){
         pic = song.picture.replace('67x67', '500x500');
       } else {
         pic = song.picture;

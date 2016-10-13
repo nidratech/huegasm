@@ -125,11 +125,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
     for(let i=0; i < iterations; i++){
       let l = activeLights[Math.floor(Math.random()*activeLights.length)];
 
-      if(!lights.contains(l) && !workedLights.contains(l)){
+      if(!lights.includes(l) && !workedLights.includes(l)){
         lights.push(l);
         workedLights.push(l);
       } else if(justOneLight && workedLights.length !== activeLights.length){ // work a light if we only need one
-        while(workedLights.contains(l)){
+        while(workedLights.includes(l)){
           l = activeLights[Math.floor(Math.random()*activeLights.length)];
         }
 
@@ -716,7 +716,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
         // we're going to assume that the song URL is the id
         do {
           nextSong = Math.floor(Math.random() * playQueue.length);
-        } while(shufflePlayed.contains(playQueue[nextSong].url));
+        } while(shufflePlayed.includes(playQueue[nextSong].url));
 
         shufflePlayed.pushObject(playQueue[nextSong].url);
       } else if(nextSong > playQueue.length-1){

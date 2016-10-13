@@ -155,7 +155,7 @@ export default Component.extend({
 
   didInsertElement() {
     $(document).click((event)=>{
-      if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !$(event.target).closest('.color-picker, #color-row').length) {
+      if(this.get('colorPickerDisplayed') && !event.target.classList.includes('color') && !$(event.target).closest('.color-picker, #color-row').length) {
         this.toggleProperty('colorPickerDisplayed');
       }
     });

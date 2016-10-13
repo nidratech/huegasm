@@ -116,7 +116,6 @@ export default Component.extend({
 
   clearBridgePingIntervalHandle(){
     clearInterval(this.get('bridgePingIntervalHandle'));
-    this.set('bridgePingIntervalHandle', null);
   },
 
   actions: {

@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 const {
   Component,
-  observer,
   computed,
   isEmpty,
   isNone,
@@ -16,8 +15,6 @@ export default Component.extend({
   bridgeIp: null,
   manualBridgeIp: null,
   bridgeUsername: null,
-  updateGroupsData: true,
-  groupsData: null,
   lightsData: null,
   activeLights: [],
   tabList: ["Lights", "Music"],
@@ -28,7 +25,7 @@ export default Component.extend({
   musicTabSelected: computed.equal('selectedTab', 1),
 
   dimmerOnClass: computed('dimmerOn', function(){
-    return this.get('dimmerOn') ? 'dimmerOn' : null;
+    return this.get('dimmerOn') ? 'dimmerOn md-menu-origin' : 'md-menu-origin';
   }),
 
   ready: computed('lightsData', 'trial', function() {
@@ -76,7 +73,6 @@ export default Component.extend({
     this._super();
 
     if(!this.get('trial')) {
-      this.doUpdateGroupsData();
       this.updateLightData();
       this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
     }
@@ -84,22 +80,6 @@ export default Component.extend({
     if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
     }
-  },
-
-  onUpdateGroupsDataChange: observer('updateGroupsData', function(){
-    if(this.get('updateGroupsData')){
-      setTimeout(()=>{ this.doUpdateGroupsData(); }, 1000);
-    }
-  }),
-
-  doUpdateGroupsData(){
-    $.get(this.get('apiURL') + '/groups', (result, status)=>{
-      if (status === 'success' ) {
-        this.set('groupsData', result);
-      }
-    });
-
-    this.toggleProperty('updateGroupsData');
   },
 
   updateLightData(){
@@ -155,7 +135,7 @@ export default Component.extend({
           {
             element: '#music-tab',
             intro: 'This is the music player. You\'ll use this to play music and synchronize it with your active lights.<br><br>' +
-            '<i><b>TIP</b>: Control which lights are active through the <b>Lights</b> tab or through the <b>Groups</b> menu dropdown.</i>'
+            '<i><b>TIP</b>: Control which lights are active through the <b>Lights</b> tab.</i>'
           },
           {
             element: '#playlist',
@@ -195,11 +175,6 @@ export default Component.extend({
             element: '#active-lights',
             intro: 'These icons represent the hue lights in your system. Active lights will be controlled by the application while the inactive lights will have a red X over them and will not be controlled.<br>' +
             'You may toggle a light\'s state by clicking on it.'
-          },
-          {
-            element: $('.settings-item')[0],
-            intro: 'The Groups menu allows for saving and quickly selecting groups of lights.',
-            position: 'left'
           },
           {
             element: $('.settings-item')[1],

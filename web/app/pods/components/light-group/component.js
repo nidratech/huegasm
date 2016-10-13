@@ -65,7 +65,7 @@ export default Component.extend({
 
           let activeClass = 'light-active';
 
-          if(!this.get('activeLights').contains(key)){
+          if(!this.get('activeLights').includes(key)){
             activeClass = 'light-inactive';
           }
 

@@ -10,7 +10,6 @@
 @import 'ember-notify';
 @import 'fancy-speaker';
 @import 'introjs';
-@import 'group-controls';
 @import 'hue-controls';
 @import 'huegasm-variables';
 @import 'light-group';
@@ -69,7 +68,7 @@ body, button {
   margin-left: 10px;
 }
 
-.settings-item .settings::before, .settings-item .group::before {
+.settings-item .settings::before {
   font-size: 28px;
   transition: 0.1s all ease-in-out;
 }

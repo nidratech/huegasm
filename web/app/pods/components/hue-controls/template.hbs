@@ -1,29 +1,27 @@
 {{#if ready}}
   <div class="row navigation">
-    <div class="col-sm-4 col-sm-offset-3 col-xs-8">
+    <div class="col-sm-6 col-sm-offset-3 col-xs-10">
       {{#each tabData as |tab|}}
         <span class="navigation-item pointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
       {{/each}}
     </div>
-
-    <div id="settings" class="col-xs-4">
+    <div id="settings" class="col-xs-2">
       <div class="settings-item">
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{paper-icon icon="group" class=dimmerOnClass}}Groups <span class="caret"></span>
-        </span>
-
-        {{groups-list lightsData=lightsData groupsData=groupsData activeLights=activeLights apiURL=apiURL updateGroupsData=updateGroupsData groupControlDisplayed=groupControlDisplayed storage=storage}}
-      </div>
-
-      <div class="settings-item">
-        <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settings-itemSettings">
-          {{paper-icon icon="settings" class=dimmerOnClass}}Settings <span class="caret"></span>
-        </span>
-
-        <ul id="app-settings" class="dropdown-menu">
-          <li {{action "clearBridge"}}><a href="#">Switch bridge</a></li>
-          <li {{action "startIntro"}}><a href="#">Restart tutorial</a></li>
-          <li {{action "clearAllSettings"}}><a href="#">Reset settings</a></li>
-        </ul>
+        {{#paper-menu as |menu|}}
+          {{#paper-button target=menu action="toggleMenu" icon-button=true}}
+            {{paper-icon "settings" class=dimmerOnClass}}
+          {{/paper-button}}
+        {{else}}
+          {{#paper-menu-item action="clearBridge"}}
+            <span class="md-menu-align-target">Switch bridge</span>
+          {{/paper-menu-item}}
+          {{#paper-menu-item action="startIntro"}}
+            <span>Restart tutorial</span>
+          {{/paper-menu-item}}
+          {{#paper-menu-item action="clearAllSettings"}}
+            <span>Reset settings</span>
+          {{/paper-menu-item}}
+        {{/paper-menu}}
       </div>
     </div>
   </div>

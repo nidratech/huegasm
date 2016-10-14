@@ -10,13 +10,13 @@
 
         {{#if playQueueNotEmpty}}
           <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip"
-                data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon icon="skip-previous" class="player-control-icon"}}</span><!--
+                data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
           -->{{/if}}<!--
                     --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip"
-                             data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon icon=playingIcon class="player-control-icon"}}</span><!--
+                             data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
                   -->{{#if playQueueMultiple}}<!--
                 --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip"
-                         data-title="Next" {{action "next" true}}>{{paper-icon icon="skip-next" action="" class="player-control-icon"}}</span><!--
+                         data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
                   -->{{/if}}<!--
           --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
                    data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
@@ -35,13 +35,19 @@
         <span class="dropup">
           <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" data-title="Visualizations" {{action "hideTooltip"}}>
-              {{paper-icon icon="remove-red-eye" class="player-control-icon"}}
+              {{paper-icon "remove-red-eye" class="player-control-icon"}}
             </span>
           </span>
 
           <ul class="dropdown-menu visualizers-menu">
             {{#each visNames as |name|}}
-              <li><a href="#" {{action "setVisName" name}}>{{name}} {{#if (eq currentVisName name)}}{{paper-icon icon="check"}}{{/if}}</a></li>
+              <li>
+                <a href="#" {{action "setVisName" name}}>{{name}}
+                  {{#if (eq currentVisName name)}}
+                    {{paper-icon "check"}}
+                  {{/if}}
+                </a>
+              </li>
             {{/each}}
           </ul>
         </span>
@@ -63,14 +69,6 @@
       <li><a href="#" {{action "addLocalAudio"}}>Local</a></li>
       <li><a href="#" {{action "toggleIsShowingAddSoundCloudModal"}}>SoundCloud</a></li>
     </ul>
-
-    {{!--{{#if (and usingLocalAudio playQueueNotEmpty)}}
-        <div id="extra-options-menu" class="hidden-xs">
-            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
-            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
-            <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="player-control-icon"}}</span>
-        </div>
-    {{/if}} --}}
   {{/if}}
 
   {{#if usingMicSupported}}
@@ -78,15 +76,15 @@
   {{/if}}
 
   {{#if usingLocalAudio}}
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon icon="shuffle" class=shuffleClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon icon=repeatIcon class=repeatClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon icon="clear-all" class="player-control-icon"}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
+    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
   {{/if}}
 </div>
 
 {{#if usingMicAudio}}
   <div id="play-area-mic" class="{{if dimmerOn "dimmerOn"}}">
-    {{paper-icon icon="mic" class=dimmerOnClass}}
+    {{paper-icon "mic" class=dimmerOnClass}}
   </div>
 {{else}}
   {{#if usingLocalAudio}}
@@ -99,7 +97,7 @@
             Add your music files here
           {{/if}}
         </div>
-        {{paper-icon icon="library-music" class=dimmerOnClass}}
+        {{paper-icon "library-music" class=dimmerOnClass}}
       {{/if}}
 
       {{#each playQueue as |item index|}}
@@ -125,7 +123,7 @@
             {{/if}}
           </div>
 
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon icon="close"}}</span>
+          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close"}}</span>
         </div>
       {{/each}}
     </div>
@@ -136,7 +134,7 @@
 
 <div id="slide-toggle" class="text-center pointer row" {{action "slideTogglePlayerBottom"}}>
 <div class="col-xs-offset-5 col-xs-2">
-  {{paper-icon icon=beatDetectionAreaArrowIcon id="beat-detection-area-arrow-icon"}}
+  {{paper-icon beatDetectionAreaArrowIcon id="beat-detection-area-arrow-icon"}}
 </div>
 </div>
 
@@ -144,7 +142,7 @@
   <div id="beat-area" class="col-sm-7 col-xs-12">
     {{#if usingBeatPreferences}}
       <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrap-tooltip" id="save-beat-preferences-star">
-      {{paper-icon class=dimmerOnClass icon="star"}}
+      {{paper-icon "star" class=dimmerOnClass}}
       </span>
     {{/if}}
 

@@ -6,23 +6,24 @@
       {{/each}}
     </div>
     <div id="settings" class="col-xs-2">
-      <div class="settings-item">
-        {{#paper-menu as |menu|}}
-          {{#paper-button target=menu action="toggleMenu" icon-button=true}}
-            {{paper-icon "settings" class=dimmerOnClass}}
-          {{/paper-button}}
-        {{else}}
-          {{#paper-menu-item action="clearBridge"}}
-            <span class="md-menu-align-target">Switch bridge</span>
-          {{/paper-menu-item}}
-          {{#paper-menu-item action="startIntro"}}
-            <span>Restart tutorial</span>
-          {{/paper-menu-item}}
-          {{#paper-menu-item action="clearAllSettings"}}
-            <span>Reset settings</span>
-          {{/paper-menu-item}}
-        {{/paper-menu}}
-      </div>
+      {{#paper-menu as |menu|}}
+        {{#paper-button target=menu action="toggleMenu" icon-button=true}}
+          {{paper-icon "settings" class=dimmerOnClass id="settings-icon" size=3}}
+        {{/paper-button}}
+      {{else}}
+        {{#paper-menu-item action="clearBridge"}}
+          {{paper-icon "settings" class="md-menu-align-target"}}
+          <span>Switch bridge</span>
+        {{/paper-menu-item}}
+        {{#paper-menu-item action="startIntro"}}
+          {{paper-icon "settings" class="md-menu-align-target"}}
+          <span>Restart tutorial</span>
+        {{/paper-menu-item}}
+        {{#paper-menu-item action="clearAllSettings"}}
+          {{paper-icon "settings" class="md-menu-align-target"}}
+          <span>Reset settings</span>
+        {{/paper-menu-item}}
+      {{/paper-menu}}
     </div>
   </div>
 

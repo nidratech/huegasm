@@ -35,37 +35,9 @@ md-progress-linear {
   margin-bottom: 50px;
 }
 
-.settings-item span:hover {
-  text-decoration: underline;
-  md-icon.settings {
-    color: black !important;
-  }
-}
-
-.settings-item {
-  position: relative;
-  display: inline-block;
-  transition: 0.1s all ease-in-out;
-  cursor: pointer;
-  span md-icon {
-    position: relative;
-    bottom: 5px;
-    right: 5px;
-  }
-}
-
 .bootstrap-tooltip md-icon {
-  font-size: 22px;
   cursor: pointer;
   -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
-}
-
-md-list {
-  padding: 0;
-}
-
-md-list-item .md-no-style {
-  padding: 0;
 }
 
 md-slider {
@@ -77,20 +49,12 @@ md-slider.md-default-theme .md-thumb:after {
   background-color: $secondaryThemeColor;
 }
 
-.paper-sidenav {
-  overflow: visible;
-}
-
 md-icon {
   color: rgba(0, 0, 0, 0.54) !important;
 }
 
 md-toolbar {
   background-color: inherit !important;
-}
-
-md-switch.md-default-theme.md-checked .md-bar {
-  background-color: rgba(241, 43, 36, 0.5);
 }
 
 md-switch.md-default-theme.md-checked .md-thumb {

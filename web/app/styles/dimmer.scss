@@ -1,68 +1,72 @@
 @import 'huegasm-variables';
 
 div.dimmerOn {
-  color: white !important;
-  background: #171717 !important;
+  color: $whitish !important;
+  background: $blackish !important;
 }
 
 html.dimmerOn {
   color: white;
-  background: #242424;
+  background: $blackish;
 }
 
 body.dimmerOn {
-  color: white;
-  background: #242424;
+  color: $whitish;
+  background: $blackish;
   .md-track {
-    background: white;
+    background: $whitish;
   }
   .color {
     border: 1px solid white;
   }
+  .playlist-item, #add-music-choices, .add-new-music {
+    color: $whitish;
+    background-color: $dimmerOnButtonColor;
+  }
+  #add-music-choices {
+    a {
+      color: $whitish;
+      &:hover {
+        background-color: darken($dimmerOnButtonColor, 10%) !important;
+      }
+    }
+  }
   .playlist-item {
-    color: #cdcdcd;
-    background: $dimmerOnButtonColor;
-  }
-  .playlist-item.active {
-    background: darken($dimmerOnButtonColor, 15%) !important;
-  }
-  .playlist-item:hover {
-    background: darken($dimmerOnButtonColor, 10%);
-  }
-  .playlist-item .close {
-    color: #cdcdcd !important;
-  }
-  .playlist-item .close:hover {
-    color: white !important;
+    &.active {
+      background: darken($dimmerOnButtonColor, 15%) !important;
+    }
+    &:hover {
+      background: darken($dimmerOnButtonColor, 10%);
+    }
+    .close {
+      color: $whitish !important;
+      &:hover {
+        color: white !important;
+      }
+    }
   }
   svg {
     -webkit-filter: drop-shadow(0 0 5px #228DFF);
   }
   md-input-container {
     label {
-      color: white;
+      color: $whitish;
     }
     input {
-      border-bottom-color: white !important;
+      border-bottom-color: $whitish !important;
     }
     input {
-      color: white !important;
+      color: $whitish !important;
     }
-  }
-  .add-new-music {
-    background: $dimmerOnButtonColor
   }
   .add-new-music:hover {
     background: darken($dimmerOnButtonColor, 5%);
   }
-  #extra-options-menu {
-    opacity: 0.8;
-  }
-  #extra-options-menu:hover {
-    background: rgba(0, 0, 0, 0.9);
-  }
   .popover-content {
     color: black !important;
+  }
+  .md-bar {
+    background-color: darken(white, 60%) !important;
   }
 }
 

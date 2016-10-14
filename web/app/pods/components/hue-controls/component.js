@@ -177,10 +177,10 @@ export default Component.extend({
             'You may toggle a light\'s state by clicking on it.'
           },
           {
-            element: $('.settings-item')[1],
+            element: '#settings-icon',
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
             '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
-            position: 'left'
+            position: 'bottom'
           },
           {
             element: '#dimmer',

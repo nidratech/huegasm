@@ -555,7 +555,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     slideTogglePlayerBottom(){
       let elem = this.$('#player-bottom');
 
-      elem.velocity(elem.is(':visible') ? 'slideUp' : 'slideDown', { duration: 500 });
+      elem.velocity(elem.is(':visible') ? 'slideUp' : 'slideDown', { duration: 300 });
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
     goToSong(index, playSong, scrollToSong){
@@ -618,13 +618,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
         if(scrollToSong){
           // this is just a bad workaround to make sure that the track has been rendered to the playlist
-          run.later(()=>{
-            let track = $('.track'+index);
-
-            if(!isNone(track) && !isNone(track.offset())) {
-              track.velocity('scroll', { container: $('#play-list-area') });
-            }
-          }, 1000);
+          run.next(this, ()=>{
+            $('.track'+index).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
+          });
         }
       }
     },

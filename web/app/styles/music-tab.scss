@@ -365,25 +365,22 @@
   font-size: 20px;
 }
 
-#extra-options-menu {
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 3px 15px;
-  position: absolute;
-  bottom: -39px;
-  right: 17px;
-  border-radius: 0 0 5px 5px;
-}
-
-#extra-options-menu:hover {
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.8);
-}
-
 .check {
   margin-left: 10px;
   position: relative;
   top: -4px;
+}
+
+.close {
+  font-size: 18px !important;
+  color: rgb(51, 51, 51);
+  display: none;
+  opacity: 1;
+  text-shadow: none;
+  &:hover {
+    color: darken(#333333, 5%) !important;
+    opacity: 1
+  }
 }
 
 // mobile overrides
@@ -393,9 +390,6 @@
     .noUi-handle {
       opacity: 1 !important;
     }
-  }
-  .settings-item:nth-of-type(2){
-    margin-left: 0;
   }
   #seek-slider {
     margin-bottom: 15px;

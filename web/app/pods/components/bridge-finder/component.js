@@ -52,7 +52,7 @@ export default Component.extend({
 
   // find the bridge ip here
   init() {
-    this._super();
+    this._super(...arguments);
 
     if(this.get('bridgeIp') === null) {
       $.ajax('https://www.meethue.com/api/nupnp', {
@@ -96,13 +96,15 @@ export default Component.extend({
         contentType: 'application/json',
         type: 'POST'
       }).done((result, status)=>{
-        if (status === 'success' && !result[0].error) {
-          this.clearBridgePingIntervalHandle();
-          this.set('bridgeUsername', result[0].success.username);
-          this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
-        }
+        if(!this.isDestroyed){
+          this.set('bridgeAuthenticateReachedStatus', status);
 
-        this.set('bridgeAuthenticateReachedStatus', status);
+          if (status === 'success' && !result[0].error) {
+            this.clearBridgePingIntervalHandle();
+            this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
+            this.set('bridgeUsername', result[0].success.username);
+          }
+        }
       }).fail(()=>{
         this.clearBridgePingIntervalHandle();
         this.set('error', true);
@@ -122,7 +124,6 @@ export default Component.extend({
     retry(){
       this.onBridgeIpChange();
     },
-
     findBridgeByIp() {
       let manualBridgeIp = this.get('manualBridgeIp');
 

@@ -315,7 +315,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
   },
 
   init() {
-    this._super();
+    this._super(...arguments);
 
     window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
     window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame;
@@ -361,8 +361,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
   },
 
   didInsertElement() {
-    this._super();
-
     let self = this;
 
     // file input code

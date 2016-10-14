@@ -12,11 +12,6 @@ export default Component.extend({
   classNameBindings: ['active::hidden'],
   elementId: 'lights-tab',
 
-  activeLights: [],
-  lightsData: null,
-
-  lightsDataIntervalHandle: null,
-
   colorPickerDisplayed: false,
 
   rgb: [255, 255, 255],
@@ -44,7 +39,9 @@ export default Component.extend({
 
   // determines the average brightness of the hue system for the brightness slider
   lightsBrightness: computed('lightsData', function(){
-    let lightsData = this.get('lightsData'), activeLights = this.get('activeLights'), lightsBrightness = 0;
+    let lightsData = this.get('lightsData'),
+      activeLights = this.get('activeLights'),
+      lightsBrightness = 0;
 
     activeLights.forEach(function(light){
       lightsBrightness += lightsData[light].state.bri;
@@ -153,9 +150,31 @@ export default Component.extend({
     }
   }),
 
+  // sync the current light settings to the newly added light
+  onaActiveLightsChange: observer('syncLight', function(){
+    let options = {
+      on: this.get('lightsOn'),
+      bri: this.get('lightsBrightness'),
+      effect: this.get('colorLoopOn') ? 'colorloop' : 'none'
+    }, rgb = this.get('rgb'),
+      syncLight = this.get('syncLight');
+
+    if(rgb[0] !== 255 && rgb[1] !== 255 && rgb[2] !== 255) {
+      options['xy'] = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
+    }
+
+    options['transitiontime'] = 0;
+
+    $.ajax(this.get('apiURL') + '/lights/' + syncLight + '/state', {
+      data: JSON.stringify(options),
+      contentType: 'application/json',
+      type: 'PUT'
+    });
+  }),
+
   didInsertElement() {
     $(document).click((event)=>{
-      if(this.get('colorPickerDisplayed') && !event.target.classList.includes('color') && !$(event.target).closest('.color-picker, #color-row').length) {
+      if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !$(event.target).closest('.color-picker, #color-row').length) {
         this.toggleProperty('colorPickerDisplayed');
       }
     });
@@ -166,39 +185,12 @@ export default Component.extend({
   },
 
   actions: {
-    clickLight(light){
-      let activeLights = this.get('activeLights'),
-        lightId = activeLights.indexOf(light);
-
-      if(lightId !== -1){
-        activeLights.removeObject(light);
-      } else {
-        activeLights.pushObject(light);
-
-        // sync the current light settings to the newly added light
-        let options = {on: this.get('lightsOn'), bri: this.get('lightsBrightness'), effect: this.get('colorLoopOn') ? 'colorloop' : 'none'},
-          rgb = this.get('rgb');
-
-        if(rgb[0] !== 255 && rgb[1] !== 255 && rgb[2] !== 255) {
-          options['xy'] = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
-        }
-
-        options['transitiontime'] = 0;
-
-        $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify(options),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      }
-    },
     toggleColorPicker() {
       this.toggleProperty('colorPickerDisplayed');
     }
   },
 
   // **************** STROBE LIGHT START ****************
-
   strobeOn: false,
 
   strobeOnInervalHandle: null,

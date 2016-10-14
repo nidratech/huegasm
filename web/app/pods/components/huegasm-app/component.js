@@ -40,7 +40,7 @@ export default Component.extend({
   }),
 
   init(){
-    this._super();
+    this._super(...arguments);
 
     let storage = new window.Locally.Store({compress: true});
     this.set('storage', storage);

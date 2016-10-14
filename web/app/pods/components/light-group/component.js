@@ -1,103 +1,111 @@
 import Ember from 'ember';
 
 const {
+  A,
   Component,
-  observer,
+  computed,
   isEmpty,
-  $,
-  A
+  $
 } = Ember;
 
 export default Component.extend({
   classNames: ['light-group'],
   isHovering: false,
-  lightsList: A(),
+  activeLights: A(),
 
   // list of all the lights in the hue system
-  onLightsDataChange: observer('lightsData', 'activeLights.[]', 'dimmerOn', function(){
-    if(!this.get('isHovering')){
-      let lightsData = this.get('lightsData'),
-        lightsList = A(),
-        type;
+  lightsList: computed('lightsData', 'activeLights.[]', 'dimmerOn', function(){
+    let lightsData = this.get('lightsData'),
+      activeLights = this.get('activeLights'),
+      dimmerOn = this.get('dimmerOn'),
+      lightsList = A(),
+      type,
+      activeClass;
 
-      for (let key in lightsData) {
-        if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
-          switch(lightsData[key].modelid){
-            case 'LCT001':
-              type = 'a19';
-              break;
-            case 'LCT002':
-              type = 'br30';
-              break;
-            case 'LCT003':
-              type = 'gu10';
-              break;
-            case 'LST001':
-              type = 'lightstrip';
-              break;
-            case 'LLC010':
-              type = 'lc_iris';
-              break;
-            case 'LLC011':
-              type = 'lc_bloom';
-              break;
-            case 'LLC012':
-              type = 'lc_bloom';
-              break;
-            case 'LLC006':
-              type = 'lc_iris';
-              break;
-            case 'LLC007':
-              type = 'lc_aura';
-              break;
-            case 'LLC013':
-              type = 'storylight';
-              break;
-            case 'LWB004':
-              type ='a19';
-              break;
-            case 'LLC020':
-              type = 'huego';
-              break;
-            default:
-              type = 'a19';
-          }
+    for (let key in lightsData) {
+      activeClass = 'light-active';
 
-          let activeClass = 'light-active';
-
-          if(!this.get('activeLights').includes(key)){
-            activeClass = 'light-inactive';
-          }
-
-          lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass});
+      if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
+        switch(lightsData[key].modelid){
+          case 'LCT001':
+            type = 'a19';
+            break;
+          case 'LCT002':
+            type = 'br30';
+            break;
+          case 'LCT003':
+            type = 'gu10';
+            break;
+          case 'LST001':
+            type = 'lightstrip';
+            break;
+          case 'LLC010':
+            type = 'lc_iris';
+            break;
+          case 'LLC011':
+            type = 'lc_bloom';
+            break;
+          case 'LLC012':
+            type = 'lc_bloom';
+            break;
+          case 'LLC006':
+            type = 'lc_iris';
+            break;
+          case 'LLC007':
+            type = 'lc_aura';
+            break;
+          case 'LLC013':
+            type = 'storylight';
+            break;
+          case 'LWB004':
+            type ='a19';
+            break;
+          case 'LLC020':
+            type = 'huego';
+            break;
+          default:
+            type = 'a19';
         }
-      }
 
-      this.set('lightsList', lightsList);
+        if(dimmerOn){
+          type += 'w';
+        }
+
+        if(!activeLights.includes(key)){
+          activeClass = 'light-inactive';
+        }
+
+        lightsList.push({type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass});
+      }
     }
+
+    return lightsList;
   }),
 
-  didInsertElement() {
-    if(this.get('lightsData')){
-      this.onLightsDataChange();
+  init(){
+    this._super(...arguments);
+
+    let lightsData = this.get('lightsData'),
+      activeLights = this.get('activeLights');
+
+    for (let key in lightsData) {
+      if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
+        activeLights.pushObject(key);
+      }
     }
   },
 
   actions: {
-    clickLight(id, data){
-      let light = $('.light'+id);
+    clickLight(id){
+      let activeLights = this.get('activeLights'),
+        lightId = activeLights.indexOf(id);
 
-      if(!light.hasClass('bootstrap-tooltip')){
-        light = light.parent();
+      if(lightId !== -1){
+        activeLights.removeObject(id);
+      } else {
+        activeLights.pushObject(id);
+        this.set('syncLight', id);
       }
-
-      if(light.hasClass('light-inactive')){
-        light.addClass('light-active').removeClass('light-inactive');
-      } else if(light.hasClass('light-active')){
-        light.addClass('light-inactive').removeClass('light-active');
-      }
-
-      this.sendAction('action', id, data);
     },
     lightStartHover(id){
       let hoveredLight = this.get('lightsList').filter(function(light){
@@ -128,7 +136,6 @@ export default Component.extend({
       }
 
       this.set('isHovering', false);
-      this.onLightsDataChange();
     }
   }
 });

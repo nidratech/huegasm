@@ -2,13 +2,13 @@
   <div class="row navigation">
     <div class="col-sm-6 col-sm-offset-3 col-xs-10">
       {{#each tabData as |tab|}}
-        <span class="navigation-item pointer {{if tab.selected "active"}} text-uppercase" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+        <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
       {{/each}}
     </div>
     <div id="settings" class="col-xs-2">
       {{#paper-menu as |menu|}}
         {{#paper-button target=menu action="toggleMenu" icon-button=true}}
-          {{paper-icon "settings" class=dimmerOnClass id="settings-icon" size=3}}
+          {{paper-icon "settings" class=dimmerOnClass id="settings-icon"}}
         {{/paper-button}}
       {{else}}
         {{#paper-menu-item action="clearBridge"}}
@@ -27,7 +27,9 @@
     </div>
   </div>
 
-  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
+  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL classNames="horizontal-light-group" dimmerOn=dimmerOn id="active-lights"}}
+
+  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
 
   {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
 {{/if}}

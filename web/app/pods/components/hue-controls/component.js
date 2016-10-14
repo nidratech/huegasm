@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const {
+  A,
   Component,
   computed,
   isEmpty,
@@ -12,11 +13,8 @@ const {
 export default Component.extend({
   classNames: ['container-fluid'],
   elementId: 'hue-controls',
-  bridgeIp: null,
-  manualBridgeIp: null,
-  bridgeUsername: null,
   lightsData: null,
-  activeLights: [],
+  activeLights: A(),
   tabList: ["Lights", "Music"],
   selectedTab: 1,
   pauseLightUpdates: false,
@@ -60,7 +58,7 @@ export default Component.extend({
       });
 
       if(haveTooltip) {
-        run.once(this, function(){
+        run.scheduleOnce('afterRender', function(){
           $('.bootstrap-tooltip').tooltip();
         });
       }
@@ -70,7 +68,7 @@ export default Component.extend({
   },
 
   init() {
-    this._super();
+    this._super(...arguments);
 
     if(!this.get('trial')) {
       this.updateLightData();
@@ -85,11 +83,7 @@ export default Component.extend({
   updateLightData(){
     let fail = ()=>{
       clearInterval(this.get('lightsDataIntervalHandle'));
-
-      this.get('storage').remove('huegasm.bridgeIp');
-      this.get('storage').remove('huegasm.bridgeUsername');
-
-      location.reload();
+      this.send('clearBridge');
     };
 
     if(!this.get('pauseLightUpdates')){

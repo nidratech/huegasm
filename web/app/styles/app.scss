@@ -7,7 +7,6 @@
 @import 'bridge-finder';
 @import 'common';
 @import 'dimmer';
-@import 'ember-notify';
 @import 'fancy-speaker';
 @import 'introjs';
 @import 'hue-controls';
@@ -57,15 +56,6 @@ body, button {
   border: none;
 }
 
-#settings {
-  z-index: 3;
-  padding-right: 0;
-  text-align: right;
-}
-
-.settings:before {
-  transition: 0.1s all ease-in-out;
-}
 
 .title {
   margin-bottom: 30px;
@@ -89,6 +79,13 @@ div.ember-modal-dialog {
   }
 }
 
+.dropdown-menu {
+  font-size: 14px;
+  a {
+    line-height: 2 !important;
+  }
+
+}
 // fancy webkit scrollbars
 ::-webkit-scrollbar {
   -webkit-appearance: none;

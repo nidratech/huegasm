@@ -379,7 +379,7 @@ export default Mixin.create({
     this.changeTooltipText(type, tooltipTxt);
   })),
 
-  onPrevChange: observer('timeElapsed', 'playQueueNotEmpty', 'playQueue.[]', function() {
+  onPrevChange: on('init', observer('timeElapsed', 'playQueueNotEmpty', 'playQueue.[]', function() {
     if(this.get('playQueueNotEmpty')){
       let tooltipTxt = 'Previous', type = 'prev';
 
@@ -389,7 +389,7 @@ export default Mixin.create({
 
       this.changeTooltipText(type, tooltipTxt);
     }
-  }),
+  })),
 
   onPlayingChange: on('init', observer('playing', function () {
     let tooltipTxt = 'Play', type = 'playing';

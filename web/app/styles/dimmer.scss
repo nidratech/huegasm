@@ -19,11 +19,11 @@ body.dimmerOn {
   .color {
     border: 1px solid white;
   }
-  .playlist-item, #add-music-choices, .add-new-music {
+  .playlist-item, .dropdown-menu, .add-new-music {
     color: $whitish;
     background-color: $dimmerOnButtonColor;
   }
-  #add-music-choices {
+  .dropdown-menu {
     a {
       color: $whitish;
       &:hover {
@@ -78,6 +78,7 @@ body.dimmerOn {
 .group.dimmerOn,
 .settings.dimmerOn,
 .mic.dimmerOn,
+.check.dimmerOn,
 .star.dimmerOn,
 .library-music.dimmerOn {
   color: inherit !important;

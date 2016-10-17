@@ -171,7 +171,7 @@ export default Component.extend({
             'You may toggle a light\'s state by clicking on it.'
           },
           {
-            element: '#settings-icon',
+            element: '#settings',
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
             '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
             position: 'bottom'
@@ -249,6 +249,10 @@ export default Component.extend({
         if(elem.html() === '<!---->'){
           $('.introjs-nextbutton').click();
         }
+
+        run.later(this, function() {
+          $('.introjs-tooltip').velocity('scroll');
+        }, 500);
       }).onexit(onExit).oncomplete(onFinish).start();
     }
   }

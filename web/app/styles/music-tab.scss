@@ -383,6 +383,11 @@
   }
 }
 
+.ember-notify-default.ember-notify-cn {
+  top: 0;
+  bottom: initial;
+}
+
 // mobile overrides
 @media(max-width:767px) {
   #seek-slider {

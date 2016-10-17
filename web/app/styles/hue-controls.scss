@@ -6,15 +6,11 @@
 }
 
 .lights-control-tooltip + .tooltip {
-  left: -20px !important;
+  left: 0 !important;
 }
 
 #color-row {
   cursor: pointer;
-}
-
-#color-row * .tooltip {
-  left: -7px !important;
 }
 
 #hue-controls {
@@ -28,25 +24,22 @@
   content: url(images/colormap.png) url(images/missingArtwork.png) url(images/sc-white.png) url(/favicon-96x96.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
 }
 
-.navigation {
+#navigation {
+  padding: 10px 0;
   text-align: center;
-  padding: 10px 0 0 0;
 }
 
 .navigation-item {
   font-size: 18px;
   padding: 0 10px 0 10px;
-  line-height: 3;
-}
-
-.navigation-item.active {
-  font-weight: bold;
-  cursor: default;
-  text-decoration: none !important;
-}
-
-.navigation-item:hover {
-  text-decoration: underline;
+  &.active {
+    font-weight: bold;
+    cursor: default;
+    text-decoration: none !important;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .color {
@@ -78,4 +71,32 @@
   left: 35px;
   top: 15px;
   font-size: 16px;
+}
+
+#settings {
+  z-index: 3;
+  text-align: right;
+  cursor: pointer;
+  float: right;
+  position: relative;
+}
+
+#settings-menu {
+  position: absolute;
+  box-shadow: 1px 10px 15px 1px rgba(0, 0, 0, 0.3);
+  left: -135px;
+  top: 25px;
+  border: none;
+  padding: 0;
+}
+
+#settings-icon {
+  transition: 0.1s all ease-in-out;
+  &:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+  &:before {
+    transition: 0.1s all ease-in-out;
+  }
 }

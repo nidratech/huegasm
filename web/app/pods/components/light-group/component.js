@@ -9,7 +9,8 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['light-group'],
+  elementId: 'active-lights',
+  classNames: ['light-group', 'horizontal-light-group'],
   isHovering: false,
   activeLights: A(),
 

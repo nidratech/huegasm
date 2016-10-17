@@ -10,7 +10,8 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['container', 'bridge-finder'],
+  elementId: 'bridge-finder',
+  classNames: ['container'],
   bridgeIp: null,
   trial: false,
   bridgeUsername: null,
@@ -28,9 +29,7 @@ export default Component.extend({
   multipleBridgeIps: [],
   error: false,
 
-  isAuthenticating: computed('bridgePingIntervalHandle', function(){
-    return this.get('bridgePingIntervalHandle') !== null;
-  }),
+  isAuthenticating: computed.notEmpty('bridgePingIntervalHandle'),
 
   // try to authenticate against the bridge here
   onBridgeIpChange: on('init', observer('bridgeIp', function(){
@@ -118,6 +117,7 @@ export default Component.extend({
 
   clearBridgePingIntervalHandle(){
     clearInterval(this.get('bridgePingIntervalHandle'));
+    this.set('bridgePingIntervalHandle', null);
   },
 
   actions: {

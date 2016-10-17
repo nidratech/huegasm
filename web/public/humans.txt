@@ -6,6 +6,7 @@ Location: Vancouver, Canada.
 /* THANKS */
 Edmond Cheung - favicons + huegasm logo
 Liviu Antonescu - filming + video editing of the intro
+Olamide Omorodion - business consultation
 
 /* SITE */
 Last update: 2015

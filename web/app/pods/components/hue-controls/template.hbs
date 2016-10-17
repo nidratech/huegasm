@@ -1,33 +1,34 @@
 {{#if ready}}
-  <div class="row navigation">
-    <div class="col-sm-6 col-sm-offset-3 col-xs-10">
-      {{#each tabData as |tab|}}
-        <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
-      {{/each}}
-    </div>
-    <div id="settings" class="col-xs-2">
-      {{#paper-menu as |menu|}}
-        {{#paper-button target=menu action="toggleMenu" icon-button=true}}
-          {{paper-icon "settings" class=dimmerOnClass id="settings-icon"}}
-        {{/paper-button}}
-      {{else}}
-        {{#paper-menu-item action="clearBridge"}}
-          {{paper-icon "settings" class="md-menu-align-target"}}
-          <span>Switch bridge</span>
-        {{/paper-menu-item}}
-        {{#paper-menu-item action="startIntro"}}
-          {{paper-icon "settings" class="md-menu-align-target"}}
-          <span>Restart tutorial</span>
-        {{/paper-menu-item}}
-        {{#paper-menu-item action="clearAllSettings"}}
-          {{paper-icon "settings" class="md-menu-align-target"}}
-          <span>Reset settings</span>
-        {{/paper-menu-item}}
-      {{/paper-menu}}
+  <div id="navigation">
+    {{#each tabData as |tab|}}
+      <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+    {{/each}}
+    <div id="settings">
+      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settings-itemSettings">
+        {{paper-icon "settings" class=dimmerOnClass id="settings-icon" size=2}}
+      </span>
+
+      <ul id="settings-menu" class="dropdown-menu">
+        <li {{action "clearBridge"}}>
+          <a href="#">
+            Switch bridge
+          </a>
+        </li>
+        <li {{action "startIntro"}}>
+          <a href="#">
+            Restart tutorial
+          </a>
+        </li>
+        <li {{action "clearAllSettings"}}>
+          <a href="#">
+            Reset settings
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
 
-  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL classNames="horizontal-light-group" dimmerOn=dimmerOn id="active-lights"}}
+  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn}}
 
   {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
 

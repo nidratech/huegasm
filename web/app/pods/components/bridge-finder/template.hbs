@@ -4,14 +4,17 @@
     {{#if error}}
         <p>Huegasm encountered a critical error while trying to connect to your bridge.<br><br>
             This likely happened because you're using an outdated browser and/or because your browser does not support <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" target="_blank" rel="noopener noreferrer">CORS</a>. Feel free to contact me through the link at the bottom of the page if you feel like this is not the case.<br>
-            For the best browsing experience on this site ( and every other one known to man ) please switch to <a href="https://www.google.com/chrome/" target="_blank" rel="noopener noreferrer">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener noreferrer">Firefox</a></p>.
+            For the best browsing experience on this site ( and every other one known to man ) please switch to <a href="https://www.google.com/chrome/" target="_blank" rel="noopener noreferrer">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" rel="noopener noreferrer">Firefox.</a></p>
     {{else}}
       <img src="assets/images/pressButtonBridge.png" id="press-bridge-button-img">
       {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
 
       {{#if isAuthenticating}}
-        <p>Your bridge IP is <b>{{bridgeIp}}</b> <br>
-          Press the button on your bridge to authenticate this application.</p>
+        <p>
+            Your bridge IP is <b>{{bridgeIp}}</b>
+            <br>
+            Press the button on your bridge to authenticate this application.
+        </p>
       {{else}}
           <p>You failed to press the button. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a></p>
       {{/if}}

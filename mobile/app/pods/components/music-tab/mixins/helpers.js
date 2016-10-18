@@ -5,7 +5,6 @@ const {
   observer,
   computed,
   isNone,
-  $,
   inject,
   on,
   A
@@ -327,46 +326,12 @@ export default Mixin.create({
     this.get('storage').set('huegasm.' + option, this.get(option));
   }),
 
-  onRepeatChange: on('init', observer('repeat', function () {
-    let tooltipTxt = 'Repeat all', type = 'repeat';
-
-    if (this.get(type) === 1) {
-      tooltipTxt = 'Repeat one';
-    } else if (this.get(type) === 2) {
-      tooltipTxt = 'Repeat off';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  })),
-
-  onUsingMicAudioChange: on('init', observer('usingMicAudio', function(){
-    let tooltipTxt = 'Listen to audio through mic', type = 'usingMicAudio';
-
-    if (this.get(type)) {
-      tooltipTxt = 'Listen to audio files';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  })),
-
-  onShuffleChange: on('init', observer('shuffle', function () {
-    let tooltipTxt = 'Shuffle', type = 'shuffle';
-
-    if (this.get(type)) {
-      this.get('shufflePlayed').clear();
-      tooltipTxt = 'Unshuffle';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  })),
-
   onVolumeMutedChange: on('init', observer('volumeMuted', function() {
-    let tooltipTxt = 'Mute', type = 'volumeMuted',
-      volumeMuted = this.get(type), dancer = this.get('dancer'),
+    let volumeMuted = this.get('volumeMuted'),
+      dancer = this.get('dancer'),
       volume=0;
 
     if (volumeMuted) {
-      tooltipTxt = 'Unmute';
       volume = 0;
     } else {
       volume = this.get('volume')/100;
@@ -375,44 +340,7 @@ export default Mixin.create({
     if(this.get('playing')){
       dancer.setVolume(volume);
     }
-
-    this.changeTooltipText(type, tooltipTxt);
   })),
-
-  onPrevChange: on('init', observer('timeElapsed', 'playQueueNotEmpty', 'playQueue.[]', function() {
-    if(this.get('playQueueNotEmpty')){
-      let tooltipTxt = 'Previous', type = 'prev';
-
-      if(this.get('timeElapsed') > 5 || this.get('playQueue').length === 1) {
-        tooltipTxt = 'Replay';
-      }
-
-      this.changeTooltipText(type, tooltipTxt);
-    }
-  })),
-
-  onPlayingChange: on('init', observer('playing', function () {
-    let tooltipTxt = 'Play', type = 'playing';
-
-    if (this.get(type)) {
-      tooltipTxt = 'Pause';
-    } else if(this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0){
-      tooltipTxt = 'Replay';
-    }
-
-    this.changeTooltipText(type, tooltipTxt);
-  })),
-
-  changeTooltipText(type, text) {
-    // change the tooltip text if it's already visible
-    $('#' + type + 'Tooltip + .tooltip .tooltip-inner').html(text);
-    //change the tooltip text for hover
-    $('#' + type + 'Tooltip').attr('data-original-title', text);
-
-    if(isNone(this.get(type + 'TooltipTxt'))) {
-      this.set(type + 'TooltipTxt', text);
-    }
-  },
 
   formatTime(time){
     return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);

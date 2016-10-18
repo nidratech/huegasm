@@ -1,26 +1,71 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="huegasm_mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>huegasm_mobile</name>
-    <description>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.nidratech.huegasm" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>huegasm_mobile</name>
+  <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
+  <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-    <platform name="android">
-        <allow-intent href="market:*" />
-    </platform>
-    <platform name="ios">
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
-    </platform>
+  <content src="index.html"/>
+  <plugin name="cordova-plugin-whitelist" spec="1"/>
+  <plugin name="cordova-plugin-crosswalk-webview" spec="~2.1.0">
+    <variable name="XWALK_VERSION" value="21+"/>
+    <variable name="XWALK_LITEVERSION" value="xwalk_core_library_canary:17+"/>
+    <variable name="XWALK_COMMANDLINE" value="--disable-pull-to-refresh-effect"/>
+    <variable name="XWALK_MODE" value="embedded"/>
+    <variable name="XWALK_MULTIPLEAPK" value="true"/>
+  </plugin>
+  <plugin name="cordova-plugin-splashscreen" spec="~4.0.0"/>
+  <access origin="*"/>
+  <allow-intent href="http://*/*"/>
+  <allow-intent href="https://*/*"/>
+  <allow-intent href="tel:*"/>
+  <allow-intent href="sms:*"/>
+  <allow-intent href="mailto:*"/>
+  <allow-intent href="geo:*"/>
+  <platform name="ios">
+    <allow-intent href="itms:*"/>
+    <allow-intent href="itms-apps:*"/>
+    <icon src="res/icon/ios/icon-40.png" height="40" width="40"/>
+    <icon src="res/icon/ios/icon.png" height="57" width="57"/>
+    <icon src="res/icon/ios/icon-40@2x.png" height="80" width="80"/>
+    <icon src="res/icon/ios/icon-40@3x.png" height="120" width="120"/>
+    <icon src="res/icon/ios/icon-60.png" height="60" width="60"/>
+    <icon src="res/icon/ios/icon-60@2x.png" height="120" width="120"/>
+    <icon src="res/icon/ios/icon-60@3x.png" height="180" width="180"/>
+    <icon src="res/icon/ios/icon@2x.png" height="114" width="114"/>
+    <icon src="res/icon/ios/icon-small.png" height="29" width="29"/>
+    <icon src="res/icon/ios/icon-small@2x.png" height="58" width="58"/>
+    <icon src="res/icon/ios/icon-small@3x.png" height="87" width="87"/>
+    <icon src="res/icon/ios/icon-76@2x.png" height="152" width="152"/>
+    <icon src="res/icon/ios/icon-76.png" height="76" width="76"/>
+    <icon src="res/icon/ios/icon-72.png" height="72" width="72"/>
+    <icon src="res/icon/ios/icon-72@2x.png" height="144" width="144"/>
+    <icon src="res/icon/ios/icon-50.png" height="50" width="50"/>
+    <icon src="res/icon/ios/icon-50@2x.png" height="100" width="100"/>
+  </platform>
+  <platform name="android">
+    <allow-intent href="market:*"/>
+    <icon src="res/icon/android/ldpi.png" density="ldpi"/>
+    <icon src="res/icon/android/mdpi.png" density="mdpi"/>
+    <icon src="res/icon/android/hdpi.png" density="hdpi"/>
+    <icon src="res/icon/android/xhdpi.png" density="xhdpi"/>
+    <icon src="res/icon/android/xxhdpi.png" density="xxhdpi"/>
+    <icon src="res/icon/android/xxxhdpi.png" density="xxxhdpi"/>
+  </platform>
+  <platform name="windows">
+    <icon src="res/icon/windows/StoreLogo.png" target="StoreLogo"/>
+    <icon src="res/icon/windows/smalllogo.png" target="Square30x30Logo"/>
+    <icon src="res/icon/windows/Square44x44Logo.png" target="Square44x44Logo"/>
+    <icon src="res/icon/windows/Square70x70Logo.png" target="Square70x70Logo"/>
+    <icon src="res/icon/windows/Square71x71Logo.png" target="Square71x71Logo"/>
+    <icon src="res/icon/windows/Square150x150Logo.png" target="Square150x150Logo"/>
+    <icon src="res/icon/windows/Square310x310Logo.png" target="Square310x310Logo"/>
+  </platform>
+  <platform name="blackberry">
+    <icon src="res/icon/blackberry/icon-86.png"/>
+    <icon src="res/icon/blackberry/icon-150.png"/>
+  </platform>
+  <engine name="android" spec="~5.2.2"/>
 </widget>

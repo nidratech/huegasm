@@ -52,20 +52,22 @@ export default Component.extend({
   }),
 
   didInsertElement(){
-    // here's a weird way to automatically initialize bootstrap tooltips
-    let observer = new MutationObserver(function(mutations) {
-      let haveTooltip = !mutations.every(function(mutation) {
-        return isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
+    if(!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)){
+      // here's a weird way to automatically initialize bootstrap tooltips
+      let observer = new MutationObserver(function(mutations) {
+        let haveTooltip = !mutations.every(function(mutation) {
+          return isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
+        });
+
+        if(haveTooltip) {
+          run.scheduleOnce('afterRender', function(){
+            $('.bootstrap-tooltip').tooltip();
+          });
+        }
       });
 
-      if(haveTooltip) {
-        run.scheduleOnce('afterRender', function(){
-          $('.bootstrap-tooltip').tooltip();
-        });
-      }
-    });
-
-    observer.observe($('#hue-controls')[0], {childList: true, subtree: true});
+      observer.observe($('#hue-controls')[0], {childList: true, subtree: true});
+    }
   },
 
   init() {

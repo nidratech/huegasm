@@ -1,11 +1,10 @@
 import Ember from 'ember';
-import ENV from 'huegasm/config/environment';
+import ENV from 'huegasm_mobile/config/environment';
 
 const {
   A,
   Component,
   computed,
-  isEmpty,
   isNone,
   run,
   $
@@ -50,23 +49,6 @@ export default Component.extend({
 
     return tabData;
   }),
-
-  didInsertElement(){
-    // here's a weird way to automatically initialize bootstrap tooltips
-    let observer = new MutationObserver(function(mutations) {
-      let haveTooltip = !mutations.every(function(mutation) {
-        return isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
-      });
-
-      if(haveTooltip) {
-        run.scheduleOnce('afterRender', function(){
-          $('.bootstrap-tooltip').tooltip();
-        });
-      }
-    });
-
-    observer.observe($('#hue-controls')[0], {childList: true, subtree: true});
-  },
 
   init() {
     this._super(...arguments);
@@ -188,7 +170,7 @@ export default Component.extend({
 
       // it's VERY ugly but it works... the jQuery massacre :'(
       intro.onchange((element) => {
-        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip'){
+        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container'){
           $('#music-tab').removeClass('hidden');
           $('#lights-tab').addClass('hidden');
           $('.navigation-item').eq(0).removeClass('active');

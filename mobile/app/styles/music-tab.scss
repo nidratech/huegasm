@@ -11,9 +11,6 @@
   top: 20%;
   -webkit-transform: translateY(-20%);
   transform: translateY(-20%);
-  .tooltip {
-    margin-top: 5px !important;
-  }
 }
 
 #music-tab {
@@ -43,12 +40,6 @@
   color: white !important;
   z-index: 20;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-  .tooltip.top {
-    margin-top: -17px;
-  }
-  .tooltip-arrow {
-    display: none;
-  }
   .play-arrow, .pause, .replay {
     font-size: 30px;
   }
@@ -228,8 +219,9 @@
   }
   .audio-remove-button {
     position: absolute;
-    top: 20px;
-    right: 5px;
+    top: 10px;
+    right: 0;
+    padding: 10px;
   }
 }
 
@@ -241,9 +233,6 @@
 
 .playlist-item:hover {
   background: darken(white, 10%);
-  .close {
-    display: block;
-  }
 }
 
 #beat-area {
@@ -272,9 +261,6 @@
   }
   button {
     margin-top: 0;
-  }
-  .tooltip {
-    margin: 0;
   }
 }
 
@@ -344,7 +330,7 @@
 }
 
 .display-icon {
-  background: url(/favicon-96x96.png) center center no-repeat;
+  background: url(images/huegasm.png) center center no-repeat;
   background-size: 80px 80px;
 }
 
@@ -372,12 +358,9 @@
 .close {
   font-size: 18px !important;
   color: rgb(51, 51, 51);
-  display: none;
-  opacity: 1;
   text-shadow: none;
   &:hover {
     color: darken(#333333, 5%) !important;
-    opacity: 1
   }
 }
 

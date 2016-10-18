@@ -11,4 +11,4 @@ Olamide Omorodion - business consultation
 /* SITE */
 Last update: 2015
 Standards: HTML5, CSS3
-Components: ember, jQuery, bootstrap, font-awesome, intro.js, locallyjs, nouislider, dancer.js, jquery-mousewheel, ember paper, ember notify, JavaScript-ID3-Reader
+Components: ember, jQuery, bootstrap, font-awesome, intro.js, locallyjs, nouislider, dancer.js, ember paper, ember notify, JavaScript-ID3-Reader

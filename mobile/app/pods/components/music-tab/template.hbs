@@ -9,17 +9,13 @@
         {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
 
         {{#if playQueueNotEmpty}}
-          <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip"
-                data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
+          <span {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
           -->{{/if}}<!--
-                    --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip"
-                             data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
+                    --><span {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
                   -->{{#if playQueueMultiple}}<!--
-                --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip"
-                         data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
+                --><span {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
                   -->{{/if}}<!--
-          --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
-                   data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
+          --><span {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
                   -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
 
         <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
@@ -27,14 +23,14 @@
 
       <span class="pull-right">
         {{#if scUrl}}
-          <a href="#" data-toggle="tooltip" data-placement="top" class="sound-cloud-link bootstrap-tooltip" data-title="Listen on SoundCloud" {{action "gotoSCURL" scUrl}}>
+          <a href="#" class="sound-cloud-link"{{action "gotoSCURL" scUrl}}>
             <img src="assets/images/sc-white.png" class="hidden-xs" />
               <img src="assets/images/sc-white-sm.png" class="visible-xs-inline" />
           </a>
         {{/if}}
         <span class="dropup">
           <span class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" data-title="Visualizations" {{action "hideTooltip"}}>
+            <span>
               {{paper-icon "remove-red-eye" class="player-control-icon"}}
             </span>
           </span>
@@ -72,13 +68,13 @@
   {{/if}}
 
   {{#if usingMicSupported}}
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="using-mic-audio-tooltip" data-title={{usingMicAudioTooltipTxt}} {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
+    <span {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
   {{/if}}
 
   {{#if usingLocalAudio}}
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
-    <span data-toggle="tooltip" data-placement="bottom auto" class="bootstrap-tooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
+    <span {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
+    <span {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
+    <span {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
   {{/if}}
 </div>
 
@@ -123,7 +119,7 @@
             {{/if}}
           </div>
 
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
+          <span class="audio-remove-button pointer" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
         </div>
       {{/each}}
     </div>
@@ -141,14 +137,14 @@
 <div id="player-bottom" class="row {{if dimmerOn "dimmerOn"}}">
   <div id="beat-area" class="col-sm-7 col-xs-12">
     {{#if usingBeatPreferences}}
-      <span data-toggle="tooltip" data-placement="bottom" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrap-tooltip" id="save-beat-preferences-star">
+      <span id="save-beat-preferences-star">
       {{paper-icon "star" class=dimmerOnClass}}
       </span>
     {{/if}}
 
     <div class="row" id="beat-option-row">
       <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
+        <span class="option-description">
           Sensitivity
         </span>
 
@@ -156,7 +152,7 @@
       </div>
 
       <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="option-description bootstrap-tooltip">
+        <span class="option-description">
           Hue Range
         </span>
 
@@ -165,7 +161,7 @@
 
       {{#if usingMicAudio}}
           <div class="beat-option col-xs-4">
-            <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="option-description bootstrap-tooltip">
+            <span class="option-description">
               Mic Boost
             </span>
 
@@ -174,17 +170,13 @@
       {{/if}}
 
       <div id="light-option" class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+        <span>
           {{paper-checkbox value=flashingTransitions onChange=(action (mut flashingTransitions)) label="Flashing Transitions"}}
         </span>
 
-        <span data-toggle="tooltip" data-placement="bottom auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+        <span>
           {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
         </span>
-
-      {{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-        {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
-      </span>--}}
       </div>
     </div>
   </div>

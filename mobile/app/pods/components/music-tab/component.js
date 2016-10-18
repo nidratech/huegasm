@@ -391,21 +391,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.send('dropFiles', event.dataTransfer.files);
     });
 
-    // control the volume by scrolling up/down
-    $('#player-area').on('mousewheel', (event)=>{
-      if(this.get('playQueueNotEmpty') && !this.get('usingMicAudio')) {
-        let scrollSize = 5;
-
-        if(event.deltaY < 0) {
-          scrollSize *= -1;
-        }
-        let newVolume = this.get('volume') + scrollSize;
-
-        this.send('volumeChanged', newVolume < 0 ? 0 : newVolume);
-        event.preventDefault();
-      }
-    });
-
      // demo tracks
     if(this.get('firstVisit')){
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/candyland-speechless-feat-rkcb');
@@ -435,9 +420,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     setVisName(name){
       this.set('currentVisName', name);
     },
-    hideTooltip(){
-      $('.bootstrap-tooltip').tooltip('hide');
-    },
     gotoSCURL(URL){
       // need to pause the music since soundcloud is going to start playing this song anyways
       if(this.get('playing')){
@@ -447,7 +429,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.send('gotoURL', URL);
     },
     gotoURL(URL){
-      $('.tooltip').remove();
       window.open(URL, '_blank');
     },
     handleNewSoundCloudURL(URL){
@@ -626,9 +607,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     removeAudio(index){
       this.get('playQueue').removeAt(index);
-
-      // need to manually remove the tooltip
-      $('body .tooltip').remove();
 
       if(index === this.get('playQueuePointer')) {
         this.send('goToSong', index, true, true);

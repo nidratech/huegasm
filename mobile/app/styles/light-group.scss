@@ -1,10 +1,6 @@
 .light-group {
   margin: 0 auto;
   text-align: center;
-  .tooltip.top {
-    margin-top: 4px;
-    margin-left: 0;
-  }
   div {
     display: inline-block;
   }
@@ -30,10 +26,6 @@
   .light-inactive::before {
     top: -9px;
     left: 6px;
-  }
-  .tooltip.top {
-    margin-top: 1px;
-    margin-left: 2px;
   }
 }
 

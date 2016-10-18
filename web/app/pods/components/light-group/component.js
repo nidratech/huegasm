@@ -5,6 +5,8 @@ const {
   Component,
   computed,
   isEmpty,
+  isNone,
+  observer,
   $
 } = Ember;
 
@@ -83,15 +85,28 @@ export default Component.extend({
     return lightsList;
   }),
 
+  onActiveLightsChange: observer('activeLights.[]', function(){
+    this.get('storage').set('huegasm.activeLights', this.get('activeLights'));
+  }),
+
   init(){
     this._super(...arguments);
 
     let lightsData = this.get('lightsData'),
-      activeLights = this.get('activeLights');
+      activeLights = this.get('activeLights'),
+      activeLightsCache = this.get('storage').get('huegasm.activeLights');
 
-    for (let key in lightsData) {
-      if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
-        activeLights.pushObject(key);
+    if(!isNone(activeLightsCache)){
+      activeLightsCache.forEach(function(i){
+        if (lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
+          activeLights.pushObject(i);
+        }
+      });
+    } else {
+      for (let key in lightsData) {
+        if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
+          activeLights.pushObject(key);
+        }
       }
     }
   },

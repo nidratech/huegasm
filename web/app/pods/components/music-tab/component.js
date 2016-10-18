@@ -34,7 +34,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
   }),
 
   updatePageTitle: observer('playQueuePointer', function(){
-    let title = 'Huegasm', playQueuePointer = this.get('playQueuePointer'), playQueue = this.get('playQueue');
+    let title = 'Huegasm',
+      playQueuePointer = this.get('playQueuePointer'),
+      playQueue = this.get('playQueue');
 
     if(playQueuePointer !== -1){
       let song = playQueue[playQueuePointer];

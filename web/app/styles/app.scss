@@ -1,6 +1,8 @@
 @import 'ember-modal-dialog/ember-modal-structure';
 @import 'ember-modal-dialog/ember-modal-appearance';
 
+@import 'huegasm-variables';
+
 @import 'bootstrap'; // used to take out bootstrap scss modules that we don't need
 @import 'paper';
 
@@ -10,7 +12,6 @@
 @import 'fancy-speaker';
 @import 'introjs';
 @import 'hue-controls';
-@import 'huegasm-variables';
 @import 'light-group';
 @import 'music-tab';
 @import 'noui-slider';
@@ -58,7 +59,7 @@ body, button {
 
 
 .title {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   img {
     width: 200px;
   }

@@ -20,7 +20,7 @@ export default Component.extend({
   bridgeFindMultiple: computed.equal('bridgeFindStatus', 'multiple'),
   bridgeFindFail: computed.equal('bridgeFindStatus', 'fail'),
   bridgeUsernamePingMaxTime: 30000, // 30 seconds
-  bridgeUsernamePingIntervalTime: 1000,
+  bridgeUsernamePingIntervalTime: 1500,
   bridgeUserNamePingIntervalProgress: 0,
   bridgePingIntervalHandle: null,
   bridgeAuthenticateReachedStatus: null,
@@ -28,7 +28,6 @@ export default Component.extend({
   manualBridgeIpNotFound: false,
   multipleBridgeIps: [],
   error: false,
-
   isAuthenticating: computed.notEmpty('bridgePingIntervalHandle'),
 
   // try to authenticate against the bridge here
@@ -123,6 +122,9 @@ export default Component.extend({
   actions: {
     retry(){
       this.onBridgeIpChange();
+    },
+    chooseBridge(bridge){
+      this.set('bridgeIp', bridge);
     },
     findBridgeByIp() {
       let manualBridgeIp = this.get('manualBridgeIp');

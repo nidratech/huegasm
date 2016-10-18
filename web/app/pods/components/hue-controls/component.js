@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ENV from 'huegasm/config/environment';
 
 const {
   A,
@@ -82,8 +83,10 @@ export default Component.extend({
 
   updateLightData(){
     let fail = ()=>{
-      clearInterval(this.get('lightsDataIntervalHandle'));
-      this.send('clearBridge');
+      if(!ENV.ignoreFailures) {
+        clearInterval(this.get('lightsDataIntervalHandle'));
+        this.send('clearBridge');
+      }
     };
 
     if(!this.get('pauseLightUpdates')){
@@ -118,8 +121,6 @@ export default Component.extend({
         intro = INTRO(),
         playerBottom = $('#player-bottom'),
         beatDetectionAreaArrowIcon = $('#beat-detection-area-arrow-icon');
-
-      this.set('dimmerOn', false);
 
       intro.setOptions({
         steps: [

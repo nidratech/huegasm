@@ -44,7 +44,7 @@
               <li>
                 <a href="#" {{action "setVisName" name}}>{{name}}
                   {{#if (eq currentVisName name)}}
-                    {{paper-icon "check" class=dimmerOnClass}}
+                    {{paper-icon "check" classNames=dimmerOnClass}}
                   {{/if}}
                 </a>
               </li>
@@ -123,7 +123,7 @@
             {{/if}}
           </div>
 
-          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close"}}</span>
+          <span data-toggle="tooltip" data-placement="bottom auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
         </div>
       {{/each}}
     </div>
@@ -148,7 +148,7 @@
 
     <div class="row" id="beat-option-row">
       <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="optionDescription bootstrap-tooltip">
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
           Sensitivity
         </span>
 
@@ -156,7 +156,7 @@
       </div>
 
       <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="optionDescription bootstrap-tooltip">
+        <span data-toggle="tooltip" data-placement="bottom" data-title="The range of hues ( colors ) that the lights may change to on beat." class="option-description bootstrap-tooltip">
           Hue Range
         </span>
 
@@ -165,7 +165,7 @@
 
       {{#if usingMicAudio}}
           <div class="beat-option col-xs-4">
-            <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="optionDescription bootstrap-tooltip">
+            <span data-toggle="tooltip" data-placement="bottom" data-title="The coefficient to boost the microphone signal by" class="option-description bootstrap-tooltip">
               Mic Boost
             </span>
 
@@ -175,11 +175,11 @@
 
       <div id="light-option" class="beat-option col-xs-4">
         <span data-toggle="tooltip" data-placement="bottom auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-          {{#paper-checkbox checked=flashingTransitions}}Flashing Transitions{{/paper-checkbox}}
+          {{paper-checkbox value=flashingTransitions onChange=(action (mut flashingTransitions)) label="Flashing Transitions"}}
         </span>
 
         <span data-toggle="tooltip" data-placement="bottom auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-          {{#paper-checkbox checked=colorloopMode}}Colorloop{{/paper-checkbox}}
+          {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
         </span>
 
       {{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>

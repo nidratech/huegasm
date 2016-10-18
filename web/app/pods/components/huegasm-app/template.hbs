@@ -21,7 +21,7 @@
           <iframe width="560" height="315" src="https://www.youtube.com/embed/zi9J6Qg-MPw" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
-      {{#paper-button raised=true primary=true action="isReady" class="go-button center-block"}}Go!{{/paper-button}}
+      {{paper-button raised=true primary=true onClick=(action "isReady") class="go-button center-block" label="Go!"}}
     </div>
   {{/if}}
 {{/if}}

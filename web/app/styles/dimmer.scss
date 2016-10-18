@@ -1,5 +1,3 @@
-@import 'huegasm-variables';
-
 div.dimmerOn {
   color: $whitish !important;
   background: $blackish !important;
@@ -13,6 +11,15 @@ html.dimmerOn {
 body.dimmerOn {
   color: $whitish;
   background: $blackish;
+  md-input-container {
+    label {
+      color: #3f51b5 !important;
+    }
+    .md-input {
+      color: $whitish !important;
+      border-color: #3f51b5 !important;
+    }
+  }
   .md-track {
     background: $whitish;
   }
@@ -38,7 +45,7 @@ body.dimmerOn {
     &:hover {
       background: darken($dimmerOnButtonColor, 10%);
     }
-    .close {
+    .audio-remove-button .paper-icon {
       color: $whitish !important;
       &:hover {
         color: white !important;
@@ -48,16 +55,8 @@ body.dimmerOn {
   svg {
     -webkit-filter: drop-shadow(0 0 5px #228DFF);
   }
-  md-input-container {
-    label {
-      color: $whitish;
-    }
-    input {
-      border-bottom-color: $whitish !important;
-    }
-    input {
-      color: $whitish !important;
-    }
+  .md-container {
+    color: $whitish;
   }
   .add-new-music:hover {
     background: darken($dimmerOnButtonColor, 5%);
@@ -70,17 +69,8 @@ body.dimmerOn {
   }
 }
 
-.power-settings-new.dimmerOn,
-.brightness-4.dimmerOn,
-.color-lens.dimmerOn,
-.flare.dimmerOn,
-.loop.dimmerOn,
-.group.dimmerOn,
-.settings.dimmerOn,
-.mic.dimmerOn,
-.check.dimmerOn,
-.star.dimmerOn,
-.library-music.dimmerOn {
+
+.paper-icon.dimmerOn {
   color: inherit !important;
   text-shadow: $glowingText;
   opacity: 0.9 !important;

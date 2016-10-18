@@ -1,7 +1,10 @@
 @import 'ember-paper';
-@import 'huegasm-variables';
 
-md-checkbox.md-default-theme .md-icon {
+.md-icon {
+  cursor: pointer;
+}
+
+md-checkbox .md-icon, .md-off, .md-on {
   border-color: inherit !important;
 }
 
@@ -32,12 +35,7 @@ md-progress-circular {
 }
 
 md-progress-linear {
-  margin-bottom: 50px;
-}
-
-.bootstrap-tooltip md-icon {
-  cursor: pointer;
-  -webkit-transform: translate3d(0, 0, 0); // hack for chrome to force hardware acceleration and stop flickering
+  margin-bottom: 50px !important;
 }
 
 md-slider {
@@ -51,10 +49,6 @@ md-slider.md-default-theme .md-thumb:after {
 
 md-icon {
   color: rgba(0, 0, 0, 0.54) !important;
-}
-
-md-toolbar {
-  background-color: inherit !important;
 }
 
 md-switch.md-default-theme.md-checked .md-thumb {

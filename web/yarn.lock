@@ -50,17 +50,21 @@ amdefine@>=0.0.4:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.0.tgz#fd17474700cb5cc9c2b709f0be9d23ce3c198c33"
 
+"angular-material-source@github:angular/material#v1.0.6":
+  version "1.0.6"
+  resolved "https://codeload.github.com/angular/material/tar.gz/8b886cbed0254eaefa2f85077ebf4169cb09a762"
+
 ansi-escapes@^1.1.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
 
+ansi-regex@*, ansi-regex@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.0.0.tgz#c5061b6e0ef8a81775e50f5d66151bf6bf371107"
+
 ansi-regex@^0.2.0, ansi-regex@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-0.2.1.tgz#0d8e946967a3d8143f93e24e298525fc1b2235f9"
-
-ansi-regex@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.0.0.tgz#c5061b6e0ef8a81775e50f5d66151bf6bf371107"
 
 ansi-styles@^1.1.0:
   version "1.1.0"
@@ -201,8 +205,8 @@ async@^1.4.0, async@^1.5.2:
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
 async@^2.0.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/async/-/async-2.1.1.tgz#e11b6d10043f2254efb61a21163d840ccddb8d28"
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/async/-/async-2.1.2.tgz#612a4ab45ef42a70cde806bad86ee6db047e8385"
   dependencies:
     lodash "^4.14.0"
 
@@ -479,16 +483,16 @@ breakable@~1.0.0:
   resolved "https://registry.yarnpkg.com/breakable/-/breakable-1.0.0.tgz#784a797915a38ead27bad456b5572cb4bbaa78c1"
 
 broccoli-asset-rev@^2.2.0:
-  version "2.4.6"
-  resolved "https://registry.yarnpkg.com/broccoli-asset-rev/-/broccoli-asset-rev-2.4.6.tgz#bce559d8dc8b7e66fd66dd2ffe66e4d44dd600a5"
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/broccoli-asset-rev/-/broccoli-asset-rev-2.5.0.tgz#f5f66eac962bf9f086286921f0eaeaab6d00d819"
   dependencies:
-    broccoli-asset-rewrite "^1.0.13"
+    broccoli-asset-rewrite "^1.1.0"
     broccoli-filter "^1.2.2"
     json-stable-stringify "^1.0.0"
     matcher-collection "^1.0.1"
     rsvp "^3.0.6"
 
-broccoli-asset-rewrite@^1.0.13:
+broccoli-asset-rewrite@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/broccoli-asset-rewrite/-/broccoli-asset-rewrite-1.1.0.tgz#77a5da56157aa318c59113245e8bafb4617f8830"
   dependencies:
@@ -842,8 +846,8 @@ can-symlink@^1.0.0:
     tmp "0.0.28"
 
 caniuse-db@^1.0.30000153, caniuse-db@^1.0.30000214:
-  version "1.0.30000554"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000554.tgz#cd1dbe423d00b6203ba93f05973a476428dec919"
+  version "1.0.30000559"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000559.tgz#afbd68916dd23bfd549c26520c78631fb5e2e393"
 
 cardinal@^0.5.0:
   version "0.5.0"
@@ -1682,11 +1686,11 @@ ember-cli@^2.8.0:
     walk-sync "^0.2.6"
     yam "0.0.21"
 
-ember-css-transitions@0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/ember-css-transitions/-/ember-css-transitions-0.1.2.tgz#987fe3ca64c759fa65d48148d7ad62bd4cc21a22"
+ember-css-transitions@0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/ember-css-transitions/-/ember-css-transitions-0.1.5.tgz#0c57917b89e7c39d37f4435b8fb18fca0acccf73"
   dependencies:
-    ember-cli-babel "^5.1.5"
+    ember-cli-babel "^5.1.6"
 
 ember-export-application-global@^1.0.4:
   version "1.1.1"
@@ -1708,21 +1712,25 @@ ember-modal-dialog@^0.9.0:
     ember-wormhole "~0.3.6"
 
 ember-notify@^5.0.4:
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/ember-notify/-/ember-notify-5.1.4.tgz#1798aa6de984cfdd6a8a8749e6922964cd8cdebf"
+  version "5.1.6"
+  resolved "https://registry.yarnpkg.com/ember-notify/-/ember-notify-5.1.6.tgz#5f728d3ecc792a839cb549fe3ed0f019fed2c706"
   dependencies:
     ember-cli-babel "^5.1.6"
     ember-cli-htmlbars "^1.0.3"
     ember-string-ishtmlsafe-polyfill "1.0.1"
 
-ember-paper@^0.2.14:
-  version "0.2.15"
-  resolved "https://registry.yarnpkg.com/ember-paper/-/ember-paper-0.2.15.tgz#330bed37f4819a20f02d2c41b35a9dcdc5b4c38b"
+ember-paper@^1.0.0-alpha.5:
+  version "1.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/ember-paper/-/ember-paper-1.0.0-alpha.5.tgz#fc9fd3796dd9c6b2f1bb8bb87094702ef3ec07f7"
   dependencies:
+    angular-material-source angular/material#v1.0.6
     broccoli-autoprefixer "^3.0.0"
-    ember-cli-babel "^5.1.5"
-    ember-css-transitions "0.1.2"
-    ember-wormhole "^0.3.4"
+    broccoli-filter "^1.2.3"
+    broccoli-funnel "^1.0.1"
+    broccoli-merge-trees "^1.1.0"
+    ember-cli-babel "^5.1.6"
+    ember-css-transitions "0.1.5"
+    ember-wormhole "0.4.1"
 
 ember-qunit@^0.4.18:
   version "0.4.22"
@@ -1790,11 +1798,18 @@ ember-try@^0.2.2:
     semver "^5.1.0"
     sync-exec "^0.6.2"
 
-ember-wormhole@^0.3.4, ember-wormhole@~0.3.6:
+ember-wormhole@~0.3.6:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/ember-wormhole/-/ember-wormhole-0.3.6.tgz#bbe21bb5478ad254efe4fff4019ac6710f4ad85c"
   dependencies:
     ember-cli-babel "^5.0.0"
+
+ember-wormhole@0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ember-wormhole/-/ember-wormhole-0.4.1.tgz#55fafaad20a650d21f6583a0e59c060a65338111"
+  dependencies:
+    ember-cli-babel "^5.1.6"
+    ember-cli-htmlbars "^1.0.3"
 
 encodeurl@~1.0.1:
   version "1.0.1"
@@ -2253,8 +2268,8 @@ getpass@^0.1.1:
     assert-plus "^1.0.0"
 
 git-repo-info@^1.0.4:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/git-repo-info/-/git-repo-info-1.2.0.tgz#43d8513e04a24dd441330a2f7c6655a709fdbaf2"
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/git-repo-info/-/git-repo-info-1.3.0.tgz#d49c30955cf58c0ec1acd52d26bc5b8af13afd58"
 
 git-repo-version@0.4.0:
   version "0.4.0"
@@ -2518,7 +2533,7 @@ iferr@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
 
-imurmurhash@^0.1.4:
+imurmurhash@*, imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
 
@@ -2545,8 +2560,8 @@ inflection@^1.7.0, inflection@^1.7.1:
   resolved "https://registry.yarnpkg.com/inflection/-/inflection-1.10.0.tgz#5bffcb1197ad3e81050f8e17e21668087ee9eb2f"
 
 inflight@^1.0.4, inflight@~1.0.4:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.5.tgz#db3204cd5a9de2e6cd890b85c6e2f66bcf4f620a"
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
   dependencies:
     once "^1.3.0"
     wrappy "1"
@@ -2858,8 +2873,8 @@ leven@^1.0.2:
   resolved "https://registry.yarnpkg.com/leven/-/leven-1.0.2.tgz#9144b6eebca5f1d0680169f1a6770dcea60b75c3"
 
 linkify-it@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.1.tgz#fda759fad89d9e4659aa7144b8a4f685691dab69"
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.2.tgz#994629a4adfa5a7d34e08c075611575ab9b6fcfc"
   dependencies:
     uc.micro "^1.0.1"
 
@@ -3832,8 +3847,8 @@ pinkie@^2.0.0:
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
 
 portfinder@^1.0.4:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.7.tgz#d486d2553c85ad22667f5c7841f477c64c7c1b38"
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.8.tgz#b08b2ed226719d682b6f4158eb8e5b69a2561f71"
   dependencies:
     async "^1.5.2"
     debug "^2.2.0"

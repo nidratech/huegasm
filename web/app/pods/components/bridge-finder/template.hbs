@@ -16,12 +16,12 @@
             Press the button on your bridge to authenticate this application.
         </p>
       {{else}}
-          <p>You failed to press the button. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a></p>
+          <p>You failed to press the button in time. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a></p>
       {{/if}}
     {{/if}}
   {{else}}
     {{#unless bridgeFindStatus}}
-      {{paper-progress-circular}}
+      {{paper-progress-circular diameter=100}}
       <p>Trying to find your bridge's IP.</p>
     {{/unless}}
 
@@ -31,7 +31,7 @@
 
       <div id="bridge-button-group">
         {{#each multipleBridgeIps as |bridge|}}
-          {{#paper-radio value=bridge selected=bridgeIp}}{{bridge}}{{/paper-radio}}
+          {{paper-radio value=bridge label=bridge onChange=(action "chooseBridge")}}
         {{/each}}
       </div>
     {{else}}
@@ -42,8 +42,8 @@
         </p>
 
         <span id="bridge-input">
-          {{paper-input label="Hue bridge IP address" value=manualBridgeIp}}
-          {{#paper-button action="findBridgeByIp" raised=true primary=true}}Find{{/paper-button}}
+          {{paper-input label="Hue bridge IP address" value=manualBridgeIp onChange=(action (mut manualBridgeIp))}}
+          {{paper-button onClick=(action "findBridgeByIp") raised=true primary=true label="Find"}}
         </span>
 
         {{#if manualBridgeIpNotFound}}

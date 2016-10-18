@@ -1,7 +1,7 @@
 #lights-tab {
   min-height: 400px;
-  md-list {
-    padding-top: 0;
+  .paper-icon {
+    line-height: 0.8 !important;
   }
 }
 
@@ -25,7 +25,7 @@
 }
 
 #navigation {
-  padding: 10px 0;
+  padding: 15px 0;
   text-align: center;
 }
 
@@ -49,7 +49,7 @@
   right: 0;
 }
 
-.color-picker {
+#color-picker {
   padding: 5px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
@@ -98,5 +98,17 @@
   }
   &:before {
     transition: 0.1s all ease-in-out;
+  }
+}
+
+@media(min-width:767px) {
+  #lights-tab {
+    font-size: 20px;
+    .paper-icon {
+      font-size: 24px;
+    }
+    .md-list-item-inner {
+      height: 75px;
+    }
   }
 }

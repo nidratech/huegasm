@@ -1,5 +1,5 @@
 #lights-tab {
-  min-height: 400px;
+  min-height: 350px;
   .paper-icon {
     line-height: 0.8 !important;
   }
@@ -104,6 +104,7 @@
 @media(min-width:767px) {
   #lights-tab {
     font-size: 20px;
+    min-height: 450px;
     .paper-icon {
       font-size: 24px;
     }

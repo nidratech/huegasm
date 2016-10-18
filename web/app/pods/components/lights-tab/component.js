@@ -4,6 +4,7 @@ const {
   Component,
   observer,
   computed,
+  on,
   $
 } = Ember;
 
@@ -95,7 +96,7 @@ export default Component.extend({
   }),
 
   // determines whether the lights are on/off for the lights switch
-  lightsOnChange: observer('lightsData.@each.state.on', 'activeLights.[]', function(){
+  lightsOnChange: on('init', observer('lightsData.@each.state.on', 'activeLights.[]', function(){
     if(!this.get('strobeOn')){
       let lightsData = this.get('lightsData'), lightsOn = this.get('activeLights').some(function(light) {
         return lightsData[light].state.on === true;
@@ -103,7 +104,7 @@ export default Component.extend({
 
       this.set('lightsOn', lightsOn);
     }
-  }),
+  })),
 
   onLightsOnChange: observer('lightsOn', function(){
     let lightsData = this.get('lightsData'),

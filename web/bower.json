@@ -4,7 +4,7 @@
     "HackTimer": "https://github.com/turuslan/HackTimer.git#~1.0.0",
     "JavaScript-ID3-Reader": "https://github.com/aadsm/JavaScript-ID3-Reader.git",
     "bootstrap-sass": "^3.3.5",
-    "ember": "^2.9.0",
+    "ember": "beta",
     "ember-cli-shims": "^0.1.0",
     "ember-load-initializers": "0.5.1",
     "ember-qunit-notifications": "0.1.0",

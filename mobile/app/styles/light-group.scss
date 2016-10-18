@@ -1,0 +1,59 @@
+.light-group {
+  margin: 0 auto;
+  text-align: center;
+  .tooltip.top {
+    margin-top: 4px;
+    margin-left: 0;
+  }
+  div {
+    display: inline-block;
+  }
+}
+
+.light-inactive {
+  cursor: pointer;
+  position: relative;
+}
+
+.light-inactive::before {
+  font-weight: bold;
+  position: absolute;
+  content: "X";
+  top: -10px;
+  left: 5px;
+  font-size: 40px;
+  color: rgba(255, 0, 0, 0.37);
+  font-family: cursive;
+}
+
+.horizontal-light-group {
+  .light-inactive::before {
+    top: -9px;
+    left: 6px;
+  }
+  .tooltip.top {
+    margin-top: 1px;
+    margin-left: 2px;
+  }
+}
+
+.light-active {
+  cursor: pointer;
+  img {
+    transition-duration: 0.3s;
+    transition-property: transform;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  }
+  img:hover {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+}
+
+.ember-modal-overlay.translucent {
+  background-color: rgba(0, 0, 0, 0.50);
+}
+
+.remove-button {
+  margin: 10px 0 10px 60px;
+}

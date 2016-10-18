@@ -1,0 +1,36 @@
+{{#if ready}}
+  <div id="navigation">
+    {{#each tabData as |tab|}}
+      <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+    {{/each}}
+    <div id="settings">
+      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settings-itemSettings">
+        {{paper-icon "settings" class=dimmerOnClass id="settings-icon" size=28}}
+      </span>
+
+      <ul id="settings-menu" class="dropdown-menu">
+        <li {{action "clearBridge"}}>
+          <a href="#">
+            Switch bridge
+          </a>
+        </li>
+        <li {{action "startIntro"}}>
+          <a href="#">
+            Restart tutorial
+          </a>
+        </li>
+        <li {{action "clearAllSettings"}}>
+          <a href="#">
+            Reset settings
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}
+
+  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
+
+  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+{{/if}}

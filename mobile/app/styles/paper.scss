@@ -1,0 +1,62 @@
+@import 'ember-paper';
+
+.paper-icon {
+  cursor: pointer;
+}
+
+md-checkbox .md-icon, .md-off, .md-on {
+  border-color: inherit !important;
+}
+
+md-checkbox.md-default-theme.md-checked .md-icon {
+  background: $secondaryThemeColor;
+}
+
+md-checkbox .md-label {
+  width: 125px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.md-button {
+  flex-direction: unset;
+  span {
+    width: 100%;
+  }
+}
+
+md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {
+  cursor: not-allowed;
+}
+
+md-progress-circular {
+  margin: 0 auto 20px auto !important;
+}
+
+md-progress-linear {
+  margin-bottom: 50px !important;
+}
+
+md-slider {
+  cursor: pointer;
+}
+
+md-slider.md-default-theme .md-thumb:after {
+  border-color: $secondaryThemeColor;
+  background-color: $secondaryThemeColor;
+}
+
+md-icon {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+md-switch.md-default-theme.md-checked .md-thumb {
+  background-color: $secondaryThemeColor;
+}
+
+@media(max-width:500px) {
+  md-checkbox .md-label {
+    width: 100px;
+  }
+}

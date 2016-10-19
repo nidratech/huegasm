@@ -124,34 +124,38 @@ export default Component.extend({
       }
     },
     lightStartHover(id){
-      let hoveredLight = this.get('lightsList').filter(function(light){
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
-
-      if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
-        $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
-          data: JSON.stringify({"alert": "lselect"}),
-          contentType: 'application/json',
-          type: 'PUT'
+      if(!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)){
+        let hoveredLight = this.get('lightsList').filter(function(light){
+          return light.activeClass !== 'unreachable' && light.id === id[0];
         });
-      }
 
-      this.set('isHovering', true);
+        if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
+          $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
+            data: JSON.stringify({"alert": "lselect"}),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+        }
+
+        this.set('isHovering', true);
+      }
     },
     lightStopHover(id){
-      let hoveredLight = this.get('lightsList').filter(function(light){
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
-
-      if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
-        $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
-          data: JSON.stringify({"alert": "none"}),
-          contentType: 'application/json',
-          type: 'PUT'
+      if(!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)){
+        let hoveredLight = this.get('lightsList').filter(function(light){
+          return light.activeClass !== 'unreachable' && light.id === id[0];
         });
-      }
 
-      this.set('isHovering', false);
+        if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
+          $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
+            data: JSON.stringify({"alert": "none"}),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+        }
+
+        this.set('isHovering', false);
+      }
     }
   }
 });

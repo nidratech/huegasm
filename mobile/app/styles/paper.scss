@@ -1,9 +1,5 @@
 @import 'ember-paper';
 
-.paper-icon {
-  cursor: pointer;
-}
-
 md-checkbox .md-icon, .md-off, .md-on {
   border-color: inherit !important;
 }
@@ -26,20 +22,12 @@ md-checkbox .md-label {
   }
 }
 
-md-switch[disabled=disabled], md-switch[disabled=disabled] .md-container, md-slider[disabled=disabled] {
-  cursor: not-allowed;
-}
-
 md-progress-circular {
   margin: 0 auto 20px auto !important;
 }
 
 md-progress-linear {
   margin-bottom: 50px !important;
-}
-
-md-slider {
-  cursor: pointer;
 }
 
 md-slider.md-default-theme .md-thumb:after {

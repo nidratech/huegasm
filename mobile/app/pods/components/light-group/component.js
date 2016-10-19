@@ -13,7 +13,6 @@ const {
 export default Component.extend({
   elementId: 'active-lights',
   classNames: ['light-group', 'horizontal-light-group'],
-  isHovering: false,
   activeLights: A(),
 
   // list of all the lights in the hue system
@@ -122,36 +121,6 @@ export default Component.extend({
         activeLights.pushObject(id);
         this.set('syncLight', id);
       }
-    },
-    lightStartHover(id){
-      let hoveredLight = this.get('lightsList').filter(function(light){
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
-
-      if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
-        $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
-          data: JSON.stringify({"alert": "lselect"}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      }
-
-      this.set('isHovering', true);
-    },
-    lightStopHover(id){
-      let hoveredLight = this.get('lightsList').filter(function(light){
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
-
-      if(!isEmpty(hoveredLight) && this.get('noHover') !== true){
-        $.ajax(this.get('apiURL')  + '/lights/' + id + '/state', {
-          data: JSON.stringify({"alert": "none"}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      }
-
-      this.set('isHovering', false);
     }
   }
 });

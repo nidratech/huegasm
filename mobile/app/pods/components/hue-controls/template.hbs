@@ -1,7 +1,7 @@
 {{#if ready}}
   <div id="navigation">
     {{#each tabData as |tab|}}
-      <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+      <span class="navigation-item text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
     {{/each}}
     <div id="settings">
       <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settings-itemSettings">

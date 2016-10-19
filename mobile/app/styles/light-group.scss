@@ -7,7 +7,6 @@
 }
 
 .light-inactive {
-  cursor: pointer;
   position: relative;
 }
 
@@ -30,7 +29,6 @@
 }
 
 .light-active {
-  cursor: pointer;
   img {
     transition-duration: 0.3s;
     transition-property: transform;

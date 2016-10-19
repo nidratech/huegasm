@@ -84,20 +84,16 @@
   </div>
 {{else}}
   {{#if usingLocalAudio}}
-    <div id="play-list-area" class={{playListAreaClass}} {{action "addLocalAudio"}} {{action "playerListAreaDragOver" on="dragOver"}} {{action "playerListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
-      {{#if (or playQueueEmpty dragging)}}
+    <div id="play-list-area" class={{playListAreaClass}} {{action "addLocalAudio"}}>
+      {{#if playQueueEmpty}}
         <div id="dragHere">
-          {{#if dragging}}
-            Drag your music files here
-          {{else}}
             Add your music files here
-          {{/if}}
         </div>
         {{paper-icon "library-music" class=dimmerOnClass}}
       {{/if}}
 
       {{#each playQueue as |item index|}}
-        <div class="playlist-item pointer track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
+        <div class="playlist-item track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
           {{#if item.picture}}
             <img class="album-art" src={{item.picture}}>
           {{else}}
@@ -119,7 +115,7 @@
             {{/if}}
           </div>
 
-          <span class="audio-remove-button pointer" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
+          <span class="audio-remove-button" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
         </div>
       {{/each}}
     </div>
@@ -128,7 +124,7 @@
 </div>
 </div>
 
-<div id="slide-toggle" class="text-center pointer row" {{action "slideTogglePlayerBottom"}}>
+<div id="slide-toggle" class="text-center row" {{action "slideTogglePlayerBottom"}}>
 <div class="col-xs-offset-5 col-xs-2">
   {{paper-icon beatDetectionAreaArrowIcon id="beat-detection-area-arrow-icon"}}
 </div>
@@ -193,7 +189,7 @@
       <div class="rivet8"></div>
 
       <div id="beat-speaker-center-outer">
-        <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}></div>
+        <div id="beat-speaker-center-inner" {{action "clickSpeaker"}}></div>
       </div>
     </div>
   </div>

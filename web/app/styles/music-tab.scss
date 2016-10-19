@@ -332,11 +332,13 @@
 
 #save-beat-preferences-star {
   position: absolute;
-  top: 3px;
+  top: 5px;
+  left: 5px;
   z-index: 1000;
   md-icon {
     color: $secondaryThemeColor !important;
     font-size: 25px;
+    cursor: default;
   }
 }
 

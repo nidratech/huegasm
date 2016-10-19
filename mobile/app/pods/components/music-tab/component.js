@@ -226,20 +226,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     });
   },
 
-  dragOver() {
-    let dragLeaveTimeoutHandle = this.get('dragLeaveTimeoutHandle');
-    this.set('dragging', true);
-
-    if (dragLeaveTimeoutHandle) {
-      clearTimeout(dragLeaveTimeoutHandle);
-    }
-  },
-
-  dragLeave(){
-    // need to delay the dragLeave notification to avoid flickering ( hovering over some page elements causes this event to be sent )
-    this.set('dragLeaveTimeoutHandle', setTimeout(()=>{ this.set('dragging', false); }, 500));
-  },
-
   simulateKick(/*mag, ratioKickMag*/) {
     let activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
@@ -385,10 +371,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       if(event.which === 32 && event.target.type !== 'text'){
         this.send('play');
       }
-    });
-
-    this.$().on('drop', '#play-list-area', (event)=>{
-      this.send('dropFiles', event.dataTransfer.files);
     });
 
      // demo tracks
@@ -805,19 +787,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     clickSpeaker(){
       this.simulateKick(1);
-    },
-    dropFiles(files){
-      this.setProperties({
-        dragging: false,
-        draggingOverPlayListArea: false
-      });
-      this.send('handleNewFiles', files);
-    },
-    playerListAreaDragOver(){
-      this.set('draggingOverPlayListArea', true);
-    },
-    playerListAreaDragLeave(){
-      this.set('draggingOverPlayListArea', false);
     },
     handleNewFiles(files){
       let self = this,

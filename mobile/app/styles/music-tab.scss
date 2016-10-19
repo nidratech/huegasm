@@ -173,16 +173,6 @@
   font-weight: bold;
 }
 
-#play-list-area.drag-here-highlight {
-  background-color: white;
-  border: 5px dotted #5383ff;
-}
-
-#play-list-area.dragging-over {
-  background-color: darken(white, 5%);
-  box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
-}
-
 #file-input {
   width: 1px;
   height: 1px;
@@ -240,10 +230,6 @@
   position: relative;
   padding: 0;
   margin-bottom: 10px;
-}
-
-.star {
-  cursor: auto !important;
 }
 
 #beat-option-button-group {

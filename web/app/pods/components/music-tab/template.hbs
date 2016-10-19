@@ -20,7 +20,7 @@
                   -->{{/if}}<!--
           --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
                    data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
-                  -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
+                  -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar"}}
 
         <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
       {{/if}}

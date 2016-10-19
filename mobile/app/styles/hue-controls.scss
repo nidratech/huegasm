@@ -5,10 +5,6 @@
   }
 }
 
-#color-row {
-  cursor: pointer;
-}
-
 #hue-controls {
   max-width: 1200px;
   position: relative;
@@ -30,7 +26,6 @@
   padding: 0 10px 0 10px;
   &.active {
     font-weight: bold;
-    cursor: default;
     text-decoration: none !important;
   }
   &:hover {
@@ -58,13 +53,9 @@
   z-index: 3;
 }
 
-#picker {
-  cursor: crosshair;
-}
-
 #loop-addition {
   position: absolute;
-  left: 35px;
+  left: 33px;
   top: 15px;
   font-size: 16px;
 }
@@ -72,7 +63,6 @@
 #settings {
   z-index: 3;
   text-align: right;
-  cursor: pointer;
   float: right;
   position: relative;
 }

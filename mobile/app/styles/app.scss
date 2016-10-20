@@ -16,53 +16,22 @@
 @import 'music-tab';
 @import 'noui-slider';
 
-html {
-  min-height: 100%;
-  height: auto;
+[data-ember-action] {
+  cursor: pointer;
+  text-decoration: none;
 }
 
-body {
-  margin-bottom: $footerHeight;
-  position: static;
+-webkit-tap-highlight-color {
+  rgba: (0, 0, 0, 0);
 }
 
 body, button {
   font-family: 'Slabo 27px', serif;
 }
 
-.ember-app {
-  padding-bottom: 50px;
-}
-
-#footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  height: $footerHeight;
-}
-
-#footer-text {
-  display: inline-block;
-  position: relative;
-  bottom: 10px;
-  a {
-    margin-left: 5px;
-  }
-}
-
 .alert {
   margin-bottom: 0;
   border: none;
-}
-
-
-.title {
-  margin-bottom: 20px;
-  img {
-    width: 200px;
-  }
 }
 
 button.md-warn {
@@ -80,12 +49,18 @@ div.ember-modal-dialog {
   }
 }
 
+.title {
+  margin-bottom: 30px;
+  img {
+    width: 200px;
+  }
+}
+
 .dropdown-menu {
   font-size: 14px;
   a {
     line-height: 2 !important;
   }
-
 }
 // fancy webkit scrollbars
 ::-webkit-scrollbar {

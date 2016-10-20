@@ -9,13 +9,11 @@
 #light-option {
   text-align: left !important;
   top: 20%;
-  -webkit-transform: translateY(-20%);
-  transform: translateY(-20%);
 }
 
 #music-tab {
   padding: 0;
-  margin: 10px 0 $footerHeight + 20px;
+  margin: 10px 0 20px;
 }
 
 #slide-toggle {
@@ -368,5 +366,9 @@
   }
   .beat-option {
     text-align: center !important;
+  }
+  #save-beat-preferences-star {
+    right: 5px;
+    left: initial;
   }
 }

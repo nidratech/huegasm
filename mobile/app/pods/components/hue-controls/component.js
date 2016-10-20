@@ -21,9 +21,25 @@ export default Component.extend({
 
   lightsTabSelected: computed.equal('selectedTab', 0),
   musicTabSelected: computed.equal('selectedTab', 1),
+  dimmerOn: false,
 
   dimmerOnClass: computed('dimmerOn', function(){
-    return this.get('dimmerOn') ? 'dimmerOn md-menu-origin' : 'md-menu-origin';
+    let dimmerOn = this.get('dimmerOn'),
+      storage = this.get('storage'),
+      dimmerOnClass = 'md-menu-origin';
+
+    if (dimmerOn) {
+      $('body').addClass('dimmerOn');
+      $('html').addClass('dimmerOn');
+      dimmerOnClass += ' dimmerOn';
+    } else {
+      $('body').removeClass('dimmerOn');
+      $('html').removeClass('dimmerOn');
+    }
+
+    storage.set('huegasm.dimmerOn', dimmerOn);
+
+    return dimmerOnClass;
   }),
 
   ready: computed('lightsData', 'trial', function() {
@@ -53,9 +69,15 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
+    let storage = this.get('storage');
+
     if(!this.get('trial')) {
       this.updateLightData();
       this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
+    }
+
+    if (!isNone(storage.get('huegasm.dimmerOn'))) {
+      this.set('dimmerOn', storage.get('huegasm.dimmerOn'));
     }
 
     if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
@@ -217,7 +239,7 @@ export default Component.extend({
         onFinish();
         dimmer.popover({
           trigger: 'manual',
-          placement: 'top',
+          placement: 'right',
           content: 'Click on this icon to toggle the dark theme.'
         }).popover('show');
 
@@ -237,6 +259,9 @@ export default Component.extend({
           $('.introjs-tooltip').velocity('scroll');
         }, 500);
       }).onexit(onExit).oncomplete(onFinish).start();
+    },
+    toggleDimmer(){
+      this.toggleProperty('dimmerOn');
     }
   }
 });

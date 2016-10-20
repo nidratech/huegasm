@@ -9,8 +9,6 @@
 #light-option {
   text-align: left !important;
   top: 20%;
-  -webkit-transform: translateY(-20%);
-  transform: translateY(-20%);
   .tooltip {
     margin-top: 5px !important;
   }
@@ -403,5 +401,9 @@
   }
   .close {
     display: block;
+  }
+  #save-beat-preferences-star {
+    right: 5px;
+    left: initial;
   }
 }

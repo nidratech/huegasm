@@ -1,8 +1,11 @@
 {{#if ready}}
   <div id="navigation">
+    <div id="dimmer" {{action "toggleDimmer"}} class={{dimmerOnClass}}></div>
+
     {{#each tabData as |tab|}}
       <span class="navigation-item text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
     {{/each}}
+
     <div id="settings">
       <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settings-itemSettings">
         {{paper-icon "settings" class=dimmerOnClass id="settings-icon" size=28}}

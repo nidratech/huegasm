@@ -69,7 +69,6 @@ body.dimmerOn {
   }
 }
 
-
 .paper-icon.dimmerOn {
   color: inherit !important;
   text-shadow: $glowingText;
@@ -77,9 +76,9 @@ body.dimmerOn {
 }
 
 #dimmer {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  background: url(images/huegasm.png) center center no-repeat;
-  background-size: 40px 40px;
+  float: left;
+  width: 30px;
+  height: 30px;
+  background: url(images/huegasm.png) center center no-repeat !important;
+  background-size: 30px 30px !important;
 }

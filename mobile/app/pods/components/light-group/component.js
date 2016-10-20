@@ -4,10 +4,8 @@ const {
   A,
   Component,
   computed,
-  isEmpty,
   isNone,
-  observer,
-  $
+  observer
 } = Ember;
 
 export default Component.extend({

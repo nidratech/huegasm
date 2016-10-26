@@ -41,8 +41,11 @@ button.md-warn {
 div.ember-modal-dialog {
   padding: 20px;
   color: black;
-  md-input-container input {
-    color: black !important;
+  md-input-container {
+    width: 100%;
+    input {
+      color: black !important;
+    }
   }
   md-input-container label {
     color: rgba(0, 0, 0, 0.26);

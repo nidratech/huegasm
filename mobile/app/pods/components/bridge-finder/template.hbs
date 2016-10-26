@@ -43,7 +43,10 @@
 
         <span id="bridge-input">
           {{paper-input label="Hue bridge IP address" value=manualBridgeIp onChange=(action (mut manualBridgeIp))}}
-          {{paper-button onClick=(action "findBridgeByIp") raised=true primary=true label="Find"}}
+
+          <div>
+            {{paper-button onClick=(action "findBridgeByIp") raised=true primary=true label="Find"}}
+          </div>
         </span>
 
         {{#if manualBridgeIpNotFound}}

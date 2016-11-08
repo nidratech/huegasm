@@ -121,8 +121,7 @@ export default Component.extend({
     startIntro(){
       let INTRO = introJs,
         intro = INTRO(),
-        playerBottom = $('#player-bottom'),
-        beatDetectionAreaArrowIcon = $('#beat-detection-area-arrow-icon');
+        playerBottom = $('#player-bottom');
 
       intro.setOptions({
         steps: [

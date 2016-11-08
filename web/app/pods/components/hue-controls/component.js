@@ -204,16 +204,8 @@ export default Component.extend({
 
         if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area'){
           playerBottom.hide();
-
-          if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
-            beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-up').addClass('keyboard-arrow-down');
-          }
         } else if(element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container'){
           playerBottom.show();
-
-          if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-down')){
-            beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-down').addClass('keyboard-arrow-up');
-          }
         } else if(element.id === 'dimmer'){
           $(document).click();
         }
@@ -225,12 +217,6 @@ export default Component.extend({
         $('#lights-tab').addClass('hidden');
         $('.navigation-item').eq(0).removeClass('active');
         $('.navigation-item').eq(1).addClass('active');
-
-        if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
-          playerBottom.show();
-        } else {
-          playerBottom.hide();
-        }
       }, onExit = ()=>{
         let dimmer = $('#dimmer');
 

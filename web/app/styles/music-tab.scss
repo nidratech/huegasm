@@ -415,6 +415,22 @@
   bottom: initial;
 }
 
+#soundcloud-logo {
+  display: block;
+}
+#soundcloud-logo-small {
+  display: none;
+}
+
+@media(max-width:900px) {
+  #soundcloud-logo {
+    display: none;
+  }
+  #soundcloud-logo-small {
+    display: block;
+  }
+}
+
 @media(min-width:767px) and (max-width:1000px) {
   #add-new-music-label {
     display: none;

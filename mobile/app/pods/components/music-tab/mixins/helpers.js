@@ -11,7 +11,7 @@ const {
 } = Ember;
 
 export default Mixin.create({
-  classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
+  classNames: ['col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'music-tab',
 
@@ -101,7 +101,7 @@ export default Mixin.create({
   usingLocalAudio: computed.equal('audioMode', 0),
   usingMicAudio: computed.equal('audioMode', 1),
 
-  playerBottomDisplayed: false,
+  playerBottomDisplayed: true,
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
@@ -189,7 +189,7 @@ export default Mixin.create({
   }),
 
   largeArtworkPic: computed('playQueuePointer', 'usingMicAudio', 'currentVisName', function(){
-    let pic = null,
+    let pic = '',
       currentVisName = this.get('currentVisName'),
       usingMicAudio = this.get('usingMicAudio'),
       playQueuePointer = this.get('playQueuePointer'),
@@ -234,6 +234,14 @@ export default Mixin.create({
       return 'replay';
     } else {
       return 'play-arrow';
+    }
+  }),
+
+  playerAreaClickIcon: computed('playing', function() {
+    if(this.get('playing')){
+      return 'play-arrow';
+    } else {
+      return 'pause';
     }
   }),
 

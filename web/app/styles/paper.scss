@@ -14,9 +14,7 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 
 md-checkbox .md-label {
   width: 125px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  text-align: left;
 }
 
 .md-button {
@@ -56,9 +54,6 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 @media(max-width:500px) {
-  md-checkbox .md-label {
-    width: 70px;
-  }
   #save-beat-preferences-star {
     right: 5px;
   }

@@ -2,28 +2,20 @@
   margin: 0;
 }
 
-#beat-option-row {
-  height: 250px;
-}
-
-#light-option {
-  text-align: left !important;
-  top: 20%;
-  .tooltip {
-    margin-top: 5px !important;
-  }
-}
-
 #music-tab {
   padding: 0;
-  margin: 10px 0 $footerHeight + 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 #slide-toggle {
+  font-size: 28px;
   color: $playerDefaultIconColor;
   background: #730B07;
   div .paper-icon {
     color: inherit !important;
+    font-size: 28px;
+    font-weight: bold;
   }
 }
 
@@ -36,16 +28,25 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 5px 10px;
+  padding: 15px 10px;
   width: 100%;
   color: white !important;
   z-index: 20;
+  cursor: default;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  .ember-basic-dropdown-trigger {
+    position: absolute;
+    right: 0;
+    bottom: 13px;
+  }
   .tooltip.top {
     margin-top: -17px;
   }
   .tooltip-arrow {
     display: none;
+  }
+  md-menu-item > .md-button md-icon {
+    margin: auto 0 5px 10px;
   }
   .play-arrow, .pause, .replay {
     font-size: 30px;
@@ -62,7 +63,9 @@
 .player-control-icon {
   color: $playerDefaultIconColor !important;
   transition-duration: 0.1s;
-  margin-right: 5px;
+  margin-right: 10px;
+  margin-top: 4px;
+  font-size: 22px;
 }
 
 .player-control-icon.active {
@@ -75,11 +78,11 @@
 
 #play-notification {
   position: relative;
-  color: white;
+  color: white !important;
+  background: black;
   top: 50%;
   left: 50%;
   opacity: 0;
-  background: black;
   border-radius: 100%;
 }
 
@@ -88,6 +91,7 @@
   background-color: black;
   display: inline-block;
   padding: 0;
+  cursor: pointer;
 }
 
 #playlist {
@@ -97,18 +101,18 @@
 }
 
 #player-area * .noUi-origin {
-  background-color: black;
+  background-color: $blackish;
   border-radius: 5px;
 }
 
 #player-area * .noUi-base {
-  background-color: black;
+  background-color: $blackish;
   border-radius: 5px;
 }
 
 #volume-bar {
   width: 5em;
-  height: 0.4em;
+  height: 0.5em;
   display: inline-block;
 }
 
@@ -117,9 +121,12 @@
 }
 
 #seek-slider {
-  height: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   transition-duration: 0.2s;
+  height: 8px;
+  .noUi-handle {
+    opacity: 1 !important;
+  }
 }
 
 #seek-slider:hover {
@@ -144,17 +151,27 @@
 }
 
 #play-list-controls {
-  min-height: 30px;
+  min-height: 40px;
   margin-top: 5px;
   border-bottom: 1px solid #3a3a3a;
   position: relative;
+  button .player-control-icon {
+    margin: 0 5px 1px 3px;
+  }
+  .ember-basic-dropdown-trigger {
+    float: right;
+    color: $whitish;
+    .paper-button {
+      margin: 0;
+    }
+  }
 }
 
 #play-list-area, #play-area-mic {
   background-color: white;
   width: 100%;
   height: 350px;
-  margin: 10px auto 0 auto;
+  margin: 5px auto;
   border-radius: 5px;
   transition: 0.1s all ease-in-out;
   position: relative;
@@ -203,7 +220,7 @@
   font-family: 'Open Sans', sans-serif;
   padding: 0 20px 0 5px;
   position: relative;
-  color: black;
+  color: $blackish;
   background: darken(white, 5%);
   .close {
     font-size: 18px;
@@ -260,14 +277,21 @@
   margin: 20px 0 10px 0;
 }
 
+#light-option {
+  margin-top: 14%;
+}
+
 .beat-option {
   padding: 5px 0;
   text-align: center;
+  md-checkbox {
+    padding: 10px 0;
+  }
   md-switch {
     margin: 0;
   }
   .option-description {
-    font-size: 16px;
+    font-size: 20px;
   }
   button {
     margin-top: 0;
@@ -278,15 +302,19 @@
 }
 
 #player-bottom {
-  color: black;
+  color: $blackish;
   border: 1px solid black;
   width: 100%;
   background: white;
+  padding-bottom: 20px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px
 }
 
 #beat-container {
   padding: 0;
   height: $playerBottomHeight;
+  margin: 0;
 }
 
 #beat-area .light-group {
@@ -319,7 +347,9 @@
 }
 
 .sound-cloud-link {
-  margin-right: 5px;
+  position: absolute;
+  right: 55px;
+  bottom: 22px;
 }
 
 #visualization {
@@ -385,8 +415,24 @@
   bottom: initial;
 }
 
+@media(min-width:767px) and (max-width:1000px) {
+  #add-new-music-label {
+    display: none;
+  }
+  #play-list-controls .paper-button {
+    border: 1px solid $whitish;
+    border-radius: 5px;
+  }
+}
+
 // mobile overrides
 @media(max-width:767px) {
+  #light-option {
+    margin-top: 0;
+  }
+  #beat-area {
+    height: initial;
+  }
   #seek-slider {
     height: 8px;
     .noUi-handle {
@@ -405,5 +451,8 @@
   #save-beat-preferences-star {
     right: 5px;
     left: initial;
+  }
+  md-checkbox {
+    padding-right: 20px !important;
   }
 }

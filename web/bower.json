@@ -1,7 +1,7 @@
 {
   "name": "huegasm",
   "dependencies": {
-    "HackTimer": "https://github.com/turuslan/HackTimer.git#~1.0.0",
+    "HackTimer": "https://github.com/turuslan/HackTimer.git#~1.1.0",
     "JavaScript-ID3-Reader": "https://github.com/aadsm/JavaScript-ID3-Reader.git",
     "bootstrap-sass": "^3.3.5",
     "ember": "beta",

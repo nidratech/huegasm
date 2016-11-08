@@ -185,7 +185,7 @@ export default Component.extend({
             element: '#dimmer',
             intro: 'And that\'s it...Hope you enjoy the application. ;)<br><br>' +
             '<i><b>TIP</b>: click on the icon to switch to a darker theme.</i>',
-            position: 'top'
+            position: 'bottom'
           }
         ]
       });
@@ -227,12 +227,6 @@ export default Component.extend({
         $('#lights-tab').addClass('hidden');
         $('.navigation-item').eq(0).removeClass('active');
         $('.navigation-item').eq(1).addClass('active');
-
-        if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
-          playerBottom.show();
-        } else {
-          playerBottom.hide();
-        }
       }, onExit = ()=>{
         let dimmer = $('#dimmer');
 

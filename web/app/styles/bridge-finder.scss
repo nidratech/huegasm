@@ -30,8 +30,11 @@
   font-size: 16px;
 }
 
-#bridge-finder .md-bar {
-  background-color: $secondaryThemeColor !important;
+#bridge-finder {
+  min-height: 500px;
+  .md-bar {
+    background-color: $secondaryThemeColor !important;
+  }
 }
 
 // preloading image

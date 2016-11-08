@@ -7,6 +7,9 @@ It lives at http://www.huegasm.com
 ## Current priorities
 - create a hybrid app with Cardova
 
+## Bugs
+- HackTimer not working? Slowness when switching to another browser tab, etc...
+
 ## POSSIBLE FUTURE FEATURES
 - decode the hue color better
 - better visualizations

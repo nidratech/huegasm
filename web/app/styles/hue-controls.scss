@@ -3,6 +3,9 @@
   .paper-icon {
     line-height: 0.8 !important;
   }
+  md-slider {
+    width: 50%;
+  }
 }
 
 .lights-control-tooltip + .tooltip {
@@ -11,6 +14,9 @@
 
 #color-row {
   cursor: pointer;
+  .md-list-item-inner {
+    padding-right: 0;
+  }
 }
 
 #hue-controls {
@@ -44,9 +50,10 @@
 
 .color {
   border: 1px solid rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: -53px;
-  right: 0;
+}
+
+.color-row .md-list-item-inner {
+  padding-right: 0;
 }
 
 #color-picker {
@@ -62,6 +69,13 @@
   z-index: 3;
 }
 
+.color-content {
+  box-shadow: none !important;
+  md-menu-content, md-menu-item {
+    background-color: transparent !important;
+  }
+}
+
 #picker {
   cursor: crosshair;
 }
@@ -73,32 +87,11 @@
   font-size: 16px;
 }
 
-#settings {
+#navigation .ember-basic-dropdown-trigger {
   z-index: 3;
   text-align: right;
-  cursor: pointer;
   float: right;
   position: relative;
-}
-
-#settings-menu {
-  position: absolute;
-  box-shadow: 1px 10px 15px 1px rgba(0, 0, 0, 0.3);
-  left: -135px;
-  top: 25px;
-  border: none;
-  padding: 0;
-}
-
-#settings-icon {
-  transition: 0.1s all ease-in-out;
-  &:hover {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-  }
-  &:before {
-    transition: 0.1s all ease-in-out;
-  }
 }
 
 @media(min-width:767px) {

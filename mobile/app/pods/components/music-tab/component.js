@@ -349,6 +349,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
   },
 
   didInsertElement() {
+    this._super();
+
     let self = this;
 
     // file input code
@@ -376,6 +378,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
      // demo tracks
     if(this.get('firstVisit')){
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/candyland-speechless-feat-rkcb');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/dillistone/dillistone-lili-n-rude');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/vallis-alps-young-feki-remix');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/andrew-luce-when-to-love-you-feat-chelsea-cutler');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/ahh-ooh-carefree-with-me');
@@ -598,7 +601,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       if(isEmpty($('#player-controls:hover')) && this.get('playQueuePointer') !== -1 ){
         this.send('play');
 
-        $('#play-notification').velocity({opacity: 0.8, scale: 1}, 0).velocity({opacity: 0, scale: 3}, 500);
+        $('#play-notification').velocity({opacity: 1, scale: 1}, 0).velocity({opacity: 0, scale: 3}, 500);
       }
     },
     play(replayPause) {

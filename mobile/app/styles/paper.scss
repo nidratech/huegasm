@@ -10,9 +10,6 @@ md-checkbox.md-default-theme.md-checked .md-icon {
 
 md-checkbox .md-label {
   width: 125px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .md-button {
@@ -41,10 +38,4 @@ md-icon {
 
 md-switch.md-default-theme.md-checked .md-thumb {
   background-color: $secondaryThemeColor;
-}
-
-@media(max-width:500px) {
-  md-checkbox .md-label {
-    width: 70px;
-  }
 }

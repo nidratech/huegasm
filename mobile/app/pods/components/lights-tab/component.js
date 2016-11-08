@@ -9,11 +9,9 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
+  classNames: ['col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'lights-tab',
-
-  colorPickerDisplayed: false,
 
   rgb: [255, 255, 255],
 
@@ -28,14 +26,6 @@ export default Component.extend({
 
   colorloopOnTxt: computed('colorLoopOn', function(){
     return this.get('colorLoopOn') ? 'On' : 'Off';
-  }),
-
-  colorRowAction: computed('strobeOn', function() {
-    if (this.get('trial')) {
-      return null;
-    }
-
-    return 'toggleColorPicker';
   }),
 
   // determines the average brightness of the hue system for the brightness slider
@@ -172,24 +162,6 @@ export default Component.extend({
       type: 'PUT'
     });
   }),
-
-  didInsertElement() {
-    $(document).click((event)=>{
-      if(this.get('colorPickerDisplayed') && !event.target.classList.contains('color') && !$(event.target).closest('#color-picker, #color-row').length) {
-        this.toggleProperty('colorPickerDisplayed');
-      }
-    });
-
-    $(document).on('click', '#color-row', () => {
-      this.send('toggleColorPicker');
-    });
-  },
-
-  actions: {
-    toggleColorPicker() {
-      this.toggleProperty('colorPickerDisplayed');
-    }
-  },
 
   // **************** STROBE LIGHT START ****************
   strobeOn: false,

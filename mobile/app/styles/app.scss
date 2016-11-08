@@ -40,11 +40,11 @@ button.md-warn {
 
 div.ember-modal-dialog {
   padding: 20px;
-  color: black;
+  color: $blackish;
   md-input-container {
     width: 100%;
-    input {
-      color: black !important;
+    input.md-input[type="text"] {
+      color: $blackish !important;
     }
   }
   md-input-container label {
@@ -59,12 +59,6 @@ div.ember-modal-dialog {
   }
 }
 
-.dropdown-menu {
-  font-size: 14px;
-  a {
-    line-height: 2 !important;
-  }
-}
 // fancy webkit scrollbars
 ::-webkit-scrollbar {
   -webkit-appearance: none;

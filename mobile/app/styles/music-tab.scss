@@ -2,30 +2,20 @@
   margin: 0;
 }
 
-#beat-option-row {
-  height: 250px;
-}
-
-#light-option {
-  text-align: left !important;
-  top: 20%;
-}
-
 #music-tab {
   padding: 0;
   margin: 10px 0 20px;
 }
 
 #slide-toggle {
+  font-size: 26px;
   color: $playerDefaultIconColor;
   background: #730B07;
   div .paper-icon {
     color: inherit !important;
+    font-size: 26px;
+    font-weight: bold;
   }
-}
-
-#slide-toggle:hover{
-  color: lighten($playerDefaultIconColor, 30%) !important;;
 }
 
 #player-controls {
@@ -33,11 +23,19 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 5px 10px;
+  padding: 15px 10px;
   width: 100%;
   color: white !important;
   z-index: 20;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  .ember-basic-dropdown-trigger {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+  }
+  md-menu-item > .md-button md-icon {
+    margin: auto 0 5px 10px;
+  }
   .play-arrow, .pause, .replay {
     font-size: 30px;
   }
@@ -53,24 +51,21 @@
 .player-control-icon {
   color: $playerDefaultIconColor !important;
   transition-duration: 0.1s;
-  margin-right: 5px;
+  margin-right: 10px;
+  font-size: 22px;
 }
 
 .player-control-icon.active {
   color: $secondaryThemeColor !important;
 }
 
-.player-control-icon:hover {
-  color: white !important;
-}
-
 #play-notification {
   position: relative;
-  color: white;
+  color: white !important;
+  background: black;
   top: 50%;
   left: 50%;
   opacity: 0;
-  background: black;
   border-radius: 100%;
 }
 
@@ -88,18 +83,18 @@
 }
 
 #player-area * .noUi-origin {
-  background-color: black;
+  background-color: $blackish;
   border-radius: 5px;
 }
 
 #player-area * .noUi-base {
-  background-color: black;
+  background-color: $blackish;
   border-radius: 5px;
 }
 
 #volume-bar {
   width: 5em;
-  height: 0.4em;
+  height: 0.5em;
   display: inline-block;
 }
 
@@ -108,17 +103,12 @@
 }
 
 #seek-slider {
-  height: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   transition-duration: 0.2s;
-}
-
-#seek-slider:hover {
   height: 8px;
-}
-
-#seek-slider:hover * .noUi-handle {
-  opacity: 1;
+  .noUi-handle {
+    opacity: 1 !important;
+  }
 }
 
 #seek-slider * .noUi-handle {
@@ -135,17 +125,28 @@
 }
 
 #play-list-controls {
-  min-height: 30px;
+  min-height: 40px;
   margin-top: 5px;
   border-bottom: 1px solid #3a3a3a;
   position: relative;
+  font-size: 20px;
+  button .player-control-icon {
+    margin: 0 5px 1px 3px;
+  }
+  .ember-basic-dropdown-trigger {
+    float: right;
+    color: $whitish;
+    .paper-button {
+      margin: 0;
+    }
+  }
 }
 
 #play-list-area, #play-area-mic {
   background-color: white;
   width: 100%;
   height: 350px;
-  margin: 10px auto 0 auto;
+  margin: 5px auto;
   border-radius: 5px;
   transition: 0.1s all ease-in-out;
   position: relative;
@@ -184,7 +185,7 @@
   font-family: 'Open Sans', sans-serif;
   padding: 0 20px 0 5px;
   position: relative;
-  color: black;
+  color: $blackish;
   background: darken(white, 5%);
   .close {
     font-size: 18px;
@@ -224,7 +225,6 @@
 }
 
 #beat-area {
-  height: $playerBottomHeight;
   position: relative;
   padding: 0;
   margin-bottom: 10px;
@@ -241,7 +241,7 @@
     margin: 0;
   }
   .option-description {
-    font-size: 16px;
+    font-size: 18px;
   }
   button {
     margin-top: 0;
@@ -249,15 +249,19 @@
 }
 
 #player-bottom {
-  color: black;
+  color: $blackish;
   border: 1px solid black;
   width: 100%;
   background: white;
+  padding-bottom: 20px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px
 }
 
 #beat-container {
   padding: 0;
   height: $playerBottomHeight;
+  margin: 0;
 }
 
 #beat-area .light-group {
@@ -285,12 +289,10 @@
   border: none;
 }
 
-.add-new-music:hover {
-  background: darken(#f8f8f8, 5%);
-}
-
 .sound-cloud-link {
-  margin-right: 5px;
+  position: absolute;
+  right: 55px;
+  bottom: 22px;
 }
 
 #visualization {
@@ -303,6 +305,7 @@
   position: absolute;
   top: 3px;
   z-index: 1000;
+  right: 5px;
   md-icon {
     color: $secondaryThemeColor !important;
     font-size: 25px;
@@ -343,32 +346,9 @@
   font-size: 18px !important;
   color: rgb(51, 51, 51);
   text-shadow: none;
-  &:hover {
-    color: darken(#333333, 5%) !important;
-  }
 }
 
 .ember-notify-default.ember-notify-cn {
   top: 0;
   bottom: initial;
-}
-
-// mobile overrides
-@media(max-width:767px) {
-  #seek-slider {
-    height: 8px;
-    .noUi-handle {
-      opacity: 1 !important;
-    }
-  }
-  #seek-slider {
-    margin-bottom: 15px;
-  }
-  .beat-option {
-    text-align: center !important;
-  }
-  #save-beat-preferences-star {
-    right: 5px;
-    left: initial;
-  }
 }

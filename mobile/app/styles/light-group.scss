@@ -34,10 +34,6 @@
     transition-property: transform;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   }
-  img:hover {
-    -webkit-transform: scale(1.2);
-    transform: scale(1.2);
-  }
 }
 
 .ember-modal-overlay.translucent {

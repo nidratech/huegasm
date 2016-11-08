@@ -3,34 +3,33 @@
     {{#each tabData as |tab|}}
       <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
     {{/each}}
-    <div id="settings">
-      <span data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="settings-itemSettings">
-        {{paper-icon "settings" class=dimmerOnClass id="settings-icon" size=28}}
-      </span>
+    {{#paper-menu as |menu|}}
+      {{#menu.trigger}}
+        {{#paper-button iconButton=true}}
+          {{paper-icon "settings-icon" class=dimmerOnClass size=28}}
+        {{/paper-button}}
+      {{/menu.trigger}}
+      {{#menu.content width=3 as |content|}}
+        {{#content.menu-item onClick="clearBridge"}}
+          {{paper-icon "compare arrows" class=dimmerOnClass}} Switch bridge
+        {{/content.menu-item}}
 
-      <ul id="settings-menu" class="dropdown-menu">
-        <li {{action "clearBridge"}}>
-          <a href="#">
-            Switch bridge
-          </a>
-        </li>
-        <li {{action "startIntro"}}>
-          <a href="#">
-            Restart tutorial
-          </a>
-        </li>
-        <li {{action "clearAllSettings"}}>
-          <a href="#">
-            Reset settings
-          </a>
-        </li>
-      </ul>
-    </div>
+        {{#content.menu-item onClick="startIntro"}}
+          {{paper-icon "cached" class=dimmerOnClass}} Restart tutorial
+        {{/content.menu-item}}
+
+        {{#content.menu-item onClick="clearAllSettings"}}
+          {{paper-icon "settings backup restore" class=dimmerOnClass}} Reset settings
+        {{/content.menu-item}}
+      {{/menu.content}}
+    {{/paper-menu}}
   </div>
 
   {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}
 
-  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
+  <div class="row">
+    {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn}}
 
-  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+    {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+  </div>
 {{/if}}

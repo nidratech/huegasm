@@ -16,16 +16,6 @@
 @import 'music-tab';
 @import 'noui-slider';
 
-html {
-  min-height: 100%;
-  height: auto;
-}
-
-body {
-  margin-bottom: $footerHeight;
-  position: static;
-}
-
 body, button {
   font-family: 'Slabo 27px', serif;
 }
@@ -35,12 +25,8 @@ body, button {
 }
 
 #footer {
-  position: absolute;
-  left: 0;
-  bottom: 0;
   width: 100%;
   text-align: center;
-  height: $footerHeight;
 }
 
 #footer-text {
@@ -71,24 +57,16 @@ button.md-warn {
 
 div.ember-modal-dialog {
   padding: 20px;
-  color: black;
+  color: $blackish;
   md-input-container {
     width: 100%;
-    .md-input {
-      color: black !important;
+    input.md-input[type="text"] {
+      color: $blackish !important;
     }
   }
   md-input-container label {
     color: rgba(0, 0, 0, 0.26);
   }
-}
-
-.dropdown-menu {
-  font-size: 14px;
-  a {
-    line-height: 2 !important;
-  }
-
 }
 // fancy webkit scrollbars
 ::-webkit-scrollbar {

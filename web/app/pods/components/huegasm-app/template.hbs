@@ -1,5 +1,5 @@
 {{#if bridgeUsername}}
-  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn storage=storage toggleDimmer="toggleDimmer"}}
+  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn storage=storage action="toggleDimmer"}}
 {{else}}
   {{#if ready}}
     {{bridge-finder bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial storage=storage}}

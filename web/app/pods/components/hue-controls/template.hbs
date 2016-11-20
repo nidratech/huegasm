@@ -1,7 +1,7 @@
 {{#if ready}}
   <div id="navigation">
       <div id="dimmer" class={{dimmerOnClass}} {{action "toggleDimmer"}}>
-          <div id="dimmer-switch"></div>
+        <div id="dimmer-switch"></div>
       </div>
 
     {{#each tabData as |tab|}}
@@ -32,8 +32,8 @@
   {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}
 
   <div class="row">
-    {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn strobeOn=pauseLightUpdates toggleDimmer="toggleDimmer"}}
+    {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn strobeOn=pauseLightUpdates}}
 
-    {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn toggleDimmer="toggleDimmer" action="startIntro"}}
+    {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
   </div>
 {{/if}}

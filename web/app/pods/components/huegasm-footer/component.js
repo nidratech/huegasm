@@ -15,7 +15,7 @@ export default Component.extend({
 
   actions: {
     toggleDimmer(){
-      this.sendAction('toggleDimmer');
+      this.sendAction();
     }
   }
 });

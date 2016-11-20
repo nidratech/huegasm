@@ -16,8 +16,18 @@
 @import 'music-tab';
 @import 'noui-slider';
 
+body > .ember-view {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 body, button {
   font-family: 'Slabo 27px', serif;
+}
+
+#huegasm {
+  flex: 1;
 }
 
 .ember-app {
@@ -34,6 +44,7 @@ body, button {
   display: inline-block;
   position: relative;
   bottom: 10px;
+  font-size: 18px;
   a {
     margin-left: 5px;
   }

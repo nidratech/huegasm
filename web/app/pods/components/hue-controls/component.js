@@ -115,7 +115,7 @@ export default Component.extend({
       location.reload();
     },
     toggleDimmer() {
-      this.sendAction("toggleDimmer");
+      this.sendAction();
     },
     clearAllSettings() {
       this.get('storage').clear();

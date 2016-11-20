@@ -6,7 +6,6 @@ const {
   computed,
   isNone,
   inject,
-  on,
   A
 } = Ember;
 
@@ -117,7 +116,6 @@ export default Mixin.create({
   // 0 - no repeat, 1 - repeat all, 2 - repeat one
   repeat: 0,
   shuffle: false,
-  volumeMuted: false,
   volume: 100,
   // beat detection related pausing
   paused: false,
@@ -267,16 +265,6 @@ export default Mixin.create({
     return this.get('dimmerOn') ? 'dimmerOn' : null;
   }),
 
-  volumeMutedClass: computed('volumeMuted', function(){
-    let classes = 'player-control-icon volumeButton';
-
-    if(this.get('volumeMuted')){
-      classes += ' active';
-    }
-
-    return classes;
-  }),
-
   usingLocalAudioClass: computed('usingLocalAudio', function(){
     return this.get('usingLocalAudio') ? 'player-control-icon active' : 'player-control-icon';
   }),
@@ -291,20 +279,6 @@ export default Mixin.create({
 
   shuffleClass: computed('shuffle', function(){
     return this.get('shuffle') ? 'player-control-icon active' : 'player-control-icon';
-  }),
-
-  volumeIcon: computed('volumeMuted', 'volume', function() {
-    let volume = this.get('volume');
-
-    if (this.get('volumeMuted')) {
-      return "volume-off";
-    } else if (volume >= 70) {
-      return "volume-up";
-    } else if (volume > 10) {
-      return "volume-down";
-    } else {
-      return 'volume-mute';
-    }
   }),
 
   beatDetectionAreaArrowIcon: computed('playerBottomDisplayed', function(){
@@ -333,22 +307,6 @@ export default Mixin.create({
     option = option.replace('.[]', '');
     this.get('storage').set('huegasm.' + option, this.get(option));
   }),
-
-  onVolumeMutedChange: on('init', observer('volumeMuted', function() {
-    let volumeMuted = this.get('volumeMuted'),
-      dancer = this.get('dancer'),
-      volume=0;
-
-    if (volumeMuted) {
-      volume = 0;
-    } else {
-      volume = this.get('volume')/100;
-    }
-
-    if(this.get('playing')){
-      dancer.setVolume(volume);
-    }
-  })),
 
   formatTime(time){
     return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);

@@ -86,7 +86,7 @@
   {{#if usingLocalAudio}}
     <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
     <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
-    <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
+    <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip hidden-xs" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
   {{/if}}
 </div>
 
@@ -156,20 +156,20 @@
 
     <div class="row" id="beat-option-row">
       <div class="beat-option col-sm-4 col-xs-6">
-        <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
-          Sensitivity
-        </span>
-
-      {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-      </div>
-
-      <div class="beat-option col-sm-4 col-xs-6">
         <span data-toggle="tooltip" data-placement="top" data-title="The range of hues ( colors ) that the lights may change to on beat." class="option-description bootstrap-tooltip">
           Hue Range
         </span>
 
         {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
       </div>
+
+        <div class="beat-option col-sm-4 col-xs-6">
+          <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
+            Sensitivity
+          </span>
+
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+        </div>
 
       {{#if usingMicAudio}}
           <div class="beat-option col-xs-4">
@@ -218,3 +218,5 @@
 {{ember-notify messageStyle='bootstrap' closeAfter=5000}}
 
 {{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}
+
+{{huegasm-footer toggleDimmer="toggleDimmer"}}

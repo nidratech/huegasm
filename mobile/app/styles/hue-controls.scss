@@ -1,4 +1,6 @@
 #lights-tab {
+  margin-top: 4vh;
+  padding: 0;
   .paper-icon {
     line-height: 0.8 !important;
   }
@@ -19,12 +21,12 @@
 }
 
 #navigation {
-  padding: 15px 0;
+  padding: 15px 0 20px;
   text-align: center;
 }
 
 .navigation-item {
-  font-size: 18px;
+  font-size: 20px;
   padding: 0 10px 0 10px;
   &.active {
     font-weight: bold;
@@ -64,7 +66,7 @@
   position: absolute;
   left: 33px;
   top: 15px;
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 #navigation .ember-basic-dropdown-trigger {
@@ -72,4 +74,6 @@
   text-align: right;
   float: right;
   position: relative;
+  bottom: 10px;
+  transform: scale(1.1);
 }

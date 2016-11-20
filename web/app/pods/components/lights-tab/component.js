@@ -192,7 +192,7 @@ export default Component.extend({
         }
       }
 
-      this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 200));
+      this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 500));
     } else { // revert the light system to pre-strobe
       let preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = (lightIndex)=> {
         $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
@@ -246,6 +246,12 @@ export default Component.extend({
   dimmerOnClass: computed('dimmerOn', function(){
     return this.get('dimmerOn') ? 'dimmerOn' : null;
   }),
+
+  actions: {
+    toggleDimmer(){
+      this.sendAction('toggleDimmer');
+    }
+  },
 
   // **************** STROBE LIGHT FINISH ****************
   // http://www.developers.meethue.com/documentation/color-conversions-rgb-xy

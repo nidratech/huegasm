@@ -1,5 +1,5 @@
 {{#if bridgeUsername}}
-  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn storage=storage}}
+  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn storage=storage toggleDimmer="toggleDimmer"}}
 {{else}}
   {{#if ready}}
     {{bridge-finder bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial storage=storage}}
@@ -25,15 +25,3 @@
     </div>
   {{/if}}
 {{/if}}
-
-<footer id="footer">
-   <div id="dimmer" {{action "toggleDimmer"}} class={{dimmerOnClass}}></div>
-
-  <div id="footer-text">
-    © {{year}}
-
-    <a href="http://www.egorphilippov.me" target="_blank" rel="noopener noreferrer">
-      Egor Philippov
-    </a>
-  </div>
-</footer>

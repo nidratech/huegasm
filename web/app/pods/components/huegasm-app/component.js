@@ -2,7 +2,6 @@ import Ember from 'ember';
 
 const {
   Component,
-  computed,
   isEmpty,
   isNone,
   $
@@ -12,41 +11,18 @@ export default Component.extend({
   bridgeIp: null,
   bridgeUsername: null,
   trial: false,
-  storage: null,
   dimmerOn: false,
   ready: false,
-
-  year: computed(function(){
-    return new Date().getFullYear();
-  }),
-
-  dimmerOnClass: computed('dimmerOn', function(){
-    let dimmerOn = this.get('dimmerOn'),
-      storage = this.get('storage'),
-      dimmerOnClass = null;
-
-    if (dimmerOn) {
-      $('body').addClass('dimmerOn');
-      $('html').addClass('dimmerOn');
-      dimmerOnClass = 'active';
-    } else {
-      $('body').removeClass('dimmerOn');
-      $('html').removeClass('dimmerOn');
-    }
-
-    storage.set('huegasm.dimmerOn', dimmerOn);
-
-    return dimmerOnClass;
-  }),
 
   init(){
     this._super(...arguments);
 
-    let storage = new window.Locally.Store({compress: true});
+    let storage = new window.Locally.Store({compress: true}),
+      dimmerOn = storage.get('huegasm.dimmerOn');
     this.set('storage', storage);
 
-    if (!isNone(storage.get('huegasm.dimmerOn'))) {
-      this.set('dimmerOn', storage.get('huegasm.dimmerOn'));
+    if (!isNone(dimmerOn) && dimmerOn) {
+      this.send('toggleDimmer');
     }
 
     if (!isEmpty(storage.get('huegasm.bridgeIp')) && !isEmpty(storage.get('huegasm.bridgeUsername'))) {
@@ -60,7 +36,20 @@ export default Component.extend({
   actions: {
     toggleDimmer(){
       this.toggleProperty('dimmerOn');
+
+      let dimmerOn = this.get('dimmerOn');
+
+      if (dimmerOn) {
+        $('body').addClass('dimmerOn');
+        $('html').addClass('dimmerOn');
+      } else {
+        $('body').removeClass('dimmerOn');
+        $('html').removeClass('dimmerOn');
+      }
+
+      this.get('storage').set('huegasm.dimmerOn', dimmerOn);
     },
+
     isReady(){
       this.set('ready', true);
     }

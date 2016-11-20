@@ -65,16 +65,36 @@ body.dimmerOn {
 }
 
 .paper-icon.dimmerOn {
-  color: inherit !important;
   text-shadow: $glowingText;
   opacity: 0.9 !important;
 }
 
-#dimmer {
+.logo {
   display: inline-block;
   cursor: pointer;
   width: 40px;
   height: 40px;
   background: url(images/huegasm.png) center center no-repeat;
   background-size: 40px 40px;
+}
+
+#dimmer {
+  background: url(images/lightswitch.png) !important;
+  width: 14px;
+  height: 34px;
+  display: inline-block;
+  float: left;
+  margin-left: 15px;
+  cursor: pointer;
+  &.dimmerOn #dimmer-switch {
+    opacity: 0;
+  }
+  #dimmer-switch {
+    background: url(images/lightswitch.png) -14px 0px;
+    width: 14px;
+    height: 34px;
+    transition: opacity 0.4s;
+    float: left;
+    opacity: 1;
+  }
 }

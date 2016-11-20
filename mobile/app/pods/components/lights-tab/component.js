@@ -17,7 +17,6 @@ export default Component.extend({
 
   lightsOn: false,
 
-  // COLOR LOOP related stuff
   colorLoopOn: false,
 
   lightsOnTxt: computed('lightsOn', function(){
@@ -192,7 +191,7 @@ export default Component.extend({
         }
       }
 
-      this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 200));
+      this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 500));
     } else { // revert the light system to pre-strobe
       let preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = (lightIndex)=> {
         $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {

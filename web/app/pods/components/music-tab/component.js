@@ -888,6 +888,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
           }
         }
       }
+    },
+    toggleDimmer(){
+      this.sendAction('toggleDimmer');
     }
   }
 });

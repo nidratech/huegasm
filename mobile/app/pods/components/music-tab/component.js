@@ -331,7 +331,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.set('usingMicSupported', false);
     }
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -399,9 +399,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
   },
 
   actions: {
-    clearPlaylist(){
-      this.get('playQueue').clear();
-    },
     setVisName(name){
       this.set('currentVisName', name);
     },
@@ -618,12 +615,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
         } else {
           let timeTotal = this.get('timeTotal');
 
-          if(this.get('volumeMuted')) {
-            dancer.setVolume(0);
-          } else {
-            dancer.setVolume(this.get('volume')/100);
-          }
-
           // replay song
           if(this.get('timeElapsed') === timeTotal && timeTotal !== 0){
             this.send('next', true);
@@ -643,10 +634,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.changePlayerControl('volume', value);
       if(this.get('playing')) {
         this.get('dancer').setVolume(value/100);
-      }
-
-      if(this.get('volume') > 0 && this.get('volumeMuted')){
-        this.changePlayerControl('volumeMuted', false);
       }
     },
     next(repeatAll) {
@@ -734,20 +721,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
       if(dancer.audio){
         dancer.audio.currentTime = Math.floor(this.get('timeTotal') * position / 100);
-      }
-    },
-    volumeMutedChanged(value) {
-      let dancer = this.get('dancer'),
-        volumeMuted = isNone(value) ? !this.get('volumeMuted') : value;
-
-      this.changePlayerControl('volumeMuted', volumeMuted);
-
-      if(this.get('playing')){
-        if(volumeMuted){
-          dancer.setVolume(0);
-        } else {
-          dancer.setVolume(this.get('volume')/100);
-        }
       }
     },
     addLocalAudio: function () {

@@ -114,6 +114,9 @@ export default Component.extend({
       storage.remove('huegasm.bridgeIp');
       location.reload();
     },
+    toggleDimmer() {
+      this.sendAction("toggleDimmer");
+    },
     clearAllSettings() {
       this.get('storage').clear();
       location.reload();
@@ -173,32 +176,23 @@ export default Component.extend({
             'You may toggle a light\'s state by clicking on it.'
           },
           {
-            element: '#settings',
+            element: $('#navigation .ember-basic-dropdown-trigger')[0],
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
             '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
             position: 'bottom'
           },
           {
-            element: '#dimmer',
             intro: 'And that\'s it...Hope you enjoy the application. ;)<br><br>' +
-            '<i><b>TIP</b>: click on the icon to switch to a darker theme.</i>',
-            position: 'top'
+            '<i><b>TIP</b>: click on the lightswitch to switch to a darker theme.</i>'
           }
         ]
       });
 
-      // it's VERY ugly but it works... the jQuery massacre :'(
       intro.onchange((element) => {
         if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip'){
-          $('#music-tab').removeClass('hidden');
-          $('#lights-tab').addClass('hidden');
-          $('.navigation-item').eq(0).removeClass('active');
-          $('.navigation-item').eq(1).addClass('active');
+          $('.navigation-item').eq(0).click();
         } else {
-          $('#lights-tab').removeClass('hidden');
-          $('#music-tab').addClass('hidden');
-          $('.navigation-item').eq(1).removeClass('active');
-          $('.navigation-item').eq(0).addClass('active');
+          $('.navigation-item').eq(1).click();
         }
 
         if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area'){
@@ -210,27 +204,6 @@ export default Component.extend({
         }
       });
 
-      let onFinish = ()=>{
-        this.set('activeTab', 1);
-        $('#music-tab').removeClass('hidden');
-        $('#lights-tab').addClass('hidden');
-        $('.navigation-item').eq(0).removeClass('active');
-        $('.navigation-item').eq(1).addClass('active');
-      }, onExit = ()=>{
-        let dimmer = $('#dimmer');
-
-        onFinish();
-        dimmer.popover({
-          trigger: 'manual',
-          placement: 'top',
-          content: 'Click on this icon to toggle the dark theme.'
-        }).popover('show');
-
-        setTimeout(()=>{
-          dimmer.popover('hide');
-        }, 5000);
-      };
-
       // skip hidden/missing elements
       intro.onafterchange((element)=>{
         let elem = $(element);
@@ -241,7 +214,7 @@ export default Component.extend({
         run.later(this, function() {
           $('.introjs-tooltip').velocity('scroll');
         }, 500);
-      }).onexit(onExit).oncomplete(onFinish).start();
+      }).start();
     }
   }
 });

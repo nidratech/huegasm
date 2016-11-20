@@ -8,16 +8,15 @@
     {{else}}
       <img src="assets/images/pressButtonBridge.png" id="press-bridge-button-img">
       {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
-
-      {{#if isAuthenticating}}
-        <p>
+      <p class="bridge-finder-bottom">
+        {{#if isAuthenticating}}
             Your bridge IP is <b>{{bridgeIp}}</b>
             <br>
             Press the button on your bridge to authenticate this application.
-        </p>
-      {{else}}
-          <p>You failed to press the button in time. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a></p>
-      {{/if}}
+        {{else}}
+            You failed to press the button in time. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a>
+        {{/if}}
+      </p>
     {{/if}}
   {{else}}
     {{#unless bridgeFindStatus}}

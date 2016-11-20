@@ -18,9 +18,7 @@
                     --><span {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
                   -->{{#if playQueueMultiple}}<!--
                 --><span {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
-                  -->{{/if}}<!--
-          --><span {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
-                  -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
+                  -->{{/if}}
 
         <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
       {{/if}}
@@ -82,7 +80,6 @@
   {{#if usingLocalAudio}}
     <span {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
     <span {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
-    <span {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
   {{/if}}
 </div>
 
@@ -149,19 +146,19 @@
     <div class="row" id="beat-option-row">
       <div class="beat-option col-xs-6">
         <span class="option-description">
-          Sensitivity
-        </span>
-
-      {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-      </div>
-
-      <div class="beat-option col-xs-6">
-        <span class="option-description">
           Hue Range
         </span>
 
         {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
       </div>
+
+        <div class="beat-option col-xs-6">
+        <span class="option-description">
+          Sensitivity
+        </span>
+
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+        </div>
 
       {{#if usingMicAudio}}
           <div class="beat-option col-xs-4">

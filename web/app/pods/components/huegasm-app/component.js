@@ -6,6 +6,8 @@ const {
 } = Ember;
 
 export default Component.extend({
+  bridgeIp: null,
+  bridgeUsername: null,
   trial: false,
   ready: false,
   elementId: 'huegasm',

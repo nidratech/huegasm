@@ -73,10 +73,6 @@
     {{/paper-menu}}
   {{/if}}
 
-  {{#if usingMicSupported}}
-    <span {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
-  {{/if}}
-
   {{#if usingLocalAudio}}
     <span {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
     <span {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
@@ -197,7 +193,5 @@
     </div>
   </div>
 </div>
-
-{{ember-notify messageStyle='bootstrap' closeAfter=5000}}
 
 {{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

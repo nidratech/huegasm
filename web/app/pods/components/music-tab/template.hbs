@@ -172,13 +172,13 @@
         </div>
 
       {{#if usingMicAudio}}
-          <div class="beat-option col-xs-4">
-            <span data-toggle="tooltip" data-placement="top" data-title="The coefficient to boost the microphone signal by" class="option-description bootstrap-tooltip">
-              Mic Boost
-            </span>
+        <div class="beat-option col-xs-4">
+          <span data-toggle="tooltip" data-placement="top" data-title="The coefficient to boost the microphone signal by" class="option-description bootstrap-tooltip">
+            Mic Boost
+          </span>
 
-            {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
-          </div>
+          {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+        </div>
       {{/if}}
 
       <div id="light-option" class="beat-option col-sm-4 col-xs-12">
@@ -189,10 +189,6 @@
         <span data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
           {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
         </span>
-
-      {{!--<span data-toggle="tooltip" data-placement="bottom auto" data-title="Periodically turn the lights on and off to create a cool looking ambience" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-        {{#paper-checkbox checked=ambienceMode}}Ambience{{/paper-checkbox}}
-      </span>--}}
       </div>
     </div>
   </div>
@@ -214,7 +210,5 @@
     </div>
   </div>
 </div>
-
-{{ember-notify messageStyle='bootstrap' closeAfter=5000}}
 
 {{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

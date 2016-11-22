@@ -168,46 +168,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     });
   },
 
-  startUsingMic() {
-    navigator.getUserMedia(
-      {audio: true},
-      (stream) => {
-        this.changePlayerControl('audioMode', 1);
-        let dancer = this.get('dancer');
-
-        if(dancer.audio && dancer.audio.pause) {
-          dancer.pause();
-        }
-
-        this.setProperties({
-          volumeCache: this.get('volume'),
-          playing: true,
-          audioStream: stream
-        });
-
-        document.title = 'Listening to Mic - Huegasm';
-
-        dancer.load(stream, this.get('micBoost'), true);
-        this.set('usingBeatPreferences', false);
-
-        // much more sensitive beat preference settings are needed for mic mode
-        this.setProperties({
-          oldThreshold: this.get('threshold'),
-          threshold: 0.1
-        });
-
-        dancer.setVolume(0);
-      },
-      (err) => {
-        if(err.name === 'DevicesNotFoundError'){
-          this.get('notify').alert({html: this.get('notFoundHtml')});
-        }
-
-        console.log('Error during navigator.getUserMedia: ' + err.name + ', ' + err.message + ', ' + err.constraintName);
-      }
-    );
-  },
-
   clearCurrentAudio(resetPointer) {
     let dancer = this.get('dancer');
 
@@ -327,11 +287,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-    if(navigator.getUserMedia === undefined){
-      this.set('usingMicSupported', false);
-    }
 
-    ['volume', 'shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
+    ['shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -346,6 +303,26 @@ export default Component.extend(helperMixin, visualizerMixin, {
     SC.initialize({
       client_id: this.get('SC_CLIENT_ID')
     });
+
+    document.addEventListener('volumedownbutton', () => {
+      let volume = this.get('volume') - 5;
+      volume = volume < 0 ? 0 : volume;
+      this.set('volume', volume);
+
+      window.system.setSystemVolume(volume/100);
+    }, false);
+
+    document.addEventListener('volumeupbutton', () => {
+      let volume = this.get('volume') + 5;
+      volume = volume > 100 ? 100 : volume;
+      this.set('volume', volume);
+
+      window.system.setSystemVolume(volume/100);
+    }, false);
+
+    document.addEventListener('pause', () => {
+      this.get('dancer').pause();
+    }, false);
   },
 
   didInsertElement() {
@@ -498,7 +475,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
       if(this.get('playQueuePointer') !== -1) {
         this.send('goToSong', this.get('playQueuePointer'));
-        this.send('volumeChanged', this.get('volume'));
       }
 
       // restore the old beat preferences ( before the user went into mic mode )
@@ -507,13 +483,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
 
       document.title = 'Huegasm';
-    },
-    useMicAudio() {
-      if(this.get('usingMicAudio')) {
-        this.send('useLocalAudio');
-      } else {
-        this.startUsingMic();
-      }
     },
     slideTogglePlayerBottom(){
       let elem = this.$('#player-bottom');
@@ -603,10 +572,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     play(replayPause) {
       let dancer = this.get('dancer'),
-        playQueuePointer = this.get('playQueuePointer');
+        playQueuePointer = this.get('playQueuePointer'),
+        playing = this.get('playing');
 
       if(playQueuePointer !== -1 ) {
-        if (this.get('playing')) {
+        if (playing) {
           dancer.pause();
 
           if(!replayPause){
@@ -626,14 +596,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
           dancer.play();
         }
 
+        this.set('pauseLightUpdates', !playing);
         this.onColorloopModeChange();
         this.toggleProperty('playing');
-      }
-    },
-    volumeChanged(value) {
-      this.changePlayerControl('volume', value);
-      if(this.get('playing')) {
-        this.get('dancer').setVolume(value/100);
       }
     },
     next(repeatAll) {
@@ -744,15 +709,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
     micBoostChanged(value) {
       this.set('micBoost', value);
       this.get('storage').set('huegasm.micBoost', value);
-
-      if(this.get('usingMicAudio')) {
-        this.get('dancer').setBoost(value);
-      }
     },
     audioModeChanged(value){
-      if(value === 1) {
-        this.startUsingMic();
-      } else if(value === 0) {
+      if(value === 0) {
         this.send('useLocalAudio');
       } else {
         this.set('audioMode', value);

@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from 'huegasm/config/environment';
 
 const {
   A,
@@ -8,6 +7,7 @@ const {
   isEmpty,
   isNone,
   run,
+  inject,
   $
 } = Ember;
 
@@ -22,6 +22,10 @@ export default Component.extend({
 
   lightsTabSelected: computed.equal('selectedTab', 0),
   musicTabSelected: computed.equal('selectedTab', 1),
+
+  displayFailure: true,
+
+  notify: inject.service(),
 
   dimmerOnClass: computed('dimmerOn', function(){
     return this.get('dimmerOn') ? 'dimmerOn md-menu-origin' : 'md-menu-origin';
@@ -85,9 +89,11 @@ export default Component.extend({
 
   updateLightData(){
     let fail = ()=>{
-      if(!ENV.ignoreFailures) {
-        clearInterval(this.get('lightsDataIntervalHandle'));
-        this.send('clearBridge');
+      if(this.get('displayFailure')){
+        this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
+        this.set('displayFailure', false);
+
+        setTimeout(()=>{ this.set('displayFailure', true); }, 30000);
       }
     };
 

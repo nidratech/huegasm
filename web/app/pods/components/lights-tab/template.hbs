@@ -2,7 +2,7 @@
   {{#paper-item}}
     {{paper-icon "power-settings-new" class=dimmerOnClass}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Turn the selected lights on/off">Power</p>
-    {{paper-switch value=lightsOn onChange=(action (mut lightsOn)) disabled=trial skipProxy=trial label=lightsOnTxt}}
+    {{paper-switch value=lightsOn onChange=(action (mut lightsOn)) disabled=(or trial playing) skipProxy=trial label=lightsOnTxt}}
   {{/paper-item}}
 
   {{#paper-item}}
@@ -18,7 +18,7 @@
     {{#paper-menu offset="0 -50" as |menu|}}
       {{#menu.trigger}}
         {{#paper-button iconButton=false}}
-          {{paper-button raised=true class="color" disabled=trial}}
+          {{paper-button raised=true class="color" disabled=(or trial playing)}}
         {{/paper-button}}
       {{/menu.trigger}}
       {{#menu.content class="color-content" width=0 as |content|}}
@@ -32,12 +32,12 @@
   {{#paper-item}}
     {{paper-icon "flare" class=dimmerOnClass}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Selected lights will flash in sequential order">Strobe</p>
-    {{paper-switch value=strobeOn onChange=(action (mut strobeOn)) disabled=trial skipProxy=trial label=strobeOnTxt}}
+    {{paper-switch value=strobeOn onChange=(action (mut strobeOn)) disabled=(or trial playing) skipProxy=trial label=strobeOnTxt}}
   {{/paper-item}}
 
   {{#paper-item}}
     {{paper-icon "color-lens" class=dimmerOnClass}} {{paper-icon "loop" id="loop-addition" class=dimmerOnClass}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Selected lights will slowly cycle through all the colors">Colorloop</p>
-    {{paper-switch value=colorLoopOn onChange=(action (mut colorLoopOn)) disabled=trial skipProxy=trial label=colorloopOnTxt}}
+    {{paper-switch value=colorLoopOn onChange=(action (mut colorLoopOn)) disabled=(or trial playing) skipProxy=trial label=colorloopOnTxt}}
   {{/paper-item}}
 {{/paper-list}}

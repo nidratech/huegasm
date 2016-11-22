@@ -46,6 +46,12 @@ export default Component.extend({
         this.send('findBridgeByIp');
       }
     });
+
+    document.addEventListener('resume', () => {
+      if(this.get('error') || this.get('trial') || this.get('bridgeFindFail')) {
+        this.send('tryAgain');
+      }
+    }, false);
   },
 
   // find the bridge ip here
@@ -120,6 +126,10 @@ export default Component.extend({
   },
 
   actions: {
+    tryAgain() {
+      this.get('storage').clear();
+      location.reload();
+    },
     retry(){
       this.onBridgeIpChange();
     },

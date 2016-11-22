@@ -32,7 +32,9 @@
 
   {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}
 
-  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn strobeOn=pauseLightUpdates}}
+  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}}
 
-  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn playing=playing storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
 {{/if}}
+
+{{ember-notify messageStyle='bootstrap' closeAfter=5000}}

@@ -171,9 +171,10 @@ export default Component.extend({
   lastStrobeLight: 0,
 
   onStrobeOnChange: observer('strobeOn', function () {
-    let lightsData = this.get('lightsData');
+    let lightsData = this.get('lightsData'),
+      strobeOn = this.get('strobeOn');
 
-    if (this.get('strobeOn')) {
+    if (strobeOn) {
       this.set('preStrobeOnLightsDataCache', lightsData);
       let stobeInitRequestData = {'sat': this.get('strobeSat'), 'transitiontime': 0};
 
@@ -213,6 +214,8 @@ export default Component.extend({
       setTimeout(()=>{this.onColorLoopOnChange();}, 2000);
       clearInterval(this.get('strobeOnInervalHandle'));
     }
+
+    this.set('pauseLightUpdates', strobeOn);
   }),
 
   strobeStep() {

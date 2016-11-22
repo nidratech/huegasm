@@ -1,7 +1,7 @@
 {{#if isShowingModal}}
   {{#modal-dialog close="close" alignment="center" translucentOverlay=true attachment="center" targetAttachment="center"}}
 
-    <p>Enter a <a href="https://soundcloud.com" onclick="window.open('https://soundcloud.com', '_system');">SoundCloud</a> track or playlist/set URL</p>
+    <p>Enter a <a href="#" onclick="window.open('https://soundcloud.com', '_system');">SoundCloud</a> track or playlist/set URL</p>
     <p>( ex. https://soundcloud.com/mrsuicidesheep/tracks )</p>
 
     {{paper-input label="SoundCloud URL" icon="search" value=url onChange=(action (mut url))}}

@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 const {
   Controller,
-  isEmpty
+  isEmpty,
+  $
 } = Ember;
 
 export default Controller.extend({

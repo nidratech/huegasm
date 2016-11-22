@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ENV from 'huegasm_mobile/config/environment';
 
 const {
   A,
@@ -7,6 +6,7 @@ const {
   computed,
   isNone,
   run,
+  inject,
   $
 } = Ember;
 
@@ -22,6 +22,11 @@ export default Component.extend({
   lightsTabSelected: computed.equal('selectedTab', 0),
   musicTabSelected: computed.equal('selectedTab', 1),
   dimmerOn: false,
+  playing: false,
+
+  displayFailure: true,
+
+  notify: inject.service(),
 
   dimmerOnClass: computed('dimmerOn', function(){
     let dimmerOn = this.get('dimmerOn'),
@@ -83,13 +88,29 @@ export default Component.extend({
     if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
     }
+
+    document.addEventListener('backbutton', () => {
+      let index = (this.get('selectedTab') + 1) % this.tabList.length;
+      this.set('selectedTab', index);
+      this.get('storage').set('huegasm.selectedTab', index);
+    }, false);
+
+    document.addEventListener('pause', () => {
+      this.set('pauseLightUpdates', true);
+    }, false);
+
+    document.addEventListener('resume', () => {
+      this.set('pauseLightUpdates', false);
+    }, false);
   },
 
   updateLightData(){
     let fail = ()=>{
-      if(!ENV.ignoreFailures) {
-        clearInterval(this.get('lightsDataIntervalHandle'));
-        this.send('clearBridge');
+      if(this.get('displayFailure')){
+        this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
+        this.set('displayFailure', false);
+
+        setTimeout(()=>{ this.set('displayFailure', true); }, 30000);
       }
     };
 

@@ -18,7 +18,7 @@ export default Mixin.create({
 
   dancer: null,
 
-  notify: inject.service('notify'),
+  notify: inject.service(),
 
   beatOptions: {
     threshold: {
@@ -200,16 +200,10 @@ export default Mixin.create({
       let song = playQueue[playQueuePointer];
       if(song.scUrl && !isNone(song.picture)){
         pic = song.picture.replace('67x67', '500x500');
-      } else {
-        pic = song.picture;
       }
     }
 
     return pic;
-  }),
-
-  pauseLightUpdates: computed('playing', function(){
-    return this.get('playing');
   }),
 
   micIcon: computed('usingMicAudio', function(){

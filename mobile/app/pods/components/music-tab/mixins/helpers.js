@@ -93,7 +93,6 @@ export default Mixin.create({
   timeElapsed: 0,
   timeTotal: 0,
   lastLightBopIndex: 0,
-  usingMicSupported: false,
 
   // 0 - local, 1 - mic, possibly more to come
   audioMode: 0,
@@ -197,16 +196,10 @@ export default Mixin.create({
       let song = playQueue[playQueuePointer];
       if(song.scUrl && !isNone(song.picture)){
         pic = song.picture.replace('67x67', '500x500');
-      } else {
-        pic = song.picture;
       }
     }
 
     return pic;
-  }),
-
-  pauseLightUpdates: computed('playing', function(){
-    return this.get('playing');
   }),
 
   micIcon: computed('usingMicAudio', function(){

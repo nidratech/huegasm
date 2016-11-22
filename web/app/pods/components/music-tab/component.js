@@ -646,10 +646,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     play(replayPause) {
       let dancer = this.get('dancer'),
-        playQueuePointer = this.get('playQueuePointer');
+        playQueuePointer = this.get('playQueuePointer'),
+        playing = this.get('playing');
 
       if(playQueuePointer !== -1 ) {
-        if (this.get('playing')) {
+        if (playing) {
           dancer.pause();
 
           if(!replayPause){
@@ -675,6 +676,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
           dancer.play();
         }
 
+        this.set('pauseLightUpdates', !playing);
         this.onColorloopModeChange();
         this.toggleProperty('playing');
       }

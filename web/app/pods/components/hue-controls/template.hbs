@@ -1,7 +1,9 @@
 {{#if ready}}
   <div id="navigation">
-      <div id="dimmer" class={{dimmerOnClass}} {{action "toggleDimmer"}}>
-        <div id="dimmer-switch"></div>
+      <div id="dimmer-container" {{action "toggleDimmer"}}>
+        <div id="dimmer" class={{dimmerOnClass}} >
+          <div id="dimmer-switch"></div>
+        </div>
       </div>
 
     {{#each tabData as |tab|}}
@@ -36,6 +38,8 @@
 
     {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn playing=playing action="startIntro"}}
   </div>
+{{else}}
+  {{paper-progress-circular diameter=100}}
 {{/if}}
 
 {{ember-notify messageStyle='bootstrap' closeAfter=5000}}

@@ -89,7 +89,9 @@ export default Component.extend({
 
   updateLightData(){
     let fail = ()=>{
-      if(this.get('displayFailure')){
+      if(isNone(this.get('lightsData'))) {
+        this.send('clearBridge');
+      } else if(this.get('displayFailure')){
         this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
         this.set('displayFailure', false);
 

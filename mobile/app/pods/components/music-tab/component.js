@@ -304,22 +304,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       client_id: this.get('SC_CLIENT_ID')
     });
 
-    document.addEventListener('volumedownbutton', () => {
-      let volume = this.get('volume') - 5;
-      volume = volume < 0 ? 0 : volume;
-      this.set('volume', volume);
-
-      window.system.setSystemVolume(volume/100);
-    }, false);
-
-    document.addEventListener('volumeupbutton', () => {
-      let volume = this.get('volume') + 5;
-      volume = volume > 100 ? 100 : volume;
-      this.set('volume', volume);
-
-      window.system.setSystemVolume(volume/100);
-    }, false);
-
     document.addEventListener('pause', () => {
       this.get('dancer').pause();
     }, false);

@@ -89,5 +89,4 @@
     </platform>
     <engine name="android" spec="~5.2.2" />
     <preference name="ShowSplashScreenSpinner" value="false" />
-    <plugin name="com.jiliac.systemvolume" spec="https://github.com/hoboman313/phonegap-plugin-systemvolume" />
 </widget>

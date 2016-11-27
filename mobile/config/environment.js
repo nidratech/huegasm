@@ -5,7 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'huegasm_mobile',
     podModulePrefix: 'huegasm_mobile/pods',
     environment: environment,
-    rootURL: '/',
+    rootURL: '',
     locationType: 'hash',
     EmberENV: {
       FEATURES: {

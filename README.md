@@ -7,8 +7,9 @@ It lives at http://www.huegasm.com
 ## Current priorities
 - create a hybrid app with Cardova
 
-## Bugs
-- HackTimer not working? Slowness when switching to another browser tab, etc...
+## WTF
+Cordova disables the volume buttons for some reason. Monkey patching that shit ( must be a better way :( ).
+Comment out: webView.setButtonPlumbedToJs lines from its source code.
 
 ## POSSIBLE FUTURE FEATURES
 - decode the hue color better

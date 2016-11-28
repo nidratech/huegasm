@@ -7,9 +7,9 @@ It lives at http://www.huegasm.com
 ## Current priorities
 - create a hybrid app with Cardova
 
-## WTF
-Cordova disables the volume buttons for some reason. Monkey patching that shit ( must be a better way :( ).
-Comment out: webView.setButtonPlumbedToJs lines from its source code.
+## WTF moments
+Cordova disables the volume buttons for some reason. Monkey patching:
+Comment out the webView.setButtonPlumbedToJs lines for volume buttons from its source code before building android.
 
 ## POSSIBLE FUTURE FEATURES
 - decode the hue color better

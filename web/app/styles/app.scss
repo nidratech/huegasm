@@ -82,6 +82,21 @@ div.ember-modal-dialog {
     color: rgba(0, 0, 0, 0.26);
   }
 }
+
+#github-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 0;
+}
+
+@media(max-width:500px) {
+  #github-ribbon {
+    top: -20px;
+    right: -20px;
+  }
+}
+
 // fancy webkit scrollbars
 @media(min-width:767px) {
   ::-webkit-scrollbar {

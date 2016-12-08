@@ -22,7 +22,6 @@
 
 #hue-controls {
   max-width: 1200px;
-  position: relative;
   flex: 1;
   md-progress-circular {
     position: absolute;
@@ -39,8 +38,10 @@
 }
 
 #navigation {
+  max-width: 800px;
   padding: 15px 0;
   text-align: center;
+  margin: auto;
 }
 
 .navigation-item {

@@ -9,25 +9,23 @@
   {{paper-icon playerAreaClickIcon id="play-notification"}}
 
   <div id="player-controls">
-    {{#if usingLocalAudio}}
-      {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
+    {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
 
-      {{#if playQueueNotEmpty}}
-        <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip"
-              data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
-        -->{{/if}}<!--
-                  --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip"
-                           data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
-                -->{{#if playQueueMultiple}}<!--
-              --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip"
-                       data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
-                -->{{/if}}<!--
-        --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
-                 data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
-                -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
+    {{#if playQueueNotEmpty}}
+      <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip"
+            data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
+      -->{{/if}}<!--
+                --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip"
+                         data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
+              -->{{#if playQueueMultiple}}<!--
+            --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip"
+                     data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
+              -->{{/if}}<!--
+      --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
+               data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
+              -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-slide="volumeChanged" id="volume-bar" class="hidden-xs"}}
 
-      <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
-    {{/if}}
+    <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
 
     {{#paper-menu as |menu|}}
       {{#menu.trigger}}
@@ -61,41 +59,27 @@
 <input id="file-input" type="file" accept="audio/*" multiple="true"/>
 
 <div id="play-list-controls">
-  {{#if usingLocalAudio}}
-    {{#paper-menu as |menu|}}
-      {{#menu.trigger}}
-        {{#paper-button iconButton=false}}
-          {{paper-icon "playlist add" class="player-control-icon"}} <span id="add-new-music-label">Add new music</span>
-        {{/paper-button}}
-      {{/menu.trigger}}
-      {{#menu.content width=3 as |content|}}
-        {{#content.menu-item onClick="addLocalAudio"}}
-          {{paper-icon "attachment" class=shuffleClass}} Local file
-        {{/content.menu-item}}
-        {{#content.menu-item onClick="toggleIsShowingAddSoundCloudModal"}}
-          {{paper-icon "cloud" class=shuffleClass}} SoundCloud
-        {{/content.menu-item}}
-      {{/menu.content}}
-    {{/paper-menu}}
-  {{/if}}
+  {{#paper-menu as |menu|}}
+    {{#menu.trigger}}
+      {{#paper-button iconButton=false}}
+        {{paper-icon "playlist add" class="player-control-icon"}} <span id="add-new-music-label">Add new music</span>
+      {{/paper-button}}
+    {{/menu.trigger}}
+    {{#menu.content width=3 as |content|}}
+      {{#content.menu-item onClick="addLocalAudio"}}
+        {{paper-icon "attachment" class=shuffleClass}} Local file
+      {{/content.menu-item}}
+      {{#content.menu-item onClick="toggleIsShowingAddSoundCloudModal"}}
+        {{paper-icon "cloud" class=shuffleClass}} SoundCloud
+      {{/content.menu-item}}
+    {{/menu.content}}
+  {{/paper-menu}}
 
-  {{#if usingMicSupported}}
-    <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="using-mic-audio-tooltip" data-title={{usingMicAudioTooltipTxt}} {{action "useMicAudio"}}>{{paper-icon icon=micIcon class=usingMicAudioClass}}</span>
-  {{/if}}
-
-  {{#if usingLocalAudio}}
-    <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
-    <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
-    <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip hidden-xs" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
-  {{/if}}
+  <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
+  <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
+  <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip hidden-xs" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
 </div>
 
-{{#if usingMicAudio}}
-  <div id="play-area-mic" class="{{if dimmerOn "dimmerOn"}}">
-    {{paper-icon "mic" class=dimmerOnClass}}
-  </div>
-{{else}}
-  {{#if usingLocalAudio}}
     <div id="play-list-area" class={{playListAreaClass}} {{action "addLocalAudio"}} {{action "playerListAreaDragOver" on="dragOver"}} {{action "playerListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
       {{#if (or playQueueEmpty dragging)}}
         <div id="dragHere">
@@ -135,8 +119,6 @@
         </div>
       {{/each}}
     </div>
-  {{/if}}
-{{/if}}
 </div>
 </div>
 
@@ -163,23 +145,13 @@
         {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
       </div>
 
-        <div class="beat-option col-sm-4 col-xs-6">
-          <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
-            Sensitivity
-          </span>
+      <div class="beat-option col-sm-4 col-xs-6">
+        <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
+          Sensitivity
+        </span>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
-        </div>
-
-      {{#if usingMicAudio}}
-        <div class="beat-option col-xs-4">
-          <span data-toggle="tooltip" data-placement="top" data-title="The coefficient to boost the microphone signal by" class="option-description bootstrap-tooltip">
-            Mic Boost
-          </span>
-
-          {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
-        </div>
-      {{/if}}
+        {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+      </div>
 
       <div id="light-option" class="beat-option col-sm-4 col-xs-12">
         <span data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>

@@ -1,11 +1,5 @@
 {{#if ready}}
   <div id="navigation">
-    <div id="dimmer-container" {{action "toggleDimmer"}}>
-      <div id="dimmer" class={{dimmerOnClass}} >
-        <div id="dimmer-switch"></div>
-      </div>
-    </div>
-
     {{#each tabData as |tab|}}
       <span class="navigation-item text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
     {{/each}}
@@ -17,6 +11,10 @@
         {{/paper-button}}
       {{/menu.trigger}}
       {{#menu.content width=3 as |content|}}
+        {{#content.menu-item onClick="toggleDimmer"}}
+          {{paper-icon "lightbulb outline" class=dimmerOnClass}} Dark Mode: {{if dimmerOn "On" "Off"}}
+        {{/content.menu-item}}
+
         {{#content.menu-item onClick="clearBridge"}}
           {{paper-icon "compare arrows" class=dimmerOnClass}} Switch bridge
         {{/content.menu-item}}
@@ -34,9 +32,9 @@
 
   {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}
 
-  {{lights-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial active=lightsTabSelected colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}}
+  {{lights-tab active=(eq selectedTab 0) apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}}
 
-  {{music-tab apiURL=apiURL lightsData=lightsData activeLights=activeLights active=musicTabSelected pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn playing=playing storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+  {{music-tab active=(eq selectedTab 1)  apiURL=apiURL lightsData=lightsData activeLights=activeLights pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn playing=playing storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
 {{else}}
   {{paper-progress-circular diameter=100}}
 {{/if}}

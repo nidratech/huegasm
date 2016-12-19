@@ -74,29 +74,3 @@ body.dimmerOn {
   background: url(images/huegasm.png) center center no-repeat;
   background-size: 40px 40px;
 }
-
-#dimmer-container {
-  float: left;
-  cursor: pointer;
-  padding: 5px 10px;
-  position: relative;
-  bottom: 5px;
-}
-
-#dimmer {
-  background: url(images/lightswitch.png) !important;
-  width: 14px;
-  height: 34px;
-  &.dimmerOn #dimmer-switch {
-    opacity: 0;
-  }
-}
-
-#dimmer-switch {
-  background: url(images/lightswitch.png) -14px 0px;
-  width: 14px;
-  height: 34px;
-  transition: opacity 0.4s;
-  float: left;
-  opacity: 1;
-}

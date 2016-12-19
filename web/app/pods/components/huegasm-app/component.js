@@ -2,7 +2,8 @@ import Ember from 'ember';
 
 const {
   Component,
-  isEmpty
+  isEmpty,
+  $
 } = Ember;
 
 export default Component.extend({
@@ -32,6 +33,7 @@ export default Component.extend({
 
     isReady(){
       this.set('ready', true);
+      $('html, body').velocity('scroll');
     }
   }
 });

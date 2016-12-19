@@ -63,7 +63,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.get('kick').set({threshold: value});
     }
 
-    if(saveBeatPrefs && this.get('usingLocalAudio') && this.get('playQueuePointer') !== -1){
+    if(saveBeatPrefs && this.get('playQueuePointer') !== -1){
       this.saveSongBeatPreferences();
     }
 
@@ -288,7 +288,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     });
 
 
-    ['shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
+    ['shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -435,38 +435,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     toggleIsShowingAddSoundCloudModal() {
       this.toggleProperty('isShowingAddSoundCloudModal');
-    },
-    useLocalAudio(){
-      let audioStream = this.get('audioStream');
-      this.changePlayerControl('audioMode', 0);
-
-      if(!isNone(audioStream)){
-        let tracks = audioStream.getVideoTracks();
-        if (tracks && tracks[0] && tracks[0].stop) {
-          tracks[0].stop();
-        }
-
-        if (audioStream.stop) {
-          // deprecated, may be removed in future
-          audioStream.stop();
-        }
-
-        this.setProperties({
-          audioStream: null,
-          playing: false
-        });
-      }
-
-      if(this.get('playQueuePointer') !== -1) {
-        this.send('goToSong', this.get('playQueuePointer'));
-      }
-
-      // restore the old beat preferences ( before the user went into mic mode )
-      if(!isNone(this.get('oldThreshold'))){
-        this.set('threshold', this.get('oldThreshold'));
-      }
-
-      document.title = 'Huegasm';
     },
     slideTogglePlayerBottom(){
       let elem = this.$('#player-bottom');
@@ -689,17 +657,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     hueRangeChanged(value) {
       this.changePlayerControl('hueRange', value);
-    },
-    micBoostChanged(value) {
-      this.set('micBoost', value);
-      this.get('storage').set('huegasm.micBoost', value);
-    },
-    audioModeChanged(value){
-      if(value === 0) {
-        this.send('useLocalAudio');
-      } else {
-        this.set('audioMode', value);
-      }
     },
     playQueuePointerChanged(value){
       this.send('goToSong', value, false, true);

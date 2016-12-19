@@ -30,6 +30,15 @@
 #navigation {
   padding: 15px 0 20px;
   text-align: center;
+  position: relative;
+  .ember-basic-dropdown-trigger {
+    z-index: 3;
+    text-align: right;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    transform: scale(1.1);
+  }
 }
 
 .navigation-item {
@@ -74,13 +83,4 @@
   left: 33px;
   top: 15px;
   font-size: 16px !important;
-}
-
-#navigation .ember-basic-dropdown-trigger {
-  z-index: 3;
-  text-align: right;
-  float: right;
-  position: relative;
-  bottom: 10px;
-  transform: scale(1.1);
 }

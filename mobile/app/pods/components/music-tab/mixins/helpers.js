@@ -66,26 +66,11 @@ export default Mixin.create({
           from: function ( value ) { return value; }
         }
       }
-    },
-    micBoost: {
-      range:  {min: 1, max: 11},
-      step: 0.5,
-      defaultValue: 5,
-      pips: {
-        mode: 'positions',
-        values: [0,20,40,60,80,100],
-        density: 10,
-        format: {
-          to: function ( value ) {return 'x'+value;},
-          from: function ( value ) { return value; }
-        }
-      }
     }
   },
 
   threshold: 0.3,
   hueRange: [0, 65535],
-  micBoost: 5,
   oldThreshold: null,
 
   playQueuePointer: -1,
@@ -93,11 +78,6 @@ export default Mixin.create({
   timeElapsed: 0,
   timeTotal: 0,
   lastLightBopIndex: 0,
-
-  // 0 - local, 1 - mic, possibly more to come
-  audioMode: 0,
-  usingLocalAudio: computed.equal('audioMode', 0),
-  usingMicAudio: computed.equal('audioMode', 1),
 
   playerBottomDisplayed: true,
   dragging: false,
@@ -139,7 +119,6 @@ export default Mixin.create({
   hueRangeConnect: [false, true, false],
 
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
-  notFoundHtml: '<div class="alert alert-danger" role="alert">A microphone was not found.</div>',
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
   tooManySoundCloudFuckUps: '<div class="alert alert-danger" role="alert">The SoundCloud API is not seving the audio properly. More details <a href="https://www.soundcloudcommunity.com/soundcloud/topics/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header" target="_blank" rel="noopener noreferrer">HERE</a>.</div>',
   notStreamableHtml(fileNames){
@@ -157,11 +136,11 @@ export default Mixin.create({
     return '<div class="alert alert-danger" role="alert">Failed to decode file ( ' + fileName + ' ).</div>';
   },
 
-  scUrl: computed('playQueuePointer', 'playQueue.[]', 'usingMicAudio', function(){
+  scUrl: computed('playQueuePointer', 'playQueue.[]', function(){
     let rtn = null,
       currentSong = this.get('playQueue')[this.get('playQueuePointer')];
 
-    if(currentSong && currentSong.scUrl && !this.get('usingMicAudio')){
+    if(currentSong && currentSong.scUrl){
       rtn = currentSong.scUrl;
     }
 
@@ -185,14 +164,13 @@ export default Mixin.create({
     return timeElapsed/timeTotal*100;
   }),
 
-  largeArtworkPic: computed('playQueuePointer', 'usingMicAudio', 'currentVisName', function(){
+  largeArtworkPic: computed('playQueuePointer', 'currentVisName', function(){
     let pic = '',
       currentVisName = this.get('currentVisName'),
-      usingMicAudio = this.get('usingMicAudio'),
       playQueuePointer = this.get('playQueuePointer'),
       playQueue = this.get('playQueue');
 
-    if(playQueuePointer !== -1 && !usingMicAudio && currentVisName === 'None'){
+    if(playQueuePointer !== -1 && currentVisName === 'None'){
       let song = playQueue[playQueuePointer];
       if(song.scUrl && !isNone(song.picture)){
         pic = song.picture.replace('67x67', '500x500');
@@ -200,14 +178,6 @@ export default Mixin.create({
     }
 
     return pic;
-  }),
-
-  micIcon: computed('usingMicAudio', function(){
-    if(this.get('usingMicAudio')) {
-      return 'mic';
-    }
-
-    return 'mic-off';
   }),
 
   repeatIcon: computed('repeat', function() {
@@ -258,14 +228,6 @@ export default Mixin.create({
     return this.get('dimmerOn') ? 'dimmerOn' : null;
   }),
 
-  usingLocalAudioClass: computed('usingLocalAudio', function(){
-    return this.get('usingLocalAudio') ? 'player-control-icon active' : 'player-control-icon';
-  }),
-
-  usingMicAudioClass: computed('usingMicAudio', function(){
-    return this.get('usingMicAudio') ? 'player-control-icon active' : 'player-control-icon';
-  }),
-
   repeatClass: computed('repeat', function(){
     return this.get('repeat') !== 0 ? 'player-control-icon active' : 'player-control-icon';
   }),
@@ -290,10 +252,8 @@ export default Mixin.create({
     return this.formatTime(this.get('timeTotal'));
   }),
 
-  onColorloopModeChange: observer('colorloopMode', 'usingMicAudio', 'playing', function(){
-    let colorLoop = ((this.get('playing') || this.get('usingMicAudio')) && this.get('colorloopMode')) ? true : false;
-
-    this.set('colorLoopOn', colorLoop);
+  onColorloopModeChange: observer('colorloopMode', 'playing', function(){
+    this.set('colorLoopOn', this.get('playing') && this.get('colorloopMode'));
   }),
 
   onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', 'ambienceMode', function(self, option){

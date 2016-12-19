@@ -53,6 +53,10 @@ md-switch.md-default-theme.md-checked .md-thumb {
   background-color: $secondaryThemeColor;
 }
 
+.ember-basic-dropdown-trigger {
+  outline: none !important;
+}
+
 @media(max-width:500px) {
   #save-beat-preferences-star {
     right: 5px;

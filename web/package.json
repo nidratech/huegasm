@@ -1,6 +1,6 @@
 {
   "name": "huegasm",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Huegasm is a free web application for managing and synchronizing your Philips Hue lights with the beat of your music.",
   "private": true,
   "directories": {
@@ -13,7 +13,7 @@
     "test": "ember test"
   },
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.12.0"
   },
   "author": "Egor Philippov",
   "license": "MIT",
@@ -38,7 +38,7 @@
     "ember-load-initializers": "^0.5.0",
     "ember-modal-dialog": "^0.9.0",
     "ember-notify": "^5.0.4",
-    "ember-paper": "^1.0.0-alpha.7",
+    "ember-paper": "^1.0.0-alpha.11",
     "ember-resolver": "^2.0.3",
     "ember-truth-helpers": "^1.2.0",
     "loader.js": "^4.0.7"

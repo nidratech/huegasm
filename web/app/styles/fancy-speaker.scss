@@ -1,9 +1,7 @@
-/* Variables */
 $centersize: 80px;
 $center1size: 205px;
 $bezelsize: 240px;
 
-/* Extenders */
 %base {
   border-radius: 100%;
 }
@@ -34,6 +32,7 @@ $bezelsize: 240px;
   background: radial-gradient(ellipse at center, rgba(0,0,0,1) 0%,rgba(79,79,79,1) 0%,rgba(0,0,0,1) 100%);
   box-shadow: 0 0 10px rgba(0, 0, 0, 1);
 }
+
 #beat-speaker-center-outer {
   @extend %base;
   position: absolute;
@@ -49,6 +48,7 @@ $bezelsize: 240px;
   background: -ms-linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
   background: linear-gradient(130deg, rgba(117, 117, 117, 1) 55%, rgba(220, 220, 220, 1) 100%);
 }
+
 .bezel {
   @extend %base;
   margin: 0 auto;
@@ -60,6 +60,7 @@ $bezelsize: 240px;
   top: 50%;
   transform: translateY(-50%);
 }
+
 .rivet1 {
   @extend %rivet;
   top: 6px;

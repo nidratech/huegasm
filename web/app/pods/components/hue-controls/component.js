@@ -20,9 +20,6 @@ export default Component.extend({
   selectedTab: 1,
   pauseLightUpdates: false,
 
-  lightsTabSelected: computed.equal('selectedTab', 0),
-  musicTabSelected: computed.equal('selectedTab', 1),
-
   displayFailure: true,
 
   notify: inject.service(),
@@ -190,14 +187,13 @@ export default Component.extend({
             position: 'bottom'
           },
           {
-            intro: 'And that\'s it...Hope you enjoy the application. ;)<br><br>' +
-            '<i><b>TIP</b>: click on the lightswitch to switch to a darker theme.</i>'
+            intro: 'And that\'s it...Hope you enjoy the application. ;)'
           }
         ]
       });
 
       intro.onchange((element) => {
-        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip'){
+        if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip'){
           $('.navigation-item').eq(0).click();
         } else {
           $('.navigation-item').eq(1).click();
@@ -220,7 +216,7 @@ export default Component.extend({
         }
 
         run.later(this, function() {
-          $('.introjs-tooltip').velocity('scroll');
+          $('.introjs-tooltip').velocity('scroll', { offset: -100 });
         }, 500);
       }).start();
     }

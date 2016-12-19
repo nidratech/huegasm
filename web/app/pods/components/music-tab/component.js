@@ -63,7 +63,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.get('kick').set({threshold: value});
     }
 
-    if(saveBeatPrefs && this.get('usingLocalAudio') && this.get('playQueuePointer') !== -1){
+    if(saveBeatPrefs && this.get('playQueuePointer') !== -1){
       this.saveSongBeatPreferences();
     }
 
@@ -166,46 +166,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
         delete ambienceWorkedLightsHandles[light];
       }, transitionTime * 100 + 1000);
     });
-  },
-
-  startUsingMic() {
-    navigator.getUserMedia(
-      {audio: true},
-      (stream) => {
-        this.changePlayerControl('audioMode', 1);
-        let dancer = this.get('dancer');
-
-        if(dancer.audio && dancer.audio.pause) {
-          dancer.pause();
-        }
-
-        this.setProperties({
-          volumeCache: this.get('volume'),
-          playing: true,
-          audioStream: stream
-        });
-
-        document.title = 'Listening to Mic - Huegasm';
-
-        dancer.load(stream, this.get('micBoost'), true);
-        this.set('usingBeatPreferences', false);
-
-        // much more sensitive beat preference settings are needed for mic mode
-        this.setProperties({
-          oldThreshold: this.get('threshold'),
-          threshold: 0.1
-        });
-
-        dancer.setVolume(0);
-      },
-      (err) => {
-        if(err.name === 'DevicesNotFoundError'){
-          this.get('notify').alert({html: this.get('notFoundHtml')});
-        }
-
-        console.log('Error during navigator.getUserMedia: ' + err.name + ', ' + err.message + ', ' + err.constraintName);
-      }
-    );
   },
 
   clearCurrentAudio(resetPointer) {
@@ -341,11 +301,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-    if(navigator.getUserMedia === undefined){
-      this.set('usingMicSupported', false);
-    }
-
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'micBoost', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -395,7 +351,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
     // control the volume by scrolling up/down
     $('#player-area').on('mousewheel', (event)=>{
-      if(this.get('playQueueNotEmpty') && !this.get('usingMicAudio')) {
+      if(this.get('playQueueNotEmpty')) {
         let scrollSize = 5;
 
         if(event.deltaY < 0) {
@@ -514,46 +470,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     toggleIsShowingAddSoundCloudModal() {
       this.toggleProperty('isShowingAddSoundCloudModal');
-    },
-    useLocalAudio(){
-      let audioStream = this.get('audioStream');
-      this.changePlayerControl('audioMode', 0);
-
-      if(!isNone(audioStream)){
-        let tracks = audioStream.getVideoTracks();
-        if (tracks && tracks[0] && tracks[0].stop) {
-          tracks[0].stop();
-        }
-
-        if (audioStream.stop) {
-          // deprecated, may be removed in future
-          audioStream.stop();
-        }
-
-        this.setProperties({
-          audioStream: null,
-          playing: false
-        });
-      }
-
-      if(this.get('playQueuePointer') !== -1) {
-        this.send('goToSong', this.get('playQueuePointer'));
-        this.send('volumeChanged', this.get('volume'));
-      }
-
-      // restore the old beat preferences ( before the user went into mic mode )
-      if(!isNone(this.get('oldThreshold'))){
-        this.set('threshold', this.get('oldThreshold'));
-      }
-
-      document.title = 'Huegasm';
-    },
-    useMicAudio() {
-      if(this.get('usingMicAudio')) {
-        this.send('useLocalAudio');
-      } else {
-        this.startUsingMic();
-      }
     },
     slideTogglePlayerBottom(){
       let elem = this.$('#player-bottom');
@@ -809,23 +725,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     hueRangeChanged(value) {
       this.changePlayerControl('hueRange', value);
-    },
-    micBoostChanged(value) {
-      this.set('micBoost', value);
-      this.get('storage').set('huegasm.micBoost', value);
-
-      if(this.get('usingMicAudio')) {
-        this.get('dancer').setBoost(value);
-      }
-    },
-    audioModeChanged(value){
-      if(value === 1) {
-        this.startUsingMic();
-      } else if(value === 0) {
-        this.send('useLocalAudio');
-      } else {
-        this.set('audioMode', value);
-      }
     },
     playQueuePointerChanged(value){
       this.send('goToSong', value, false, true);

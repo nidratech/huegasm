@@ -9,19 +9,17 @@
     {{paper-icon playerAreaClickIcon id="play-notification"}}
 
     <div id="player-controls">
-      {{#if usingLocalAudio}}
-        {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
+      {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
 
-        {{#if playQueueNotEmpty}}
-          <span {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
-          -->{{/if}}<!--
-                    --><span {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
-                  -->{{#if playQueueMultiple}}<!--
-                --><span {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
-                  -->{{/if}}
+      {{#if playQueueNotEmpty}}
+        <span {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
+        -->{{/if}}<!--
+                  --><span {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
+                -->{{#if playQueueMultiple}}<!--
+              --><span {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
+                -->{{/if}}
 
-        <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
-      {{/if}}
+      <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
 
       {{#paper-menu as |menu|}}
         {{#menu.trigger}}
@@ -51,40 +49,30 @@
   </div>
 </div>
 
-<div id="playlist" class="col-xs-12">
-<input id="file-input" type="file" accept="audio/*" multiple="true"/>
+  <div id="playlist" class="col-xs-12">
+    <input id="file-input" type="file" accept="audio/*" multiple="true"/>
 
-<div id="play-list-controls">
-  {{#if usingLocalAudio}}
-    {{#paper-menu as |menu|}}
-      {{#menu.trigger}}
-        {{#paper-button iconButton=false}}
-          {{paper-icon "playlist add" class="player-control-icon"}} Add new music
-        {{/paper-button}}
-      {{/menu.trigger}}
-      {{#menu.content width=3 as |content|}}
-        {{#content.menu-item onClick="addLocalAudio"}}
-          {{paper-icon "attachment" class=shuffleClass}} Local file
-        {{/content.menu-item}}
-        {{#content.menu-item onClick="toggleIsShowingAddSoundCloudModal"}}
-          {{paper-icon "cloud" class=shuffleClass}} SoundCloud
-        {{/content.menu-item}}
-      {{/menu.content}}
-    {{/paper-menu}}
-  {{/if}}
+    <div id="play-list-controls">
+      {{#paper-menu as |menu|}}
+        {{#menu.trigger}}
+          {{#paper-button iconButton=false}}
+            {{paper-icon "playlist add" class="player-control-icon"}} Add new music
+          {{/paper-button}}
+        {{/menu.trigger}}
+        {{#menu.content width=3 as |content|}}
+          {{#content.menu-item onClick="addLocalAudio"}}
+            {{paper-icon "attachment" class=shuffleClass}} Local file
+          {{/content.menu-item}}
+          {{#content.menu-item onClick="toggleIsShowingAddSoundCloudModal"}}
+            {{paper-icon "cloud" class=shuffleClass}} SoundCloud
+          {{/content.menu-item}}
+        {{/menu.content}}
+      {{/paper-menu}}
 
-  {{#if usingLocalAudio}}
-    <span {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
-    <span {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
-  {{/if}}
-</div>
+      <span {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
+      <span {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
+    </div>
 
-{{#if usingMicAudio}}
-  <div id="play-area-mic" class="{{if dimmerOn "dimmerOn"}}">
-    {{paper-icon "mic" class=dimmerOnClass}}
-  </div>
-{{else}}
-  {{#if usingLocalAudio}}
     <div id="play-list-area" class={{playListAreaClass}} {{action "addLocalAudio"}}>
       {{#if playQueueEmpty}}
         <div id="dragHere">
@@ -120,9 +108,8 @@
         </div>
       {{/each}}
     </div>
-  {{/if}}
-{{/if}}
-</div>
+
+  </div>
 </div>
 
 <div id="slide-toggle" class="text-center row" {{action "slideTogglePlayerBottom"}}>

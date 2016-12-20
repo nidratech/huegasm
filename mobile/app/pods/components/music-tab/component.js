@@ -501,7 +501,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
         }
 
         if(scrollToSong){
-          // this is just a bad workaround to make sure that the track has been rendered to the playlist
           run.next(this, ()=>{
             $('.track'+index).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
           });

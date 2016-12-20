@@ -309,7 +309,6 @@
   border: 1px solid black;
   width: 100%;
   background: white;
-  padding-bottom: 20px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px
 }
@@ -421,11 +420,16 @@
 #soundcloud-logo {
   display: block;
 }
+
 #soundcloud-logo-small {
   display: none;
 }
 
-@media(max-width:900px) {
+#soundcloud-tutorial {
+  width: 100%;
+}
+
+@media(max-width:1100px) {
   #soundcloud-logo {
     display: none;
   }
@@ -434,7 +438,7 @@
   }
 }
 
-@media(min-width:767px) and (max-width:1000px) {
+@media(min-width:767px) and (max-width:1200px) {
   #add-new-music-label {
     display: none;
   }

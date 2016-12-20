@@ -1,32 +1,34 @@
 {{#if ready}}
-  <div id="navigation">
-    {{#each tabData as |tab|}}
-      <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
-    {{/each}}
-    {{#paper-menu as |menu|}}
-      {{#menu.trigger}}
-        {{#paper-button iconButton=true}}
-          {{paper-icon "settings-icon" class=dimmerOnClass size=28}}
-        {{/paper-button}}
-      {{/menu.trigger}}
-      {{#menu.content width=3 as |content|}}
-        {{#content.menu-item onClick="toggleDimmer"}}
-          {{paper-icon "lightbulb outline" class=dimmerOnClass}} Dark Mode: {{if dimmerOn "On" "Off"}}
-        {{/content.menu-item}}
+  <div id="navigation" class="row">
+    <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+      {{#each tabData as |tab|}}
+        <span class="navigation-item pointer text-uppercase {{if tab.selected "active"}}" {{action "changeTab" tab.name}}>{{tab.name}}</span>
+      {{/each}}
+      {{#paper-menu as |menu|}}
+        {{#menu.trigger}}
+          {{#paper-button iconButton=true}}
+            {{paper-icon "settings-icon" class=dimmerOnClass size=28}}
+          {{/paper-button}}
+        {{/menu.trigger}}
+        {{#menu.content width=3 as |content|}}
+          {{#content.menu-item onClick="toggleDimmer"}}
+            {{paper-icon "lightbulb outline" class=dimmerOnClass}} Dark Mode: {{if dimmerOn "On" "Off"}}
+          {{/content.menu-item}}
 
-        {{#content.menu-item onClick="clearBridge"}}
-          {{paper-icon "compare arrows" class=dimmerOnClass}} Switch bridge
-        {{/content.menu-item}}
+          {{#content.menu-item onClick="clearBridge"}}
+            {{paper-icon "compare arrows" class=dimmerOnClass}} Switch bridge
+          {{/content.menu-item}}
 
-        {{#content.menu-item onClick="startIntro"}}
-          {{paper-icon "cached" class=dimmerOnClass}} Restart tutorial
-        {{/content.menu-item}}
+          {{#content.menu-item onClick="startIntro"}}
+            {{paper-icon "cached" class=dimmerOnClass}} Restart tutorial
+          {{/content.menu-item}}
 
-        {{#content.menu-item onClick="clearAllSettings"}}
-          {{paper-icon "settings backup restore" class=dimmerOnClass}} Reset settings
-        {{/content.menu-item}}
-      {{/menu.content}}
-    {{/paper-menu}}
+          {{#content.menu-item onClick="clearAllSettings"}}
+            {{paper-icon "settings backup restore" class=dimmerOnClass}} Reset settings
+          {{/content.menu-item}}
+        {{/menu.content}}
+      {{/paper-menu}}
+    </div>
   </div>
 
   {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}

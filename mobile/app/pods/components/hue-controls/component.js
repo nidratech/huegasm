@@ -143,10 +143,13 @@ export default Component.extend({
       location.reload();
     },
     startIntro(){
-      let INTRO = introJs,
-        intro = INTRO(),
+      let intro = introJs(),
         playerBottom = $('#player-bottom'),
         beatDetectionAreaArrowIcon = $('#beat-detection-area-arrow-icon');
+
+      if(this.get('dimmerOn')) {
+        this.send('toggleDimmer');
+      }
 
       intro.setOptions({
         steps: [
@@ -162,6 +165,11 @@ export default Component.extend({
             element: '#playlist',
             intro: 'You can add and select music to play from your playlist here. You may listen to local audio files, stream music from soundcloud or stream directly from a connected microphone.<br><br>' +
             '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
+          },
+          {
+            element: $('#playlist md-menu')[0],
+            intro: '<img src="/assets/images/soundcloudUrl.png" id="soundcloud-tutorial">You can add songs from SoundCloud by copy and pasting the URL shown here',
+            position: 'left'
           },
           {
             element: '#player-area',
@@ -211,7 +219,7 @@ export default Component.extend({
 
       // it's VERY ugly but it works... the jQuery massacre :'(
       intro.onchange((element) => {
-        if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip'){
+        if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip' || element.nodeName === 'MD-MENU'){
           $('.navigation-item').eq(1).click();
         } else {
           $('.navigation-item').eq(0).click();

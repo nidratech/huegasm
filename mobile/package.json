@@ -1,6 +1,6 @@
 {
   "name": "huegasm_mobile",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Huegasm is a free web application for managing and synchronizing your Philips Hue lights with the beat of your music.",
   "private": true,
   "directories": {
@@ -10,6 +10,7 @@
   "scripts": {
     "start": "ember server",
     "build": "ember cordova:build --platform=android --environment=production --release",
+    "build-test": "ember cordova:build --platform=android",
     "test": "ember test",
     "cordova": "ember cdv:serve --platform=android"
   },
@@ -28,7 +29,7 @@
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.3.1",
-    "ember-cli-nouislider": "^0.10.0",
+    "ember-cli-nouislider": "^0.11.0",
     "ember-cli-qunit": "^1.2.1",
     "ember-cli-release": "0.2.8",
     "ember-cli-sass": "^5.2.1",
@@ -37,9 +38,9 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-cordova": "^0.3.5",
     "ember-cordova-events": "^0.1.0",
-    "ember-cordova-keyboard": "^0.0.1",
+    "ember-cordova-keyboard": "^0.0.2",
     "ember-export-application-global": "^1.0.4",
-    "ember-load-initializers": "^0.5.0",
+    "ember-load-initializers": "^0.6.3",
     "ember-modal-dialog": "^0.9.0",
     "ember-notify": "^5.0.4",
     "ember-paper": "^1.0.0-alpha.11",

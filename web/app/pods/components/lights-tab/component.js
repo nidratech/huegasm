@@ -9,7 +9,7 @@ const {
 } = Ember;
 
 export default Component.extend({
-  classNames: ['col-sm-8', 'col-sm-offset-2', 'col-xs-12'],
+  classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'lights-tab',
 

@@ -168,8 +168,7 @@ export default Component.extend({
           },
           {
             element: $('#playlist md-menu')[0],
-            intro: '<img src="/assets/images/soundcloudUrl.png" id="soundcloud-tutorial">You can add songs from SoundCloud by copy and pasting the URL shown here',
-            position: 'left'
+            intro: '<img src="assets/images/soundcloudUrl.png" id="soundcloud-tutorial">You can add songs from SoundCloud by copy and pasting the URL shown here'
           },
           {
             element: '#player-area',
@@ -208,8 +207,7 @@ export default Component.extend({
           {
             element: $('#navigation .ember-basic-dropdown-trigger')[0],
             intro: 'A few miscellaneous settings can be found here.<br><br>' +
-            '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.',
-            position: 'left'
+            '<b>WARNING</b>: clearing application settings will restore the application to its original state. This will even delete your playlist and any saved song beat preferences.'
           },
           {
             intro: 'And that\'s it...Hope you enjoy the application. ;)'

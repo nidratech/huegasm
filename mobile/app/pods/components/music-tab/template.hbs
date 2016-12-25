@@ -9,7 +9,7 @@
     {{paper-icon playerAreaClickIcon id="play-notification"}}
 
     <div id="player-controls">
-      {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-slide="seekChanged"}}
+      {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-change="seekChanged"}}
 
       {{#if playQueueNotEmpty}}
         <span {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
@@ -132,7 +132,7 @@
           Hue Range
         </span>
 
-        {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-slide="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+        {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-change="hueRangeChanged" pips=beatOptions.hueRange.pips}}
       </div>
 
         <div class="beat-option col-xs-6">
@@ -140,7 +140,7 @@
           Sensitivity
         </span>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-slide="thresholdChanged" pips=beatOptions.threshold.pips}}
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged" pips=beatOptions.threshold.pips}}
         </div>
 
       {{#if usingMicAudio}}
@@ -149,7 +149,7 @@
               Mic Boost
             </span>
 
-            {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-slide="micBoostChanged" pips=beatOptions.micBoost.pips}}
+            {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-change="micBoostChanged" pips=beatOptions.micBoost.pips}}
           </div>
       {{/if}}
     </div>

@@ -7,6 +7,7 @@ const {
   isNone,
   run,
   inject,
+  run: { later },
   $
 } = Ember;
 
@@ -76,7 +77,7 @@ export default Component.extend({
 
     if(!this.get('trial')) {
       this.updateLightData();
-      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
+      setInterval(this.updateLightData.bind(this), 2000);
     }
 
     if (!isNone(storage.get('huegasm.dimmerOn'))) {
@@ -88,10 +89,22 @@ export default Component.extend({
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
     }
 
+    // document.addEventListener('deviceready', () => {
+    //   cordova.plugins.backgroundMode.setDefaults({
+    //     silent: true
+    //   });
+    //
+    //   cordova.plugins.backgroundMode.enable();
+    // }, false);
+
     document.addEventListener('backbutton', () => {
-      let index = (this.get('selectedTab') + 1) % this.tabList.length;
-      this.set('selectedTab', index);
-      this.get('storage').set('huegasm.selectedTab', index);
+      if(this.get('isShowingAddSoundCloudModal')){
+        this.set('isShowingAddSoundCloudModal', false);
+      } else {
+        let index = (this.get('selectedTab') + 1) % this.tabList.length;
+        this.set('selectedTab', index);
+        this.get('storage').set('huegasm.selectedTab', index);
+      }
     }, false);
 
     document.addEventListener('pause', () => {
@@ -111,7 +124,9 @@ export default Component.extend({
         this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
         this.set('displayFailure', false);
 
-        setTimeout(()=>{ this.set('displayFailure', true); }, 30000);
+        later(this, function() {
+          this.set('displayFailure', true);
+        }, 30000);
       }
     };
 
@@ -213,6 +228,10 @@ export default Component.extend({
             intro: 'And that\'s it...Hope you enjoy the application. ;)'
           }
         ]
+      });
+
+      intro.onexit(() => {
+        $('body').velocity('scroll', { duration: 200 });
       });
 
       // it's VERY ugly but it works... the jQuery massacre :'(

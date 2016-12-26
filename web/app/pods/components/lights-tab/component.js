@@ -5,6 +5,7 @@ const {
   observer,
   computed,
   on,
+  run: { later },
   $
 } = Ember;
 
@@ -208,11 +209,11 @@ export default Component.extend({
 
       for (let key in lightsData) {
         if (lightsData.hasOwnProperty(key)) {
-          setTimeout(updateLight, 2000, key);
+          later(this, updateLight, key, 2000);
         }
       }
 
-      setTimeout(()=>{this.onColorLoopOnChange();}, 2000);
+      later(this, this.onColorLoopOnChange, 2000);
       clearInterval(this.get('strobeOnInervalHandle'));
     }
 

@@ -34,7 +34,7 @@
 
   {{lights-tab active=(eq selectedTab 0) apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}}
 
-  {{music-tab active=(eq selectedTab 1)  apiURL=apiURL lightsData=lightsData activeLights=activeLights pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn playing=playing storage=storage colorLoopOn=colorLoopOn action="startIntro"}}
+  {{music-tab active=(eq selectedTab 1)  apiURL=apiURL lightsData=lightsData activeLights=activeLights pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn playing=playing storage=storage colorLoopOn=colorLoopOn isShowingAddSoundCloudModal=isShowingAddSoundCloudModal action="startIntro"}}
 {{else}}
   {{paper-progress-circular diameter=100}}
 {{/if}}

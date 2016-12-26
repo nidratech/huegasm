@@ -82,14 +82,11 @@ export default Mixin.create({
   playerBottomDisplayed: true,
   dragging: false,
   draggingOverPlayListArea: false,
-  dragLeaveTimeoutHandle: null,
-  ambienceModeHandle: null,
   audioStream: null,
   dimmerOn: false,
   isShowingAddSoundCloudModal: false,
 
   colorloopMode: false,
-  ambienceMode: false,
   flashingTransitions: false,
 
   // 0 - no repeat, 1 - repeat all, 2 - repeat one
@@ -105,8 +102,6 @@ export default Mixin.create({
   oldBeatPrefCache: null,
   storage: null,
   firstVisit: true,
-  ambienceWorkedLights: [],
-  ambienceWorkedLightsHandles: {},
 
   soundCloudFuckUps: 0,
   maxSoundCloudFuckUps: 3,
@@ -256,7 +251,7 @@ export default Mixin.create({
     this.set('colorLoopOn', this.get('playing') && this.get('colorloopMode'));
   }),
 
-  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', 'ambienceMode', function(self, option){
+  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', function(self, option){
     option = option.replace('.[]', '');
     this.get('storage').set('huegasm.' + option, this.get(option));
   }),

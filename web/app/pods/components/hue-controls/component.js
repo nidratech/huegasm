@@ -6,7 +6,7 @@ const {
   computed,
   isEmpty,
   isNone,
-  run,
+  run: { later },
   inject,
   $
 } = Ember;
@@ -76,7 +76,7 @@ export default Component.extend({
 
     if(!this.get('trial')) {
       this.updateLightData();
-      this.set('lightsDataIntervalHandle', setInterval(this.updateLightData.bind(this), 2000));
+      setInterval(this.updateLightData.bind(this), 2000);
     }
 
     if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
@@ -92,7 +92,9 @@ export default Component.extend({
         this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
         this.set('displayFailure', false);
 
-        setTimeout(()=>{ this.set('displayFailure', true); }, 30000);
+        later(this, function() {
+          this.set('displayFailure', true);
+        }, 30000);
       }
     };
 
@@ -198,6 +200,10 @@ export default Component.extend({
         ]
       });
 
+      intro.onexit(() => {
+        $('body').velocity('scroll', { duration: 200 });
+      });
+
       intro.onchange((element) => {
         if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip' || element.nodeName === 'MD-MENU'){
           $('.navigation-item').eq(1).click();
@@ -221,7 +227,7 @@ export default Component.extend({
           $('.introjs-nextbutton').click();
         }
 
-        run.later(this, function() {
+        later(this, function() {
           $('.introjs-tooltip').velocity('scroll', { offset: -100 });
         }, 500);
       }).start();

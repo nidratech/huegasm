@@ -8,31 +8,10 @@ const {
   isEmpty,
   isNone,
   $,
-  run
+  run: { later, next }
 } = Ember;
 
 export default Component.extend(helperMixin, visualizerMixin, {
-  onAmbienceModeChange: observer('ambienceMode', 'playing', function(){
-    if(this.get('ambienceMode') && this.get('playing')) {
-      this.set('ambienceModeHandle', setInterval(()=> {this.doAmbienceLightChange();}, 5000));
-      this.setProperties({
-        'colorloopMode': false,
-        'flashingTransitions': false
-      });
-    } else if(this.get('ambienceModeHandle')) {
-      this.get('activeLights').forEach((light)=>{
-        $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({'on': true}),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      });
-
-      clearInterval(this.get('ambienceModeHandle'));
-      this.set('ambienceModeHandle', null);
-    }
-  }),
-
   updatePageTitle: observer('playQueuePointer', function(){
     let title = 'Huegasm',
       playQueuePointer = this.get('playQueuePointer'),
@@ -104,70 +83,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
     this.set('oldBeatPrefCache', newOldBeatPrefCache);
   },
 
-  doAmbienceLightChange(justOneLight){
-    let activeLights = this.get('activeLights'),
-      lightsData = this.get('lightsData'),
-      workedLights = this.get('ambienceWorkedLights'),
-      hueRange = this.get('hueRange'),
-      ambienceWorkedLightsHandles = this.get('ambienceWorkedLightsHandles'),
-      lightOff = (light)=>{
-        if(this.get('ambienceMode') && this.get('playing')){
-          $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-            data: JSON.stringify({'on': false, 'transitiontime': 20}),
-            contentType: 'application/json',
-            type: 'PUT'
-          });
-        }
-      },
-      lights = [],
-      transitionTime = Math.floor(Math.random()*20),
-      iterations = justOneLight ? 1 : activeLights.length/2;
-
-    // pick some random lights
-    for(let i=0; i < iterations; i++){
-      let l = activeLights[Math.floor(Math.random()*activeLights.length)];
-
-      if(!lights.includes(l) && !workedLights.includes(l)){
-        lights.push(l);
-        workedLights.push(l);
-      } else if(justOneLight && workedLights.length !== activeLights.length){ // work a light if we only need one
-        while(workedLights.includes(l)){
-          l = activeLights[Math.floor(Math.random()*activeLights.length)];
-        }
-
-        lights.push(l);
-        workedLights.push(l);
-      }
-    }
-
-    lights.forEach((light)=>{
-      let options = {'hue': Math.floor(Math.random()*(hueRange[1] - hueRange[0] + 1)+hueRange[0]), 'bri': Math.floor(Math.random()*200) + 1, 'transitiontime': transitionTime};
-
-      if(lightsData[light].state.on === false){
-        options.on = true;
-      }
-
-      $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-        data: JSON.stringify(options),
-        contentType: 'application/json',
-        type: 'PUT'
-      });
-
-      // stop the light from turning off
-      if(ambienceWorkedLightsHandles[light]){
-        clearTimeout(ambienceWorkedLightsHandles[light]);
-        delete ambienceWorkedLightsHandles[light];
-      }
-
-      // turn the light off after it's been idle for a while
-      ambienceWorkedLightsHandles[light] = setTimeout(()=>{
-        lightOff(light);
-        workedLights.removeObject(light);
-        delete ambienceWorkedLightsHandles[light];
-      }, transitionTime * 100 + 1000);
-    });
-  },
-
   clearCurrentAudio(resetPointer) {
     let dancer = this.get('dancer');
 
@@ -216,7 +131,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       },
       timeToBriOff = 100;
 
-    if(activeLights.length > 0 && !this.get('ambienceMode')){
+    if(activeLights.length > 0){
       let lastLightBopIndex = this.get('lastLightBopIndex'),
         lightBopIndex,
         brightnessOnBeat = 254,
@@ -245,17 +160,13 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
 
       stimulateLight(light, brightnessOnBeat, color);
-      setTimeout(stimulateLight, timeToBriOff, light, 1);
+      later(this, stimulateLight, light, 1, timeToBriOff);
     }
 
     this.set('paused', true);
-    setTimeout(() => {
+    later(this, function(){{
       this.set('paused', false);
-    }, 150);
-
-    if(this.get('ambienceMode') && activeLights.length > 0){
-      this.doAmbienceLightChange(true);
-    }
+    }}, 150);
 
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
     $('#beat-speaker-center-outer').velocity({blur: 3}, 100).velocity({blur: 0}, 100);
@@ -287,8 +198,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-
-    ['shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
+    ['shuffle', 'repeat', 'threshold', 'playerBottomDisplayed', 'audioMode', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange'].forEach((item)=>{
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -305,7 +215,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
     });
 
     document.addEventListener('pause', () => {
-      this.get('dancer').pause();
+      if(this.get('playing')){
+        this.send('play');
+      }
     }, false);
   },
 
@@ -501,7 +413,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
         }
 
         if(scrollToSong){
-          run.next(this, ()=>{
+          next(this, ()=>{
             $('.track'+index).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
           });
         }

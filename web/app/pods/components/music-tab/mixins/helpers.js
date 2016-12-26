@@ -85,13 +85,11 @@ export default Mixin.create({
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
-  ambienceModeHandle: null,
   audioStream: null,
   dimmerOn: false,
   isShowingAddSoundCloudModal: false,
 
   colorloopMode: false,
-  ambienceMode: false,
   flashingTransitions: false,
 
   // 0 - no repeat, 1 - repeat all, 2 - repeat one
@@ -108,8 +106,6 @@ export default Mixin.create({
   oldBeatPrefCache: null,
   storage: null,
   firstVisit: true,
-  ambienceWorkedLights: [],
-  ambienceWorkedLightsHandles: {},
 
   soundCloudFuckUps: 0,
   maxSoundCloudFuckUps: 3,

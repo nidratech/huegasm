@@ -6,6 +6,7 @@ const {
   computed,
   on,
   isNone,
+  run: { later },
   $
 } = Ember;
 
@@ -152,7 +153,9 @@ export default Component.extend({
           type: 'POST'
         }).fail(() => {
           this.set('manualBridgeIpNotFound', true);
-          setTimeout(() => { this.set('manualBridgeIpNotFound', false); }, 5000);
+          later(this, function() {
+            this.set('manualBridgeIpNotFound', false);
+          }, 5000);
         }).then(() => {
           this.set('bridgeIp', manualBridgeIp);
         });

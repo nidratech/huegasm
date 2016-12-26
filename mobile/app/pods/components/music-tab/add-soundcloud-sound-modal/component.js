@@ -6,6 +6,7 @@ const {
   computed,
   isEmpty,
   isNone,
+  run: { later },
   $
 } = Ember;
 
@@ -15,7 +16,7 @@ export default Component.extend({
   onIsShowingModalChange: observer('isShowingModal', function(){
     if(this.get('isShowingModal')){
       this.set('url', null);
-      setTimeout(()=>{
+      later(this, function() {
         $('md-input-container input').focus();
       }, 500);
     }

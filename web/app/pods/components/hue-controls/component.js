@@ -6,7 +6,7 @@ const {
   computed,
   isEmpty,
   isNone,
-  run: { later },
+  run: { later, scheduleOnce },
   inject,
   $
 } = Ember;
@@ -61,7 +61,7 @@ export default Component.extend({
         });
 
         if(haveTooltip) {
-          run.scheduleOnce('afterRender', function(){
+          scheduleOnce('afterRender', function(){
             $('.bootstrap-tooltip').tooltip();
           });
         }
@@ -227,9 +227,15 @@ export default Component.extend({
           $('.introjs-nextbutton').click();
         }
 
-        later(this, function() {
-          $('.introjs-tooltip').velocity('scroll', { offset: -100 });
-        }, 500);
+        if(element.id === ''){
+          later(this, () => {
+            $('body').velocity('scroll');
+          }, 500);
+        } else {
+          later(this, () => {
+            $('.introjs-tooltip').velocity('scroll', { offset: -100 });
+          }, 500);
+        }
       }).start();
     }
   }

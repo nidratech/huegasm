@@ -7,9 +7,15 @@ It lives at http://www.huegasm.com
 ## Current priorities
 - create a hybrid app with Cardova
 
-## WTF moments
-Cordova disables the volume buttons for some reason. Monkey patching:
-Comment out the webView.setButtonPlumbedToJs lines for volume buttons from its source code before building android.
+## SIGNING
+/ember-cordova/platforms/android/release-signing.properties:
+storeFile=huegasm.keystore
+storeType=jks
+keyAlias=huegasm
+keyPassword=...
+storePassword=...
+
+keytool -genkey -v -keystore huegasm.keystore -alias huegasm -keyalg RSA -keysize 2048 -validity 10000
 
 ## POSSIBLE FUTURE FEATURES
 - decode the hue color better

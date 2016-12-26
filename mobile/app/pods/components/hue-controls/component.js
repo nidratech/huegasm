@@ -5,7 +5,6 @@ const {
   Component,
   computed,
   isNone,
-  run,
   inject,
   run: { later },
   $
@@ -124,7 +123,7 @@ export default Component.extend({
         this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
         this.set('displayFailure', false);
 
-        later(this, function() {
+        later(this, () => {
           this.set('displayFailure', true);
         }, 30000);
       }
@@ -158,9 +157,7 @@ export default Component.extend({
       location.reload();
     },
     startIntro(){
-      let intro = introJs(),
-        playerBottom = $('#player-bottom'),
-        beatDetectionAreaArrowIcon = $('#beat-detection-area-arrow-icon');
+      let intro = introJs();
 
       if(this.get('dimmerOn')) {
         this.send('toggleDimmer');
@@ -241,34 +238,24 @@ export default Component.extend({
         } else {
           $('.navigation-item').eq(0).click();
         }
-
-        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area'){
-          playerBottom.hide();
-
-          if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-up')){
-            beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-up').addClass('keyboard-arrow-down');
-          }
-        } else if(element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container'){
-          playerBottom.show();
-
-          if(beatDetectionAreaArrowIcon.hasClass('keyboard-arrow-down')){
-            beatDetectionAreaArrowIcon.removeClass('keyboard-arrow-down').addClass('keyboard-arrow-up');
-          }
-        } else if(element.id === 'dimmer'){
-          $(document).click();
-        }
       });
 
       // skip hidden/missing elements
       intro.onafterchange((element)=>{
         let elem = $(element);
-        if(elem.html() === '<!---->'){
+        if(elem.html() === '<!---->') {
           $('.introjs-nextbutton').click();
         }
 
-        run.later(this, function() {
-          $('.introjs-tooltip').velocity('scroll', { offset: -100 });
-        }, 500);
+        if(element.id === ''){
+          later(this, () => {
+            $('body').velocity('scroll');
+          }, 500);
+        } else {
+          later(this, () => {
+            $('.introjs-tooltip').velocity('scroll', { offset: -100 });
+          }, 500);
+        }
       }).start();
     },
     toggleDimmer(){

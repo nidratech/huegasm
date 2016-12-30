@@ -12,6 +12,8 @@ module.exports = function(defaults) {
   app.import('bower_components/JavaScript-ID3-Reader/dist/id3-minimized.js');
   app.import('bower_components/locallyjs/dist/locally.min.js');
   app.import('bower_components/velocity/velocity.js');
+  app.import('bower_components/perfect-scrollbar/js/perfect-scrollbar.js');
+  app.import('bower_components/perfect-scrollbar/css/perfect-scrollbar.css');
 
   return app.toTree();
 };

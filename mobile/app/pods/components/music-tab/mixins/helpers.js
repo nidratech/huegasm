@@ -4,8 +4,10 @@ const {
   Mixin,
   observer,
   computed,
+  run,
   isNone,
   inject,
+  $,
   A
 } = Ember;
 
@@ -167,8 +169,12 @@ export default Mixin.create({
 
     if(playQueuePointer !== -1 && currentVisName === 'None'){
       let song = playQueue[playQueuePointer];
-      if(song.scUrl && !isNone(song.picture)){
-        pic = song.picture.replace('67x67', '500x500');
+      if(!isNone(song.picture)){
+        pic = song.picture;
+
+        if(song.scUrl){
+          pic = pic.replace('67x67', '500x500');
+        }
       }
     }
 
@@ -247,13 +253,43 @@ export default Mixin.create({
     return this.formatTime(this.get('timeTotal'));
   }),
 
+  onPlayQueueChange: observer('playQueue.length', function(){
+    let playQueueLength = this.get('playQueue.length');
+
+    if(playQueueLength > this.get('oldPlayQueueLength')){
+      run.once(this, ()=>{
+        run.next(this, function() {
+          $(`.track${playQueueLength-1}`).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
+          Ps.update(document.getElementById('play-list-area'));
+        });
+      });
+    } else {
+      run.once(this, ()=>{
+        run.next(this, function() {
+          Ps.update(document.getElementById('play-list-area'));
+        });
+      });
+    }
+
+    this.set('oldPlayQueueLength', playQueueLength);
+  }),
+
   onColorloopModeChange: observer('colorloopMode', 'playing', function(){
     this.set('colorLoopOn', this.get('playing') && this.get('colorloopMode'));
   }),
 
-  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', function(self, option){
+  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', 'ambienceMode', function(self, option){
     option = option.replace('.[]', '');
-    this.get('storage').set('huegasm.' + option, this.get(option));
+    let value = this.get(option);
+
+    // can't really save local music
+    if(option === 'playQueue'){
+      value = value.filter((song)=>{
+        return !song.url.startsWith('blob:');
+      });
+    }
+
+    this.get('storage').set('huegasm.' + option, value);
   }),
 
   formatTime(time){

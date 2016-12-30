@@ -224,6 +224,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
     });
 
+    this.set('oldPlayQueueLength', this.get('playQueue.length'));
+
     SC.initialize({
       client_id: this.get('SC_CLIENT_ID')
     });

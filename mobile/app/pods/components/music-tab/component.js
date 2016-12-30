@@ -214,6 +214,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       client_id: this.get('SC_CLIENT_ID')
     });
 
+    this.set('oldPlayQueueLength', this.get('playQueue.length'));
+
     document.addEventListener('pause', () => {
       if(this.get('playing')){
         this.send('play');
@@ -225,6 +227,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
     this._super();
 
     let self = this;
+
+    // perfect-scrollbar
+    Ps.initialize(document.getElementById('play-list-area'), {
+      swipePropagation: false
+    });
 
     // file input code
     $('#file-input').on('change', function() {

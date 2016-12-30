@@ -73,7 +73,7 @@
       <span {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
     </div>
 
-    <div id="play-list-area" class={{playListAreaClass}} {{action "addLocalAudio"}}>
+    <div id="play-list-area" class="{{playListAreaClass}} ps-container ps-theme-default ps-active-y" {{action "addLocalAudio"}}>
       {{#if playQueueEmpty}}
         <div id="dragHere">
             Add your music files here

@@ -17,6 +17,23 @@ storePassword=...
 
 keytool -genkey -v -keystore huegasm.keystore -alias huegasm -keyalg RSA -keysize 2048 -validity 10000
 
+## LE MONKEY PATCHES
+- webView.setVerticalScrollBarEnabled(true);
+- @Override
+ public void handleStop() {
+     if (!isInitialized()) {
+         return;
+     }
+
+     sendJavascriptEvent("stop");
+
+     pluginManager.onStop();
+ }
+- channel.onStop = cordova.addDocumentEventHandler('stop');
+- case 'stop':
+
+Just search for 'pause' and add the same type of event stuff for 'stop'. This is needed for properly split screening Huegasm with other apps.
+
 ## POSSIBLE FUTURE FEATURES
 - decode the hue color better
 - better visualizations

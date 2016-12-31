@@ -216,7 +216,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
     this.set('oldPlayQueueLength', this.get('playQueue.length'));
 
-    document.addEventListener('pause', () => {
+    document.addEventListener('stop', () => {
       if(this.get('playing')){
         this.send('play');
       }

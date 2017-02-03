@@ -57,6 +57,10 @@ md-switch.md-default-theme.md-checked .md-thumb {
   outline: none !important;
 }
 
+md-list-item {
+  margin-bottom: 2vh;
+}
+
 @media(max-width:500px) {
   #save-beat-preferences-star {
     right: 5px;

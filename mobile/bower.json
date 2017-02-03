@@ -3,9 +3,6 @@
   "dependencies": {
     "JavaScript-ID3-Reader": "https://github.com/aadsm/JavaScript-ID3-Reader.git",
     "bootstrap-sass": "^3.3.5",
-    "ember": "^2.10.0",
-    "ember-cli-shims": "^0.1.0",
-    "ember-qunit-notifications": "0.1.0",
     "hammer.js": "^2.0.8",
     "intro.js": "^2.1.0",
     "locallyjs": "^0.3.2",

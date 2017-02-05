@@ -12,7 +12,7 @@ const {
 
 export default Component.extend({
   elementId: 'active-lights',
-  classNames: ['light-group', 'horizontal-light-group'],
+  classNames: ['light-group'],
   isHovering: false,
   activeLights: A(),
 

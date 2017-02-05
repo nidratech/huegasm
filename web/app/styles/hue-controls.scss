@@ -1,9 +1,6 @@
 #lights-tab {
   padding: 0;
-  height: 100%;
-  justify-content: center;
-  flex-direction: column;
-  display: flex;
+  margin-top: 5vh;
   .paper-icon {
     line-height: 0.8 !important;
   }
@@ -41,7 +38,7 @@
 }
 
 #navigation {
-  padding: 15px 0;
+  padding: 15px 0 4vh;
   text-align: center;
   margin: auto;
   position: relative;
@@ -111,7 +108,6 @@
 @media(min-width:767px) {
   #lights-tab {
     font-size: 20px;
-    min-height: 450px;
     .paper-icon {
       font-size: 24px;
     }

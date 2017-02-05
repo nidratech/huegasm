@@ -1,10 +1,11 @@
 .light-group {
   max-width: 800px;
   margin: 0 auto;
-  text-align: center;
+  display: flex;
+  justify-content: center;
   .tooltip.top {
-    margin-top: 4px;
-    margin-left: 0;
+    margin-top: 1px;
+    margin-left: 2px;
   }
   div {
     display: inline-block;
@@ -19,23 +20,12 @@
 .light-inactive::before {
   font-weight: bold;
   position: absolute;
+  top: -9px;
+  left: 6px;
   content: "X";
-  top: -10px;
-  left: 5px;
   font-size: 40px;
   color: rgba(255, 0, 0, 0.37);
   font-family: cursive;
-}
-
-.horizontal-light-group {
-  .light-inactive::before {
-    top: -9px;
-    left: 6px;
-  }
-  .tooltip.top {
-    margin-top: 1px;
-    margin-left: 2px;
-  }
 }
 
 .light-active {
@@ -57,4 +47,13 @@
 
 .remove-button {
   margin: 10px 0 10px 60px;
+}
+
+.light-text {
+  width: 60px;
+  word-wrap: break-word;
+  padding: 0 10px;
+  &.light-inactive::before {
+    left: 10px;
+  }
 }

@@ -12,7 +12,11 @@
         {{/menu.trigger}}
         {{#menu.content width=3 as |content|}}
           {{#content.menu-item onClick="toggleDimmer"}}
-            {{paper-icon "lightbulb outline" class=dimmerOnClass}} Dark Mode: {{if dimmerOn "On" "Off"}}
+            {{paper-icon "highlight" class=dimmerOnClass}} Dark Mode: <strong>{{if dimmerOn "On" "Off"}}</strong>
+          {{/content.menu-item}}
+
+          {{#content.menu-item onClick="toggleLightsIcons"}}
+            {{paper-icon "lightbulb outline" class=dimmerOnClass}} Active Lights: <strong>{{if lightsIconsOn "Icons" "Text"}}</strong>
           {{/content.menu-item}}
 
           {{#content.menu-item onClick="clearBridge"}}
@@ -31,7 +35,7 @@
     </div>
   </div>
 
-  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn storage=storage}}
+  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn lightsIconsOn=lightsIconsOn storage=storage}}
 
   <div id="huegasm-content" class="row">
     {{lights-tab active=(eq selectedTab 0) apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight trial=trial colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}}

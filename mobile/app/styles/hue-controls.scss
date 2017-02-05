@@ -1,6 +1,6 @@
 #lights-tab {
-  margin-top: 4vh;
   padding: 0;
+  margin-top: 5vh;
   .paper-icon {
     line-height: 0.8 !important;
   }
@@ -28,7 +28,7 @@
 }
 
 #navigation {
-  padding: 15px 0 20px;
+  padding: 15px 0 4vh;
   text-align: center;
   position: relative;
   .ember-basic-dropdown-trigger {
@@ -83,4 +83,9 @@
   left: 33px;
   top: 15px;
   font-size: 16px !important;
+}
+
+#huegasm-content {
+  height: 80%;
+  max-height: 500px;
 }

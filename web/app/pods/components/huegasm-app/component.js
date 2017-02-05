@@ -28,7 +28,11 @@ export default Component.extend({
 
   actions: {
     toggleDimmer(){
-      this.sendAction();
+      this.sendAction('toggleDimmer');
+    },
+
+    toggleLightsIcons(){
+      this.sendAction('toggleLightsIcons');
     },
 
     isReady(){

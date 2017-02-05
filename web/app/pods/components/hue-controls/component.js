@@ -122,7 +122,10 @@ export default Component.extend({
       location.reload();
     },
     toggleDimmer() {
-      this.sendAction();
+      this.sendAction('toggleDimmer');
+    },
+    toggleLightsIcons() {
+      this.sendAction('toggleLightsIcons');
     },
     clearAllSettings() {
       this.get('storage').clear();

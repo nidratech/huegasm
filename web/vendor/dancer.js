@@ -382,10 +382,10 @@
   var adapter = function ( dancer ) {
     var context;
 
-    if('webkitAudioContext' in window) {
-      context = new webkitAudioContext();
-    } else {
+    if('AudioContext' in window) {
       context = new AudioContext();
+    } else {
+      context = new webkitAudioContext();
     }
 
     this.dancer = dancer;

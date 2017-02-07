@@ -10,7 +10,7 @@ const {
 
 export default Component.extend({
   elementId: 'active-lights',
-  classNames: ['light-group', 'horizontal-light-group'],
+  classNames: ['light-group'],
   activeLights: A(),
 
   // list of all the lights in the hue system

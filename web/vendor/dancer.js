@@ -380,7 +380,13 @@
     SAMPLE_RATE = 44100;
 
   var adapter = function ( dancer ) {
-    var context = new AudioContext();
+    var context;
+
+    if('webkitAudioContext' in window) {
+      context = new webkitAudioContext();
+    } else {
+      context = new AudioContext();
+    }
 
     this.dancer = dancer;
     this.audio = new Audio();

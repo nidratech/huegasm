@@ -14,7 +14,22 @@ const {
 export default Component.extend({
   classNames: ['container-fluid'],
   elementId: 'hue-controls',
-  lightsData: null,
+  lightsData: {
+    1: {
+      modelid: 'LCT001',
+      name: 'light 1',
+      state: {
+        reachable: true
+      }
+    },
+    2: {
+      name: 'teeeeeeeeeest',
+      modelid: 'LCT002',
+      state: {
+        reachable: true
+      }
+    }
+  },
   activeLights: A(),
   tabList: ["Lights", "Music"],
   selectedTab: 1,

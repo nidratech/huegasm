@@ -22,7 +22,7 @@
       // Loading an Audio element
       if ( source instanceof HTMLElement ) {
         this.source = source;
-      // Loading an object with src, [codecs]
+        // Loading an object with src, [codecs]
       } else if(source instanceof EventTarget){
         this.source = source;
       } else {
@@ -201,12 +201,12 @@
 (function ( Dancer ) {
 
   var CODECS = {
-    'mp3' : 'audio/mpeg;',
-    'ogg' : 'audio/ogg; codecs="vorbis"',
-    'wav' : 'audio/wav; codecs="1"',
-    'aac' : 'audio/mp4; codecs="mp4a.40.2"'
-  },
-  audioEl = document.createElement( 'audio' );
+      'mp3' : 'audio/mpeg;',
+      'ogg' : 'audio/ogg; codecs="vorbis"',
+      'wav' : 'audio/wav; codecs="1"',
+      'aac' : 'audio/mp4; codecs="mp4a.40.2"'
+    },
+    audioEl = document.createElement( 'audio' );
 
   Dancer.options = {};
 
@@ -231,9 +231,9 @@
   Dancer.canPlay = function ( type ) {
     var canPlay = audioEl.canPlayType;
     return !!(
-        type.toLowerCase() === 'mp3' ||
-        audioEl.canPlayType &&
-        audioEl.canPlayType( CODECS[ type.toLowerCase() ] ).replace( /no/, ''));
+    type.toLowerCase() === 'mp3' ||
+    audioEl.canPlayType &&
+    audioEl.canPlayType( CODECS[ type.toLowerCase() ] ).replace( /no/, ''));
   };
 
   Dancer.addPlugin = function ( name, fn ) {
@@ -380,7 +380,13 @@
     SAMPLE_RATE = 44100;
 
   var adapter = function ( dancer ) {
-    var context = new AudioContext();
+    var context;
+
+    if('webkitAudioContext' in window) {
+      context = new webkitAudioContext();
+    } else {
+      context = new AudioContext();
+    }
 
     this.dancer = dancer;
     this.audio = new Audio();
@@ -565,14 +571,14 @@ function FourierTransform(bufferSize, sampleRate, boost) {
 
   this.calculateSpectrum = function() {
     var spectrum  = this.spectrum,
-        real      = this.real,
-        imag      = this.imag,
-        boost     = this.boost,
-        bSi       = 2 / this.bufferSize,
-        sqrt      = Math.sqrt,
-        rval,
-        ival,
-        mag;
+      real      = this.real,
+      imag      = this.imag,
+      boost     = this.boost,
+      bSi       = 2 / this.bufferSize,
+      sqrt      = Math.sqrt,
+      rval,
+      ival,
+      mag;
 
     for (var i = 0, N = bufferSize/2; i < N; i++) {
       rval = real[i];
@@ -638,12 +644,12 @@ function FFT(bufferSize, sampleRate, boost) {
 FFT.prototype.forward = function(buffer) {
   // Locally scope variables for speed up
   var bufferSize      = this.bufferSize,
-      cosTable        = this.cosTable,
-      sinTable        = this.sinTable,
-      reverseTable    = this.reverseTable,
-      real            = this.real,
-      imag            = this.imag,
-      spectrum        = this.spectrum;
+    cosTable        = this.cosTable,
+    sinTable        = this.sinTable,
+    reverseTable    = this.reverseTable,
+    real            = this.real,
+    imag            = this.imag,
+    spectrum        = this.spectrum;
 
   var k = Math.floor(Math.log(bufferSize) / Math.LN2);
 
@@ -651,15 +657,15 @@ FFT.prototype.forward = function(buffer) {
   if (bufferSize !== buffer.length)  { throw "Supplied buffer is not the same size as defined FFT. FFT Size: " + bufferSize + " Buffer Size: " + buffer.length; }
 
   var halfSize = 1,
-      phaseShiftStepReal,
-      phaseShiftStepImag,
-      currentPhaseShiftReal,
-      currentPhaseShiftImag,
-      off,
-      tr,
-      ti,
-      tmpReal,
-      i;
+    phaseShiftStepReal,
+    phaseShiftStepImag,
+    currentPhaseShiftReal,
+    currentPhaseShiftImag,
+    off,
+    tr,
+    ti,
+    tmpReal,
+    i;
 
   for (i = 0; i < bufferSize; i++) {
     real[i] = buffer[reverseTable[i]];

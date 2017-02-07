@@ -13,13 +13,29 @@ const {
 export default Component.extend({
   classNames: ['container-fluid'],
   elementId: 'hue-controls',
-  lightsData: null,
+  lightsData: {
+    1: {
+      modelid: 'LCT001',
+      name: 'light 1',
+      state: {
+        reachable: true
+      }
+    },
+    2: {
+      name: 'teeeeeeeeeest',
+      modelid: 'LCT002',
+      state: {
+        reachable: true
+      }
+    }
+  },
   activeLights: A(),
   tabList: ["Lights", "Music"],
   selectedTab: 1,
   pauseLightUpdates: false,
 
   dimmerOn: false,
+  lightsIconsOn: true,
   playing: false,
 
   displayFailure: true,
@@ -84,17 +100,13 @@ export default Component.extend({
       this.get('dimmerOnClass');
     }
 
+    if (!isNone(storage.get('huegasm.lightsIconsOn'))) {
+      this.set('lightsIconsOn', storage.get('huegasm.lightsIconsOn'));
+    }
+
     if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
     }
-
-    // document.addEventListener('deviceready', () => {
-    //   cordova.plugins.backgroundMode.setDefaults({
-    //     silent: true
-    //   });
-    //
-    //   cordova.plugins.backgroundMode.enable();
-    // }, false);
 
     document.addEventListener('backbutton', () => {
       if(this.get('isShowingAddSoundCloudModal')){
@@ -260,6 +272,13 @@ export default Component.extend({
     },
     toggleDimmer(){
       this.toggleProperty('dimmerOn');
+    },
+    toggleLightsIcons() {
+      this.toggleProperty('lightsIconsOn');
+
+      let lightsIconsOn = this.get('lightsIconsOn');
+
+      this.get('storage').set('huegasm.lightsIconsOn', lightsIconsOn);
     }
   }
 });

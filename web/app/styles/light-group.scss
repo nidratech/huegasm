@@ -7,36 +7,42 @@
     margin-top: 1px;
     margin-left: 2px;
   }
-  div {
-    display: inline-block;
-  }
+}
+
+.toggleable-light {
+  cursor: pointer;
+  position: relative;
+  border-radius: 30%;
+  border: 2px solid $whitish;
+  margin: 0 2px;
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
 }
 
 .light-inactive {
-  cursor: pointer;
-  position: relative;
+  border-color: rgba($secondaryThemeColor, 0.4);
 }
 
 .light-inactive::before {
   font-weight: bold;
   position: absolute;
-  top: -9px;
-  left: 6px;
-  content: "X";
+  top: -5px;
+  content: "\e014";
+  font-family: 'Glyphicons Halflings';
   font-size: 40px;
-  color: rgba(255, 0, 0, 0.37);
-  font-family: cursive;
+  color: rgba($secondaryThemeColor, 0.6);
 }
 
 .light-active {
-  cursor: pointer;
+  border-color: rgba(green, 0.4);
   img {
     transition-duration: 0.3s;
     transition-property: transform;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   }
   img:hover {
-    -webkit-transform: scale(1.2);
     transform: scale(1.2);
   }
 }
@@ -53,7 +59,13 @@
   width: 60px;
   word-wrap: break-word;
   padding: 0 10px;
-  &.light-inactive::before {
-    left: 10px;
-  }
+}
+
+.light-text-content {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }

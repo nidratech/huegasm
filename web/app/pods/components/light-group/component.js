@@ -98,7 +98,7 @@ export default Component.extend({
 
     if(!isNone(activeLightsCache)){
       activeLightsCache.forEach(function(i){
-        if (lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
+        if (!isNone(lightsData) && lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
           activeLights.pushObject(i);
         }
       });

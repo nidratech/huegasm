@@ -289,6 +289,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/elo-method-subranger-solace');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/90-pounds-of-pete-waited-too-long-feat-devon-baldwin');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/draper-eyes-open');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/itspapaya/sunny');
 
       this.get('storage').set('huegasm.firstVisit', false);
 

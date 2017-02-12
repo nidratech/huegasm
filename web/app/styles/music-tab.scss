@@ -19,8 +19,8 @@
   }
 }
 
-#slide-toggle:hover{
-  color: lighten($playerDefaultIconColor, 30%) !important;;
+#slide-toggle:hover {
+  color: lighten($playerDefaultIconColor, 30%) !important;
 }
 
 #player-controls {
@@ -45,10 +45,12 @@
   .tooltip-arrow {
     display: none;
   }
-  md-menu-item > .md-button md-icon {
+  md-menu-item>.md-button md-icon {
     margin: auto 0 5px 10px;
   }
-  .play-arrow, .pause, .replay {
+  .play-arrow,
+  .pause,
+  .replay {
     font-size: 30px;
   }
 }
@@ -116,7 +118,8 @@
   display: inline-block;
 }
 
-#player-area * .noUi-handle::after, #player-area * .noUi-handle::before {
+#player-area * .noUi-handle::after,
+#player-area * .noUi-handle::before {
   content: none;
 }
 
@@ -217,7 +220,7 @@
 
 .playlist-item {
   border-bottom: 1px solid rgba(128, 128, 128, 0.3);
-  border-top: 1px solid rgba(128,128,128,0.3);
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
   height: 62px;
   font-family: 'Open Sans', sans-serif;
   padding: 0 20px 0 5px;
@@ -296,10 +299,10 @@
     margin: 0;
   }
   .option-description {
+    display: inline-flex;
     font-size: 20px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    justify-content: center;
+    flex-direction: column;
   }
   button {
     margin-top: 0;
@@ -323,7 +326,7 @@
 #beat-container {
   display: flex;
   margin-bottom: 10px;
-} 
+}
 
 #beat-area .light-group {
   margin: 10px 20px 0 40px;
@@ -457,6 +460,9 @@
 @media(max-width: 500px) {
   #sensitivity-settings .noUi-value-vertical {
     display: none;
+  }
+  .option-description {
+    height: 55px;
   }
 }
 

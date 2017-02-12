@@ -28,7 +28,6 @@ export default Component.extend({
   manualBridgeIp: null,
   manualBridgeIpNotFound: false,
   multipleBridgeIps: [],
-  error: false,
   isAuthenticating: computed.notEmpty('bridgePingIntervalHandle'),
 
   // try to authenticate against the bridge here
@@ -104,9 +103,6 @@ export default Component.extend({
             this.set('bridgeUsername', result[0].success.username);
           }
         }
-      }).fail(()=>{
-        this.clearBridgePingIntervalHandle();
-        this.set('error', true);
       });
 
       this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime')/bridgeUsernamePingMaxTime*100);

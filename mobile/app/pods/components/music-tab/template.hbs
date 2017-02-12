@@ -150,16 +150,6 @@
 
         {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged" pips=beatOptions.threshold.pips}}
       </div>
-
-      {{#if usingMicAudio}}
-          <div class="beat-option col-xs-4">
-            <span class="option-description">
-              Mic Boost
-            </span>
-
-            {{range-slider start=micBoost orientation="vertical" step=beatOptions.micBoost.step range=beatOptions.micBoost.range on-change="micBoostChanged" pips=beatOptions.micBoost.pips}}
-          </div>
-      {{/if}}
     </div>
   </div>
 

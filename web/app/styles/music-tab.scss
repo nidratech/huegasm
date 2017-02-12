@@ -454,6 +454,12 @@
   }
 }
 
+@media(max-width: 500px) {
+  #sensitivity-settings .noUi-value-vertical {
+    display: none;
+  }
+}
+
 // mobile overrides
 @media(max-width:767px) {
   div#player-bottom {

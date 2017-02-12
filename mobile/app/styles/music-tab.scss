@@ -8,12 +8,12 @@
 }
 
 #slide-toggle {
-  font-size: 26px;
+  font-size: 22px;
   color: $playerDefaultIconColor;
   background: #730B07;
   div .paper-icon {
     color: inherit !important;
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
   }
 }
@@ -230,7 +230,7 @@
 #beat-area {
   position: relative;
   padding: 0;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 #beat-option-button-group {
@@ -245,6 +245,9 @@
   }
   .option-description {
     font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   button {
     margin-top: 0;
@@ -264,9 +267,8 @@
 }
 
 #beat-container {
-  padding: 0;
-  height: $playerBottomHeight;
-  margin: 0;
+  display: flex;
+  margin-bottom: 10px;
 }
 
 #add-music-choices {
@@ -352,3 +354,10 @@
 #soundcloud-tutorial {
   width: 100%;
 }
+
+@media(max-width: 500px) {
+  #sensitivity-settings .noUi-value-vertical {
+  display: none;
+}
+}
+

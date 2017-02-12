@@ -127,7 +127,7 @@
     {{/if}}
 
     <div class="row" id="beat-option-row">
-      <div class="beat-option col-xs-6">
+      <div class="beat-option col-xs-4">
         <span class="option-description">
           Hue Range
         </span>
@@ -135,13 +135,21 @@
         {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-change="hueRangeChanged" pips=beatOptions.hueRange.pips}}
       </div>
 
-        <div class="beat-option col-xs-6">
+      <div class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="top" data-title="The minimum ( off-beat ) and maximum ( on-beat ) brightness of the lights" class="option-description bootstrap-tooltip">
+          Brightness Range
+        </span>
+
+        {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range on-change="brightnessRangeChanged" pips=beatOptions.brightnessRange.pips}}
+      </div>
+
+      <div id="sensitivity-settings" class="beat-option col-xs-4">
         <span class="option-description">
           Sensitivity
         </span>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged" pips=beatOptions.threshold.pips}}
-        </div>
+        {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged" pips=beatOptions.threshold.pips}}
+      </div>
 
       {{#if usingMicAudio}}
           <div class="beat-option col-xs-4">

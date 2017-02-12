@@ -84,18 +84,8 @@ div.ember-modal-dialog {
   }
 }
 
-#github-ribbon {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: 0;
-}
-
-@media(max-width:500px) {
-  #github-ribbon {
-    top: -20px;
-    right: -20px;
-  }
+.display-flex {
+  display: flex !important;
 }
 
 // fancy webkit scrollbars

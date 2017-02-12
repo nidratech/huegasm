@@ -119,6 +119,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     let activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
+      
       transitiontime = this.get('flashingTransitions'),
       stimulateLight = (light, brightness, hue) => {
         let options = {'bri': brightness};
@@ -145,10 +146,10 @@ export default Component.extend(helperMixin, visualizerMixin, {
       },
       timeToBriOff = 100;
 
-    if(activeLights.length > 0 && !this.get('ambienceMode')){
+    if(activeLights.length > 0){
       let lastLightBopIndex = this.get('lastLightBopIndex'),
         lightBopIndex,
-        brightnessOnBeat = 254,
+        brightnessRange = this.get('brightnessRange'),
         light;
 
       lightBopIndex = Math.floor(Math.random() * activeLights.length);
@@ -173,8 +174,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
         timeToBriOff = 80;
       }
 
-      stimulateLight(light, brightnessOnBeat, color);
-      later(this, stimulateLight, light, 1, timeToBriOff);
+      stimulateLight(light, brightnessRange[1], color);
+      later(this, stimulateLight, light, brightnessRange[0], timeToBriOff);
     }
 
     this.set('paused', true);
@@ -212,7 +213,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'ambienceMode', 'hueRange'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange'].forEach((item)=>{
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -477,11 +478,31 @@ export default Component.extend(helperMixin, visualizerMixin, {
     play(replayPause) {
       let dancer = this.get('dancer'),
         playQueuePointer = this.get('playQueuePointer'),
-        playing = this.get('playing');
+        playing = this.get('playing'),
+        lightsData = this.get('lightsData');
 
       if(playQueuePointer !== -1 ) {
         if (playing) {
           dancer.pause();
+
+          let preMusicLightsDataCache = this.get('preMusicLightsDataCache'),
+            updateLight = (lightIndex)=> {
+              $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
+              data: JSON.stringify({
+                'on': preMusicLightsDataCache[lightIndex].state.on,
+                'hue': preMusicLightsDataCache[lightIndex].state.hue,
+                'bri':  preMusicLightsDataCache[lightIndex].state.bri
+              }),
+              contentType: 'application/json',
+              type: 'PUT'
+            });
+          };
+
+          for (let key in lightsData) {
+            if (lightsData.hasOwnProperty(key)) {
+              later(this, updateLight, key, 1000);
+            }
+          }
 
           if(!replayPause){
             this.set('timeElapsed', Math.floor(dancer.getTime()));
@@ -503,6 +524,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
           $(window).trigger('resize'); // workaround to redraw the canvas for the vitualizer
 
+          this.set('preMusicLightsDataCache', lightsData);
           dancer.play();
         }
 
@@ -636,6 +658,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     thresholdChanged(value) {
       this.changePlayerControl('threshold', value, true);
+    },
+    brightnessRangeChanged(value) {
+      this.changePlayerControl('brightnessRange', value);
     },
     hueRangeChanged(value) {
       this.changePlayerControl('hueRange', value);

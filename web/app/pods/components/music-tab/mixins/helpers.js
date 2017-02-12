@@ -69,11 +69,26 @@ export default Mixin.create({
           from: function ( value ) { return value; }
         }
       }
+    },
+    brightnessRange: {
+      range: {min: 1, max: 254},
+      step: 1,
+      defaultValue: 0,
+      pips: {
+        mode: 'values',
+        values: [1, 50, 100, 150, 200, 254],
+        density: 10,
+        format: {
+          to: function ( value ) { return value; },
+          from: function ( value ) { return value; }
+        }
+      }
     }
   },
 
   threshold: 0.3,
   hueRange: [0, 65535],
+  brightnessRange: [1, 254],
   oldThreshold: null,
 
   playQueuePointer: -1,
@@ -298,7 +313,7 @@ export default Mixin.create({
     this.set('colorLoopOn', this.get('playing') && this.get('colorloopMode'));
   }),
 
-  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', 'ambienceMode', function(self, option){
+  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', function(self, option){
     option = option.replace('.[]', '');
     let value = this.get(option);
 

@@ -9,12 +9,12 @@
 }
 
 #slide-toggle {
-  font-size: 28px;
+  font-size: 22px;
   color: $playerDefaultIconColor;
   background: #730B07;
   div .paper-icon {
     color: inherit !important;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
   }
 }
@@ -265,10 +265,8 @@
 }
 
 #beat-area {
-  height: $playerBottomHeight;
   position: relative;
   padding: 0;
-  margin-bottom: 10px;
 }
 
 .star {
@@ -280,8 +278,12 @@
 }
 
 #light-option {
-  margin-top: 67px;
-  transform: translateY(25%);
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  .md-label {
+    width: auto;
+  }
 }
 
 .beat-option {
@@ -295,6 +297,9 @@
   }
   .option-description {
     font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   button {
     margin-top: 0;
@@ -310,14 +315,15 @@
   width: 100%;
   background: white;
   border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px
+  border-bottom-right-radius: 5px;
+  display: flex;
+  align-items: center;
 }
 
 #beat-container {
-  padding: 0;
-  height: $playerBottomHeight;
-  margin: 0;
-}
+  display: flex;
+  margin-bottom: 10px;
+} 
 
 #beat-area .light-group {
   margin: 10px 20px 0 40px;
@@ -450,11 +456,8 @@
 
 // mobile overrides
 @media(max-width:767px) {
-  #light-option {
-    margin-top: 0;
-    .md-label {
-      width: auto;
-    }
+  div#player-bottom {
+    display: block !important;
   }
   #beat-area {
     height: initial;
@@ -467,9 +470,6 @@
   }
   #seek-slider {
     margin-bottom: 15px;
-  }
-  .beat-option {
-    text-align: center !important;
   }
   .close {
     display: block;

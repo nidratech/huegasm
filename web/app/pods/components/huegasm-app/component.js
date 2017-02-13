@@ -13,7 +13,7 @@ export default Component.extend({
   ready: false,
   elementId: 'huegasm',
 
-  init(){
+  init() {
     this._super(...arguments);
 
     let storage = this.get('storage');
@@ -27,15 +27,15 @@ export default Component.extend({
   },
 
   actions: {
-    toggleDimmer(){
+    toggleDimmer() {
       this.sendAction('toggleDimmer');
     },
 
-    toggleLightsIcons(){
+    toggleLightsIcons() {
       this.sendAction('toggleLightsIcons');
     },
 
-    isReady(){
+    isReady() {
       this.set('ready', true);
       $('html, body').velocity('scroll');
     }

@@ -1,5 +1,6 @@
 {{#if bridgeUsername}}
-  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn lightsIconsOn=lightsIconsOn storage=storage toggleDimmer="toggleDimmer" toggleLightsIcons="toggleLightsIcons"}}
+  {{hue-controls bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial dimmerOn=dimmerOn lightsIconsOn=lightsIconsOn
+  storage=storage toggleDimmer="toggleDimmer" toggleLightsIcons="toggleLightsIcons"}}
 {{else}}
   {{#if ready}}
     {{bridge-finder bridgeIp=bridgeIp bridgeUsername=bridgeUsername trial=trial storage=storage}}
@@ -13,7 +14,7 @@
         Your lights meet your music.
       </p>
       <p id="intro-paragraph">
-        Huegasm is a free web application for managing and synchronizing your <a target="_blank" href="http://www2.meethue.com">Philips Hue lights</a> with the beat of your music.
+        Huegasm is a free web application for managing and synchronizing your <a target="_blank" href="http://www2.meethue.com">Philips Hue lights</a>        with the beat of your music.
       </p>
 
       <div class="embed-container-wrapper">
@@ -21,7 +22,7 @@
           <iframe width="560" height="315" src="https://www.youtube.com/embed/zi9J6Qg-MPw" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
-      {{paper-button raised=true primary=true onClick=(action "isReady") class="go-button center-block" label="Go!"}}
+      {{paper-button raised=true primary=true warn=true onClick=(action "isReady") class="go-button center-block" label="START"}}
     </div>
   {{/if}}
 {{/if}}

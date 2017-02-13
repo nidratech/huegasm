@@ -244,10 +244,10 @@
     margin: 0;
   }
   .option-description {
-    font-size: 18px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: inline-flex;
+    font-size: 20px;
+    justify-content: center;
+    flex-direction: column;
   }
   button {
     margin-top: 0;
@@ -358,5 +358,8 @@
 @media(max-width: 500px) {
   #sensitivity-settings .noUi-value-vertical {
     display: none;
+  }
+  .option-description {
+    height: 55px;
   }
 }

@@ -12,17 +12,17 @@ const {
 } = Ember;
 
 export default Component.extend(helperMixin, visualizerMixin, {
-  updatePageTitle: observer('playQueuePointer', function(){
+  updatePageTitle: observer('playQueuePointer', function () {
     let title = 'Huegasm',
       playQueuePointer = this.get('playQueuePointer'),
       playQueue = this.get('playQueue');
 
-    if(playQueuePointer !== -1){
+    if (playQueuePointer !== -1) {
       let song = playQueue[playQueuePointer];
-      if(song.title){
+      if (song.title) {
         title = song.title;
 
-        if(song.artist){
+        if (song.artist) {
           title += (' - ' + song.artist);
         }
       } else {
@@ -35,14 +35,14 @@ export default Component.extend(helperMixin, visualizerMixin, {
     document.title = title;
   }),
 
-  changePlayerControl(name, value, saveBeatPrefs){
+  changePlayerControl(name, value, saveBeatPrefs) {
     this.set(name, value);
 
-    if(name === 'threshold'){
-      this.get('kick').set({threshold: value});
+    if (name === 'threshold') {
+      this.get('kick').set({ threshold: value });
     }
 
-    if(saveBeatPrefs && this.get('playQueuePointer') !== -1){
+    if (saveBeatPrefs && this.get('playQueuePointer') !== -1) {
       this.saveSongBeatPreferences();
     }
 
@@ -51,11 +51,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
   saveSongBeatPreferences() {
     let song = this.get('playQueue')[this.get('playQueuePointer')];
-    if(song) {
+    if (song) {
       let title = isEmpty(song.artist) ? song.fileName : song.artist + '-' + song.title,
         songBeatPreferences = this.get('songBeatPreferences');
 
-      songBeatPreferences[title] = {threshold: this.get('threshold')};
+      songBeatPreferences[title] = { threshold: this.get('threshold') };
 
       this.set('usingBeatPreferences', true);
       this.get('storage').set('huegasm.songBeatPreferences', songBeatPreferences);
@@ -70,12 +70,12 @@ export default Component.extend(helperMixin, visualizerMixin, {
       oldBeatPrefCache = this.get('oldBeatPrefCache'),
       newOldBeatPrefCache = null;
 
-    if(!isNone(preference)) { // load existing beat prefs
-      newOldBeatPrefCache = {threshold: this.get('threshold')};
+    if (!isNone(preference)) { // load existing beat prefs
+      newOldBeatPrefCache = { threshold: this.get('threshold') };
 
       this.changePlayerControl('threshold', preference.threshold);
       this.set('usingBeatPreferences', true);
-    } else if(!isNone(oldBeatPrefCache)) { // revert to using beat prefs before the remembered song
+    } else if (!isNone(oldBeatPrefCache)) { // revert to using beat prefs before the remembered song
       this.changePlayerControl('threshold', oldBeatPrefCache.threshold);
       this.set('usingBeatPreferences', false);
     }
@@ -86,11 +86,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
   clearCurrentAudio(resetPointer) {
     let dancer = this.get('dancer');
 
-    if(dancer.audio.pause) {
+    if (dancer.audio.pause) {
       dancer.pause();
     }
 
-    if(resetPointer){
+    if (resetPointer) {
       this.set('playQueuePointer', -1);
     }
 
@@ -110,31 +110,31 @@ export default Component.extend(helperMixin, visualizerMixin, {
     }
   },
 
-  dragLeave(){
+  dragLeave() {
     // need to delay the dragLeave notification to avoid flickering ( hovering over some page elements causes this event to be sent )
-    this.set('dragLeaveTimeoutHandle', setTimeout(()=>{ this.set('dragging', false); }, 500));
+    this.set('dragLeaveTimeoutHandle', setTimeout(() => { this.set('dragging', false); }, 500));
   },
 
   simulateKick(/*mag, ratioKickMag*/) {
     let activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
-      
+
       transitiontime = this.get('flashingTransitions'),
       stimulateLight = (light, brightness, hue) => {
-        let options = {'bri': brightness};
+        let options = { 'bri': brightness };
 
-        if(transitiontime) {
+        if (transitiontime) {
           options['transitiontime'] = 0;
         } else {
           options['transitiontime'] = 1;
         }
 
-        if(!isNone(hue)) {
+        if (!isNone(hue)) {
           options.hue = hue;
         }
 
-        if(lightsData[light].state.on === false){
+        if (lightsData[light].state.on === false) {
           options.on = true;
         }
 
@@ -146,7 +146,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       },
       timeToBriOff = 100;
 
-    if(activeLights.length > 0){
+    if (activeLights.length > 0) {
       let lastLightBopIndex = this.get('lastLightBopIndex'),
         lightBopIndex,
         brightnessRange = this.get('brightnessRange'),
@@ -155,8 +155,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       lightBopIndex = Math.floor(Math.random() * activeLights.length);
 
       // let's try not to select the same light twice in a row
-      if(activeLights.length > 1) {
-        while(lightBopIndex === lastLightBopIndex) {
+      if (activeLights.length > 1) {
+        while (lightBopIndex === lastLightBopIndex) {
           lightBopIndex = Math.floor(Math.random() * activeLights.length);
         }
       }
@@ -164,13 +164,13 @@ export default Component.extend(helperMixin, visualizerMixin, {
       light = activeLights[lightBopIndex];
       this.set('lastLightBopIndex', lightBopIndex);
 
-      if(!this.get('colorloopMode')) {
-          let hueRange = this.get('hueRange');
+      if (!this.get('colorloopMode')) {
+        let hueRange = this.get('hueRange');
 
-          color = Math.floor(Math.random()*(hueRange[1] - hueRange[0] + 1)+hueRange[0]);
+        color = Math.floor(Math.random() * (hueRange[1] - hueRange[0] + 1) + hueRange[0]);
       }
 
-      if(transitiontime){
+      if (transitiontime) {
         timeToBriOff = 80;
       }
 
@@ -179,13 +179,13 @@ export default Component.extend(helperMixin, visualizerMixin, {
     }
 
     this.set('paused', true);
-    later(this, function(){
+    later(this, function () {
       this.set('paused', false);
     }, 150);
 
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
-    $('#beat-speaker-center-outer').velocity({blur: 3}, 100).velocity({blur: 0}, 100);
-    $('#beat-speaker-center-inner').velocity({scale: 1.05}, 100).velocity({scale: 1}, 100);
+    $('#beat-speaker-center-outer').velocity({ blur: 3 }, 100).velocity({ blur: 0 }, 100);
+    $('#beat-speaker-center-inner').velocity({ scale: 1.05 }, 100).velocity({ scale: 1 }, 100);
   },
 
   init() {
@@ -213,11 +213,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange'].forEach((item)=>{
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange'].forEach((item) => {
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
-        if(isNone(this.actions[item+'Changed'])){
+        if (isNone(this.actions[item + 'Changed'])) {
           this.set(item, itemVal);
         } else {
           this.send(item + 'Changed', itemVal);
@@ -238,37 +238,37 @@ export default Component.extend(helperMixin, visualizerMixin, {
     let self = this;
 
     // file input code
-    $('#file-input').on('change', function() {
+    $('#file-input').on('change', function () {
       let files = this.files;
       self.send('handleNewFiles', files);
       this.value = null; // reset in case upload the second file again
     });
 
-    $(document).on('click', '.alert', (event)=>{
+    $(document).on('click', '.alert', (event) => {
       $(event.target).addClass('removed');
     });
 
     // prevent space/text selection when the user repeatedly clicks on the center
-    $('#beat-container').on('mousedown', '#beat-speaker-center-inner', function(event) {
+    $('#beat-container').on('mousedown', '#beat-speaker-center-inner', function (event) {
       event.preventDefault();
     });
 
     $(document).keypress((event) => {
-      if(event.which === 32 && event.target.type !== 'text'){
+      if (event.which === 32 && event.target.type !== 'text') {
         this.send('play');
       }
     });
 
-    this.$().on('drop', '#play-list-area', (event)=>{
+    this.$().on('drop', '#play-list-area', (event) => {
       this.send('dropFiles', event.dataTransfer.files);
     });
 
     // control the volume by scrolling up/down
-    $('#player-area').on('mousewheel', (event)=>{
-      if(this.get('playQueueNotEmpty')) {
+    $('#player-area').on('mousewheel', (event) => {
+      if (this.get('playQueueNotEmpty')) {
         let scrollSize = 5;
 
-        if(event.deltaY < 0) {
+        if (event.deltaY < 0) {
           scrollSize *= -1;
         }
         let newVolume = this.get('volume') + scrollSize;
@@ -278,8 +278,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
     });
 
-     // demo tracks
-    if(this.get('firstVisit')){
+    // demo tracks
+    if (this.get('firstVisit')) {
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/candyland-speechless-feat-rkcb');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/dillistone/dillistone-lili-n-rude');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/vallis-alps-young-feki-remix');
@@ -291,93 +291,94 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/90-pounds-of-pete-waited-too-long-feat-devon-baldwin');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/mrsuicidesheep/draper-eyes-open');
       this.send('handleNewSoundCloudURL', 'https://soundcloud.com/itspapaya/sunny');
+      this.send('handleNewSoundCloudURL', 'https://soundcloud.com/stonesthrow/nxworries-anderson-paak-knxwledge-suede');
 
       this.get('storage').set('huegasm.firstVisit', false);
 
       this.sendAction();
     }
 
-    if(!this.get('playerBottomDisplayed')) {
+    if (!this.get('playerBottomDisplayed')) {
       $('#player-bottom').hide();
     }
   },
 
   actions: {
-    clearPlaylist(){
+    clearPlaylist() {
       this.get('playQueue').clear();
     },
-    setVisName(name){
+    setVisName(name) {
       this.set('currentVisName', name);
     },
-    hideTooltip(){
+    hideTooltip() {
       $('.bootstrap-tooltip').tooltip('hide');
     },
-    gotoSCURL(URL){
+    gotoSCURL(URL) {
       // need to pause the music since soundcloud is going to start playing this song anyways
-      if(this.get('playing')){
+      if (this.get('playing')) {
         this.send('play');
       }
 
       this.send('gotoURL', URL);
     },
-    gotoURL(URL){
+    gotoURL(URL) {
       $('.tooltip').remove();
       window.open(URL, '_blank');
     },
-    handleNewSoundCloudURL(URL){
-      if(URL) {
-        SC.resolve(URL).then((resultObj)=>{
-          let processResult = (result)=>{
-              if(result.kind === 'user'){
-                this.get('notify').alert({html: this.get('scUserNotSupportedHtml')});
-              } else if(result.kind === 'track') {
-                if(result.streamable === true){
-                  let picture = null;
+    handleNewSoundCloudURL(URL) {
+      if (URL) {
+        SC.resolve(URL).then((resultObj) => {
+          let processResult = (result) => {
+            if (result.kind === 'user') {
+              this.get('notify').alert({ html: this.get('scUserNotSupportedHtml') });
+            } else if (result.kind === 'track') {
+              if (result.streamable === true) {
+                let picture = null;
 
-                  if(result.artwork_url){
-                    picture = result.artwork_url.replace('large', 't67x67');
-                  } else if(result.user.avatar_url){
-                    picture = result.user.avatar_url;
-                  }
+                if (result.artwork_url) {
+                  picture = result.artwork_url.replace('large', 't67x67');
+                } else if (result.user.avatar_url) {
+                  picture = result.user.avatar_url;
+                }
 
-                  $.get(picture)
-                    .done(()=>{
-                      this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title, picture: picture });
-                    }).fail(()=>{ // no picture
-                      this.get('playQueue').pushObject({url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title });
+                $.get(picture)
+                  .done(() => {
+                    this.get('playQueue').pushObject({ url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title, picture: picture });
+                  }).fail(() => { // no picture
+                    this.get('playQueue').pushObject({ url: result.stream_url + '?client_id=' + this.get('SC_CLIENT_ID'), fileName: result.title + ' - ' + result.user.username, artist: result.user.username, scUrl: result.permalink_url, title: result.title });
                   });
-                } else {
-                  failedSongs.push(result.title);
-                }
-              } else if(result.kind === 'playlist'){
-                if(result.streamable === true){
-                  result.tracks.forEach(processResult);
-                } else {
-                  failedSongs.push(result.title);
-                }
+              } else {
+                failedSongs.push(result.title);
               }
-            },
+            } else if (result.kind === 'playlist') {
+              if (result.streamable === true) {
+                result.tracks.forEach(processResult);
+              } else {
+                failedSongs.push(result.title);
+              }
+            }
+          },
             failedSongs = [];
 
-          if(resultObj instanceof Array){
+          if (resultObj instanceof Array) {
             resultObj.forEach(processResult);
           } else {
             processResult(resultObj);
           }
 
-          if(failedSongs.length > 0) {
-            this.get('notify').alert({html: this.get('notStreamableHtml')(failedSongs)});
+          if (failedSongs.length > 0) {
+            this.get('notify').alert({ html: this.get('notStreamableHtml')(failedSongs) });
           }
 
-          if(this.get('playQueuePointer') === -1){
-            if(this.get('firstVisit')){
+          if (this.get('playQueuePointer') === -1) {
+            if (this.get('firstVisit')) {
               this.send('goToSong', 0);
             } else {
               this.send('next');
             }
           }
         }, () => {
-          this.get('notify').alert({html: this.get('urlNotFoundHtml')(URL)});
+          this.get('notify').alert({ html: this.get('urlNotFoundHtml')(URL) });
         });
       }
 
@@ -386,57 +387,57 @@ export default Component.extend(helperMixin, visualizerMixin, {
     toggleIsShowingAddSoundCloudModal() {
       this.toggleProperty('isShowingAddSoundCloudModal');
     },
-    slideTogglePlayerBottom(){
+    slideTogglePlayerBottom() {
       let elem = this.$('#player-bottom');
 
       elem.velocity(elem.is(':visible') ? 'slideUp' : 'slideDown', { duration: 300 });
       this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
     },
-    goToSong(index, playSong, scrollToSong){
+    goToSong(index, playSong, scrollToSong) {
       let dancer = this.get('dancer'), playQueue = this.get('playQueue');
 
-      if(dancer.audio) {
+      if (dancer.audio) {
         this.clearCurrentAudio(true);
       }
 
-      if(!isNone(playQueue[index])) {
+      if (!isNone(playQueue[index])) {
         let audio = new Audio();
         audio.src = this.get('playQueue')[index].url;
 
         audio.crossOrigin = "anonymous";
-        audio.oncanplay = ()=>{
+        audio.oncanplay = () => {
           this.set('timeTotal', Math.floor(audio.duration));
           this.set('soundCloudFuckUps', 0);
         };
-        audio.onerror = (event)=>{
-          let playQueuePointer =this.get('playQueuePointer'),
+        audio.onerror = (event) => {
+          let playQueuePointer = this.get('playQueuePointer'),
             song = this.get('playQueue')[playQueuePointer];
 
-          if(this.get('soundCloudFuckUps') >= this.get('maxSoundCloudFuckUps')) {
-            this.get('notify').alert({html: this.get('tooManySoundCloudFuckUps')});
+          if (this.get('soundCloudFuckUps') >= this.get('maxSoundCloudFuckUps')) {
+            this.get('notify').alert({ html: this.get('tooManySoundCloudFuckUps') });
             this.send('play');
             this.set('soundCloudFuckUps', 0);
           } else {
-            if(song.local){
+            if (song.local) {
               this.send('removeAudio', playQueuePointer);
             } else {
               this.send('next', true);
             }
 
-            if(event.target.error.code === 2){
-              this.get('notify').alert({html: this.get('failedToDecodeFileHtml')(song.fileName)});
+            if (event.target.error.code === 2) {
+              this.get('notify').alert({ html: this.get('failedToDecodeFileHtml')(song.fileName) });
             } else {
-              this.get('notify').alert({html: this.get('failedToPlayFileHtml')(song.fileName)});
+              this.get('notify').alert({ html: this.get('failedToPlayFileHtml')(song.fileName) });
             }
 
             this.set('usingBeatPreferences', false);
             this.incrementProperty('soundCloudFuckUps');
           }
         };
-        audio.ontimeupdate = ()=>{
+        audio.ontimeupdate = () => {
           this.set('timeElapsed', Math.floor(audio.currentTime));
         };
-        audio.onended = ()=> {
+        audio.onended = () => {
           this.send('next');
         };
 
@@ -446,33 +447,33 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
         this.loadSongBeatPreferences();
 
-        if(playSong){
+        if (playSong) {
           this.send('play');
         }
 
-        if(scrollToSong){
+        if (scrollToSong) {
           // this is just a bad workaround to make sure that the track has been rendered to the playlist
-          next(this, ()=>{
-            $('.track'+index).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
+          next(this, () => {
+            $('.track' + index).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
           });
         }
       }
     },
-    removeAudio(index){
+    removeAudio(index) {
       this.get('playQueue').removeAt(index);
 
       // need to manually remove the tooltip
       $('body .tooltip').remove();
 
-      if(index === this.get('playQueuePointer')) {
+      if (index === this.get('playQueuePointer')) {
         this.send('goToSong', index, true, true);
       }
     },
-    playerAreaPlay(){
-      if(isEmpty($('#player-controls:hover')) && this.get('playQueuePointer') !== -1 ){
+    playerAreaPlay() {
+      if (isEmpty($('#player-controls:hover')) && this.get('playQueuePointer') !== -1) {
         this.send('play');
 
-        $('#play-notification').velocity({opacity: 0.8, scale: 1}, 0).velocity({opacity: 0, scale: 3}, 500);
+        $('#play-notification').velocity({ opacity: 0.8, scale: 1 }, 0).velocity({ opacity: 0, scale: 3 }, 500);
       }
     },
     play(replayPause) {
@@ -481,22 +482,22 @@ export default Component.extend(helperMixin, visualizerMixin, {
         playing = this.get('playing'),
         lightsData = this.get('lightsData');
 
-      if(playQueuePointer !== -1 ) {
+      if (playQueuePointer !== -1) {
         if (playing) {
           dancer.pause();
 
           let preMusicLightsDataCache = this.get('preMusicLightsDataCache'),
-            updateLight = (lightIndex)=> {
+            updateLight = (lightIndex) => {
               $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
-              data: JSON.stringify({
-                'on': preMusicLightsDataCache[lightIndex].state.on,
-                'hue': preMusicLightsDataCache[lightIndex].state.hue,
-                'bri':  preMusicLightsDataCache[lightIndex].state.bri
-              }),
-              contentType: 'application/json',
-              type: 'PUT'
-            });
-          };
+                data: JSON.stringify({
+                  'on': preMusicLightsDataCache[lightIndex].state.on,
+                  'hue': preMusicLightsDataCache[lightIndex].state.hue,
+                  'bri': preMusicLightsDataCache[lightIndex].state.bri
+                }),
+                contentType: 'application/json',
+                type: 'PUT'
+              });
+            };
 
           for (let key in lightsData) {
             if (lightsData.hasOwnProperty(key)) {
@@ -504,20 +505,20 @@ export default Component.extend(helperMixin, visualizerMixin, {
             }
           }
 
-          if(!replayPause){
+          if (!replayPause) {
             this.set('timeElapsed', Math.floor(dancer.getTime()));
           }
         } else {
           let timeTotal = this.get('timeTotal');
 
-          if(this.get('volumeMuted')) {
+          if (this.get('volumeMuted')) {
             dancer.setVolume(0);
           } else {
-            dancer.setVolume(this.get('volume')/100);
+            dancer.setVolume(this.get('volume') / 100);
           }
 
           // replay song
-          if(this.get('timeElapsed') === timeTotal && timeTotal !== 0){
+          if (this.get('timeElapsed') === timeTotal && timeTotal !== 0) {
             this.send('next', true);
             return;
           }
@@ -535,11 +536,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
     },
     volumeChanged(value) {
       this.changePlayerControl('volume', value);
-      if(this.get('playing')) {
-        this.get('dancer').setVolume(value/100);
+      if (this.get('playing')) {
+        this.get('dancer').setVolume(value / 100);
       }
 
-      if(this.get('volume') > 0 && this.get('volumeMuted')){
+      if (this.get('volume') > 0 && this.get('volumeMuted')) {
         this.changePlayerControl('volumeMuted', false);
       }
     },
@@ -550,17 +551,17 @@ export default Component.extend(helperMixin, visualizerMixin, {
         repeat = this.get('repeat'),
         shuffle = this.get('shuffle');
 
-      if(repeat === 2){ // repeating one song takes precedence over shuffling
-        if(playQueuePointer === -1 && playQueue.length > 0) {
+      if (repeat === 2) { // repeating one song takes precedence over shuffling
+        if (playQueuePointer === -1 && playQueue.length > 0) {
           nextSong = 0;
         } else {
           nextSong = playQueuePointer;
         }
-      } else if(shuffle){ // next shuffle song
+      } else if (shuffle) { // next shuffle song
         let shufflePlayed = this.get('shufflePlayed');
 
         // played all the song in shuffle mode
-        if(shufflePlayed.length === playQueue.length){
+        if (shufflePlayed.length === playQueue.length) {
           shufflePlayed.clear();
           this.send('play', true);
           return;
@@ -569,11 +570,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
         // we're going to assume that the song URL is the id
         do {
           nextSong = Math.floor(Math.random() * playQueue.length);
-        } while(shufflePlayed.includes(playQueue[nextSong].url));
+        } while (shufflePlayed.includes(playQueue[nextSong].url));
 
         shufflePlayed.pushObject(playQueue[nextSong].url);
-      } else if(nextSong > playQueue.length-1){
-        if(repeat === 1 || repeatAll){
+      } else if (nextSong > playQueue.length - 1) {
+        if (repeat === 1 || repeatAll) {
           nextSong = nextSong % playQueue.length;
         } else {
           this.send('play', true);
@@ -584,26 +585,26 @@ export default Component.extend(helperMixin, visualizerMixin, {
       this.send('goToSong', nextSong, true, true);
     },
     previous() {
-      if(this.get('timeElapsed') > 5) {
+      if (this.get('timeElapsed') > 5) {
         this.send('seekChanged', 0);
       } else {
         let nextSong = this.get('playQueuePointer'),
           playQueue = this.get('playQueue');
 
-        if(this.get('shuffle') && !isNone(playQueue[nextSong])) { // go to the previously shuffled song
+        if (this.get('shuffle') && !isNone(playQueue[nextSong])) { // go to the previously shuffled song
           let shufflePlayed = this.get('shufflePlayed'),
             shuffledSongIndx = this.get('shufflePlayed').indexOf(playQueue[nextSong].url),
             i = 0;
 
-          if(shufflePlayed.length > 0 && shuffledSongIndx !== -1){ // only if there was one
+          if (shufflePlayed.length > 0 && shuffledSongIndx !== -1) { // only if there was one
             nextSong = shuffledSongIndx - 1;
 
-            if(nextSong < 0){
+            if (nextSong < 0) {
               nextSong = shufflePlayed.length - 1;
             }
 
-            playQueue.some(function(item){ // try to find the previous song id
-              if(item.url === shufflePlayed[nextSong]){
+            playQueue.some(function (item) { // try to find the previous song id
+              if (item.url === shufflePlayed[nextSong]) {
                 nextSong = i;
                 return true;
               }
@@ -615,7 +616,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
         } else {
           nextSong--;
 
-          if(nextSong < 0) {
+          if (nextSong < 0) {
             nextSong = playQueue.length - 1;
           }
         }
@@ -626,7 +627,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
     seekChanged(position) {
       let dancer = this.get('dancer');
 
-      if(dancer.audio){
+      if (dancer.audio) {
         dancer.audio.currentTime = Math.floor(this.get('timeTotal') * position / 100);
       }
     },
@@ -636,11 +637,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
       this.changePlayerControl('volumeMuted', volumeMuted);
 
-      if(this.get('playing')){
-        if(volumeMuted){
+      if (this.get('playing')) {
+        if (volumeMuted) {
           dancer.setVolume(0);
         } else {
-          dancer.setVolume(this.get('volume')/100);
+          dancer.setVolume(this.get('volume') / 100);
         }
       }
     },
@@ -665,33 +666,33 @@ export default Component.extend(helperMixin, visualizerMixin, {
     hueRangeChanged(value) {
       this.changePlayerControl('hueRange', value);
     },
-    playQueuePointerChanged(value){
+    playQueuePointerChanged(value) {
       this.send('goToSong', value, false, true);
     },
-    clickSpeaker(){
+    clickSpeaker() {
       this.simulateKick(1);
     },
-    dropFiles(files){
+    dropFiles(files) {
       this.setProperties({
         dragging: false,
         draggingOverPlayListArea: false
       });
       this.send('handleNewFiles', files);
     },
-    playerListAreaDragOver(){
+    playerListAreaDragOver() {
       this.set('draggingOverPlayListArea', true);
     },
-    playerListAreaDragLeave(){
+    playerListAreaDragLeave() {
       this.set('draggingOverPlayListArea', false);
     },
-    handleNewFiles(files){
+    handleNewFiles(files) {
       let self = this,
         playQueue = this.get('playQueue'),
-        updatePlayQueue = function(){
+        updatePlayQueue = function () {
           let tags = ID3.getAllTags("local"),
             picture = null;
 
-          if(tags.picture){
+          if (tags.picture) {
             let base64String = "";
             for (let i = 0; i < tags.picture.data.length; i++) {
               base64String += String.fromCharCode(tags.picture.data[i]);
@@ -711,7 +712,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
           ID3.clearAll();
 
-          if(self.get('playQueuePointer') === -1){
+          if (self.get('playQueuePointer') === -1) {
             self.send('next');
           }
         };
@@ -720,8 +721,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
         if (files.hasOwnProperty(key)) {
           let file = files[key];
 
-          if(file.type.startsWith('audio')) {
-            ID3.loadTags("local", updatePlayQueue.bind(file),{
+          if (file.type.startsWith('audio')) {
+            ID3.loadTags("local", updatePlayQueue.bind(file), {
               dataReader: new FileAPIReader(file),
               tags: ['title', 'artist', 'album', 'track', 'picture']
             });
@@ -729,7 +730,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
         }
       }
     },
-    toggleDimmer(){
+    toggleDimmer() {
       this.sendAction('toggleDimmer');
     }
   }

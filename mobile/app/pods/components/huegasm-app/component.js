@@ -11,10 +11,10 @@ export default Component.extend({
   trial: false,
   storage: null,
 
-  init(){
+  init() {
     this._super(...arguments);
 
-    let storage = new window.Locally.Store({compress: true});
+    let storage = new window.Locally.Store({ compress: true });
     this.set('storage', storage);
 
     if (!isEmpty(storage.get('huegasm.bridgeIp')) && !isEmpty(storage.get('huegasm.bridgeUsername'))) {

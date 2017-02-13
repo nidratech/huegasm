@@ -7,11 +7,11 @@
 
   {{#paper-item}}
     {{paper-icon "brightness-4" class=dimmerOnClass}}
-    <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="The brightness level of the selected lights">Brightness</p>
-    {{paper-slider flex=true min=1 max=254 value=lightsBrightness disabled=brightnessControlDisabled}}
+    <p data-toggle="tooltip" data-placement="top auto" class="layout flex-60 bootstrap-tooltip lights-control-tooltip" data-title="The brightness level of the selected lights">Brightness</p>
+    {{paper-slider class="flex" discrete=true step="10" min="1" max="254" value=lightsBrightness disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
-  {{#paper-item elementId="color-row"}}
+  {{#paper-item elementId="color-row" }}
     {{paper-icon "color-lens" class=dimmerOnClass}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="The color of the selected lights">Color</p>
 

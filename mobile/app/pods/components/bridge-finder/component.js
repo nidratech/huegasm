@@ -28,12 +28,11 @@ export default Component.extend({
   manualBridgeIp: null,
   manualBridgeIpNotFound: false,
   multipleBridgeIps: [],
-  error: false,
   isAuthenticating: computed.notEmpty('bridgePingIntervalHandle'),
 
   // try to authenticate against the bridge here
-  onBridgeIpChange: on('init', observer('bridgeIp', function(){
-    if(!this.get('trial') && !this.get('isAuthenticating')) {
+  onBridgeIpChange: on('init', observer('bridgeIp', function () {
+    if (!this.get('trial') && !this.get('isAuthenticating')) {
       this.setProperties({
         bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
         bridgeUserNamePingIntervalProgress: 0
@@ -42,14 +41,14 @@ export default Component.extend({
   })),
 
   didInsertElement() {
-    $(document).keypress((event)=>{
-      if(!isNone(this.get('manualBridgeIp')) && event.which === 13) {
+    $(document).keypress((event) => {
+      if (!isNone(this.get('manualBridgeIp')) && event.which === 13) {
         this.send('findBridgeByIp');
       }
     });
 
     document.addEventListener('resume', () => {
-      if(this.get('error') || this.get('trial') || this.get('bridgeFindFail')) {
+      if (this.get('trial') || this.get('bridgeFindFail')) {
         this.send('tryAgain');
       }
     }, false);
@@ -59,11 +58,11 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if(this.get('bridgeIp') === null) {
+    if (this.get('bridgeIp') === null) {
       $.ajax('https://www.meethue.com/api/nupnp', {
         timeout: 30000
       })
-      .done((result, status)=> {
+        .done((result, status) => {
           let bridgeFindStatus = 'fail';
 
           if (status === 'success' && result.length === 1) {
@@ -84,9 +83,9 @@ export default Component.extend({
 
           this.set('bridgeFindStatus', bridgeFindStatus);
         })
-      .fail(()=>{
+        .fail(() => {
           this.set('bridgeFindStatus', 'fail');
-      });
+        });
     }
   },
 
@@ -97,11 +96,11 @@ export default Component.extend({
 
     if (bridgeIp !== null && bridgeUserNamePingIntervalProgress < 100) {
       $.ajax('http://' + bridgeIp + '/api', {
-        data: JSON.stringify({"devicetype": "huegasm"}),
+        data: JSON.stringify({ "devicetype": "huegasm" }),
         contentType: 'application/json',
         type: 'POST'
-      }).done((result, status)=>{
-        if(!this.isDestroyed){
+      }).done((result, status) => {
+        if (!this.isDestroyed) {
           this.set('bridgeAuthenticateReachedStatus', status);
 
           if (status === 'success' && !result[0].error) {
@@ -110,18 +109,15 @@ export default Component.extend({
             this.set('bridgeUsername', result[0].success.username);
           }
         }
-      }).fail(()=>{
-        this.clearBridgePingIntervalHandle();
-        this.set('error', true);
       });
 
-      this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime')/bridgeUsernamePingMaxTime*100);
+      this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime') / bridgeUsernamePingMaxTime * 100);
     } else {
       this.clearBridgePingIntervalHandle();
     }
   },
 
-  clearBridgePingIntervalHandle(){
+  clearBridgePingIntervalHandle() {
     clearInterval(this.get('bridgePingIntervalHandle'));
     this.set('bridgePingIntervalHandle', null);
   },
@@ -131,11 +127,12 @@ export default Component.extend({
       this.get('storage').clear();
       location.reload();
     },
-    retry(){
+    retry() {
       this.onBridgeIpChange();
     },
-    chooseBridge(bridge){
+    chooseBridge(bridge) {
       this.set('bridgeIp', bridge);
+      this.get('storage').set('huegasm.bridgeIp', bridge);
     },
     findBridgeByIp() {
       let manualBridgeIp = this.get('manualBridgeIp');
@@ -148,12 +145,12 @@ export default Component.extend({
         });
       } else {
         $.ajax('http://' + manualBridgeIp + '/api', {
-          data: JSON.stringify({"devicetype": "huegasm"}),
+          data: JSON.stringify({ "devicetype": "huegasm" }),
           contentType: 'application/json',
           type: 'POST'
         }).fail(() => {
           this.set('manualBridgeIpNotFound', true);
-          later(this, function() {
+          later(this, function () {
             this.set('manualBridgeIpNotFound', false);
           }, 5000);
         }).then(() => {

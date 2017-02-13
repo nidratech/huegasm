@@ -40,6 +40,10 @@ md-slider {
   cursor: pointer;
 }
 
+.md-thumb-text {
+  user-select: none;
+}
+
 md-slider.md-default-theme .md-thumb:after {
   border-color: $secondaryThemeColor;
   background-color: $secondaryThemeColor;

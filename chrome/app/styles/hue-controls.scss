@@ -1,0 +1,112 @@
+#lights-tab {
+  padding: 0;
+  margin-top: 5vh;
+  .paper-icon {
+    line-height: 0.8 !important;
+  }
+}
+
+.lights-control-tooltip + .tooltip {
+  left: 0 !important;
+}
+
+#color-row {
+  cursor: pointer;
+  .md-list-item-inner {
+    padding-right: 0;
+  }
+}
+
+#hue-controls {
+  max-width: 1200px;
+  height: 90vh;
+  md-progress-circular {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+// preload images
+#hue-controls:after, md-progress-circular:after {
+  display: none;
+  content: url(images/colormap.png) url(images/missingArtwork.png) url(images/sc-white.png) url(images/huegasm.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
+}
+
+#navigation {
+  padding: 15px 0 4vh;
+  text-align: center;
+  margin: auto;
+  position: relative;
+  .ember-basic-dropdown-trigger {
+    z-index: 3;
+    text-align: right;
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    transform: scale(1.1);
+  }
+}
+
+.navigation-item {
+  font-size: 18px;
+  padding: 0 10px 0 10px;
+  &.active {
+    font-weight: bold;
+    cursor: default;
+    text-decoration: none !important;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.color {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+#color-picker {
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+  position: absolute;
+  width: 266px;
+  height: 266px;
+  right: 6px;
+  top: -9px;
+  z-index: 3;
+}
+
+.color-content {
+  box-shadow: none !important;
+  md-menu-content, md-menu-item {
+    background-color: transparent !important;
+  }
+}
+
+#picker {
+  cursor: crosshair;
+}
+
+#loop-addition {
+  position: absolute;
+  left: 33px;
+  top: 15px;
+  font-size: 16px !important;
+}
+
+#huegasm-content {
+  height: 80%;
+  max-height: 500px;
+}
+
+@media(min-width:767px) {
+  #lights-tab {
+    font-size: 20px;
+    .paper-icon {
+      font-size: 24px;
+    }
+  }
+}

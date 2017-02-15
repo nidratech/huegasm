@@ -1,0 +1,496 @@
+.row {
+  margin: 0;
+}
+
+#music-tab {
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+#slide-toggle {
+  font-size: 22px;
+  color: $playerDefaultIconColor;
+  background: #730B07;
+  div .paper-icon {
+    color: inherit !important;
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+
+#slide-toggle:hover {
+  color: lighten($playerDefaultIconColor, 30%) !important;
+}
+
+#player-controls {
+  transition: all 0.2s ease-in-out;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 15px 10px;
+  width: 100%;
+  color: white !important;
+  z-index: 20;
+  cursor: default;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  .ember-basic-dropdown-trigger {
+    position: absolute;
+    right: 0;
+    bottom: 13px;
+  }
+  .tooltip.top {
+    margin-top: -17px;
+  }
+  .tooltip-arrow {
+    display: none;
+  }
+  md-menu-item>.md-button md-icon {
+    margin: auto 0 5px 10px;
+  }
+  .play-arrow,
+  .pause,
+  .replay {
+    font-size: 30px;
+  }
+}
+
+#player-time-controls {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 1em;
+}
+
+.player-control-icon {
+  color: $playerDefaultIconColor !important;
+  transition-duration: 0.1s;
+  margin-right: 10px;
+  margin-top: 4px;
+  font-size: 22px;
+}
+
+.player-control-icon.active {
+  color: $secondaryThemeColor !important;
+}
+
+.player-control-icon:hover {
+  color: white !important;
+}
+
+#play-notification {
+  position: relative;
+  color: white !important;
+  background: black;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  border-radius: 100%;
+}
+
+#player-area {
+  height: $playerHeight;
+  background-color: black;
+  display: inline-block;
+  padding: 0;
+  cursor: pointer;
+}
+
+#playlist {
+  height: $playerHeight;
+  background-color: #1E1E1E;
+  padding: 0 5px 0 5px;
+}
+
+#player-area * .noUi-origin {
+  background-color: $blackish;
+  border-radius: 5px;
+}
+
+#player-area * .noUi-base {
+  background-color: $blackish;
+  border-radius: 5px;
+}
+
+#volume-bar {
+  width: 5em;
+  height: 0.5em;
+  display: inline-block;
+}
+
+#player-area * .noUi-handle::after,
+#player-area * .noUi-handle::before {
+  content: none;
+}
+
+#seek-slider {
+  margin-bottom: 15px;
+  transition-duration: 0.2s;
+  height: 8px;
+  .noUi-handle {
+    opacity: 1 !important;
+  }
+}
+
+#seek-slider:hover {
+  height: 8px;
+}
+
+#seek-slider:hover * .noUi-handle {
+  opacity: 1;
+}
+
+#seek-slider * .noUi-handle {
+  border: none;
+  height: 13px;
+  width: 13px;
+  border-radius: 50%;
+  top: -4px;
+  left: -6px;
+  opacity: 0;
+  transition-duration: 0.1s;
+  background-color: $secondaryThemeColor !important;
+  box-shadow: none;
+}
+
+#play-list-controls {
+  min-height: 40px;
+  margin-top: 5px;
+  border-bottom: 1px solid #3a3a3a;
+  position: relative;
+  button .player-control-icon {
+    margin: 0 5px 1px 3px;
+  }
+  .ember-basic-dropdown-trigger {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: $whitish;
+    .paper-button {
+      margin: 0;
+    }
+  }
+}
+
+#play-list-area {
+  background-color: white;
+  width: 100%;
+  height: 350px;
+  margin: 0 auto;
+  border-radius: 5px;
+  transition: 0.1s all ease-in-out;
+  position: relative;
+  overflow: auto;
+  #dragHere {
+    position: absolute;
+    top: 27%;
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  [md-font-icon="library-music"] {
+    position: absolute;
+    top: 40%;
+    font-size: 100px;
+    opacity: 0.5;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.song-artist {
+  font-weight: bold;
+}
+
+#play-list-area.drag-here-highlight {
+  background-color: white;
+  border: 5px dotted #5383ff;
+}
+
+#play-list-area.dragging-over {
+  background-color: darken(white, 5%);
+  box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
+}
+
+#file-input {
+  width: 1px;
+  height: 1px;
+  visibility: hidden;
+}
+
+.playlist-item {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
+  height: 62px;
+  font-family: 'Open Sans', sans-serif;
+  padding: 0 20px 0 5px;
+  position: relative;
+  color: $blackish;
+  background: darken(white, 5%);
+  .close {
+    font-size: 18px;
+  }
+  .album-art {
+    height: 60px;
+    float: left;
+    margin-right: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  .song-info {
+    .song-title {
+      max-height: 40px;
+      overflow: hidden;
+    }
+    .song-artist {
+      max-height: 20px;
+      overflow: hidden;
+    }
+  }
+  .audio-remove-button {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    padding: 10px;
+  }
+}
+
+.playlist-item.active {
+  background: darken(white, 15%) !important;
+  border-top: 1px solid $secondaryThemeColor;
+  border-bottom: 1px solid $secondaryThemeColor;
+}
+
+.playlist-item:hover {
+  background: darken(white, 10%);
+  .close {
+    display: block;
+  }
+}
+
+#beat-area {
+  position: relative;
+  padding: 0;
+}
+
+.star {
+  cursor: auto !important;
+}
+
+#beat-option-button-group {
+  margin: 20px 0 10px 0;
+}
+
+#light-option {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  .md-label {
+    width: auto;
+  }
+}
+
+.beat-option {
+  padding: 5px 0;
+  text-align: center;
+  md-checkbox {
+    padding: 10px 0;
+  }
+  md-switch {
+    margin: 0;
+  }
+  .option-description {
+    display: inline-flex;
+    font-size: 20px;
+    justify-content: center;
+    flex-direction: column;
+  }
+  button {
+    margin-top: 0;
+  }
+  .tooltip {
+    margin: 0;
+  }
+}
+
+#player-bottom {
+  color: $blackish;
+  border: 1px solid black;
+  width: 100%;
+  background: white;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+#beat-container {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+#beat-area .light-group {
+  margin: 10px 20px 0 40px;
+  float: right;
+  div {
+    display: block;
+    padding: 10px;
+  }
+}
+
+#add-music-choices {
+  min-width: initial;
+  right: 0;
+  left: initial;
+  width: 100px;
+  top: 25px;
+}
+
+.add-new-music {
+  padding: 0 5px 0 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  background: #f8f8f8;
+  border: none;
+}
+
+.add-new-music:hover {
+  background: darken(#f8f8f8, 5%);
+}
+
+.sound-cloud-link {
+  position: absolute;
+  right: 55px;
+  bottom: 22px;
+}
+
+#visualization {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#save-beat-preferences-star {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1000;
+  md-icon {
+    color: $secondaryThemeColor !important;
+    font-size: 25px;
+    cursor: default;
+  }
+}
+
+.visualizers-menu {
+  left: -135px;
+}
+
+.display-icon {
+  background: url(images/huegasm.png) center center no-repeat;
+  background-size: 80px 80px;
+}
+
+#artwork {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  img {
+    display: block;
+    margin: 0 auto;
+    max-height: 400px;
+  }
+}
+
+.keyboard-arrow-down {
+  font-size: 20px;
+}
+
+.visualizers-menu .paper-icon {
+  margin-left: 10px;
+  position: relative;
+  top: -4px;
+}
+
+.close {
+  font-size: 18px !important;
+  color: rgb(51, 51, 51);
+  display: none;
+  text-shadow: none;
+  &:hover {
+    color: darken(#333333, 5%) !important;
+  }
+}
+
+.ember-notify-default.ember-notify-cn {
+  top: 0;
+  bottom: initial;
+}
+
+#soundcloud-logo {
+  display: block;
+}
+
+#soundcloud-logo-small {
+  display: none;
+}
+
+#soundcloud-tutorial {
+  width: 100%;
+}
+
+@media(max-width:1100px) {
+  #soundcloud-logo {
+    display: none;
+  }
+  #soundcloud-logo-small {
+    display: block;
+  }
+}
+
+@media(min-width:767px) and (max-width:1200px) {
+  #add-new-music-label {
+    display: none;
+  }
+  #play-list-controls .paper-button {
+    border: 1px solid $whitish;
+    border-radius: 5px;
+  }
+}
+
+@media(max-width: 500px) {
+  #sensitivity-settings .noUi-value-vertical {
+    display: none;
+  }
+  .option-description {
+    height: 55px;
+  }
+}
+
+// mobile overrides
+@media(max-width:767px) {
+  div#player-bottom {
+    display: block !important;
+  }
+  #beat-area {
+    height: initial;
+  }
+  #seek-slider {
+    height: 8px;
+    .noUi-handle {
+      opacity: 1 !important;
+    }
+  }
+  #seek-slider {
+    margin-bottom: 15px;
+  }
+  .close {
+    display: block;
+  }
+  #save-beat-preferences-star {
+    right: 5px;
+    left: initial;
+  }
+  md-checkbox {
+    padding-right: 20px !important;
+  }
+}

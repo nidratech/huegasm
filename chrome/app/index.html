@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Huegasm</title>
+  <meta name="description" content="Huegasm is a free web application for managing and synchronizing your Philips Hue lights with the beat of your music.">
+  <meta name="keywords" content="huegasm,hue,philips hue,lights,ambience,music player">
+  <meta name="author" content="Egor Philippov">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> {{content-for 'head'}}
+
+  <link href='//fonts.googleapis.com/css?family=Slabo+27px|Open+Sans' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" integrity="" href="{{rootURL}}assets/vendor.css">
+  <link rel="stylesheet" integrity="" href="{{rootURL}}assets/huegasm.css"> {{content-for 'head-footer'}}
+
+  <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
+</head>
+
+<body>
+  {{content-for 'body'}}
+
+  <script src="{{rootURL}}assets/vendor.js"></script>
+  <script src="{{rootURL}}assets/huegasm.js"></script>
+
+  {{content-for 'body-footer'}}
+</body>
+
+</html>

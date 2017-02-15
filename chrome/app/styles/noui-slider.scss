@@ -1,0 +1,56 @@
+.noUi-value-vertical {
+  margin-top: -10px;
+  transform: none;
+}
+
+.noUi-value-vertical, .noUi-pips {
+  color: inherit !important;
+}
+
+.noUi-vertical .noUi-handle {
+  border: 1px solid #A3A0A0;
+  width: 26px;
+}
+
+.noUi-vertical .noUi-handle:after, .noUi-vertical .noUi-handle:before{
+  background: grey;
+}
+
+.noUi-base {
+  cursor: pointer;
+}
+
+.noUi-connect {
+  background-color: $secondaryThemeColor;
+}
+
+.noUi-handle {
+  cursor: pointer;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 0.4em;
+  height: 1.3em;
+  left: -0.071em;
+  top: -0.550em;
+  transition-duration: 0.1s;
+  background: $playerDefaultIconColor !important;
+}
+
+.noUi-horizontal .noUi-handle:hover {
+  background: white !important;
+}
+
+.noUi-target {
+  margin: 0 auto;
+}
+
+.noUi-base {
+  background-color: #ADADAD;
+  border: 1px solid #797979;
+}
+
+.noUi-vertical {
+  height: 200px;
+  margin: 15px auto 10px;
+}

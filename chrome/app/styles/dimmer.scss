@@ -1,0 +1,76 @@
+div.dimmerOn {
+  color: $whitish !important;
+  background: $blackish !important;
+}
+
+html.dimmerOn {
+  color: white;
+  background: $blackish;
+}
+
+body.dimmerOn {
+  color: $whitish;
+  background: $blackish;
+  md-input-container {
+    label {
+      color: #3f51b5 !important;
+    }
+    .md-input {
+      color: $whitish !important;
+      border-color: #3f51b5 !important;
+    }
+  }
+  .md-track {
+    background: $whitish;
+  }
+  .color {
+    border: 1px solid white;
+  }
+  .playlist-item, .ember-basic-dropdown-content md-menu-content {
+    color: $whitish;
+    background-color: $dimmerOnButtonColor;
+  }
+  .ember-basic-dropdown-content a {
+      color: $whitish;
+  }
+  .playlist-item {
+    &.active {
+      background: darken($dimmerOnButtonColor, 15%) !important;
+    }
+    &:hover {
+      background: darken($dimmerOnButtonColor, 10%);
+    }
+    .audio-remove-button .paper-icon {
+      color: $whitish !important;
+      &:hover {
+        color: white !important;
+      }
+    }
+  }
+  svg {
+    -webkit-filter: drop-shadow(0 0 5px #228DFF);
+  }
+  .md-container {
+    color: $whitish;
+  }
+  .add-new-music:hover {
+    background: darken($dimmerOnButtonColor, 5%);
+  }
+  .md-bar {
+    background-color: darken(white, 60%) !important;
+  }
+}
+
+.paper-icon.dimmerOn {
+  text-shadow: $glowingText;
+  opacity: 0.9 !important;
+}
+
+.logo {
+  display: inline-block;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: url(images/huegasm.png) center center no-repeat;
+  background-size: 40px 40px;
+}

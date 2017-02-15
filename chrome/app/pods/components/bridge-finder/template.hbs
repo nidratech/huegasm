@@ -1,0 +1,49 @@
+<div class="title"><img src="assets/images/logo.png" alt="Huegasm"></div>
+{{#unless bridgeUsername}}
+  {{#if bridgeIp}}
+    <img src="assets/images/pressButtonBridge.png" id="press-bridge-button-img"> {{paper-progress-linear warn=true value=bridgeUserNamePingIntervalProgress}}
+
+    {{#if isAuthenticating}}
+      <p>
+        Your bridge IP is <b>{{bridgeIp}}</b>
+        <br> Press the button on your bridge to authenticate this application.
+      </p>
+    {{else}}
+      <p>You failed to press the button in time. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a></p>
+    {{/if}}
+  {{else}}
+    {{#unless bridgeFindStatus}}
+      {{paper-progress-circular diameter=100}}
+      <p>Trying to find your bridge's IP.</p>
+    {{/unless}}
+
+    {{#if bridgeFindMultiple}}
+      <p>Huegasm found multiple hue bridges. <br> Please select the one you want to use for this application.</p>
+
+      <div id="bridge-button-group">
+        {{#each multipleBridgeIps as |bridge|}}
+          {{paper-radio value=bridge label=bridge onChange=(action "chooseBridge")}}
+        {{/each}}
+      </div>
+    {{else}}
+      {{#if bridgeFindFail}}
+        <p>A hue bridge could not be automatically found on your network. <br> Enter one manually? <br><br> ( or type <b>offline</b>          to look around )
+        </p>
+
+        <span id="bridge-input">
+          {{paper-input label="Hue bridge IP address" value=manualBridgeIp onChange=(action (mut manualBridgeIp))}}
+
+          <div>
+            {{paper-button onClick=(action "findBridgeByIp") raised=true primary=true label="Find"}}
+          </div>
+           </span>
+
+        {{#if manualBridgeIpNotFound}}
+          <p class="bg-danger">
+            Could not find a bridge with that IP address.
+          </p>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  {{/if}}
+{{/unless}}

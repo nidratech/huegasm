@@ -1,0 +1,18 @@
+#settings.introjs-fixParent {
+  position: inherit !important;
+}
+
+.introjs-tooltip {
+  width: 300px;
+}
+
+.introjs-skipbutton {
+  color: $secondaryThemeColor;
+}
+
+.introjs-bullets ul li a.active {
+  position: relative;
+  height: 10px;
+  width: 10px;
+  top: -2px;
+}

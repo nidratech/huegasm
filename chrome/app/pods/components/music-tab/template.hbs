@@ -1,0 +1,194 @@
+<div class="row" id="step1">
+  <div id="player-area" class="col-sm-8 col-xs-12 {{if (eq "None" currentVisName) "display-icon"}}" {{action "playerAreaPlay"}}>
+  <canvas id="visualization"></canvas>
+
+  <div id="artwork">
+    <img src={{largeArtworkPic}}>
+  </div>
+
+  {{paper-icon playerAreaClickIcon id="play-notification"}}
+
+  <div id="player-controls">
+    {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-change="seekChanged"}}
+
+    {{#if playQueueNotEmpty}}
+      <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip"
+            data-title={{prevTooltipTxt}} {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
+      -->{{/if}}<!--
+                --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip"
+                         data-title={{playingTooltipTxt}} {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
+              -->{{#if playQueueMultiple}}<!--
+            --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip"
+                     data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
+              -->{{/if}}<!--
+      --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="volumeMutedTooltip"
+               data-title={{volumeMutedTooltipTxt}} {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
+              -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-change="volumeChanged" id="volume-bar" class="hidden-xs"}}
+
+    <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
+
+    {{#paper-menu as |menu|}}
+      {{#menu.trigger}}
+        {{#paper-button iconButton=true}}
+          {{paper-icon "remove-red-eye" class="player-control-icon"}}
+        {{/paper-button}}
+      {{/menu.trigger}}
+      {{#menu.content width=2 as |content|}}
+        {{#each visNames as |name|}}
+          {{#content.menu-item onClick=(action "setVisName" name)}}
+            {{name}}
+
+            {{#if (eq currentVisName name)}}
+              {{paper-icon "check" classNames=dimmerOnClass}}
+            {{/if}}
+          {{/content.menu-item}}
+        {{/each}}
+      {{/menu.content}}
+    {{/paper-menu}}
+
+    {{#if scUrl}}
+      <a href={{scUrl}} class="sound-cloud-link"{{action "gotoSCURL" scUrl}}>
+        <img src="assets/images/sc-white.png" id="soundcloud-logo" />
+        <img src="assets/images/sc-white-sm.png" id="soundcloud-logo-small" />
+      </a>
+    {{/if}}
+  </div>
+</div>
+
+<div id="playlist" class="col-sm-4 col-xs-12">
+<input id="file-input" type="file" accept="audio/*" multiple="true"/>
+
+<div id="play-list-controls">
+  {{#paper-menu as |menu|}}
+    {{#menu.trigger}}
+      {{#paper-button iconButton=false}}
+        {{paper-icon "playlist add" class="player-control-icon"}} <span id="add-new-music-label">Add new music</span>
+      {{/paper-button}}
+    {{/menu.trigger}}
+    {{#menu.content width=3 as |content|}}
+      {{#content.menu-item onClick="addLocalAudio"}}
+        {{paper-icon "attachment" class=shuffleClass}} Local file
+      {{/content.menu-item}}
+      {{#content.menu-item onClick="toggleIsShowingAddSoundCloudModal"}}
+        {{paper-icon "cloud" class=shuffleClass}} SoundCloud
+      {{/content.menu-item}}
+    {{/menu.content}}
+  {{/paper-menu}}
+
+  <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="shuffleTooltip" data-title={{shuffleTooltipTxt}} {{action "shuffleChanged"}}>{{paper-icon "shuffle" class=shuffleClass}}</span>
+  <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip" id="repeatTooltip" data-title={{repeatTooltipTxt}} {{action "repeatChanged"}}>{{paper-icon repeatIcon class=repeatClass}}</span>
+  <span data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip hidden-xs" data-title="Clear playlist" {{action "clearPlaylist"}}>{{paper-icon "clear-all" class="player-control-icon"}}</span>
+</div>
+
+    <div id="play-list-area" class={{playListAreaClass}} {{action "addLocalAudio"}} {{action "playerListAreaDragOver" on="dragOver"}} {{action "playerListAreaDragLeave" on="dragLeave"}} {{action "dropFiles" on="drop"}}>
+      {{#if (or playQueueEmpty dragging)}}
+        <div id="dragHere">
+          {{#if dragging}}
+            Drag your music files here
+          {{else}}
+            Add your music files here
+          {{/if}}
+        </div>
+        {{paper-icon "library-music" class=dimmerOnClass}}
+      {{/if}}
+
+      {{#each playQueue as |item index|}}
+        <div class="playlist-item pointer track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
+          {{#if item.picture}}
+            <img class="album-art" src={{item.picture}}>
+          {{else}}
+            <img class="album-art" src="assets/images/missingArtwork.png">
+          {{/if}}
+
+          <div class="song-info">
+            {{#if item.title}}
+              <div class="song-title">{{item.title}}</div>
+              <div class="song-artist">
+                {{#if item.artistUrl}}
+                    <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
+                {{else}}
+                    {{item.artist}}
+                {{/if}}
+              </div>
+            {{else}}
+              {{item.fileName}}
+            {{/if}}
+          </div>
+
+          <span data-toggle="tooltip" data-placement="top auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip" {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
+        </div>
+      {{/each}}
+    </div>
+</div>
+</div>
+
+<div id="slide-toggle" class="text-center pointer row" {{action "slideTogglePlayerBottom"}}>
+  <div class="col-xs-offset-5 col-xs-2">
+    {{paper-icon beatDetectionAreaArrowIcon id="beat-detection-area-arrow-icon"}}
+  </div>
+</div>
+
+<div id="player-bottom" class="row {{if dimmerOn "dimmerOn"}} {{if playerBottomDisplayed "display-flex"}}">
+  <div id="beat-area" class="col-sm-7 col-xs-12">
+    {{#if usingBeatPreferences}}
+      <span data-toggle="tooltip" data-placement="top" data-title="Using the saved sensitivity preference from the last time you listened to this song" class="bootstrap-tooltip" id="save-beat-preferences-star">
+      {{paper-icon "star" class=dimmerOnClass}}
+      </span>
+    {{/if}}
+
+    <div class="row" id="beat-option-row">
+      <div class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="top" data-title="The range of hues ( colors ) that the lights may change to on beat." class="option-description bootstrap-tooltip">
+          Hue Range
+        </span>
+
+        {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect on-change="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+      </div>
+
+      <div class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="top" data-title="The minimum ( off-beat ) and maximum ( on-beat ) brightness of the lights" class="option-description bootstrap-tooltip">
+          Brightness Range
+        </span>
+
+        {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range on-change="brightnessRangeChanged" pips=beatOptions.brightnessRange.pips}}
+      </div>
+
+      <div id="sensitivity-settings" class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector ( more sensitivity results in more registered beats )" class="option-description bootstrap-tooltip">
+          Sensitivity
+        </span>
+
+        {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged" pips=beatOptions.threshold.pips}}
+      </div>
+
+      <div id="light-option" class="col-xs-12">
+        <span data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+          {{paper-checkbox value=flashingTransitions onChange=(action (mut flashingTransitions)) label="Flashing Transitions"}}
+        </span>
+
+        <span data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+          {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div id="beat-container" class="col-sm-5 col-xs-12">
+    <div class="bezel">
+      <div class="rivet1"></div>
+      <div class="rivet2"></div>
+      <div class="rivet3"></div>
+      <div class="rivet4"></div>
+      <div class="rivet5"></div>
+      <div class="rivet6"></div>
+      <div class="rivet7"></div>
+      <div class="rivet8"></div>
+
+      <div id="beat-speaker-center-outer">
+        <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

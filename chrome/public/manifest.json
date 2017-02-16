@@ -3,14 +3,17 @@
   "name": "Huegasm",
   "description": "Huegasm is a free web application for managing and synchronizing your Philips Hue lights with the beat of your music.",
   "version": "1.0",
-  "content_security_policy": "script-src https://connect.soundcloud.com 'self'; object-src 'self'",
   "icons": {
     "16": "16x16.png",
     "48": "48x48.png",
     "128": "128x128.png"
   },
   "background": {
-    "page": "index.html"
+    "background": {
+      "scripts": [
+        "background.js"
+      ]
+    },
   },
   "browser_action": {
     "default_icon": {
@@ -22,7 +25,8 @@
   },
   "permissions": [
     "activeTab",
-    "background",
+    "tabCapture",
+    "storage",
     "https://ajax.googleapis.com/"
   ]
 }

@@ -23,70 +23,6 @@
   color: lighten($playerDefaultIconColor, 30%) !important;
 }
 
-#player-controls {
-  transition: all 0.2s ease-in-out;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 15px 10px;
-  width: 100%;
-  color: white !important;
-  z-index: 20;
-  cursor: default;
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-  .ember-basic-dropdown-trigger {
-    position: absolute;
-    right: 0;
-    bottom: 13px;
-  }
-  .tooltip.top {
-    margin-top: -17px;
-  }
-  .tooltip-arrow {
-    display: none;
-  }
-  md-menu-item>.md-button md-icon {
-    margin: auto 0 5px 10px;
-  }
-  .play-arrow,
-  .pause,
-  .replay {
-    font-size: 30px;
-  }
-}
-
-#player-time-controls {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  display: inline-block;
-  margin-left: 1em;
-}
-
-.player-control-icon {
-  color: $playerDefaultIconColor !important;
-  transition-duration: 0.1s;
-  margin-right: 10px;
-  margin-top: 4px;
-  font-size: 22px;
-}
-
-.player-control-icon.active {
-  color: $secondaryThemeColor !important;
-}
-
-.player-control-icon:hover {
-  color: white !important;
-}
-
-#play-notification {
-  position: relative;
-  color: white !important;
-  background: black;
-  top: 50%;
-  left: 50%;
-  opacity: 0;
-  border-radius: 100%;
-}
 
 #player-area {
   height: $playerHeight;
@@ -153,127 +89,9 @@
   box-shadow: none;
 }
 
-#play-list-controls {
-  min-height: 40px;
-  margin-top: 5px;
-  border-bottom: 1px solid #3a3a3a;
-  position: relative;
-  button .player-control-icon {
-    margin: 0 5px 1px 3px;
-  }
-  .ember-basic-dropdown-trigger {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    color: $whitish;
-    .paper-button {
-      margin: 0;
-    }
-  }
-}
-
-#play-list-area {
-  background-color: white;
-  width: 100%;
-  height: 350px;
-  margin: 0 auto;
-  border-radius: 5px;
-  transition: 0.1s all ease-in-out;
-  position: relative;
-  overflow: auto;
-  #dragHere {
-    position: absolute;
-    top: 27%;
-    font-size: 20px;
-    text-align: center;
-    width: 100%;
-  }
-  [md-font-icon="library-music"] {
-    position: absolute;
-    top: 40%;
-    font-size: 100px;
-    opacity: 0.5;
-    width: 100%;
-    text-align: center;
-  }
-}
-
-.song-artist {
-  font-weight: bold;
-}
-
-#play-list-area.drag-here-highlight {
-  background-color: white;
-  border: 5px dotted #5383ff;
-}
-
-#play-list-area.dragging-over {
-  background-color: darken(white, 5%);
-  box-shadow: inset 0 0 20px 0 rgba(0, 0, 0, 1);
-}
-
-#file-input {
-  width: 1px;
-  height: 1px;
-  visibility: hidden;
-}
-
-.playlist-item {
-  border-bottom: 1px solid rgba(128, 128, 128, 0.3);
-  border-top: 1px solid rgba(128, 128, 128, 0.3);
-  height: 62px;
-  font-family: 'Open Sans', sans-serif;
-  padding: 0 20px 0 5px;
-  position: relative;
-  color: $blackish;
-  background: darken(white, 5%);
-  .close {
-    font-size: 18px;
-  }
-  .album-art {
-    height: 60px;
-    float: left;
-    margin-right: 5px;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-  }
-  .song-info {
-    .song-title {
-      max-height: 40px;
-      overflow: hidden;
-    }
-    .song-artist {
-      max-height: 20px;
-      overflow: hidden;
-    }
-  }
-  .audio-remove-button {
-    position: absolute;
-    top: 10px;
-    right: 0;
-    padding: 10px;
-  }
-}
-
-.playlist-item.active {
-  background: darken(white, 15%) !important;
-  border-top: 1px solid $secondaryThemeColor;
-  border-bottom: 1px solid $secondaryThemeColor;
-}
-
-.playlist-item:hover {
-  background: darken(white, 10%);
-  .close {
-    display: block;
-  }
-}
-
 #beat-area {
   position: relative;
   padding: 0;
-}
-
-.star {
-  cursor: auto !important;
 }
 
 #beat-option-button-group {
@@ -363,11 +181,7 @@
   bottom: 22px;
 }
 
-#visualization {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+
 
 #save-beat-preferences-star {
   position: absolute;
@@ -388,17 +202,6 @@
 .display-icon {
   background: url(images/huegasm.png) center center no-repeat;
   background-size: 80px 80px;
-}
-
-#artwork {
-  position: absolute;
-  width: 100%;
-  overflow: hidden;
-  img {
-    display: block;
-    margin: 0 auto;
-    max-height: 400px;
-  }
 }
 
 .keyboard-arrow-down {

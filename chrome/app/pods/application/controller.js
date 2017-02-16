@@ -10,13 +10,11 @@ export default Controller.extend({
   dimmerOn: false,
   lightsIconsOn: true,
 
-  init(){
+  init() {
     this._super(...arguments);
 
-    let storage = new window.Locally.Store({compress: true}),
-      dimmerOn = storage.get('huegasm.dimmerOn'),
-      lightsIconsOn = storage.get('huegasm.lightsIconsOn');
-    this.set('storage', storage);
+    let dimmerOn = chrome.storage.local.get('huegasm.dimmerOn'),
+      lightsIconsOn = chrome.storage.local.get('huegasm.lightsIconsOn');
 
     if (!isEmpty(dimmerOn) && dimmerOn) {
       this.send('toggleDimmer');
@@ -33,9 +31,9 @@ export default Controller.extend({
 
       let lightsIconsOn = this.get('lightsIconsOn');
 
-      this.get('storage').set('huegasm.lightsIconsOn', lightsIconsOn);
+      chrome.storage.local.set('huegasm.lightsIconsOn', lightsIconsOn);
     },
-    toggleDimmer(){
+    toggleDimmer() {
       this.toggleProperty('dimmerOn');
 
       let dimmerOn = this.get('dimmerOn');
@@ -48,7 +46,7 @@ export default Controller.extend({
         $('html').removeClass('dimmerOn');
       }
 
-      this.get('storage').set('huegasm.dimmerOn', dimmerOn);
+      chrome.storage.local.set('huegasm.dimmerOn', dimmerOn);
     }
   }
 });

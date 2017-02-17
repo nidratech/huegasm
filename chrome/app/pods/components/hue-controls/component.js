@@ -78,9 +78,11 @@ export default Component.extend({
       setInterval(this.updateLightData.bind(this), 2000);
     }
 
-    if (!isNone(chrome.storage.local.get('huegasm.selectedTab'))) {
-      this.set('selectedTab', chrome.storage.local.get('huegasm.selectedTab'));
-    }
+    chrome.storage.local.get('selectedTab', ({selectedTab}) => {
+      if (!isNone(selectedTab)) {
+        this.set('selectedTab', selectedTab);
+      }
+    });
   },
 
   updateLightData() {
@@ -112,11 +114,11 @@ export default Component.extend({
     changeTab(tabName) {
       let index = this.get('tabList').indexOf(tabName);
       this.set('selectedTab', index);
-      chrome.storage.local.set('huegasm.selectedTab', index);
+      chrome.storage.local.set({ 'selectedTab': index });
     },
     clearBridge() {
-      chrome.storage.local.remove('huegasm.bridgeUsername');
-      chrome.storage.local.remove('huegasm.bridgeIp');
+      chrome.storage.local.remove('bridgeUsername');
+      chrome.storage.local.remove('bridgeIp');
       location.reload();
     },
     toggleDimmer() {

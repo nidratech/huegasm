@@ -86,29 +86,30 @@ export default Component.extend({
   }),
 
   onActiveLightsChange: observer('activeLights.[]', function () {
-    chrome.storage.local.set('huegasm.activeLights', this.get('activeLights'));
+    chrome.storage.local.set({ 'activeLights': this.get('activeLights') });
   }),
 
   init() {
     this._super(...arguments);
 
     let lightsData = this.get('lightsData'),
-      activeLights = this.get('activeLights'),
-      activeLightsCache = chrome.storage.local.get('huegasm.activeLights');
+      activeLights = this.get('activeLights');
 
-    if (!isNone(activeLightsCache)) {
-      activeLightsCache.forEach(function (i) {
-        if (!isNone(lightsData) && lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
-          activeLights.pushObject(i);
-        }
-      });
-    } else {
-      for (let key in lightsData) {
-        if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
-          activeLights.pushObject(key);
+    chrome.storage.local.get('activeLights', ({activeLightsCache}) => {
+      if (!isNone(activeLightsCache)) {
+        activeLightsCache.forEach(function (i) {
+          if (!isNone(lightsData) && lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
+            activeLights.pushObject(i);
+          }
+        });
+      } else {
+        for (let key in lightsData) {
+          if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
+            activeLights.pushObject(key);
+          }
         }
       }
-    }
+    });
   },
 
   actions: {

@@ -122,7 +122,9 @@ export default Component.extend({
       this.get('kick').set({ threshold: value });
     }
 
-    chrome.storage.local.set('huegasm.' + name, value);
+    let toSave = {};
+    toSave[name] = value;
+    chrome.storage.local.set(toSave);
   },
 
   simulateKick(/*mag, ratioKickMag*/) {
@@ -223,15 +225,15 @@ export default Component.extend({
     });
 
     ['threshold', 'playerBottomDisplayed', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange'].forEach((item) => {
-      if (!isNone(chrome.storage.local.get('huegasm.' + item))) {
-        let itemVal = chrome.storage.local.get('huegasm.' + item);
-
-        if (isNone(this.actions[item + 'Changed'])) {
-          this.set(item, itemVal);
-        } else {
-          this.send(item + 'Changed', itemVal);
+      chrome.storage.local.get(item, ({itemVal}) => {
+        if (!isNone(itemVal)) {
+          if (isNone(this.actions[item + 'Changed'])) {
+            this.set(item, itemVal);
+          } else {
+            this.send(item + 'Changed', itemVal);
+          }
         }
-      }
+      });
     });
   },
 

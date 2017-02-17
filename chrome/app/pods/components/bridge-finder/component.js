@@ -61,7 +61,7 @@ export default Component.extend({
 
           if (status === 'success' && result.length === 1) {
             this.set('bridgeIp', result[0].internalipaddress);
-            chrome.storage.local.set('huegasm.bridgeIp', result[0].internalipaddress);
+            chrome.storage.local.set({ 'bridgeIp': result[0].internalipaddress });
             bridgeFindStatus = 'success';
           } else if (result.length > 1) {
             let multipleBridgeIps = this.get('multipleBridgeIps');
@@ -99,7 +99,8 @@ export default Component.extend({
 
           if (status === 'success' && !result[0].error) {
             this.clearBridgePingIntervalHandle();
-            chrome.storage.local.set('huegasm.bridgeUsername', result[0].success.username);
+            debugger;
+            chrome.storage.local.set({ 'bridgeUsername': result[0].success.username });
             this.set('bridgeUsername', result[0].success.username);
           }
         }
@@ -120,9 +121,9 @@ export default Component.extend({
     retry() {
       this.onBridgeIpChange();
     },
-    chooseBridge(bridge) {
-      this.set('bridgeIp', bridge);
-      chrome.storage.local.set('huegasm.bridgeIp', bridge);
+    chooseBridge(bridgeIp) {
+      this.set('bridgeIp', bridgeIp);
+      chrome.storage.local.set({ 'bridgeIp': bridgeIp });
     },
     findBridgeByIp() {
       let manualBridgeIp = this.get('manualBridgeIp');

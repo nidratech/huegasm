@@ -15,12 +15,14 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if (!isEmpty(chrome.storage.local.get('huegasm.bridgeIp')) && !isEmpty(chrome.storage.local.get('huegasm.bridgeUsername'))) {
-      this.setProperties({
-        bridgeIp: chrome.storage.local.get('huegasm.bridgeIp'),
-        bridgeUsername: chrome.storage.local.get('huegasm.bridgeUsername')
+    chrome.storage.local.get('bridgeIp', ({bridgeIp}) => {
+      chrome.storage.local.get('bridgeUsername', ({bridgeUsername}) => {
+        this.setProperties({
+          bridgeIp,
+          bridgeUsername
+        });
       });
-    }
+    });
   },
 
   actions: {

@@ -13,16 +13,17 @@ export default Controller.extend({
   init() {
     this._super(...arguments);
 
-    let dimmerOn = chrome.storage.local.get('huegasm.dimmerOn'),
-      lightsIconsOn = chrome.storage.local.get('huegasm.lightsIconsOn');
+    chrome.storage.local.get('dimmerOn', ({dimmerOn}) => {
+      chrome.storage.local.get('lightsIconsOn', ({lightsIconsOn}) => {
+        if (!isEmpty(dimmerOn) && dimmerOn) {
+          this.send('toggleDimmer');
+        }
 
-    if (!isEmpty(dimmerOn) && dimmerOn) {
-      this.send('toggleDimmer');
-    }
-
-    if (!isEmpty(lightsIconsOn)) {
-      this.set('lightsIconsOn', lightsIconsOn);
-    }
+        if (!isEmpty(lightsIconsOn)) {
+          this.set('lightsIconsOn', lightsIconsOn);
+        }
+      })
+    });
   },
 
   actions: {
@@ -31,7 +32,7 @@ export default Controller.extend({
 
       let lightsIconsOn = this.get('lightsIconsOn');
 
-      chrome.storage.local.set('huegasm.lightsIconsOn', lightsIconsOn);
+      chrome.storage.local.set({ 'lightsIconsOn': lightsIconsOn });
     },
     toggleDimmer() {
       this.toggleProperty('dimmerOn');
@@ -46,7 +47,7 @@ export default Controller.extend({
         $('html').removeClass('dimmerOn');
       }
 
-      chrome.storage.local.set('huegasm.dimmerOn', dimmerOn);
+      chrome.storage.local.set({ 'dimmerOn': dimmerOn });
     }
   }
 });

@@ -8,15 +8,13 @@ const {
   isNone,
   $,
   inject: { service },
-  run: { later, next }
+  run: { later, next, once }
 } = Ember;
 
 export default Component.extend({
   classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
   classNameBindings: ['active::hidden'],
   elementId: 'music-tab',
-
-  dancer: null,
 
   notify: service(),
 
@@ -32,11 +30,11 @@ export default Component.extend({
         format: {
           to: function (value) {
             if (value === 0) {
-              value = 'More';
+              value = 'High';
             } else if (value === 0.25) {
               value = '';
             } else {
-              value = 'Less';
+              value = 'Low';
             }
 
             return value;
@@ -75,10 +73,22 @@ export default Component.extend({
       defaultValue: 0,
       pips: {
         mode: 'values',
-        values: [1, 50, 100, 150, 200, 254],
+        values: [1, 63, 127, 190, 254],
         density: 10,
         format: {
-          to: function (value) { return value; },
+          to: function (value) {
+            if (value === 63) {
+              value = 25;
+            } else if (value === 127) {
+              value = 50;
+            } else if (value === 190) {
+              value = 75;
+            } else if (value === 254) {
+              value = 100;
+            }
+
+            return value;
+          },
           from: function (value) { return value; }
         }
       }
@@ -88,46 +98,48 @@ export default Component.extend({
   threshold: 0.3,
   hueRange: [0, 65535],
   brightnessRange: [1, 254],
-  oldThreshold: null,
 
   lastLightBopIndex: 0,
-
-  playerBottomDisplayed: true,
-  audioStream: null,
-  dimmerOn: false,
 
   colorloopMode: false,
   flashingTransitions: false,
 
-  // 0 - no repeat, 1 - repeat all, 2 - repeat one
-  repeat: 0,
-  shuffle: false,
-  volumeMuted: false,
-  volume: 100,
-  // beat detection related pausing
-  paused: false,
   songBeatPreferences: {},
   usingBeatPreferences: false,
   oldBeatPrefCache: null,
-  firstVisit: true,
+  isListenining: false,
 
   // noUiSlider connection specification
   filledConnect: [true, false],
   hueRangeConnect: [false, true, false],
 
-  changePlayerControl(name, value) {
-    this.set(name, value);
+  onConfigItemChanged: observer('threshold', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange', 'isListenining', function (wtf, name) {
+    once(this, () => {
+      let value = this.get(name),
+        self = this;
 
-    if (name === 'threshold') {
-      this.get('kick').set({ threshold: value });
-    }
+      this.set(name, value);
 
-    let toSave = {};
-    toSave[name] = value;
-    chrome.storage.local.set(toSave);
-  },
+      if (name === 'isListenining' && value) {
+        chrome.runtime.sendMessage({ action: 'start-listening' }, function (response) {
+          if (response && response.error) {
+            self.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + response.error + '</div>' });
 
-  simulateKick(/*mag, ratioKickMag*/) {
+            self.set('isListenining', false);
+            chrome.storage.local.set({ isListenining: false });
+          }
+        });
+      }
+
+      let toSave = {};
+      toSave[name] = value;
+      chrome.storage.local.set(toSave);
+    });
+  }),
+
+  simulateKick() {
+    this.speakerBump();
+
     let activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
@@ -194,8 +206,9 @@ export default Component.extend({
     later(this, function () {
       this.set('paused', false);
     }, 150);
+  },
 
-    //work the music beat area - simulate the speaker vibration by running a CSS animation on it
+  speakerBump() {
     $('#beat-speaker-center-outer').velocity({ blur: 3 }, 100).velocity({ blur: 0 }, 100);
     $('#beat-speaker-center-inner').velocity({ scale: 1.05 }, 100).velocity({ scale: 1 }, 100);
   },
@@ -203,76 +216,59 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame;
-    window.cancelAnimationFrame = window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame;
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-    let dancer = new Dancer(),
-      kick = dancer.createKick({
-        threshold: this.get('threshold'),
-        onKick: (mag, ratioKickMag) => {
-          if (this.get('paused') === false) {
-            this.simulateKick(mag, ratioKickMag);
-          }
-        }
-      });
-
-    kick.on();
-
-    this.setProperties({
-      dancer: dancer,
-      kick: kick
+    chrome.storage.local.get('threshold', ({threshold}) => {
+      if (!isNone(threshold)) {
+        this.set('threshold', threshold);
+      }
     });
 
-    ['threshold', 'playerBottomDisplayed', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange'].forEach((item) => {
-      chrome.storage.local.get(item, ({itemVal}) => {
-        if (!isNone(itemVal)) {
-          if (isNone(this.actions[item + 'Changed'])) {
-            this.set(item, itemVal);
-          } else {
-            this.send(item + 'Changed', itemVal);
-          }
-        }
-      });
+    chrome.storage.local.get('flashingTransitions', ({flashingTransitions}) => {
+      if (!isNone(flashingTransitions)) {
+        this.set('flashingTransitions', flashingTransitions);
+      }
+    });
+
+    chrome.storage.local.get('colorloopMode', ({colorloopMode}) => {
+      if (!isNone(colorloopMode)) {
+        this.set('colorloopMode', colorloopMode);
+      }
+    });
+
+    chrome.storage.local.get('hueRange', ({hueRange}) => {
+      if (!isNone(hueRange)) {
+        this.set('hueRange', hueRange);
+      }
+    });
+
+    chrome.storage.local.get('brightnessRange', ({brightnessRange}) => {
+      if (!isNone(brightnessRange)) {
+        this.set('brightnessRange', brightnessRange);
+      }
+    });
+
+    chrome.storage.local.get('isListenining', ({isListenining}) => {
+      if (!isNone(isListenining)) {
+        this.set('isListenining', isListenining);
+      }
     });
   },
 
   didInsertElement() {
-    this._super();
-
-    let self = this;
-
     // prevent space/text selection when the user repeatedly clicks on the center
     $('#beat-container').on('mousedown', '#beat-speaker-center-inner', function (event) {
       event.preventDefault();
     });
-
-    if (!this.get('playerBottomDisplayed')) {
-      $('#player-bottom').hide();
-    }
   },
 
   actions: {
-    slideTogglePlayerBottom() {
-      let elem = this.$('#player-bottom');
-
-      elem.velocity(elem.is(':visible') ? 'slideUp' : 'slideDown', { duration: 300 });
-      this.changePlayerControl('playerBottomDisplayed', !this.get('playerBottomDisplayed'));
-    },
-    playerBottomDisplayedChanged(value) {
-      this.changePlayerControl('playerBottomDisplayed', value);
-    },
-    thresholdChanged(value) {
-      this.changePlayerControl('threshold', value, true);
-    },
-    brightnessRangeChanged(value) {
-      this.changePlayerControl('brightnessRange', value);
-    },
-    hueRangeChanged(value) {
-      this.changePlayerControl('hueRange', value);
+    toggleListening() {
+      this.toggleProperty('isListenining');
     },
     clickSpeaker() {
-      this.simulateKick(1);
+      this.simulateKick();
+    },
+    hideTooltip() {
+      $('.bootstrap-tooltip').tooltip('hide');
     },
     toggleDimmer() {
       this.sendAction('toggleDimmer');

@@ -9,12 +9,12 @@ export default Component.extend({
   tagName: 'footer',
   classNames: ['footer'],
 
-  year: computed(function(){
+  year: computed(function () {
     return new Date().getFullYear();
   }),
 
   actions: {
-    toggleDimmer(){
+    toggleDimmer() {
       this.sendAction();
     }
   }

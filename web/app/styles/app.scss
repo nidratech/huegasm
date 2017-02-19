@@ -23,7 +23,7 @@ body > .ember-view {
 }
 
 body, button {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 #huegasm {
@@ -37,12 +37,17 @@ body, button {
 .footer {
   margin: 0 auto 10px auto;
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   text-align: center;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+}
 
+@media(min-width:767px) {
+  .footer {
+    padding: 0 9%;
+  }
 }
 
 .footer-text {

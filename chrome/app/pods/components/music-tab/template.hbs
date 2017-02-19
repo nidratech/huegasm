@@ -1,10 +1,8 @@
-<div id="slide-toggle" class="text-center pointer row" {{action "slideTogglePlayerBottom"}}>
-  <div class="col-xs-offset-5 col-xs-2">
-    {{paper-icon beatDetectionAreaArrowIcon id="beat-detection-area-arrow-icon"}}
-  </div>
+<div id="fancy-button-wrapper">
+  <a href="#" class="fancy-button note {{if isListenining "active"}}" {{action "toggleListening"}}></a>
 </div>
 
-<div id="player-bottom" class="row {{if dimmerOn "dimmerOn"}} {{if playerBottomDisplayed "display-flex"}}">
+<div class="row {{if dimmerOn "dimmerOn"}}">
   <div id="beat-area" class="col-sm-7 col-xs-12">
     <div class="row" id="beat-option-row">
       <div class="beat-option col-xs-4">
@@ -14,7 +12,7 @@
           </span>
 
           {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect
-          on-change="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+          on-change=(action (mut hueRange)) pips=beatOptions.hueRange.pips}}
       </div>
 
       <div class="beat-option col-xs-4">
@@ -24,7 +22,7 @@
           </span>
 
           {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range
-          on-change="brightnessRangeChanged" pips=beatOptions.brightnessRange.pips}}
+          on-change=(action (mut brightnessRange)) pips=beatOptions.brightnessRange.pips}}
       </div>
 
       <div id="sensitivity-settings" class="beat-option col-xs-4">
@@ -33,8 +31,8 @@
           Sensitivity
           </span>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged"
-          pips=beatOptions.threshold.pips}}
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action
+          (mut threshold)) pips=beatOptions.threshold.pips}}
       </div>
 
       <div id="light-option" class="col-xs-12">

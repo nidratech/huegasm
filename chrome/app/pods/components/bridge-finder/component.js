@@ -59,23 +59,25 @@ export default Component.extend({
         .done((result, status) => {
           let bridgeFindStatus = 'fail';
 
-          if (status === 'success' && result.length === 1) {
-            this.set('bridgeIp', result[0].internalipaddress);
-            chrome.storage.local.set({ 'bridgeIp': result[0].internalipaddress });
-            bridgeFindStatus = 'success';
-          } else if (result.length > 1) {
-            let multipleBridgeIps = this.get('multipleBridgeIps');
+          if (!this.isDestroyed) {
+            if (status === 'success' && result.length === 1) {
+              this.set('bridgeIp', result[0].internalipaddress);
+              chrome.storage.local.set({ 'bridgeIp': result[0].internalipaddress });
+              bridgeFindStatus = 'success';
+            } else if (result.length > 1) {
+              let multipleBridgeIps = this.get('multipleBridgeIps');
 
-            result.forEach(function (item) {
-              multipleBridgeIps.pushObject(item.internalipaddress);
-            });
+              result.forEach(function (item) {
+                multipleBridgeIps.pushObject(item.internalipaddress);
+              });
 
-            bridgeFindStatus = 'multiple';
-          } else {
-            bridgeFindStatus = 'fail';
+              bridgeFindStatus = 'multiple';
+            } else {
+              bridgeFindStatus = 'fail';
+            }
+
+            this.set('bridgeFindStatus', bridgeFindStatus);
           }
-
-          this.set('bridgeFindStatus', bridgeFindStatus);
         })
         .fail(() => {
           this.set('bridgeFindStatus', 'fail');
@@ -99,7 +101,6 @@ export default Component.extend({
 
           if (status === 'success' && !result[0].error) {
             this.clearBridgePingIntervalHandle();
-            debugger;
             chrome.storage.local.set({ 'bridgeUsername': result[0].success.username });
             this.set('bridgeUsername', result[0].success.username);
           }
@@ -114,7 +115,9 @@ export default Component.extend({
 
   clearBridgePingIntervalHandle() {
     clearInterval(this.get('bridgePingIntervalHandle'));
-    this.set('bridgePingIntervalHandle', null);
+    if (!this.isDestroyed) {
+      this.set('bridgePingIntervalHandle', null);
+    }
   },
 
   actions: {

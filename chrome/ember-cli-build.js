@@ -14,8 +14,6 @@ module.exports = function (defaults) {
     destDir: '/fonts/bootstrap'
   });
 
-  app.import('vendor/dancer.js');
-
   app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
   app.import('bower_components/velocity/velocity.js');
 

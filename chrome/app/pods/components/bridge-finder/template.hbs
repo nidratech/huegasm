@@ -6,7 +6,7 @@
     {{#if isAuthenticating}}
       <p>
         Your bridge IP is <b>{{bridgeIp}}</b>
-        <br> Press the button on your bridge to authenticate this application.
+        <br> Press the button on your bridge to authenticate Huegasm.
       </p>
     {{else}}
       <p>You failed to press the button in time. <a class="no-text-decoration" href="#" {{action 'retry'}}>RETRY</a></p>
@@ -18,7 +18,7 @@
     {{/unless}}
 
     {{#if bridgeFindMultiple}}
-      <p>Huegasm found multiple hue bridges. <br> Please select the one you want to use for this application.</p>
+      <p>Huegasm found multiple hue bridges. <br> Please select the one you want to use for Huegasm.</p>
 
       <div id="bridge-button-group">
         {{#each multipleBridgeIps as |bridge|}}

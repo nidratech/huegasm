@@ -1,6 +1,5 @@
 #lights-tab {
   padding: 0;
-  margin-top: 5vh;
   .paper-icon {
     line-height: 0.8 !important;
   }
@@ -19,7 +18,6 @@
 
 #hue-controls {
   max-width: 1200px;
-  height: 90vh;
   md-progress-circular {
     position: absolute;
     top: 50%;
@@ -35,7 +33,7 @@
 }
 
 #navigation {
-  padding: 15px 0 4vh;
+  padding: 10px 0 2vh;
   text-align: center;
   margin: auto;
   position: relative;
@@ -44,13 +42,13 @@
     text-align: right;
     position: absolute;
     top: -10px;
-    right: 10px;
+    right: -10px;
     transform: scale(1.1);
   }
 }
 
 .navigation-item {
-  font-size: 18px;
+  font-size: 20px;
   padding: 0 10px 0 10px;
   &.active {
     font-weight: bold;

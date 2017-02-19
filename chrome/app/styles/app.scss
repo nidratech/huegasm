@@ -21,12 +21,11 @@ body {
 
 body > .ember-view {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
 
 body, button {
-  font-family: 'Slabo 27px', serif;
+  font-family: 'Raleway', sans-serif;
 }
 
 #huegasm {

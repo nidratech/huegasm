@@ -300,9 +300,10 @@
   }
   .option-description {
     display: inline-flex;
-    font-size: 20px;
+    font-size: 18px;
     justify-content: center;
     flex-direction: column;
+    padding: 10px 0;
   }
   button {
     margin-top: 0;
@@ -461,6 +462,12 @@
   #sensitivity-settings .noUi-value-vertical {
     display: none;
   }
+  .option-description {
+    height: 55px;
+  }
+}
+
+@media(max-width: 950px) and (min-width:768px) {
   .option-description {
     height: 55px;
   }

@@ -18,6 +18,7 @@ md-checkbox .md-label {
 }
 
 .md-button {
+  font-size: 13px;
   flex-direction: unset;
   span {
     width: 100%;
@@ -62,7 +63,7 @@ md-switch.md-default-theme.md-checked .md-thumb {
 }
 
 md-list-item {
-  margin-bottom: 2vh;
+  margin-bottom: 1vh;
 }
 
 @media(max-width:500px) {

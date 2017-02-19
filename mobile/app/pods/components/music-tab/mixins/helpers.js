@@ -22,7 +22,7 @@ export default Mixin.create({
 
   beatOptions: {
     threshold: {
-      range: {min: 0, max: 0.5},
+      range: { min: 0, max: 0.5 },
       step: 0.01,
       defaultValue: 0.3,
       pips: {
@@ -30,23 +30,23 @@ export default Mixin.create({
         values: [0, 0.25, 0.5],
         density: 10,
         format: {
-          to: function ( value ) {
-            if(value === 0) {
-              value = 'More';
-            } else if(value === 0.25) {
+          to: function (value) {
+            if (value === 0) {
+              value = 'High';
+            } else if (value === 0.25) {
               value = '';
             } else {
-              value = 'Less';
+              value = 'Low';
             }
 
             return value;
           },
-          from: function ( value ) { return value; }
+          from: function (value) { return value; }
         }
       }
     },
     hueRange: {
-      range: {min: 0, max: 65535},
+      range: { min: 0, max: 65535 },
       step: 1,
       defaultValue: 0.3,
       pips: {
@@ -54,10 +54,10 @@ export default Mixin.create({
         values: [0, 25500, 46920, 65535],
         density: 10,
         format: {
-          to: function ( value ) {
-            if(value === 0 || value === 65535) {
+          to: function (value) {
+            if (value === 0 || value === 65535) {
               value = 'Red';
-            } else if(value === 25500 ) {
+            } else if (value === 25500) {
               value = 'Green';
             } else {
               value = 'Blue';
@@ -65,12 +65,12 @@ export default Mixin.create({
 
             return value;
           },
-          from: function ( value ) { return value; }
+          from: function (value) { return value; }
         }
       }
     },
     brightnessRange: {
-      range: {min: 1, max: 254},
+      range: { min: 1, max: 254 },
       step: 1,
       defaultValue: 0,
       pips: {
@@ -78,8 +78,16 @@ export default Mixin.create({
         values: [1, 50, 100, 150, 200, 254],
         density: 10,
         format: {
-          to: function ( value ) { return value; },
-          from: function ( value ) { return value; }
+          to: function (value) {
+            if (value === 50) {
+              value = 20;
+            } else if (value === 100) {
+              value = 40;
+            } else {
+              value = 'Low';
+            }
+          },
+          from: function (value) { return value; }
         }
       }
     }
@@ -99,8 +107,6 @@ export default Mixin.create({
   playerBottomDisplayed: true,
   dragging: false,
   draggingOverPlayListArea: false,
-  audioStream: null,
-  dimmerOn: false,
   isShowingAddSoundCloudModal: false,
 
   colorloopMode: false,
@@ -133,26 +139,26 @@ export default Mixin.create({
   SC_CLIENT_ID: 'aeec0034f58ecd85c2bd1deaecc41594',
   scUserNotSupportedHtml: '<div class="alert alert-danger" role="alert">SoundCloud user URLs are not supported.</div>',
   tooManySoundCloudFuckUps: '<div class="alert alert-danger" role="alert">The SoundCloud API is not seving the audio properly. More details <a href="https://www.soundcloudcommunity.com/soundcloud/topics/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header" target="_blank" rel="noopener noreferrer">HERE</a>.</div>',
-  notStreamableHtml(fileNames){
-    let html =  '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
+  notStreamableHtml(fileNames) {
+    let html = '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
 
     return html;
   },
-  urlNotFoundHtml(url){
+  urlNotFoundHtml(url) {
     return '<div class="alert alert-danger" role="alert">The URL ( ' + url + ' ) could not be resolved.</div>';
   },
-  failedToPlayFileHtml(fileName){
+  failedToPlayFileHtml(fileName) {
     return '<div class="alert alert-danger" role="alert">Failed to play file ( ' + fileName + ' ).</div>';
   },
-  failedToDecodeFileHtml(fileName){
+  failedToDecodeFileHtml(fileName) {
     return '<div class="alert alert-danger" role="alert">Failed to decode file ( ' + fileName + ' ).</div>';
   },
 
-  scUrl: computed('playQueuePointer', 'playQueue.[]', function(){
+  scUrl: computed('playQueuePointer', 'playQueue.[]', function () {
     let rtn = null,
       currentSong = this.get('playQueue')[this.get('playQueuePointer')];
 
-    if(currentSong && currentSong.scUrl){
+    if (currentSong && currentSong.scUrl) {
       rtn = currentSong.scUrl;
     }
 
@@ -161,11 +167,11 @@ export default Mixin.create({
 
   playQueueEmpty: computed.empty('playQueue'),
   playQueueNotEmpty: computed.notEmpty('playQueue'),
-  playQueueMultiple: computed('playQueue.[]', function(){
+  playQueueMultiple: computed('playQueue.[]', function () {
     return this.get('playQueue').length > 1;
   }),
 
-  seekPosition: computed('timeElapsed', 'timeTotal', function(){
+  seekPosition: computed('timeElapsed', 'timeTotal', function () {
     let timeTotal = this.get('timeTotal'),
       timeElapsed = this.get('timeElapsed');
 
@@ -173,21 +179,21 @@ export default Mixin.create({
       return 0;
     }
 
-    return timeElapsed/timeTotal*100;
+    return timeElapsed / timeTotal * 100;
   }),
 
-  largeArtworkPic: computed('playQueuePointer', 'currentVisName', function(){
+  largeArtworkPic: computed('playQueuePointer', 'currentVisName', function () {
     let pic = '',
       currentVisName = this.get('currentVisName'),
       playQueuePointer = this.get('playQueuePointer'),
       playQueue = this.get('playQueue');
 
-    if(playQueuePointer !== -1 && currentVisName === 'None'){
+    if (playQueuePointer !== -1 && currentVisName === 'None') {
       let song = playQueue[playQueuePointer];
-      if(!isNone(song.picture)){
+      if (!isNone(song.picture)) {
         pic = song.picture;
 
-        if(song.scUrl){
+        if (song.scUrl) {
           pic = pic.replace('67x67', '500x500');
         }
       }
@@ -196,91 +202,91 @@ export default Mixin.create({
     return pic;
   }),
 
-  repeatIcon: computed('repeat', function() {
-    if(this.get('repeat') === 2) {
+  repeatIcon: computed('repeat', function () {
+    if (this.get('repeat') === 2) {
       return 'repeat-one';
     }
 
     return 'repeat';
   }),
 
-  playingIcon: computed('playing', function() {
-    if(this.get('playing')){
+  playingIcon: computed('playing', function () {
+    if (this.get('playing')) {
       return 'pause';
-    } else if(this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0){
+    } else if (this.get('timeElapsed') === this.get('timeTotal') && this.get('timeTotal') !== 0) {
       return 'replay';
     } else {
       return 'play-arrow';
     }
   }),
 
-  playerAreaClickIcon: computed('playing', function() {
-    if(this.get('playing')){
+  playerAreaClickIcon: computed('playing', function () {
+    if (this.get('playing')) {
       return 'play-arrow';
     } else {
       return 'pause';
     }
   }),
 
-  playListAreaClass: computed('dragging', 'draggingOverPlayListArea', 'dimmerOn', function(){
+  playListAreaClass: computed('dragging', 'draggingOverPlayListArea', 'dimmerOn', function () {
     let classes = 'pointer';
 
-    if(this.get('dragging')){
+    if (this.get('dragging')) {
       classes += ' drag-here-highlight';
     }
 
-    if(this.get('draggingOverPlayListArea')){
+    if (this.get('draggingOverPlayListArea')) {
       classes += ' dragging-over';
     }
 
-    if(this.get('dimmerOn')){
+    if (this.get('dimmerOn')) {
       classes += ' dimmerOn';
     }
 
     return classes;
   }),
 
-  dimmerOnClass: computed('dimmerOn', function(){
+  dimmerOnClass: computed('dimmerOn', function () {
     return this.get('dimmerOn') ? 'dimmerOn' : null;
   }),
 
-  repeatClass: computed('repeat', function(){
+  repeatClass: computed('repeat', function () {
     return this.get('repeat') !== 0 ? 'player-control-icon active' : 'player-control-icon';
   }),
 
-  shuffleClass: computed('shuffle', function(){
+  shuffleClass: computed('shuffle', function () {
     return this.get('shuffle') ? 'player-control-icon active' : 'player-control-icon';
   }),
 
-  beatDetectionAreaArrowIcon: computed('playerBottomDisplayed', function(){
-    if(!this.get('playerBottomDisplayed')){
+  beatDetectionAreaArrowIcon: computed('playerBottomDisplayed', function () {
+    if (!this.get('playerBottomDisplayed')) {
       return 'keyboard-arrow-down';
     } else {
       return 'keyboard-arrow-up';
     }
   }),
 
-  timeElapsedTxt: computed('timeElapsed', function(){
+  timeElapsedTxt: computed('timeElapsed', function () {
     return this.formatTime(this.get('timeElapsed'));
   }),
 
-  timeTotalTxt: computed('timeTotal', function() {
+  timeTotalTxt: computed('timeTotal', function () {
     return this.formatTime(this.get('timeTotal'));
   }),
 
-  onPlayQueueChange: observer('playQueue.length', function(){
+  onPlayQueueChange: observer('playQueue.length', function () {
     let playQueueLength = this.get('playQueue.length');
 
-    if(playQueueLength > this.get('oldPlayQueueLength')){
-      run.once(this, ()=>{
-        run.next(this, function() {
-          $(`.track${playQueueLength-1}`).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
+    if (playQueueLength > this.get('oldPlayQueueLength')) {
+      run.once(this, () => {
+        run.next(this, function () {
+          $(`.track${playQueueLength - 1}`).velocity('scroll', { container: $('#play-list-area'), duration: 200 });
           Ps.update(document.getElementById('play-list-area'));
         });
       });
     } else {
-      run.once(this, ()=>{
-        run.next(this, function() {
+      run.once(this, () => {
+        run.next(this, function () {
           Ps.update(document.getElementById('play-list-area'));
         });
       });
@@ -289,17 +295,17 @@ export default Mixin.create({
     this.set('oldPlayQueueLength', playQueueLength);
   }),
 
-  onColorloopModeChange: observer('colorloopMode', 'playing', function(){
+  onColorloopModeChange: observer('colorloopMode', 'playing', function () {
     this.set('colorLoopOn', this.get('playing') && this.get('colorloopMode'));
   }),
 
-  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', function(self, option){
+  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', function (self, option) {
     option = option.replace('.[]', '');
     let value = this.get(option);
 
     // can't really save local music
-    if(option === 'playQueue'){
-      value = value.filter((song)=>{
+    if (option === 'playQueue') {
+      value = value.filter((song) => {
         return !song.url.startsWith('blob:');
       });
     }
@@ -307,9 +313,9 @@ export default Mixin.create({
     this.get('storage').set('huegasm.' + option, value);
   }),
 
-  formatTime(time){
-    return this.pad(Math.floor(time/60), 2) + ':' + this.pad(time%60, 2);
+  formatTime(time) {
+    return this.pad(Math.floor(time / 60), 2) + ':' + this.pad(time % 60, 2);
   },
 
-  pad(num, size){ return ('000000000' + num).substr(-size); }
+  pad(num, size) { return ('000000000' + num).substr(-size); }
 });

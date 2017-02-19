@@ -6,3 +6,5 @@
 /dist/
 /web/
 /mobile/
+/chrome/
+/.vscode/

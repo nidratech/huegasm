@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Huegasm</title>
-    <meta name="description" content="Huegasm is a free web application for managing and synchronizing your Philips Hue lights with the beat of your music.">
-    <meta name="keywords" content="huegasm,hue,philips hue,lights,ambience,music player">
-    <meta name="author" content="Egor Philippov">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="application/ld+json">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Huegasm</title>
+  <meta name="description" content="Huegasm is a free web application for managing and synchronizing your Philips Hue lights with the beat of your music.">
+  <meta name="keywords" content="huegasm,hue,philips hue,lights,ambience,music player">
+  <meta name="author" content="Egor Philippov">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script type="application/ld+json">
     {
       "@context": "http://schema.org",
       "@type": "WebSite",
       "name": "Huegasm",
       "url": "http://www.huegasm.com/"
     }
-    </script>
+  </script>
 
-    <!--Open graph meta tags -->
-    <meta property="og:title" content="Huegasm" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Huegasm" />
-    <meta property="og:url" content="http://www.huegasm.com/" />
-    <meta property="og:image" content="/mstile-144x144.png" />
+  <!--Open graph meta tags -->
+  <meta property="og:title" content="Huegasm" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Huegasm" />
+  <meta property="og:url" content="http://www.huegasm.com/" />
+  <meta property="og:image" content="/mstile-144x144.png" />
 
-    <link type="text/plain" rel="author" href="http://www.huegasm.com/humans.txt" />
-
-    
-<meta name="huegasm/config/environment" content="%7B%22modulePrefix%22%3A%22huegasm%22%2C%22podModulePrefix%22%3A%22huegasm/pods%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22huegasm%22%2C%22version%22%3A%221.0.0+83ef8a40%22%7D%2C%22ember-paper%22%3A%7B%22insertFontLinks%22%3Atrue%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
+  <link type="text/plain" rel="author" href="http://www.huegasm.com/humans.txt" /> 
+<meta name="huegasm/config/environment" content="%7B%22modulePrefix%22%3A%22huegasm%22%2C%22podModulePrefix%22%3A%22huegasm/pods%22%2C%22environment%22%3A%22production%22%2C%22rootURL%22%3A%22/%22%2C%22locationType%22%3A%22auto%22%2C%22EmberENV%22%3A%7B%22FEATURES%22%3A%7B%7D%7D%2C%22APP%22%3A%7B%22name%22%3A%22huegasm%22%2C%22version%22%3A%221.0.0+e7351855%22%7D%2C%22ember-paper%22%3A%7B%22insertFontLinks%22%3Atrue%7D%2C%22exportApplicationGlobal%22%3Afalse%7D" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"><link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <link href='//fonts.googleapis.com/css?family=Slabo+27px|Open+Sans' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway" rel="stylesheet">
 
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-aceb7d2a4c76aeebe1e71ef2473d3aa3.png">
+  <link rel="icon" type="image/png" href="/favicon-32x32-0d0e84184465fa9a8b844ced2c1caaac.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/favicon-16x16-47510f1c37a5ef06f7cc03b7fc911145.png" sizes="16x16">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="theme-color" content="#ffffff">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-aceb7d2a4c76aeebe1e71ef2473d3aa3.png">
-    <link rel="icon" type="image/png" href="/favicon-32x32-0d0e84184465fa9a8b844ced2c1caaac.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-16x16-47510f1c37a5ef06f7cc03b7fc911145.png" sizes="16x16">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" integrity="" href="/assets/vendor-7d5063b5f78d5bcd7614618a4ea3a056.css">
+  <link rel="stylesheet" integrity="" href="/assets/huegasm-0abd32654b744b5e024034fd1be4ced0.css"> 
 
-    <link rel="stylesheet" integrity="" href="/assets/vendor-7d5063b5f78d5bcd7614618a4ea3a056.css">
-    <link rel="stylesheet" integrity="" href="/assets/huegasm-92a7a22b8ea60904dccdfeeebebba8c7.css">
+  <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
 
-    
+  <script>
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    <script src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js"></script>
+    ga('create', 'UA-69470561-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+</head>
 
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<body>
+  
 
-      ga('create', 'UA-69470561-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-  </head>
-  <body>
-    
+  <script src="/assets/vendor-6e3ec3bd9a28e172029ae945570e91cf.js" integrity="sha256-Wye4j7MqXkqknGEZB6wLzBR3jw7a/5SkCTifLzaHoRs= sha512-izlSo5CTBzpZqmklbArH2Bv2r4OioBTArwqxQRwoUICbze7a8IVzlQskkDG9bcQ5FKI5zpMnD9WHutfQqVitJA==" ></script>
+  <script src="/assets/huegasm-7bc31b9ed90922d2b663d0b86f849fd4.js" integrity="sha256-1JZ9r1kivQBSAD6pAlk/YR180J3cXYrOeBtBHNRzruM= sha512-y1Rlprk0Q4Qug+gLNXfwUrYcLiSzfTI4jHtqzwk0pxhE/iYUiy+rddWfyZj/4aLAuMHBVGXeoEgOkSe+DKDdXA==" ></script>
 
-    <script src="/assets/vendor-c96c18aa54749675352096252b77009e.js" integrity="sha256-3NjPC9AVsDE7USeyOqguZu3veKOi6CojUiqdfGBcx6k= sha512-jmCH1NGp/btUyb0fQuNkGMfusnauIwwWbaR/GBjMPvMC67ppX/3zycSIOW/LV3RG7sxI6XtgVlmfQfYbDhWl1w==" ></script>
-    <script src="/assets/huegasm-100c724ebd5df5ab31972a311de8ac1f.js" integrity="sha256-n5whRGyi3vLZH/f+G+adszeOHCSP9+8r1w1jfF7Ehks= sha512-kZPqs3JG5RM/S+vKTNaH0KnSDmbc3LUqUwaxcHpxFsgiRz3dJ0swc/0MGDMUgFrqu1oYZ8ku9+dBepHc2qpz2g==" ></script>
+  <div id="ember-basic-dropdown-wormhole"></div>
+</body>
 
-    <div id="ember-basic-dropdown-wormhole"></div>
-  </body>
 </html>

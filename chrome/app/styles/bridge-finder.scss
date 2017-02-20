@@ -15,15 +15,6 @@
   margin: 30px auto 20px;
 }
 
-#intro {
-  font-size: 22px;
-}
-
-#intro-paragraph {
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
 #bridge-finder, .ready-block {
   text-align: center;
   padding: 10px 15px 0;
@@ -31,42 +22,10 @@
 }
 
 #bridge-finder {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
   .md-bar {
     background-color: $secondaryThemeColor !important;
   }
-}
-
-// preloading image
-.ready-block:after {
-  display: none;
-  content: url(images/pressButtonBridge.png);
-}
-
-.embed-container {
-  position:relative;
-  padding-bottom:56.25%;
-  padding-top:30px;
-  height:0;
-  overflow:hidden;
-}
-
-.embed-container-wrapper {
-  max-width: 550px;
-  margin: auto;
-}
-
-.embed-container iframe, .embed-container object, .embed-container embed {
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-}
-
-.go-button {
-  margin: 20px 0;
-  border-radius: 100% !important;
-  width: 100px;
-  height: 100px;
-  font-size: 28px;
 }

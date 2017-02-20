@@ -42,6 +42,7 @@ body, button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 15px;
 }
 
 @media(min-width:767px) {
@@ -53,6 +54,7 @@ body, button {
 .footer-text {
   display: inline-block;
   font-size: 18px;
+  padding-left: 39%;
   a {
     margin-left: 5px;
   }
@@ -61,14 +63,6 @@ body, button {
 .alert {
   margin-bottom: 0;
   border: none;
-}
-
-
-.title {
-  margin-bottom: 20px;
-  img {
-    width: 200px;
-  }
 }
 
 button.md-warn {
@@ -93,8 +87,40 @@ div.ember-modal-dialog {
   display: flex !important;
 }
 
+#intro-background {
+  min-height: 50vh;
+  min-height: 200px;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  #intro-wrapper {
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    margin: auto;
+  }
+}
+
+.video-icon {
+  position: absolute;
+}
+
+@media(max-width:768px) {
+  .footer-text {
+    padding-left: 0 !important;
+  }
+}
+
 // fancy webkit scrollbars
 @media(min-width:767px) {
+  #intro {
+    padding: 3vh 0;
+  }
+
+  #intro-paragraph {
+    padding-bottom: 2vh;
+  }
+
   ::-webkit-scrollbar {
     -webkit-appearance: none;
   }

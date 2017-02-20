@@ -11,11 +11,5 @@ export default Component.extend({
 
   year: computed(function () {
     return new Date().getFullYear();
-  }),
-
-  actions: {
-    toggleDimmer() {
-      this.sendAction();
-    }
-  }
+  })
 });

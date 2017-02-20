@@ -75,17 +75,21 @@ export default Mixin.create({
       defaultValue: 0,
       pips: {
         mode: 'values',
-        values: [1, 50, 100, 150, 200, 254],
+        values: [1, 63, 127, 190, 254],
         density: 10,
         format: {
           to: function (value) {
-            if (value === 50) {
-              value = 20;
-            } else if (value === 100) {
-              value = 40;
-            } else {
-              value = 'Low';
+            if (value === 63) {
+              value = 25;
+            } else if (value === 127) {
+              value = 50;
+            } else if (value === 190) {
+              value = 75;
+            } else if (value === 254) {
+              value = 100;
             }
+
+            return value;
           },
           from: function (value) { return value; }
         }

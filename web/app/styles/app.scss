@@ -89,11 +89,14 @@ div.ember-modal-dialog {
   display: flex !important;
 }
 
+#intro-logo {
+  width: 45px;
+}
+
 #intro-background {
   min-height: 50vh;
   min-height: 200px;
   display: flex;
-  margin-bottom: 15px;
   padding: 10px 0;
   #intro-wrapper {
     width: 80%;

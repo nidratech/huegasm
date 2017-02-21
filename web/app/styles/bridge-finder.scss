@@ -67,4 +67,8 @@
   width: 100px;
   height: 100px;
   font-size: 28px;
+  transition: all .1s linear;
+  &:hover {
+    background-color: darken(#f44336, 7%) !important;
+  }
 }

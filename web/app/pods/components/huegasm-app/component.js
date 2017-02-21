@@ -12,6 +12,7 @@ export default Component.extend({
   trial: false,
   ready: false,
   elementId: 'huegasm',
+  classNameBindings: ['bridgeUsername::display-flex'],
 
   init() {
     this._super(...arguments);

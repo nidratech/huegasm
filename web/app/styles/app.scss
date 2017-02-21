@@ -28,6 +28,8 @@ body, button {
 
 #huegasm {
   flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 
 .ember-app {
@@ -91,7 +93,7 @@ div.ember-modal-dialog {
   min-height: 50vh;
   min-height: 200px;
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding: 10px 0;
   #intro-wrapper {
     width: 80%;
@@ -121,11 +123,7 @@ div.ember-modal-dialog {
 // fancy webkit scrollbars
 @media(min-width:767px) {
   #intro {
-    padding: 3vh 0;
-  }
-
-  #intro-paragraph {
-    padding-bottom: 2vh;
+    padding: 1vh 0 3vh;
   }
 
   ::-webkit-scrollbar {

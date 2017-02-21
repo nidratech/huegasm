@@ -90,7 +90,8 @@ div.ember-modal-dialog {
 }
 
 #intro-logo {
-  width: 45px;
+  width: 400px;
+  margin-bottom: 4vh;
 }
 
 #intro-background {
@@ -120,6 +121,9 @@ div.ember-modal-dialog {
 @media(max-width:768px) {
   .footer-text {
     padding-left: 0 !important;
+  }
+  #intro-logo {
+    margin-bottom: 10px;
   }
 }
 

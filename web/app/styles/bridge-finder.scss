@@ -27,6 +27,9 @@
 #bridge-finder, .ready-block {
   text-align: center;
   font-size: 16px;
+}
+
+.ready-block {
   margin-bottom: 10vh;
 }
 
@@ -71,5 +74,11 @@
   transition: all .1s linear;
   &:hover {
     background-color: darken(#f44336, 7%) !important;
+  }
+}
+
+@media(max-width:768px) {
+  .ready-block {
+    margin-bottom: 10px;
   }
 }

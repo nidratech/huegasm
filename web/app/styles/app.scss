@@ -103,6 +103,13 @@ div.ember-modal-dialog {
 
 .video-icon {
   position: absolute;
+  md-icon {
+    transition: all .1s linear;
+    color: rgba($blackish, 0.4) !important;
+    &:hover {
+      color: rgba($blackish, 0.7) !important;
+    }
+  }
 }
 
 @media(max-width:768px) {

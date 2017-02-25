@@ -9,7 +9,6 @@
 @import 'bridge-finder';
 @import 'common';
 @import 'dimmer';
-@import 'fancy-speaker';
 @import 'hue-controls';
 @import 'light-group';
 @import 'music-tab';
@@ -17,6 +16,7 @@
 
 body {
   min-width: 500px;
+  font-size: 13px;
 }
 
 body > .ember-view {

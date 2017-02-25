@@ -18,7 +18,7 @@ export default Component.extend({
 
   activeLights: A(),
   tabList: ["Lights", "Music"],
-  selectedTab: 1,
+  selectedTab: 0,
   pauseLightUpdates: false,
 
   displayFailure: true,
@@ -105,6 +105,7 @@ export default Component.extend({
           fail();
         } else if (status === 'success' && JSON.stringify(this.get('lightsData')) !== JSON.stringify(result)) {
           this.set('lightsData', result);
+          chrome.storage.local.set({ 'lightsData': result });
         }
       }).fail(fail);
     }
@@ -120,6 +121,7 @@ export default Component.extend({
       chrome.storage.local.remove('bridgeUsername');
       chrome.storage.local.remove('bridgeIp');
       location.reload();
+      chrome.runtime.sendMessage({ action: 'stop-listening' });
     },
     toggleDimmer() {
       this.sendAction('toggleDimmer');
@@ -130,6 +132,7 @@ export default Component.extend({
     clearAllSettings() {
       chrome.storage.local.clear();
       location.reload();
+      chrome.runtime.sendMessage({ action: 'stop-listening' });
     }
   }
 });

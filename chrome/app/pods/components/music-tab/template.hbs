@@ -1,5 +1,6 @@
 <div id="fancy-button-wrapper">
-  <a href="#" class="fancy-button note {{if isListenining "active"}}" {{action "toggleListening"}}></a>
+  <a href="#" data-content="Click here for Huegasm to start listening to your current tab" class="fancy-button note {{if isListenining "active"}}"
+    {{action "toggleListening"}}></a>
 </div>
 
 <div class="row {{if dimmerOn "dimmerOn"}}">
@@ -33,35 +34,6 @@
 
           {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action
           (mut threshold)) pips=beatOptions.threshold.pips}}
-      </div>
-
-      <div id="light-option" class="col-xs-12">
-        <span data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip"
-          {{action "hideTooltip" on="mouseLeave"}}>
-          {{paper-checkbox value=flashingTransitions onChange=(action (mut flashingTransitions)) label="Flashing Transitions"}}
-          </span>
-
-          <span data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip"
-            {{action "hideTooltip" on="mouseLeave"}}>
-            {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
-            </span>
-      </div>
-    </div>
-  </div>
-
-  <div id="beat-container" class="col-sm-5 col-xs-12">
-    <div class="bezel">
-      <div class="rivet1"></div>
-      <div class="rivet2"></div>
-      <div class="rivet3"></div>
-      <div class="rivet4"></div>
-      <div class="rivet5"></div>
-      <div class="rivet6"></div>
-      <div class="rivet7"></div>
-      <div class="rivet8"></div>
-
-      <div id="beat-speaker-center-outer">
-        <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}></div>
       </div>
     </div>
   </div>

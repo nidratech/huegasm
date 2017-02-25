@@ -27,8 +27,8 @@ storePassword=...
 
      pluginManager.onStop();
  }
-- channel.onStop = cordova.addDocumentEventHandler('stop'); from channel.onDeviceReady = cordova.addStickyDocumentEventHandler('deviceready');
+- channel.onStop = cordova.addDocumentEventHandler('stop');
 - case 'stop': after case 'pause':
-- add  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> to Android manifest
+- add <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> to Android manifest
 
 Just search for 'pause' and add the same type of event stuff for 'stop'. This is needed for properly split screening Huegasm with other apps.

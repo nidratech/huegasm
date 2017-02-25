@@ -8,7 +8,7 @@ const {
   isNone,
   $,
   inject: { service },
-  run: { later, next, once }
+  run: { later, once, next }
 } = Ember;
 
 export default Component.extend({
@@ -101,34 +101,57 @@ export default Component.extend({
 
   lastLightBopIndex: 0,
 
-  colorloopMode: false,
-  flashingTransitions: false,
-
   songBeatPreferences: {},
   usingBeatPreferences: false,
   oldBeatPrefCache: null,
   isListenining: false,
+  firstVisit: true,
 
   // noUiSlider connection specification
   filledConnect: [true, false],
   hueRangeConnect: [false, true, false],
 
-  onConfigItemChanged: observer('threshold', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange', 'isListenining', function (wtf, name) {
+  onActive: observer('active', function () {
+    if (this.get('active') && this.get('firstVisit')) {
+      chrome.storage.local.set({ firstVisit: false });
+      this.set('firstVisit', false);
+
+      next(this, () => {
+        this.$('#fancy-button-wrapper a').popover('show');
+
+        later(this, () => {
+          this.$('#fancy-button-wrapper a').popover('hide');
+        }, 5000);
+      });
+    }
+  }),
+
+  onConfigItemChanged: observer('threshold', 'hueRange', 'brightnessRange', 'isListenining', function (wtf, name) {
     once(this, () => {
       let value = this.get(name),
         self = this;
 
       this.set(name, value);
 
-      if (name === 'isListenining' && value) {
-        chrome.runtime.sendMessage({ action: 'start-listening' }, function (response) {
-          if (response && response.error) {
-            self.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + response.error + '</div>' });
+      if (name === 'isListenining') {
+        if (value) {
+          chrome.storage.local.get('currentlyListenining', ({currentlyListenining}) => {
+            if (!currentlyListenining) {
+              chrome.runtime.sendMessage({ action: 'start-listening' }, function (response) {
+                if (response && response.error) {
+                  self.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + response.error + '</div>' });
 
-            self.set('isListenining', false);
-            chrome.storage.local.set({ isListenining: false });
-          }
-        });
+                  self.set('isListenining', false);
+                  chrome.storage.local.set({ isListenining: false });
+                }
+              });
+            }
+          });
+        } else {
+          chrome.runtime.sendMessage({ action: 'stop-listening' });
+        }
+
+        this.set('pauseLightUpdates', value);
       }
 
       let toSave = {};
@@ -138,13 +161,11 @@ export default Component.extend({
   }),
 
   simulateKick() {
-    this.speakerBump();
+    this.buttonBump();
 
     let activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
-
-      transitiontime = this.get('flashingTransitions'),
       stimulateLight = (light, brightness, hue) => {
         let options = { 'bri': brightness };
 
@@ -173,6 +194,7 @@ export default Component.extend({
     if (activeLights.length > 0) {
       let lastLightBopIndex = this.get('lastLightBopIndex'),
         lightBopIndex,
+        hueRange = this.get('hueRange'),
         brightnessRange = this.get('brightnessRange'),
         light;
 
@@ -188,15 +210,7 @@ export default Component.extend({
       light = activeLights[lightBopIndex];
       this.set('lastLightBopIndex', lightBopIndex);
 
-      if (!this.get('colorloopMode')) {
-        let hueRange = this.get('hueRange');
-
-        color = Math.floor(Math.random() * (hueRange[1] - hueRange[0] + 1) + hueRange[0]);
-      }
-
-      if (transitiontime) {
-        timeToBriOff = 80;
-      }
+      color = Math.floor(Math.random() * (hueRange[1] - hueRange[0] + 1) + hueRange[0]);
 
       stimulateLight(light, brightnessRange[1], color);
       later(this, stimulateLight, light, brightnessRange[0], timeToBriOff);
@@ -205,32 +219,25 @@ export default Component.extend({
     this.set('paused', true);
     later(this, function () {
       this.set('paused', false);
-    }, 150);
+    }, 200);
   },
 
-  speakerBump() {
-    $('#beat-speaker-center-outer').velocity({ blur: 3 }, 100).velocity({ blur: 0 }, 100);
-    $('#beat-speaker-center-inner').velocity({ scale: 1.05 }, 100).velocity({ scale: 1 }, 100);
+  buttonBump() {
+    $('.fancy-button').velocity({ scale: 1.05 }, 100).velocity({ scale: 1 }, 100);
   },
 
   init() {
     this._super(...arguments);
 
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.action === 'button-bump') {
+        this.buttonBump();
+      }
+    });
+
     chrome.storage.local.get('threshold', ({threshold}) => {
       if (!isNone(threshold)) {
         this.set('threshold', threshold);
-      }
-    });
-
-    chrome.storage.local.get('flashingTransitions', ({flashingTransitions}) => {
-      if (!isNone(flashingTransitions)) {
-        this.set('flashingTransitions', flashingTransitions);
-      }
-    });
-
-    chrome.storage.local.get('colorloopMode', ({colorloopMode}) => {
-      if (!isNone(colorloopMode)) {
-        this.set('colorloopMode', colorloopMode);
       }
     });
 
@@ -251,6 +258,12 @@ export default Component.extend({
         this.set('isListenining', isListenining);
       }
     });
+
+    chrome.storage.local.get('firstVisit', ({firstVisit}) => {
+      if (!isNone(firstVisit)) {
+        this.set('firstVisit', firstVisit);
+      }
+    });
   },
 
   didInsertElement() {
@@ -263,12 +276,6 @@ export default Component.extend({
   actions: {
     toggleListening() {
       this.toggleProperty('isListenining');
-    },
-    clickSpeaker() {
-      this.simulateKick();
-    },
-    hideTooltip() {
-      $('.bootstrap-tooltip').tooltip('hide');
     },
     toggleDimmer() {
       this.sendAction('toggleDimmer');

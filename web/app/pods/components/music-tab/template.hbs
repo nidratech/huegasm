@@ -13,28 +13,16 @@
 
       {{#if playQueueNotEmpty}}
         <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip" data-title= {{prevTooltipTxt}}
-          {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span>
-          <!--
-      -->
-      {{/if}}
-      <!--
-                -->
-      <span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip" data-title= {{playingTooltipTxt}}
-        {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span>
-        <!--
-              -->
-        {{#if playQueueMultiple}}
-          <!--
-            --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span>
-          <!--
-              -->
-        {{/if}}
-        <!--
-      -->
-        <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip hidden-xs" id="volumeMutedTooltip" data-title= {{volumeMutedTooltipTxt}}
-          {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span>
-          <!--
-              -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-change="volumeChanged" id="volume-bar" class="hidden-xs"}}
+          {{action "previous"}}>{{paper-icon "skip-previous" class="player-control-icon"}}</span><!--
+      -->{{/if}}<!--
+      --><span data-toggle="tooltip" data-placement="top" id="playingTooltip" class="bootstrap-tooltip" data-title= {{playingTooltipTxt}}
+        {{action "play"}}>{{paper-icon playingIcon class="player-control-icon"}}</span><!--
+        -->{{#if playQueueMultiple}}<!--
+            --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" data-title="Next" {{action "next" true}}>{{paper-icon "skip-next" action="" class="player-control-icon"}}</span><!--
+        -->{{/if}}<!--
+        --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip hidden-xs" id="volumeMutedTooltip" data-title= {{volumeMutedTooltipTxt}}
+          {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
+          -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-change="volumeChanged" id="volume-bar" class="hidden-xs"}}
 
           <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
 

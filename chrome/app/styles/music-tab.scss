@@ -4,26 +4,16 @@
 
 #music-tab {
   padding: 0;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 #beat-area {
   position: relative;
-  padding: 0;
+  padding: 0 0 10px;
 }
 
 #beat-option-button-group {
   margin: 20px 0 10px 0;
-}
-
-#light-option {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
-  .md-label {
-    width: auto;
-  }
 }
 
 .beat-option {
@@ -37,7 +27,7 @@
   }
   .option-description {
     display: inline-flex;
-    font-size: 18px;
+    font-size: 16px;
     justify-content: center;
     flex-direction: column;
     padding: 10px 0;
@@ -59,11 +49,6 @@
   border-bottom-right-radius: 5px;
   display: flex;
   align-items: center;
-}
-
-#beat-container {
-  display: flex;
-  margin-bottom: 10px;
 }
 
 #beat-area .light-group {
@@ -91,22 +76,18 @@
 }
 
 .fancy-button {
-  background-image: -webkit-linear-gradient(top, #f4f1ee, #fff);
-  background-image: linear-gradient(top, #f4f1ee, #fff);
   border-radius: 50%;
-  box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, .3), inset 0px 4px 1px 1px white, inset 0px -3px 1px 1px rgba(204,198,197,.5);
+  box-shadow: 0 2px 10px 2px rgba(0, 0, 0, .3), inset 0 4px 1px 1px white, inset 0 -3px 1px 1px rgba(204,198,197,.5);
   float:left;
   height: 90px;
-  margin: 0 30px 30px 0;
   position: relative;
-  width: 90px;			
-  -webkit-transition: all .1s linear;
+  width: 90px;
   transition: all .1s linear;
   &:after {
-    color:#e9e6e4;
+    color:rgba(255, 0, 0, 0);
     content: "";
     display: block;
-    font-size: 50px;
+    font-size: 55px;
     height: 30px;
     text-decoration: none;
     text-shadow: 0px -1px 1px #bdb5b4, 1px 1px 1px white;
@@ -136,7 +117,7 @@
   &:after{
     content: "♪";
     left: 32px;
-    top: 14px;
+    top: 5px;
   }
   &:hover:after {
     color: $secondaryThemeColor;
@@ -152,9 +133,6 @@
 }
 
 @media(max-width: 500px) {
-  #sensitivity-settings .noUi-value-vertical {
-    display: none;
-  }
   .option-description {
     height: 55px;
   }

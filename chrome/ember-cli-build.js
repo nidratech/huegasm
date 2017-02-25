@@ -15,6 +15,7 @@ module.exports = function (defaults) {
   });
 
   app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
+  app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/popover.js');
   app.import('bower_components/velocity/velocity.js');
 
   return app.toTree(extraAssets);

@@ -93,19 +93,19 @@ export default Component.extend({
     this._super(...arguments);
 
     let lightsData = this.get('lightsData'),
-      activeLights = this.get('activeLights');
+      _activeLights = this.get('activeLights');
 
-    chrome.storage.local.get('activeLights', ({activeLightsCache}) => {
-      if (!isNone(activeLightsCache)) {
-        activeLightsCache.forEach(function (i) {
+    chrome.storage.local.get('activeLights', ({activeLights}) => {
+      if (!isNone(activeLights)) {
+        activeLights.forEach(function (i) {
           if (!isNone(lightsData) && lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
-            activeLights.pushObject(i);
+            _activeLights.pushObject(i);
           }
         });
       } else {
         for (let key in lightsData) {
           if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
-            activeLights.pushObject(key);
+            _activeLights.pushObject(key);
           }
         }
       }

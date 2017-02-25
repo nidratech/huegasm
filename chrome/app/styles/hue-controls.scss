@@ -33,7 +33,7 @@
 }
 
 #navigation {
-  padding: 10px 0 2vh;
+  padding: 5px 0 2vh;
   text-align: center;
   margin: auto;
   position: relative;
@@ -48,7 +48,7 @@
 }
 
 .navigation-item {
-  font-size: 20px;
+  font-size: 18px;
   padding: 0 10px 0 10px;
   &.active {
     font-weight: bold;
@@ -102,7 +102,7 @@
 
 @media(min-width:767px) {
   #lights-tab {
-    font-size: 20px;
+    font-size: 18px;
     .paper-icon {
       font-size: 24px;
     }

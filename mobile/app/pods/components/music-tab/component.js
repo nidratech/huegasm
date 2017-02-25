@@ -165,10 +165,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
     this.set('paused', true);
     later(this, function () {
-      {
-        this.set('paused', false);
-      }
-    }, 150);
+      this.set('paused', false);
+    }, 200);
 
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
     $('#beat-speaker-center-outer').velocity({ blur: 3 }, 100).velocity({ blur: 0 }, 100);

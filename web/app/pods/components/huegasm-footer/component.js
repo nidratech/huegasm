@@ -7,7 +7,7 @@ const {
 
 export default Component.extend({
   tagName: 'footer',
-  classNames: ['footer'],
+  elementId: 'footer',
 
   year: computed(function () {
     return new Date().getFullYear();

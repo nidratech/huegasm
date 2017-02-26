@@ -125,7 +125,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 error = chrome.runtime.lastError.message;
             } else {
                 stream = _stream;
-                dancer.load(_stream, 2);
+                dancer.load(_stream, 3);
                 chrome.storage.local.set({ currentlyListenining: true });
                 chrome.browserAction.setBadgeText({ text: "♪" });
                 state.preMusicLightsDataCache = state.lightsData;
@@ -188,7 +188,7 @@ let simulateKick = (/*mag, ratioKickMag*/) => {
                 type: 'PUT'
             });
         },
-        timeToBriOff = 100;
+        timeToBriOff = 80;
 
     if (state.activeLights.length > 0) {
         let lightBopIndex = Math.floor(Math.random() * state.activeLights.length);

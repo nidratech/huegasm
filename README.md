@@ -4,9 +4,6 @@ Music awesomeness for hue lights.
 
 It lives at http://www.huegasm.com and on https://play.google.com/store/apps/details?id=com.hoboman313.huegasm
 
-## Current priorities
-- create a Huegasm Chrome extension
-
 ## SIGNING
 /ember-cordova/platforms/android/release-signing.properties:
 storeFile=huegasm.keystore

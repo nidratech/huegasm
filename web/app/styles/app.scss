@@ -36,7 +36,7 @@ body, button {
   padding-bottom: 50px;
 }
 
-.footer {
+#footer {
   margin: 0 auto 10px auto;
   width: 100%;
   max-width: 1200px;
@@ -48,12 +48,12 @@ body, button {
 }
 
 @media(min-width:767px) {
-  .footer {
+  #footer {
     padding: 0 9%;
   }
 }
 
-.footer-text {
+#footer-text {
   display: inline-block;
   font-size: 18px;
   padding-left: 39%;
@@ -119,9 +119,20 @@ div.ember-modal-dialog {
 }
 
 @media(max-width:768px) {
-  .footer-text {
+  #footer {
+    display: block;
+  }
+
+  #footer-links {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  #footer-text {
     padding-left: 0 !important;
   }
+
   #intro-logo {
     margin-bottom: 10px;
   }

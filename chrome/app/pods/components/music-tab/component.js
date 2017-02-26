@@ -117,10 +117,10 @@ export default Component.extend({
       this.set('firstVisit', false);
 
       next(this, () => {
-        this.$('#fancy-button-wrapper a').popover('show');
+        $('#fancy-button-wrapper a').popover('show');
 
         later(this, () => {
-          this.$('#fancy-button-wrapper a').popover('hide');
+          $('#fancy-button-wrapper a').popover('hide');
         }, 5000);
       });
     }

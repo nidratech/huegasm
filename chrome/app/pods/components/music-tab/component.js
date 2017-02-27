@@ -95,7 +95,7 @@ export default Component.extend({
     }
   },
 
-  threshold: 0.3,
+  threshold: 0.2,
   hueRange: [0, 65535],
   brightnessRange: [1, 254],
 
@@ -126,10 +126,9 @@ export default Component.extend({
     }
   }),
 
-  onConfigItemChanged: observer('threshold', 'hueRange', 'brightnessRange', 'isListenining', function (wtf, name) {
+  onConfigItemChanged: observer('threshold', 'hueRange', 'brightnessRange', 'isListenining', function (_class, name) {
     once(this, () => {
-      let value = this.get(name),
-        self = this;
+      let value = this.get(name);
 
       this.set(name, value);
 
@@ -137,11 +136,11 @@ export default Component.extend({
         if (value) {
           chrome.storage.local.get('currentlyListenining', ({currentlyListenining}) => {
             if (!currentlyListenining) {
-              chrome.runtime.sendMessage({ action: 'start-listening' }, function (response) {
+              chrome.runtime.sendMessage({ action: 'start-listening' }, (response) => {
                 if (response && response.error) {
-                  self.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + response.error + '</div>' });
+                  this.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + response.error + '</div>' });
 
-                  self.set('isListenining', false);
+                  this.set('isListenining', false);
                   chrome.storage.local.set({ isListenining: false });
                 }
               });

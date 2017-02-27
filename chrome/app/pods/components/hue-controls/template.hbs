@@ -31,12 +31,13 @@
     </div>
   </div>
 
-  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn lightsIconsOn=lightsIconsOn}}
+  {{light-group lightsData=lightsData activeLights=activeLights syncLight=syncLight apiURL=apiURL dimmerOn=dimmerOn lightsIconsOn=lightsIconsOn pauseLightUpdates=pauseLightUpdates}}
 
-  <div id="huegasm-content" class="row">
+  <div class="row">
     {{lights-tab active=(eq selectedTab 0) apiURL=apiURL lightsData=lightsData activeLights=activeLights syncLight=syncLight
-    trial=trial colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}} {{music-tab
-    active=(eq selectedTab 1) apiURL=apiURL lightsData=lightsData activeLights=activeLights pauseLightUpdates=pauseLightUpdates
+    trial=trial colorLoopOn=colorLoopOn dimmerOn=dimmerOn playing=playing pauseLightUpdates=pauseLightUpdates}} 
+    
+    {{music-tab active=(eq selectedTab 1) apiURL=apiURL lightsData=lightsData activeLights=activeLights pauseLightUpdates=pauseLightUpdates
     dimmerOn=dimmerOn colorLoopOn=colorLoopOn playing=playing action="startIntro"}}
   </div>
 {{else}}

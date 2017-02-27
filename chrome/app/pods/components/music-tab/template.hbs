@@ -1,6 +1,11 @@
 <div id="fancy-button-wrapper">
+  <div id="start-listening" data-toggle="tooltip" data-placement="top" data-title="Toggle to have Huegasm start/stop listening on your active Chrome tab" class="bootstrap-tooltip">
+    {{if isListenining "Stop" "Start"}} Listening
+  </div>
+
   <a href="#" data-content="Click here for Huegasm to start listening to your current tab" class="fancy-button note {{if isListenining "active"}}"
-    {{action "toggleListening"}}></a>
+    {{action "toggleListening"}}>
+  </a>
 </div>
 
 <div class="row {{if dimmerOn "dimmerOn"}}">

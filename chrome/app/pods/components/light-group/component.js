@@ -125,38 +125,40 @@ export default Component.extend({
       }
     },
     lightStartHover(id) {
-      if (!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)) {
-        let hoveredLight = this.get('lightsList').filter(function (light) {
-          return light.activeClass !== 'unreachable' && light.id === id[0];
+      let hoveredLight = this.get('lightsList').filter(function (light) {
+        return light.activeClass !== 'unreachable' && light.id === id[0];
+      });
+
+      if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
+        $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {
+          data: JSON.stringify({ "alert": "lselect" }),
+          contentType: 'application/json',
+          type: 'PUT'
         });
-
-        if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
-          $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {
-            data: JSON.stringify({ "alert": "lselect" }),
-            contentType: 'application/json',
-            type: 'PUT'
-          });
-        }
-
-        this.set('isHovering', true);
       }
+
+      this.setProperties({
+        pauseLightUpdates: true,
+        isHovering: true
+      });
     },
     lightStopHover(id) {
-      if (!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)) {
-        let hoveredLight = this.get('lightsList').filter(function (light) {
-          return light.activeClass !== 'unreachable' && light.id === id[0];
+      let hoveredLight = this.get('lightsList').filter(function (light) {
+        return light.activeClass !== 'unreachable' && light.id === id[0];
+      });
+
+      if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
+        $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {
+          data: JSON.stringify({ "alert": "none" }),
+          contentType: 'application/json',
+          type: 'PUT'
         });
-
-        if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
-          $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {
-            data: JSON.stringify({ "alert": "none" }),
-            contentType: 'application/json',
-            type: 'PUT'
-          });
-        }
-
-        this.set('isHovering', false);
       }
+
+      this.setProperties({
+        pauseLightUpdates: false,
+        isHovering: false
+      });
     }
   }
 });

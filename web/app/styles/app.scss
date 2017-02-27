@@ -56,7 +56,7 @@ body, button {
 #footer-text {
   display: inline-block;
   font-size: 18px;
-  padding-left: 39%;
+  padding-right: 30px;
   a {
     margin-left: 5px;
   }
@@ -119,20 +119,6 @@ div.ember-modal-dialog {
 }
 
 @media(max-width:768px) {
-  #footer {
-    display: block;
-  }
-
-  #footer-links {
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-around;
-  }
-
-  #footer-text {
-    padding-left: 0 !important;
-  }
-
   #intro-logo {
     margin-bottom: 10px;
   }

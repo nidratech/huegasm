@@ -111,6 +111,12 @@ export default Component.extend({
   },
 
   actions: {
+    tryAndroid() {
+      window.open("https://play.google.com/store/apps/details?id=com.hoboman313.huegasm", '_blank');
+    },
+    tryExtension() {
+      window.open("https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj", '_blank');
+    },
     changeTab(tabName){
       let index = this.get('tabList').indexOf(tabName);
       this.set('selectedTab', index);

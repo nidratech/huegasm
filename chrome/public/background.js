@@ -9,7 +9,7 @@ let isNone = function (obj) {
 // the main ember app controls may change these
 let state = {
     activeLights: [],
-    threshold: 0.3,
+    threshold: 0.2,
     hueRange: [0, 65535],
     brightnessRange: [1, 254],
     bridgeIp: null,
@@ -113,6 +113,33 @@ chrome.storage.onChanged.addListener(function ({activeLights, threshold, hueRang
 chrome.storage.local.set({ currentlyListenining: false });
 chrome.browserAction.setBadgeBackgroundColor({ color: [80, 80, 80, 255] });
 
+let stopListening = function () {
+    chrome.browserAction.setBadgeText({ text: "" });
+    chrome.storage.local.set({ currentlyListenining: false });
+
+    if (state.preMusicLightsDataCache) {
+        let updateLight = function (lightIndex) {
+            let xhr = new XMLHttpRequest();
+
+            xhr.open('PUT', 'http://' + state.bridgeIp + '/api/' + state.bridgeUsername + '/lights/' + lightIndex + '/state', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify({
+                'on': state.preMusicLightsDataCache[lightIndex].state.on,
+                'hue': state.preMusicLightsDataCache[lightIndex].state.hue,
+                'bri': state.preMusicLightsDataCache[lightIndex].state.bri
+            }));
+        };
+
+        for (let key in state.lightsData) {
+            if (state.lightsData.hasOwnProperty(key)) {
+                setTimeout(function () {
+                    updateLight(key);
+                }, 1000);
+            }
+        }
+    }
+};
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === 'start-listening') {
         chrome.tabCapture.capture({
@@ -129,6 +156,12 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 chrome.storage.local.set({ currentlyListenining: true });
                 chrome.browserAction.setBadgeText({ text: "♪" });
                 state.preMusicLightsDataCache = state.lightsData;
+
+                stream.getTracks()[0].onended = function () {
+                    chrome.storage.local.set({ isListenining: false });
+
+                    stopListening();
+                };
             }
 
             sendResponse({ error });
@@ -138,28 +171,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     } else if (request.action === 'stop-listening' && stream !== null) {
         stream.getTracks()[0].stop();
         stream = null;
-        chrome.browserAction.setBadgeText({ text: "" });
-        chrome.storage.local.set({ currentlyListenining: false });
 
-        let updateLight = function (lightIndex) {
-            $.ajax('http://' + state.bridgeIp + '/api/' + state.bridgeUsername + '/lights/' + lightIndex + '/state', {
-                data: JSON.stringify({
-                    'on': state.preMusicLightsDataCache[lightIndex].state.on,
-                    'hue': state.preMusicLightsDataCache[lightIndex].state.hue,
-                    'bri': state.preMusicLightsDataCache[lightIndex].state.bri
-                }),
-                contentType: 'application/json',
-                type: 'PUT'
-            });
-        };
-
-        for (let key in state.lightsData) {
-            if (state.lightsData.hasOwnProperty(key)) {
-                setTimeout(function () {
-                    updateLight(key);
-                }, 1000);
-            }
-        }
+        stopListening();
     }
 
     return true;
@@ -170,7 +183,7 @@ let simulateKick = (/*mag, ratioKickMag*/) => {
     chrome.runtime.sendMessage({ action: 'button-bump' });
 
     let color = null,
-        _stimulateLight = (light, brightness, hue) => {
+        _stimulateLight = (lightIndex, brightness, hue) => {
             let options = { bri: brightness, transitiontime: 1 },
                 xhr = new XMLHttpRequest();
 
@@ -178,15 +191,13 @@ let simulateKick = (/*mag, ratioKickMag*/) => {
                 options.hue = hue;
             }
 
-            if (state.lightsData[light].state.on === false) {
+            if (state.lightsData[lightIndex].state.on === false) {
                 options.on = true;
             }
 
-            $.ajax('http://' + state.bridgeIp + '/api/' + state.bridgeUsername + '/lights/' + light + '/state', {
-                data: JSON.stringify(options),
-                contentType: 'application/json',
-                type: 'PUT'
-            });
+            xhr.open('PUT', 'http://' + state.bridgeIp + '/api/' + state.bridgeUsername + '/lights/' + lightIndex + '/state', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(options));
         },
         timeToBriOff = 80;
 

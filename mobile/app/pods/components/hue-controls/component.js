@@ -196,12 +196,6 @@ export default Component.extend({
             position: 'top'
           },
           {
-            element: '#beat-container',
-            intro: 'An interactive speaker that will bump when a beat is registered. <br><br>' +
-            '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
-            position: 'top'
-          },
-          {
             element: '#lights-tab',
             intro: 'This is the lights tab. Here you\'ll be able to change various light properties:<br>' +
             '<b>Power</b> - Turn the selected lights on/off<br>' +
@@ -232,7 +226,7 @@ export default Component.extend({
 
       // it's VERY ugly but it works... the jQuery massacre :'(
       intro.onchange((element) => {
-        if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip' || element.nodeName === 'MD-MENU'){
+        if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'using-mic-audio-tooltip' || element.nodeName === 'MD-MENU'){
           $('.navigation-item').eq(1).click();
         } else {
           $('.navigation-item').eq(0).click();

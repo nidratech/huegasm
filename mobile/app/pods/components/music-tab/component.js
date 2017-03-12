@@ -244,11 +244,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
       $(event.target).addClass('removed');
     });
 
-    // prevent space/text selection when the user repeatedly clicks on the center
-    $('#beat-container').on('mousedown', '#beat-speaker-center-inner', function (event) {
-      event.preventDefault();
-    });
-
     $(document).keypress((event) => {
       if (event.which === 32 && event.target.type !== 'text') {
         this.send('play');

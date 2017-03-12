@@ -125,9 +125,10 @@ export default Component.extend({
       }
     },
     lightStartHover(id) {
-      let hoveredLight = this.get('lightsList').filter(function (light) {
-        return light.activeClass !== 'unreachable' && light.id === id[0];
-      });
+      let activeLights = this.get('activeLights'),
+        hoveredLight = this.get('lightsList').filter(function (light) {
+          return light.activeClass !== 'unreachable' && light.id === id[0] && activeLights.indexOf(id) !== -1;
+        });
 
       if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
         $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {

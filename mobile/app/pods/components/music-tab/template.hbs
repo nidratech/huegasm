@@ -160,23 +160,6 @@
   <div class="beat-option col-xs-6">
     {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
   </div>
-
-  <div id="beat-container" class="col-xs-12">
-    <div class="bezel">
-      <div class="rivet1"></div>
-      <div class="rivet2"></div>
-      <div class="rivet3"></div>
-      <div class="rivet4"></div>
-      <div class="rivet5"></div>
-      <div class="rivet6"></div>
-      <div class="rivet7"></div>
-      <div class="rivet8"></div>
-
-      <div id="beat-speaker-center-outer">
-        <div id="beat-speaker-center-inner" {{action "clickSpeaker"}}></div>
-      </div>
-    </div>
-  </div>
 </div>
 
 {{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}

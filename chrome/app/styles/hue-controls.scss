@@ -26,12 +26,6 @@
   }
 }
 
-// preload images
-#hue-controls:after, md-progress-circular:after {
-  display: none;
-  content: url(images/colormap.png) url(images/huegasm.png) url(images/lights/a19.svg) url(images/lights/a19w.svg) url(images/lights/br30.svg) url(images/lights/br30w.svg) url(images/lights/gu10.svg) url(images/lights/gu10w.svg) url(images/lights/huego.svg) url(images/lights/huegow.svg) url(images/lights/lc_aura.svg) url(images/lights/lc_auraw.svg) url(images/lights/lc_bloom.svg) url(images/lights/lc_bloomw.svg) url(images/lights/lc_iris.svg) url(images/lights/lc_irisw.svg) url(images/lights/lightstrip.svg) url(images/lights/lightstripw.svg) url(images/lights/storylight.svg) url(images/lights/storylightw.svg);
-}
-
 #navigation {
   padding: 5px 0 1vh;
   text-align: center;

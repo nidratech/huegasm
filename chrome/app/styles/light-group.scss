@@ -10,6 +10,10 @@
   }
 }
 
+.hue-light {
+  width: 35px;
+}
+
 .toggleable-light {
   cursor: pointer;
   position: relative;
@@ -20,6 +24,7 @@
   height: 50px;
   align-items: center;
   justify-content: center;
+  padding: 3px;
 }
 
 .light-inactive {
@@ -38,12 +43,12 @@
 
 .light-active {
   border-color: rgba(green, 0.4);
-  img {
+  .hue-light {
     transition-duration: 0.3s;
     transition-property: transform;
     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
   }
-  img:hover {
+  .hue-light:hover {
     transform: scale(1.2);
   }
 }

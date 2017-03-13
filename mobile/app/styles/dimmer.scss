@@ -41,8 +41,16 @@ body.dimmerOn {
       color: $whitish !important;
     }
   }
-  svg {
+  .light-inactive::before {
+    display: none;
+  }
+
+  .hue-light {
     -webkit-filter: drop-shadow(0 0 5px #228DFF);
+    fill: $whitish;
+    path {
+      fill: $whitish;
+    }
   }
   .md-container {
     color: $whitish;

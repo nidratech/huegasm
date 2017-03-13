@@ -144,7 +144,7 @@ export default Component.extend({
             this.set('manualBridgeIpNotFound', false);
           }, 5000);
         }).then(() => {
-          this.set('bridgeIp', manualBridgeIp);
+          this.send('chooseBridge', manualBridgeIp);
         });
       }
     }

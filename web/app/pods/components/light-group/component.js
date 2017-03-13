@@ -22,7 +22,7 @@ export default Component.extend({
       activeLights = this.get('activeLights'),
       dimmerOn = this.get('dimmerOn'),
       lightsList = A(),
-      type,
+      src,
       activeClass;
 
     for (let key in lightsData) {
@@ -30,55 +30,144 @@ export default Component.extend({
 
       if (lightsData.hasOwnProperty(key) && lightsData[key].state.reachable) {
         switch (lightsData[key].modelid) {
+          case 'BSB001':
+            src = 'bridge_v1';
+            break;
+          case 'BSB002':
+            src = 'bridge_v2';
+            break;
           case 'LCT001':
-            type = 'a19';
+          case 'LCT007':
+          case 'LCT010':
+          case 'LCT014':
+          case 'LTW010':
+          case 'LTW001':
+          case 'LTW004':
+          case 'LTW015':
+          case 'LWB004':
+          case 'LWB006':
+            src = 'white_and_color_e27';
+            break;
+          case 'LWB010':
+          case 'LWB014':
+            src = 'white_e27';
             break;
           case 'LCT002':
-            type = 'br30';
+            src = 'br30';
+            break;
+          case 'LCT011':
+          case 'LTW011':
+            src = 'br30_slim';
             break;
           case 'LCT003':
-            type = 'gu10';
+            src = 'gu10';
             break;
+          case 'LTW013':
+            src = 'gu10_perfectfit';
+            break;
+          case 'LST002':
           case 'LST001':
-            type = 'lightstrip';
-            break;
-          case 'LLC010':
-            type = 'lc_iris';
-            break;
-          case 'LLC011':
-            type = 'lc_bloom';
-            break;
-          case 'LLC012':
-            type = 'lc_bloom';
+            src = 'lightstrip';
             break;
           case 'LLC006':
-            type = 'lc_iris';
+          case 'LLC010':
+            src = 'iris';
             break;
+          case 'LLC005':
+          case 'LLC011':
+          case 'LLC012':
           case 'LLC007':
-            type = 'lc_aura';
+            src = 'bloom';
+            break;
+          case 'LLC014':
+            src = 'aura';
             break;
           case 'LLC013':
-            type = 'storylight';
-            break;
-          case 'LWB004':
-            type = 'a19';
+            src = 'storylight';
             break;
           case 'LLC020':
-            type = 'huego';
+            src = 'go';
+            break;
+          case 'HBL001':
+          case 'HBL002':
+          case 'HBL003':
+            src = 'beyond_ceiling_pendant_table';
+            break;
+          case 'HIL001':
+          case 'HIL002':
+            src = 'impulse';
+            break;
+          case 'HEL001':
+          case 'HEL002':
+            src = 'entity';
+            break;
+          case 'HML001':
+          case 'HML002':
+          case 'HML003':
+          case 'HML004':
+          case 'HML005':
+            src = 'phoenix_ceiling_pendant_table_wall';
+            break;
+          case 'HML006':
+            src = 'phoenix_down';
+            break;
+          case 'LTP003':
+            src = 'pendant_square';
+            break;
+          case 'LTP002':
+          case 'LTP003':
+            src = 'pendant_round';
+            break;
+          case 'LTP001':
+            src = 'pendant_oval';
+            break;
+          case 'LDF002':
+          case 'LTF002':
+          case 'LTF001':
+          case 'LTC001':
+          case 'LTC002':
+          case 'LDF001':
+            src = 'ceiling_square';
+            break;
+          case 'LTC003':
+          case 'LTD001':
+          case 'LTD001':
+            src = 'ceiling_round';
+            break;
+          case 'LDD002':
+            src = 'floor';
+            break;
+          case 'LDD001':
+            src = 'table';
+            break;
+          case 'LDT001':
+          case 'MWM001':
+            src = 'recessed';
+            break;
+          case 'SWT001':
+            src = 'tap';
+            break;
+          case 'RWL021':
+            src = 'hds';
+            break;
+          case 'SML001':
+            src = 'motion_sensor';
             break;
           default:
-            type = 'a19';
+            src = 'white_e27';
         }
 
         if (dimmerOn) {
-          type += 'w';
+          src = `assets/images/lights/filled/${src}.svg`;
+        } else {
+          src = `assets/images/lights/outline/${src}.svg`;
         }
 
         if (!activeLights.includes(key)) {
           activeClass = 'light-inactive';
         }
 
-        lightsList.push({ type: type, name: lightsData[key].name, id: key, data: lightsData[key], activeClass: activeClass });
+        lightsList.push({ src, name: lightsData[key].name, id: key, data: lightsData[key], activeClass });
       }
     }
 

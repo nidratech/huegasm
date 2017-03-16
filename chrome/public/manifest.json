@@ -3,7 +3,7 @@
   "name": "Huegasm for Philips Hue Lights",
   "short_name": "Huegasm",
   "description": "Manage and synchronize your Philips Hue lights with the beat of your music.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "icons": {
     "16": "16x16.png",
     "48": "48x48.png",

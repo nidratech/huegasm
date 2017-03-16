@@ -175,12 +175,12 @@
         <span data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip"
           {{action "hideTooltip" on="mouseLeave"}}>
           {{paper-checkbox value=flashingTransitions onChange=(action (mut flashingTransitions)) label="Flashing Transitions"}}
-          </span>
+        </span>
 
           <span data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip"
             {{action "hideTooltip" on="mouseLeave"}}>
             {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
-            </span>
+          </span>
       </div>
     </div>
   </div>

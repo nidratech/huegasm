@@ -639,12 +639,10 @@ export default Component.extend(helperMixin, visualizerMixin, {
         if (files.hasOwnProperty(key)) {
           let file = files[key];
 
-          if (file.type.startsWith('audio')) {
-            ID3.loadTags("local", updatePlayQueue.bind(file), {
-              dataReader: new FileAPIReader(file),
-              tags: ['title', 'artist', 'album', 'track', 'picture']
-            });
-          }
+          ID3.loadTags("local", updatePlayQueue.bind(file), {
+            dataReader: new FileAPIReader(file),
+            tags: ['title', 'artist', 'album', 'track', 'picture']
+          });
         }
       }
     }

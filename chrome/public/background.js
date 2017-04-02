@@ -178,7 +178,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     return true;
 });
 
-// core function that simulates a random light on kick ( beat )
+// core function that simulates a random light on kick (beat)
 let simulateKick = (/*mag, ratioKickMag*/) => {
     chrome.runtime.sendMessage({ action: 'button-bump' });
 

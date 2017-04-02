@@ -54,7 +54,7 @@ export default Component.extend({
       return lightsData[light].state.effect === 'colorloop';
     });
 
-    // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
+    // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
     if (colorLoopsOn !== colorLoopsOnSystem) {
       activeLights.forEach((light) => {
         if (this.get('lightsData')[light].state.effect !== effect) {
@@ -106,7 +106,7 @@ export default Component.extend({
       return lightsData[light].state.on === true;
     });
 
-    // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
+    // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
     if (lightsOn !== lightsOnSystem) {
       activeLights.forEach((light) => {
         $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
@@ -131,7 +131,7 @@ export default Component.extend({
 
       lightsBrightnessSystem /= activeLights.length;
 
-      // if the internal lights state is different than the one from lightsData ( user manually toggled the switch ), send the request to change the bulbs state
+      // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
       if (lightsBrightness !== lightsBrightnessSystem) {
         activeLights.forEach((light) => {
           $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {

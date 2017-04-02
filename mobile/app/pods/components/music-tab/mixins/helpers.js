@@ -149,13 +149,13 @@ export default Mixin.create({
     return html;
   },
   urlNotFoundHtml(url) {
-    return '<div class="alert alert-danger" role="alert">The URL ( ' + url + ' ) could not be resolved.</div>';
+    return '<div class="alert alert-danger" role="alert">The URL (' + url + ') could not be resolved.</div>';
   },
   failedToPlayFileHtml(fileName) {
-    return '<div class="alert alert-danger" role="alert">Failed to play file ( ' + fileName + ' ).</div>';
+    return '<div class="alert alert-danger" role="alert">Failed to play file (' + fileName + ').</div>';
   },
   failedToDecodeFileHtml(fileName) {
-    return '<div class="alert alert-danger" role="alert">Failed to decode file ( ' + fileName + ' ).</div>';
+    return '<div class="alert alert-danger" role="alert">Failed to decode file (' + fileName + ').</div>';
   },
 
   scUrl: computed('playQueuePointer', 'playQueue.[]', function () {

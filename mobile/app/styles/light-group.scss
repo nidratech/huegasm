@@ -55,8 +55,6 @@
 }
 
 .light-text {
-  width: 60px;
-  word-wrap: break-word;
   padding: 0 7px;
   &.light-inactive::before {
     left: 10px;
@@ -65,9 +63,8 @@
 
 .light-text-content {
   display: block;
-  display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
+  max-width: 100px;
 }

@@ -173,7 +173,7 @@ export default Component.extend({
           },
           {
             element: '#playlist',
-            intro: 'You can add and select music to play from your playlist here. You may listen to local audio files, stream music from soundcloud or stream directly from a connected microphone.<br><br>' +
+            intro: 'You can add and select music to play from your playlist here. You may listen to local audio files or stream music from Soundcloud.<br><br>' +
             '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
           },
           {
@@ -182,14 +182,14 @@ export default Component.extend({
           },
           {
             element: '#player-area',
-            intro: 'The audio playback may be controlled with the controls here. Basic music visualization effects may be shown here by selecting them from the menu ( eyeball icon in the bottom right ).'
+            intro: 'The audio playback may be controlled with the controls here. Basic music visualization effects may be shown here by selecting them from the menu (eyeball icon in the bottom right).'
           },
           {
             element: '#beat-option-row',
             intro: 'These are the settings for the music tab:<br>' +
-            '<b>Sensitivity</b> - The sensitivity of the beat detector ( more sensitivity results in more registered beats )<br>' +
+            '<b>Sensitivity</b> - The sensitivity of the beat detector (more sensitivity results in more registered beats)<br>' +
             '<b>Hue Range</b> - The hue range that the lights may change to on beat.<br>' +
-            '<b>Brightness Range</b> - The minimum ( off-beat ) and maximum ( on-beat ) brightness of the lights.<br>' +
+            '<b>Brightness Range</b> - The minimum (off-beat) and maximum (on-beat) brightness of the lights.<br>' +
             '<b>Flashing Transitions</b> - Quickly flash the lights on beat<br>' +
             '<b>Colorloop</b> - Slowly cycle the lights through all the colors while the music is playing<br>' +
             '<i><b>TIP</b>: Your sensitivity settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',

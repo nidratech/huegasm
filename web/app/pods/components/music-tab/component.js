@@ -111,7 +111,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
   },
 
   dragLeave() {
-    // need to delay the dragLeave notification to avoid flickering ( hovering over some page elements causes this event to be sent )
+    // need to delay the dragLeave notification to avoid flickering (hovering over some page elements causes this event to be sent)
     this.set('dragLeaveTimeoutHandle', setTimeout(() => { this.set('dragging', false); }, 500));
   },
 

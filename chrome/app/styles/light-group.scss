@@ -62,16 +62,13 @@
 }
 
 .light-text {
-  width: 60px;
-  word-wrap: break-word;
   padding: 0 7px;
 }
 
 .light-text-content {
-  display: block; /* Fallback for non-webkit */
-  display: -webkit-box;
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
+  max-width: 100px;
 }

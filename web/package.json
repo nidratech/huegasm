@@ -12,10 +12,9 @@
     "build": "ember build --env=production"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": ">= 6"
   },
   "author": "Egor Philippov",
-  "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
     "ember-cli": "^2.8.0",

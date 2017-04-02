@@ -12,14 +12,13 @@
     "build": "ember build --env=production"
   },
   "engines": {
-    "node": ">= 0.12.0"
+    "node": "6"
   },
   "author": "Egor Philippov",
-  "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
     "ember-cli": "^2.8.0",
-    "ember-cli-app-version": "^2.0.0",
+    "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-dependency-checker": "^1.2.0",
     "ember-cli-htmlbars": "^1.0.1",
@@ -30,15 +29,14 @@
     "ember-cli-sass": "^6.0.0",
     "ember-cli-shims": "^1.0.2",
     "ember-cli-sri": "^2.1.0",
-    "ember-cli-test-loader": "^1.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-export-application-global": "^1.0.4",
+    "ember-export-application-global": "^2.0.0",
     "ember-inline-svg": "^0.1.7",
-    "ember-load-initializers": "^0.6.3",
+    "ember-load-initializers": "^1.0.0",
     "ember-modal-dialog": "^0.9.0",
     "ember-notify": "^5.0.4",
-    "ember-paper": "git+https://github.com/miguelcobain/ember-paper.git",
-    "ember-resolver": "^3.0.0",
+    "ember-paper": "^1.0.0-alpha.19",
+    "ember-resolver": "^4.0.0",
     "ember-source": "^2.11.0",
     "ember-truth-helpers": "^1.2.0",
     "loader.js": "^4.0.7"

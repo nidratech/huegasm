@@ -106,7 +106,7 @@ export default Component.extend({
           case 'HML003':
           case 'HML004':
           case 'HML005':
-            src = 'phoenix_ceiling_pendant_table_wall';
+            src = 'phoenix_ceiling';
             break;
           case 'HML006':
             src = 'phoenix_down';

@@ -98,6 +98,7 @@ export default Mixin.create({
     }
   },
 
+  beatDelay: 0,
   threshold: 0.3,
   hueRange: [0, 65535],
   brightnessRange: [1, 254],

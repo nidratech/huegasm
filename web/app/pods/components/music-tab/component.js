@@ -2,14 +2,7 @@ import Ember from 'ember';
 import helperMixin from './mixins/helpers';
 import visualizerMixin from './mixins/visualizer';
 
-const {
-  Component,
-  observer,
-  isEmpty,
-  isNone,
-  $,
-  run: { later, next }
-} = Ember;
+const { Component, observer, isEmpty, isNone, $, run: { later, next } } = Ember;
 
 export default Component.extend(helperMixin, visualizerMixin, {
   updatePageTitle: observer('playQueuePointer', function () {
@@ -174,8 +167,10 @@ export default Component.extend(helperMixin, visualizerMixin, {
         timeToBriOff = 80;
       }
 
-      stimulateLight(light, brightnessRange[1], color);
-      later(this, stimulateLight, light, brightnessRange[0], timeToBriOff);
+      later(this, () => {
+        stimulateLight(light, brightnessRange[1], color);
+        later(this, stimulateLight, light, brightnessRange[0], timeToBriOff);
+      }, this.get('beatDelay'));
     }
 
     this.set('paused', true);
@@ -213,7 +208,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange'].forEach((item) => {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange', 'beatDelay'].forEach((item) => {
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 

@@ -1,21 +1,13 @@
 import Ember from 'ember';
 
-const {
-  A,
-  Component,
-  computed,
-  isEmpty,
-  isNone,
-  run: { later, scheduleOnce },
-  inject,
-  $
-} = Ember;
+const { A, Component,computed, isEmpty, isNone, run: { later, scheduleOnce }, inject, $, set } = Ember;
 
 export default Component.extend({
   classNames: ['container-fluid'],
   elementId: 'hue-controls',
   lightsData: null,
 
+  canTryChrome: false,
   activeLights: A(),
   tabList: ["Lights", "Music"],
   selectedTab: 1,
@@ -75,6 +67,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
+    let isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+
     if(!this.get('trial')) {
       this.updateLightData();
       setInterval(this.updateLightData.bind(this), 2000);
@@ -82,6 +76,20 @@ export default Component.extend({
 
     if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
+    }
+
+    if (isChrome && chrome && chrome.runtime && chrome.runtime.sendMessage) {
+      set(this, 'canTryChrome', true);
+
+      chrome.runtime.sendMessage(
+        'mbjanbdhcpohhfecjgbdpcfhnnbofooj',
+        {},
+        (response) => {
+          if (response && response.installed){
+            set(this, 'canTryChrome', false);
+          }
+        }
+      );
     }
   },
 
@@ -115,7 +123,7 @@ export default Component.extend({
       window.open("https://play.google.com/store/apps/details?id=com.hoboman313.huegasm", '_blank');
     },
     tryExtension() {
-      window.open("https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj", '_blank');
+      chrome.webstore.install("https://chrome.google.com/webstore/detail/mbjanbdhcpohhfecjgbdpcfhnnbofooj");
     },
     changeTab(tabName){
       let index = this.get('tabList').indexOf(tabName);
@@ -137,6 +145,9 @@ export default Component.extend({
     clearAllSettings() {
       this.get('storage').clear();
       location.reload();
+    },
+    email() {
+      window.open("mailto:contact@nidratech.com", '_blank');
     },
     startIntro(){
       let intro = introJs(),

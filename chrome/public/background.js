@@ -9,6 +9,7 @@ let isNone = function (obj) {
 // the main ember app controls may change these
 let state = {
     activeLights: [],
+    beatDelay: 0,
     threshold: 0.2,
     hueRange: [0, 65535],
     brightnessRange: [1, 254],
@@ -25,13 +26,13 @@ let dancer = new window.Dancer(),
     kick;
 
 // initialze the state
-chrome.storage.local.get('activeLights', ({activeLights}) => {
+chrome.storage.local.get('activeLights', ({ activeLights }) => {
     if (!isNone(activeLights)) {
         state.activeLights = activeLights;
     }
 });
 
-chrome.storage.local.get('threshold', ({threshold}) => {
+chrome.storage.local.get('threshold', ({ threshold }) => {
     if (!isNone(threshold)) {
         state.threshold = threshold;
     }
@@ -48,38 +49,44 @@ chrome.storage.local.get('threshold', ({threshold}) => {
     kick.on();
 });
 
-chrome.storage.local.get('hueRange', ({hueRange}) => {
+chrome.storage.local.get('beatDelay', ({ beatDelay }) => {
+    if (!isNone(beatDelay)) {
+        state.beatDelay = beatDelay;
+    }
+});
+
+chrome.storage.local.get('hueRange', ({ hueRange }) => {
     if (!isNone(hueRange)) {
         state.hueRange = hueRange;
     }
 });
 
-chrome.storage.local.get('brightnessRange', ({brightnessRange}) => {
+chrome.storage.local.get('brightnessRange', ({ brightnessRange }) => {
     if (!isNone(brightnessRange)) {
         state.brightnessRange = brightnessRange;
     }
 });
 
-chrome.storage.local.get('bridgeIp', ({bridgeIp}) => {
+chrome.storage.local.get('bridgeIp', ({ bridgeIp }) => {
     if (!isNone(bridgeIp)) {
         state.bridgeIp = bridgeIp;
     }
 });
 
-chrome.storage.local.get('bridgeUsername', ({bridgeUsername}) => {
+chrome.storage.local.get('bridgeUsername', ({ bridgeUsername }) => {
     if (!isNone(bridgeUsername)) {
         state.bridgeUsername = bridgeUsername;
     }
 });
 
-chrome.storage.local.get('lightsData', ({lightsData}) => {
+chrome.storage.local.get('lightsData', ({ lightsData }) => {
     if (!isNone(lightsData)) {
         state.lightsData = lightsData;
     }
 });
 
 // add listeners for appliation state change
-chrome.storage.onChanged.addListener(function ({activeLights, threshold, hueRange, brightnessRange, bridgeIp, bridgeUsername, lightsData}) {
+chrome.storage.onChanged.addListener(function ({ activeLights, threshold, beatDelay, hueRange, brightnessRange, bridgeIp, bridgeUsername, lightsData }) {
     if (activeLights) {
         state.activeLights = activeLights.newValue;
     }
@@ -87,6 +94,10 @@ chrome.storage.onChanged.addListener(function ({activeLights, threshold, hueRang
     if (threshold) {
         state.threshold = threshold.newValue;
         kick.set({ threshold: state.threshold });
+    }
+
+    if (beatDelay) {
+        state.beatDelay = beatDelay.newValue;
     }
 
     if (hueRange) {
@@ -139,6 +150,12 @@ let stopListening = function () {
         }
     }
 };
+
+chrome.runtime.onMessageExternal.addListener(
+    function (request, sender, sendResponse) {
+        sendResponse({ installed: true });
+    }
+);
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     if (request.action === 'start-listening') {
@@ -216,10 +233,12 @@ let simulateKick = (/*mag, ratioKickMag*/) => {
 
         color = Math.floor(Math.random() * (state.hueRange[1] - state.hueRange[0] + 1) + state.hueRange[0]);
 
-        _stimulateLight(light, state.brightnessRange[1], color);
-        setTimeout(function () {
-            _stimulateLight(light, state.brightnessRange[0])
-        }, timeToBriOff);
+        setTimeout(() => {
+            _stimulateLight(light, state.brightnessRange[1], color);
+            setTimeout(function () {
+                _stimulateLight(light, state.brightnessRange[0])
+            }, timeToBriOff);
+        }, state.beatDelay);
     }
 
     state.paused = true;

@@ -13,9 +13,11 @@
         {{/menu.trigger}}
         
         {{#menu.content width=3 as |content|}}
-          {{#content.menu-item class="hidden-xs" onClick="tryExtension"}}
-            {{paper-icon "extension" class=dimmerOnClass}} Try the Chrome Extension
-          {{/content.menu-item}}
+          {{#if canTryChrome}}
+            {{#content.menu-item class="hidden-xs" onClick="tryExtension"}}
+              {{paper-icon "extension" class=dimmerOnClass}} Try the Chrome Extension
+            {{/content.menu-item}}
+          {{/if}}
 
           {{#content.menu-item class="visible-xs" onClick="tryAndroid"}}
             {{paper-icon "extension" class=dimmerOnClass}} Try the Android Extension
@@ -39,6 +41,10 @@
 
           {{#content.menu-item onClick="clearAllSettings"}}
             {{paper-icon "settings backup restore" class=dimmerOnClass}} Reset settings
+          {{/content.menu-item}}
+
+          {{#content.menu-item onClick="email"}}
+            {{paper-icon "email" class=dimmerOnClass}} Contact
           {{/content.menu-item}}
         {{/menu.content}}
       {{/paper-menu}}

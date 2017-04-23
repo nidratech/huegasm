@@ -133,6 +133,9 @@ export default Component.extend({
       chrome.storage.local.clear();
       location.reload();
       chrome.runtime.sendMessage({ action: 'stop-listening' });
+    },
+    email() {
+      chrome.tabs.create({ url: 'mailto:contact@nidratech.com' });
     }
   }
 });

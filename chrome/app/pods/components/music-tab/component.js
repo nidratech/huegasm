@@ -138,7 +138,13 @@ export default Component.extend({
             if (!currentlyListenining) {
               chrome.runtime.sendMessage({ action: 'start-listening' }, (response) => {
                 if (response && response.error) {
-                  this.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + response.error + '</div>' });
+                  let message = response.error;
+
+                  if (message === 'Extension has not been invoked for the current page (see activeTab permission). Chrome pages cannot be captured.') {
+                    message = 'Please click inside the tab you want to listen to.'
+                  }
+        
+                  this.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">' + message + '</div>' });
 
                   this.set('isListenining', false);
                   chrome.storage.local.set({ isListenining: false });

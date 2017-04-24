@@ -15,7 +15,8 @@ module.exports = function(defaults) {
   });
 
   app.import('vendor/dancer.js');
-
+  app.import('vendor/cie-rgb-converter.js');
+  
   app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
   app.import('bower_components/intro.js/intro.js');
   app.import('bower_components/intro.js/introjs.css');

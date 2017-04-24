@@ -1,13 +1,6 @@
 import Ember from 'ember';
 
-const {
-  Component,
-  observer,
-  computed,
-  on,
-  run: { later, once },
-  $
-} = Ember;
+const { Component, observer, computed, on, run: { later, once }, $ } = Ember;
 
 export default Component.extend({
   classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
@@ -70,7 +63,7 @@ export default Component.extend({
 
   rgbPreview: observer('rgb', function () {
     let rgb = this.get('rgb'),
-      xy = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
+      xy = rgbToCie(rgb[0], rgb[1], rgb[2]);
 
     this.set('colorLoopOn', false);
 
@@ -86,6 +79,30 @@ export default Component.extend({
     $('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
   }),
 
+  onActiveLightsChange: on('init', observer('activeLights.[]', function () {
+    let lightsData = this.get('lightsData'),
+      xy = null,
+      setRGB = true;
+
+    this.get('activeLights').forEach((i) => {
+      let light = lightsData[i];
+
+      if (xy !== null && xy[0] !== light.state.xy[0] && xy[1] !== light.state.xy[1]) {
+        setRGB = false;
+      }
+
+      xy = light.state.xy;
+    });
+
+    if (setRGB && xy) {
+      let rgb = cieToRgb(xy[0], xy[1]);
+
+      $('.color').css('background', 'rgb(' + Math.abs(rgb[0]) + ',' + Math.abs(rgb[1]) + ',' + Math.abs(rgb[2]) + ')');
+    } else {
+      $('.color').css('background', 'rgb(' + 255 + ',' + 255 + ',' + 255 + ')');
+    }
+  })),
+  
   // determines whether the lights are on/off for the lights switch
   lightsOnChange: on('init', observer('lightsData.@each.state.on', 'activeLights.[]', function () {
     if (!this.get('strobeOn')) {
@@ -257,92 +274,5 @@ export default Component.extend({
     toggleDimmer() {
       this.sendAction('toggleDimmer');
     }
-  },
-
-  // **************** STROBE LIGHT FINISH ****************
-  // http://www.developers.meethue.com/documentation/color-conversions-rgb-xy
-  rgbToXy(red, green, blue) {
-    let X, Y, Z, x, y;
-
-    // normalize
-    red = Number((red / 255));
-    green = Number((green / 255));
-    blue = Number((blue / 255));
-
-    // gamma correction
-    red = (red > 0.04045) ? Math.pow((red + 0.055) / (1.0 + 0.055), 2.4) : (red / 12.92);
-    green = (green > 0.04045) ? Math.pow((green + 0.055) / (1.0 + 0.055), 2.4) : (green / 12.92);
-    blue = (blue > 0.04045) ? Math.pow((blue + 0.055) / (1.0 + 0.055), 2.4) : (blue / 12.92);
-
-    // RGB to XYZ
-    X = red * 0.664511 + green * 0.154324 + blue * 0.162028;
-    Y = red * 0.283881 + green * 0.668433 + blue * 0.047685;
-    Z = red * 0.000088 + green * 0.072310 + blue * 0.986039;
-
-    x = X / (X + Y + Z);
-    y = Y / (X + Y + Z);
-
-    return [x, y];
-  },
-
-  xyToRgb(x, y) {
-    let r, g, b, X, Y = 1.0, Z;
-
-    X = (Y / y) * x;
-    Z = (Y / y) * (1 - x - y);
-
-    r = X * 1.656492 - Y * 0.354851 - Z * 0.255038;
-    g = X * -0.707196 + Y * 1.655397 + Z * 0.036152;
-    b = X * 0.051713 - Y * 0.121364 + Z * 1.011530;
-
-    if (r > b && r > g && r > 1.0) {
-      // red is too big
-      g = g / r;
-      b = b / r;
-      r = 1.0;
-    } else if (g > b && g > r && g > 1.0) {
-      // green is too big
-      r = r / g;
-      b = b / g;
-      g = 1.0;
-    } else if (b > r && b > g && b > 1.0) {
-      // blue is too big
-      r = r / b;
-      g = g / b;
-      b = 1.0;
-    }
-
-    r = (r <= 0.0031308) ? 12.92 * r : 1.055 * Math.pow(r, (1.0 / 2.4)) - 0.055;
-    g = (g <= 0.0031308) ? 12.92 * g : 1.055 * Math.pow(g, (1.0 / 2.4)) - 0.055;
-    b = (b <= 0.0031308) ? 12.92 * b : 1.055 * Math.pow(b, (1.0 / 2.4)) - 0.055;
-
-    if (r > b && r > g) {
-      // red is biggest
-      if (r > 1.0) {
-        g = g / r;
-        b = b / r;
-        r = 1.0;
-      }
-    } else if (g > b && g > r) {
-      // green is biggest
-      if (g > 1.0) {
-        r = r / g;
-        b = b / g;
-        g = 1.0;
-      }
-    } else if (b > r && b > g) {
-      // blue is biggest
-      if (b > 1.0) {
-        r = r / b;
-        g = g / b;
-        b = 1.0;
-      }
-    }
-
-    r = r * 255;
-    g = g * 255;
-    b = b * 255;
-
-    return [r, g, b];
   }
 });

@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "ember server",
-    "build": "ember build --env=production"
+    "build": "ember build --env=production",
+    "deploy": "ember deploy production"
   },
   "engines": {
     "node": ">= 6"

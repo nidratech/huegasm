@@ -3,7 +3,11 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var Funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults);
+  var app = new EmberApp(defaults, {
+    fingerprint:{
+      exclude: ['logo.png']
+    }
+  });
   var extraAssets = new Funnel('bower_components/bootstrap-sass/assets/fonts/bootstrap/', {
     srcDir: '/',
     include: ['**'],

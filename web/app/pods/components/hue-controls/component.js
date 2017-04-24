@@ -147,7 +147,7 @@ export default Component.extend({
       location.reload();
     },
     email() {
-      window.open("mailto:contact@nidratech.com", '_blank');
+      window.open("mailto:contact@huegasm.com", '_blank');
     },
     startIntro(){
       let intro = introJs(),

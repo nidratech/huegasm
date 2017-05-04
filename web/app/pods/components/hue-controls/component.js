@@ -147,7 +147,7 @@ export default Component.extend({
       location.reload();
     },
     email() {
-      window.open("mailto:contact@huegasm.com", '_blank');
+      window.open("mailto:huegasm.app@gmail.com", '_blank');
     },
     startIntro(){
       let intro = introJs(),

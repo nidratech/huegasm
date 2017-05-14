@@ -23,7 +23,7 @@ export default Component.extend({
   }),
 
   // determines the average brightness of the hue system for the brightness slider
-  lightsBrightness: computed('lightsData', function () {
+  lightsBrightness: computed('lightsData', 'activeLights.[]', function () {
     let lightsData = this.get('lightsData'),
       activeLights = this.get('activeLights'),
       lightsBrightness = 0;
@@ -102,7 +102,7 @@ export default Component.extend({
       $('.color').css('background', 'rgb(' + 255 + ',' + 255 + ',' + 255 + ')');
     }
   })),
-  
+
   // determines whether the lights are on/off for the lights switch
   lightsOnChange: on('init', observer('lightsData.@each.state.on', 'activeLights.[]', function () {
     if (!this.get('strobeOn')) {

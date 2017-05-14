@@ -1,12 +1,13 @@
 import Ember from 'ember';
 
-const { A, Component,computed, isEmpty, isNone, run: { later, scheduleOnce }, inject, $, set } = Ember;
+const { A, Component, computed, isEmpty, isNone, run: { later, scheduleOnce }, inject, $, set } = Ember;
 
 export default Component.extend({
   classNames: ['container-fluid'],
   elementId: 'hue-controls',
   lightsData: null,
 
+  firstVisitApp: true,
   canTryChrome: false,
   activeLights: A(),
   tabList: ["Lights", "Music"],
@@ -17,64 +18,70 @@ export default Component.extend({
 
   notify: inject.service(),
 
-  dimmerOnClass: computed('dimmerOn', function(){
+  dimmerOnClass: computed('dimmerOn', function () {
     return this.get('dimmerOn') ? 'dimmerOn md-menu-origin' : 'md-menu-origin';
   }),
 
-  ready: computed('lightsData', 'trial', function() {
+  ready: computed('lightsData', 'trial', function () {
     return this.get('trial') || !isNone(this.get('lightsData'));
   }),
 
-  apiURL: computed('bridgeIp', 'bridgeUsername', function(){
+  apiURL: computed('bridgeIp', 'bridgeUsername', function () {
     return 'http://' + this.get('bridgeIp') + '/api/' + this.get('bridgeUsername');
   }),
 
-  tabData: computed('tabList', 'selectedTab', function(){
+  tabData: computed('tabList', 'selectedTab', function () {
     let tabData = [], selectedTab = this.get('selectedTab');
 
-    this.get('tabList').forEach(function(tab, i){
+    this.get('tabList').forEach(function (tab, i) {
       let selected = false;
 
-      if(i === selectedTab){
+      if (i === selectedTab) {
         selected = true;
       }
 
-      tabData.push({"name": tab, "selected": selected });
+      tabData.push({ "name": tab, "selected": selected });
     });
 
     return tabData;
   }),
 
-  didInsertElement(){
-    if(!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)){
+  didInsertElement() {
+    if (!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)) {
       // here's a weird way to automatically initialize bootstrap tooltips
-      let observer = new MutationObserver(function(mutations) {
-        let haveTooltip = !mutations.every(function(mutation) {
+      let observer = new MutationObserver(function (mutations) {
+        let haveTooltip = !mutations.every(function (mutation) {
           return isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
         });
 
-        if(haveTooltip) {
-          scheduleOnce('afterRender', function(){
+        if (haveTooltip) {
+          scheduleOnce('afterRender', function () {
             $('.bootstrap-tooltip').tooltip();
           });
         }
       });
 
-      observer.observe($('#hue-controls')[0], {childList: true, subtree: true});
+      observer.observe($('#hue-controls')[0], { childList: true, subtree: true });
     }
   },
 
   init() {
     this._super(...arguments);
 
-    let isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    let isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
+      storage = this.get('storage'),
+      firstVisitApp = storage.get('huegasm.firstVisitApp');
 
-    if(!this.get('trial')) {
+    if (!isEmpty(firstVisitApp)) {
+      this.set('firstVisitApp', false);
+    }
+    
+    if (!this.get('trial')) {
       this.updateLightData();
       setInterval(this.updateLightData.bind(this), 2000);
     }
 
-    if (!isNone(this.get('storage').get('huegasm.selectedTab'))) {
+    if (!isNone(storage.get('huegasm.selectedTab'))) {
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
     }
 
@@ -85,7 +92,7 @@ export default Component.extend({
         'mbjanbdhcpohhfecjgbdpcfhnnbofooj',
         {},
         (response) => {
-          if (response && response.installed){
+          if (response && response.installed) {
             set(this, 'canTryChrome', false);
           }
         }
@@ -93,23 +100,23 @@ export default Component.extend({
     }
   },
 
-  updateLightData(){
-    let fail = ()=>{
-      if(isNone(this.get('lightsData'))) {
+  updateLightData() {
+    let fail = () => {
+      if (isNone(this.get('lightsData'))) {
         this.send('clearBridge');
-      } else if(this.get('displayFailure')){
-        this.get('notify').warning({html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'});
+      } else if (this.get('displayFailure')) {
+        this.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>' });
         this.set('displayFailure', false);
 
-        later(this, function() {
+        later(this, function () {
           this.set('displayFailure', true);
         }, 30000);
       }
     };
 
-    if(!this.get('pauseLightUpdates')){
-      $.get(this.get('apiURL') + '/lights', (result, status)=>{
-        if(!isNone(result[0]) && !isNone(result[0].error)){
+    if (!this.get('pauseLightUpdates')) {
+      $.get(this.get('apiURL') + '/lights', (result, status) => {
+        if (!isNone(result[0]) && !isNone(result[0].error)) {
           fail();
         } else if (status === 'success' && JSON.stringify(this.get('lightsData')) !== JSON.stringify(result)) {
           this.set('lightsData', result);
@@ -125,7 +132,7 @@ export default Component.extend({
     tryExtension() {
       chrome.webstore.install("https://chrome.google.com/webstore/detail/mbjanbdhcpohhfecjgbdpcfhnnbofooj");
     },
-    changeTab(tabName){
+    changeTab(tabName) {
       let index = this.get('tabList').indexOf(tabName);
       this.set('selectedTab', index);
       this.get('storage').set('huegasm.selectedTab', index);
@@ -149,11 +156,11 @@ export default Component.extend({
     email() {
       window.open("mailto:huegasm.app@gmail.com", '_blank');
     },
-    startIntro(){
+    startIntro() {
       let intro = introJs(),
         playerBottom = $('#player-bottom');
 
-      if(this.get('dimmerOn')) {
+      if (this.get('dimmerOn')) {
         this.send('toggleDimmer');
       }
 
@@ -227,29 +234,29 @@ export default Component.extend({
       });
 
       intro.onchange((element) => {
-        if(element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip' || element.nodeName === 'MD-MENU'){
+        if (element.id === '' || element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area' || element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container' || element.id === 'using-mic-audio-tooltip' || element.nodeName === 'MD-MENU') {
           $('.navigation-item').eq(1).click();
         } else {
           $('.navigation-item').eq(0).click();
         }
 
-        if(element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area'){
+        if (element.id === 'music-tab' || element.id === 'playlist' || element.id === 'player-area') {
           playerBottom.hide();
-        } else if(element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container'){
+        } else if (element.id === 'beat-option-row' || element.id === 'beat-option-button-group' || element.id === 'beat-container') {
           playerBottom.show();
-        } else if(element.id === 'dimmer'){
+        } else if (element.id === 'dimmer') {
           $(document).click();
         }
       });
 
       // skip hidden/missing elements
-      intro.onafterchange((element)=>{
+      intro.onafterchange((element) => {
         let elem = $(element);
-        if(elem.html() === '<!---->'){
+        if (elem.html() === '<!---->') {
           $('.introjs-nextbutton').click();
         }
 
-        if(element.id === ''){
+        if (element.id === '') {
           later(this, () => {
             $('body').velocity('scroll');
           }, 500);
@@ -259,6 +266,10 @@ export default Component.extend({
           }, 500);
         }
       }).start();
+    },
+    closeNotificationModal() {
+      this.set('firstVisitApp', false);
+      this.get('storage').set('huegasm.firstVisitApp', false);
     }
   }
 });

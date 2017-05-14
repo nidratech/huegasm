@@ -5,6 +5,17 @@
   }
 }
 
+.promo-img {
+  display: block;
+  margin: auto;
+  height: 50vh;
+  min-height: 250px;
+}
+
+.promo-title {
+  font-size: 18px;
+}
+
 .lights-control-tooltip + .tooltip {
   left: 0 !important;
 }

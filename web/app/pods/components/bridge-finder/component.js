@@ -7,7 +7,8 @@ const {
   on,
   isNone,
   run: { later },
-  $
+  $,
+  String: { htmlSafe }
 } = Ember;
 
 export default Component.extend({
@@ -24,7 +25,6 @@ export default Component.extend({
   bridgeUsernamePingIntervalTime: 1500,
   bridgeUserNamePingIntervalProgress: 0,
   bridgePingIntervalHandle: null,
-  bridgeAuthenticateReachedStatus: null,
   manualBridgeIp: null,
   manualBridgeIpNotFound: false,
   multipleBridgeIps: [],
@@ -95,14 +95,19 @@ export default Component.extend({
         type: 'POST'
       }).done((result, status) => {
         if (!this.isDestroyed) {
-          this.set('bridgeAuthenticateReachedStatus', status);
-
           if (status === 'success' && !result[0].error) {
             this.clearBridgePingIntervalHandle();
             this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
             this.set('bridgeUsername', result[0].success.username);
           }
         }
+      }).fail(() => {
+        this.clearBridgePingIntervalHandle();
+        this.setProperties({
+          bridgeConnectError: true,
+          bridgeConnectMessage: htmlSafe('Your network and/or computer security settings are preventing Huegasm from connecting to your Hue bridge.' +
+            '<br><span>Feel free to contact us at <a href="mailto:huegasm.app@gmail.com">huegasm.app@gmail.com</a> if this is unexpected and you need help debugging the problem.</span>')
+        })
       });
 
       this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime') / bridgeUsernamePingMaxTime * 100);

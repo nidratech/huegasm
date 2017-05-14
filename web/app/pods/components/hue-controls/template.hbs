@@ -58,6 +58,36 @@
 
     {{music-tab active=(eq selectedTab 1) apiURL=apiURL lightsData=lightsData activeLights=activeLights pauseLightUpdates=pauseLightUpdates dimmerOn=dimmerOn storage=storage colorLoopOn=colorLoopOn playing=playing action="startIntro"}}
   </div>
+
+  {{#if firstVisitApp}}
+    {{#paper-dialog fullscreen=fullscreen onClose=(action "closeNotificationModal") origin=dialogOrigin}}
+
+      {{#paper-dialog-content}}
+        <p class="promo-title">
+          Check out the <a href="https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj" target="_blank">Huegasm Chrome extension</a>
+        </p>
+        <p>
+          The newly updated <a href="https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj" target="_blank">Huegasm Chrome</a> adds:
+          <ul>
+            <li>ability to listen for music from either a Chrome tab, microphone or your entire system</li>
+            <li>"Ambience mode" whcih sporatically changes the color of your lights throughout the song</li>
+            <li> and more...</li>
+          </ul>
+
+          <a href="https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj" target="_blank">
+            <img class="promo-img" src="assets/images/promo.png">
+          </a>
+        </p>
+      {{/paper-dialog-content}}
+
+      {{#paper-dialog-actions class="layout-row" }}
+        <span class="flex"></span>
+        {{#paper-button primary=true onClick=(action "closeNotificationModal")}}OK{{/paper-button}}
+      {{/paper-dialog-actions}}
+
+    {{/paper-dialog}}
+  {{/if}}
+
 {{else}}
   {{paper-progress-circular diameter=100}}
 {{/if}}

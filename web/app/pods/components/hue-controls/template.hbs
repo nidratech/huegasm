@@ -60,8 +60,7 @@
   </div>
 
   {{#if firstVisitApp}}
-    {{#paper-dialog fullscreen=fullscreen onClose=(action "closeNotificationModal") origin=dialogOrigin}}
-
+    {{#paper-dialog fullscreen=fullscreen onClose=(action "closeNotificationModal") origin=dialogOrigin clickOutsideToClose=true}}
       {{#paper-dialog-content}}
         <p class="promo-title">
           Check out the <a href="https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj" target="_blank">Huegasm Chrome extension</a>
@@ -75,7 +74,7 @@
           </ul>
 
           <a href="https://chrome.google.com/webstore/detail/huegasm-for-philips-hue-l/mbjanbdhcpohhfecjgbdpcfhnnbofooj" target="_blank">
-            <img class="promo-img" src="assets/images/promo.png">
+            <img class="promo-img hidden-xs" src="assets/images/promo.png">
           </a>
         </p>
       {{/paper-dialog-content}}
@@ -87,7 +86,6 @@
 
     {{/paper-dialog}}
   {{/if}}
-
 {{else}}
   {{paper-progress-circular diameter=100}}
 {{/if}}

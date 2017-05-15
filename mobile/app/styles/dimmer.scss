@@ -11,6 +11,9 @@ html.dimmerOn {
 body.dimmerOn {
   color: $whitish;
   background: $blackish;
+  md-dialog {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+  }
   md-input-container {
     label {
       color: #3f51b5 !important;

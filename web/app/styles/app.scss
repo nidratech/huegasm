@@ -1,6 +1,3 @@
-@import 'ember-modal-dialog/ember-modal-structure';
-@import 'ember-modal-dialog/ember-modal-appearance';
-
 @import 'huegasm-variables';
 
 @import 'bootstrap'; // used to take out bootstrap scss modules that we don't need
@@ -24,6 +21,10 @@ body > .ember-view {
 
 body, button {
   font-family: 'Raleway', sans-serif;
+}
+
+.full-width {
+  width: 100%;
 }
 
 #huegasm {
@@ -69,20 +70,6 @@ body, button {
 
 button.md-warn {
   background: $secondaryThemeColor;
-}
-
-div.ember-modal-dialog {
-  padding: 20px;
-  color: $blackish;
-  md-input-container {
-    width: 100%;
-    input.md-input[type="text"] {
-      color: $blackish !important;
-    }
-  }
-  md-input-container label {
-    color: rgba(0, 0, 0, 0.26);
-  }
 }
 
 .display-flex {

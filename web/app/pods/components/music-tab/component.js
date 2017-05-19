@@ -168,8 +168,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
 
       later(this, () => {
-        stimulateLight(light, brightnessRange[1], color);
-        later(this, stimulateLight, light, brightnessRange[0], timeToBriOff);
+        stimulateLight(light, brightnessRange[1]);
+        later(this, stimulateLight, light, brightnessRange[0], color, timeToBriOff);
       }, this.get('beatDelay'));
     }
 

@@ -8,7 +8,7 @@ export default Component.extend({
   lightsData: null,
 
   firstVisitApp: true,
-  canTryChrome: false,
+  canTryChrome: true,
   activeLights: A(),
   tabList: ["Lights", "Music"],
   selectedTab: 1,
@@ -86,8 +86,6 @@ export default Component.extend({
     }
 
     if (isChrome && chrome && chrome.runtime && chrome.runtime.sendMessage) {
-      set(this, 'canTryChrome', true);
-
       chrome.runtime.sendMessage(
         'mbjanbdhcpohhfecjgbdpcfhnnbofooj',
         {},

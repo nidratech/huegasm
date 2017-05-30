@@ -108,26 +108,26 @@ export default Component.extend(helperMixin, visualizerMixin, {
     this.set('dragLeaveTimeoutHandle', setTimeout(() => { this.set('dragging', false); }, 500));
   },
 
-  simulateKick(/*mag, ratioKickMag*/) {
+  simulateKick() {
     let activeLights = this.get('activeLights'),
       lightsData = this.get('lightsData'),
       color = null,
-
       transitiontime = this.get('flashingTransitions'),
-      stimulateLight = (light, brightness, hue) => {
-        let options = { 'bri': brightness };
+      stimulateLight = (light, bri, on, hue) => {
+        let options = { bri, transitiontime: 0 };
 
-        if (transitiontime) {
-          options['transitiontime'] = 0;
-        } else {
-          options['transitiontime'] = 1;
+        if (!transitiontime) {
+            options.transitiontime = 1;
         }
 
         if (!isNone(hue)) {
           options.hue = hue;
         }
 
-        if (lightsData[light].state.on === false) {
+        if (this.get('blackoutMode')) {
+          options.on = on;
+          delete options[bri];
+        } else if (lightsData[light].state.on === false) {
           options.on = true;
         }
 
@@ -157,7 +157,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       light = activeLights[lightBopIndex];
       this.set('lastLightBopIndex', lightBopIndex);
 
-      if (!this.get('colorloopMode')) {
+      if (!this.get('colorLoopOn')) {
         let hueRange = this.get('hueRange');
 
         color = Math.floor(Math.random() * (hueRange[1] - hueRange[0] + 1) + hueRange[0]);
@@ -168,8 +168,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       }
 
       later(this, () => {
-        stimulateLight(light, brightnessRange[1]);
-        later(this, stimulateLight, light, brightnessRange[0], color, timeToBriOff);
+        stimulateLight(light, brightnessRange[1], true);
+        later(this, stimulateLight, light, brightnessRange[0], false, color, timeToBriOff);
       }, this.get('beatDelay'));
     }
 
@@ -181,6 +181,47 @@ export default Component.extend(helperMixin, visualizerMixin, {
     //work the music beat area - simulate the speaker vibration by running a CSS animation on it
     $('#beat-speaker-center-outer').velocity({ blur: 3 }, 100).velocity({ blur: 0 }, 100);
     $('#beat-speaker-center-inner').velocity({ scale: 1.05 }, 100).velocity({ scale: 1 }, 100);
+  },
+
+  doAmbience(mag) {
+    let activeLights = this.get('activeLights');
+
+    if (mag > 0.01 && !this.pauseAmbience && activeLights.length > 0) {
+      let _stimulateLight = (lightIndex, options) => {
+        $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
+            data: JSON.stringify(options),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+      }, lightIndex = Math.floor(Math.random() * activeLights.length);
+
+      // let's try not to select the same light twice in a row
+      if (activeLights.length > 1) {
+        while (lightIndex === this.lastAmbienceLightIndex) {
+          lightIndex = Math.floor(Math.random() * activeLights.length);
+        }
+      }
+
+      let light = activeLights[lightIndex],
+        hueRange = this.get('hueRange'),
+        brightnessRange = this.get('brightnessRange'),
+        hue = Math.floor(Math.random() * (hueRange[1] - hueRange[0] + 1) + hueRange[0]);
+      this.lastAmbienceLightIndex = lightIndex;
+
+      _stimulateLight(light, { bri: Math.floor(brightnessRange[1] / 1.4), hue, transitiontime: Math.floor(Math.random() * 4) + 4 });
+      setTimeout(function () {
+        hue = Math.floor(Math.random() * (hueRange[1] - hueRange[0] + 1) + hueRange[0]);
+
+        _stimulateLight(light, { bri: brightnessRange[0], hue, transitiontime: Math.floor(Math.random() * 4) + 4 });
+      }, 1000);
+
+      this.pauseAmbience = true;
+      let pauseTime = Math.floor(1000 + (2000 / activeLights.length));
+
+      setTimeout(() => {
+        this.pauseAmbience = false;
+      }, pauseTime);
+    }
   },
 
   init() {
@@ -198,6 +239,11 @@ export default Component.extend(helperMixin, visualizerMixin, {
           if (this.get('paused') === false) {
             this.simulateKick(mag, ratioKickMag);
           }
+        },
+        offKick: (mag) => {
+          if (this.get('ambienceMode')) {
+            this.doAmbience(mag);
+          }
         }
       });
 
@@ -208,7 +254,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
       kick: kick
     });
 
-    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'colorloopMode', 'hueRange', 'brightnessRange', 'beatDelay'].forEach((item) => {
+    ['volume', 'shuffle', 'repeat', 'volumeMuted', 'threshold', 'ambienceMode', 'blackoutMode', 'playerBottomDisplayed', 'songBeatPreferences', 'firstVisit', 'currentVisName', 'playQueue', 'playQueuePointer', 'flashingTransitions', 'hueRange', 'brightnessRange', 'beatDelay'].forEach((item) => {
       if (!isNone(storage.get('huegasm.' + item))) {
         let itemVal = storage.get('huegasm.' + item);
 
@@ -524,7 +570,6 @@ export default Component.extend(helperMixin, visualizerMixin, {
         }
 
         this.set('pauseLightUpdates', !playing);
-        this.onColorloopModeChange();
         this.toggleProperty('playing');
       }
     },

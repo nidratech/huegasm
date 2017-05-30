@@ -187,13 +187,14 @@ export default Component.extend({
           },
           {
             element: '#beat-option-row',
-            intro: 'These are the settings for the music tab:<br>' +
-            '<b>Sensitivity</b> - The sensitivity of the beat detector (more sensitivity results in more registered beats)<br>' +
+            intro: '<b>Sensitivity</b> - The sensitivity of the beat detector (higher sensitivity results in more registered beats)<br>' +
             '<b>Hue Range</b> - The hue range that the lights may change to on beat.<br>' +
             '<b>Brightness Range</b> - The minimum (off-beat) and maximum (on-beat) brightness of the lights.<br>' +
             '<b>Flashing Transitions</b> - Quickly flash the lights on beat<br>' +
             '<b>Colorloop</b> - Slowly cycle the lights through all the colors while the music is playing<br>' +
-            '<i><b>TIP</b>: Your sensitivity settings are saved per song as indicated by the red star icon in the top left corner. These settings they will be restored if you ever listen to the same song again.</i>',
+            '<b>Ambience</b> - When turned on, your lights will sporadically change color.<br>' +
+            '<b>Blackout</b> - When turned on, your lghts will turn off after flashing on a detected beat.<br><br>' +
+            '<i><b>TIP</b>: Your sensitivity settings are saved per song as indicated by the red star icon in the top left corner.</i>',
             position: 'top'
           },
           {
@@ -209,7 +210,8 @@ export default Component.extend({
             '<b>Brightness</b> - The brightness level of the selected lights<br>' +
             '<b>Color</b> - The color of the selected lights<br>' +
             '<b>Strobe</b> - Selected lights will flash in sequential order<br>' +
-            '<b>Colorloop</b> - Selected lights will slowly cycle through all the colors<br>'
+            '<b>Colorloop</b> - Selected lights will slowly cycle through all the colors<br>' +
+            '<b>Randomize Hues</b> - Randomize the hues (colors) of your selected lights<br>'
           },
           {
             element: '#active-lights',

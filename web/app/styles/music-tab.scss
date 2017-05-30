@@ -280,8 +280,7 @@
   margin: 20px 0 10px 0;
 }
 
-#light-option {
-  margin-top: 20px;
+.light-option {
   display: flex;
   justify-content: space-around;
   .md-label {
@@ -372,8 +371,8 @@
 
 #save-beat-preferences-star {
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 2px;
+  left: 2px;
   z-index: 1000;
   md-icon {
     color: $secondaryThemeColor !important;

@@ -273,6 +273,24 @@ export default Component.extend({
   actions: {
     toggleDimmer() {
       this.sendAction('toggleDimmer');
+    },
+
+    randomizeHues() {
+      $('.dice').velocity({ scale: 1.10 }, 100).velocity({ scale: 1 }, 100);
+
+      this.get('activeLights').forEach((light) => {
+        let options = { hue: Math.floor(Math.random() * 65535) };
+
+        if (this.get('lightsData')[light].state.on === false) {
+          options.on = true;
+        }
+
+        $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify(options),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      });
     }
   }
 });

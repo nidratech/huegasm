@@ -151,6 +151,16 @@
           on-change="hueRangeChanged" pips=beatOptions.hueRange.pips}}
       </div>
 
+      <div id="sensitivity-settings" class="beat-option col-xs-4">
+        <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector (more sensitivity results in more registered beats)"
+          class="option-description bootstrap-tooltip">
+          Sensitivity
+          </span>
+
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged"
+          pips=beatOptions.threshold.pips}}
+      </div>
+      
       <div class="beat-option col-xs-4">
         <span data-toggle="tooltip" data-placement="top" data-title="The minimum (off-beat) and maximum (on-beat) brightness of the lights"
           class="option-description bootstrap-tooltip">
@@ -161,26 +171,26 @@
           on-change="brightnessRangeChanged" pips=beatOptions.brightnessRange.pips}}
       </div>
 
-      <div id="sensitivity-settings" class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector (more sensitivity results in more registered beats)"
-          class="option-description bootstrap-tooltip">
-          Sensitivity
-          </span>
+      <div class="col-xs-12 light-option extra-margin-top">
+        <div>
+          <div data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+            {{paper-checkbox label="Flashing Transitions" value=flashingTransitions onChange=(action (mut flashingTransitions))}}
+          </div>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged"
-          pips=beatOptions.threshold.pips}}
-      </div>
+          <div data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+            {{paper-checkbox label="Colorloop" value=colorLoopOn onChange=(action (mut colorLoopOn))}}
+          </div>
+        </div>
 
-      <div id="light-option" class="col-xs-12">
-        <span data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip"
-          {{action "hideTooltip" on="mouseLeave"}}>
-          {{paper-checkbox value=flashingTransitions onChange=(action (mut flashingTransitions)) label="Flashing Transitions"}}
-        </span>
+        <div>
+          <div data-toggle="tooltip" data-placement="top auto" data-title="With ambience turned on your lights will sporadically change color." class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+            {{paper-checkbox label="Ambience" value=ambienceMode onChange=(action (mut ambienceMode))}}
+          </div>
 
-          <span data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip"
-            {{action "hideTooltip" on="mouseLeave"}}>
-            {{paper-checkbox value=colorloopMode onChange=(action (mut colorloopMode)) label="Colorloop"}}
-          </span>
+          <div data-toggle="tooltip" data-placement="top auto" data-title="With blackout turned on your lights will turn off after flashing on a detected beat." class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+            {{paper-checkbox label="Blackout" value=blackoutMode onChange=(action (mut blackoutMode))}}
+          </div>
+        </div>
       </div>
     </div>
   </div>

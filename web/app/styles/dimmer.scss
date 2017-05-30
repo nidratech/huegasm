@@ -23,6 +23,9 @@ body.dimmerOn {
       border-color: #3f51b5 !important;
     }
   }
+  .dice g path {
+    fill: white;
+  }
   .md-track {
     background: $whitish;
   }
@@ -51,7 +54,7 @@ body.dimmerOn {
     }
   }
   .light-inactive::before {
-    display: none;
+    z-index: 1;
   }
   .hue-light {
     -webkit-filter: drop-shadow(0 0 5px #228DFF);

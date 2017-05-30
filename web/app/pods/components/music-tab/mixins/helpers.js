@@ -1,16 +1,6 @@
 import Ember from 'ember';
 
-const {
-  Mixin,
-  observer,
-  computed,
-  isNone,
-  run,
-  $,
-  inject,
-  on,
-  A
-} = Ember;
+const { Mixin, observer, computed, isNone, run, $, inject, on, A } = Ember;
 
 export default Mixin.create({
   classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
@@ -28,14 +18,12 @@ export default Mixin.create({
       defaultValue: 0.3,
       pips: {
         mode: 'values',
-        values: [0, 0.25, 0.5],
+        values: [0, 0.5],
         density: 10,
         format: {
           to: function (value) {
             if (value === 0) {
               value = 'High';
-            } else if (value === 0.25) {
-              value = '';
             } else {
               value = 'Low';
             }
@@ -110,13 +98,15 @@ export default Mixin.create({
   timeTotal: 0,
   lastLightBopIndex: 0,
 
+  colorLoopOn: false,
+  ambienceMode: false,
+  blackoutMode: false,
   playerBottomDisplayed: true,
   dragging: false,
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
   isShowingAddSoundCloudModal: false,
 
-  colorloopMode: false,
   flashingTransitions: false,
 
   // 0 - no repeat, 1 - repeat all, 2 - repeat one
@@ -228,14 +218,6 @@ export default Mixin.create({
     }
   }),
 
-  playerAreaClickIcon: computed('playing', function () {
-    if (this.get('playing')) {
-      return 'play-arrow';
-    } else {
-      return 'pause';
-    }
-  }),
-
   playListAreaClass: computed('dragging', 'draggingOverPlayListArea', 'dimmerOn', function () {
     let classes = 'pointer';
 
@@ -320,11 +302,7 @@ export default Mixin.create({
     this.set('oldPlayQueueLength', playQueueLength);
   }),
 
-  onColorloopModeChange: observer('colorloopMode', 'playing', function () {
-    this.set('colorLoopOn', this.get('playing') && this.get('colorloopMode'));
-  }),
-
-  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'colorloopMode', function (self, option) {
+  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'ambienceMode', 'blackoutMode', function (self, option) {
     option = option.replace('.[]', '');
     let value = this.get(option);
 
@@ -333,6 +311,25 @@ export default Mixin.create({
       value = value.filter((song) => {
         return !song.url.startsWith('blob:');
       });
+    } else if (option === 'blackoutMode') {
+      let options = { on: true };
+
+      if (value) {
+        this.set('ambienceMode', false);
+        options.on = false;
+      }
+
+      if (this.get('playing')) {
+        this.get('activeLights').forEach((light) => {
+          $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+            data: JSON.stringify(options),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+        });
+      }
+    } else if (value && option === 'ambienceMode') {
+      this.set('blackoutMode', false);
     }
 
     this.get('storage').set('huegasm.' + option, value);

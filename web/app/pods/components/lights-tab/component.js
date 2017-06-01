@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Component, observer, computed, on, run: { later, once }, $ } = Ember;
+const { Component, observer, computed, on, run: { later, throttle }, $ } = Ember;
 
 export default Component.extend({
   classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
@@ -135,30 +135,34 @@ export default Component.extend({
     }
   }),
 
-  onBrightnessChanged: observer('lightsBrightness', function () {
-    once(this, function () {
-      let lightsData = this.get('lightsData'),
-        lightsBrightnessSystem = false,
-        lightsBrightness = this.get('lightsBrightness'),
-        activeLights = this.get('activeLights');
+  changeLightsBrightness() {
+    let lightsData = this.get('lightsData'),
+      lightsBrightnessSystem = false,
+      lightsBrightness = this.get('lightsBrightness'),
+      activeLights = this.get('activeLights');
 
-      activeLights.forEach(function (light) {
-        lightsBrightnessSystem += lightsData[light].state.bri;
-      });
-
-      lightsBrightnessSystem /= activeLights.length;
-
-      // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
-      if (lightsBrightness !== lightsBrightnessSystem) {
-        activeLights.forEach((light) => {
-          $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-            data: JSON.stringify({ "bri": lightsBrightness }),
-            contentType: 'application/json',
-            type: 'PUT'
-          });
-        });
-      }
+    activeLights.forEach(function (light) {
+      lightsBrightnessSystem += lightsData[light].state.bri;
     });
+
+    lightsBrightnessSystem /= activeLights.length;
+
+    // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
+    if (lightsBrightness !== lightsBrightnessSystem) {
+      activeLights.forEach((light) => {
+        $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+          data: JSON.stringify({ "bri": lightsBrightness }),
+          contentType: 'application/json',
+          type: 'PUT'
+        });
+      });
+    }
+  },
+
+  onBrightnessChanged: observer('lightsBrightness', function () {
+    let activeLights = this.get('activeLights').length;
+
+    throttle(this, this.changeLightsBrightness, activeLights * 69);
   }),
 
   // sync the current light settings to the newly added light

@@ -1,10 +1,6 @@
 import Ember from 'ember';
 
-const {
-  Controller,
-  isEmpty,
-  $
-} = Ember;
+const { Controller, isEmpty, $ } = Ember;
 
 export default Controller.extend({
   dimmerOn: false,

@@ -9,7 +9,7 @@
     {{paper-icon playerAreaClickIcon id="play-notification"}}
 
     <div id="player-controls">
-      {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-change="seekChanged"}}
+      {{range-slider start=seekPosition min=0 max=100 connect=filledConnect id="seek-slider" on-change=(action "seekChanged")}}
 
       {{#if playQueueNotEmpty}}
         <span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip" id="prevTooltip" data-title= {{prevTooltipTxt}}
@@ -22,7 +22,7 @@
         -->{{/if}}<!--
         --><span data-toggle="tooltip" data-placement="top" class="bootstrap-tooltip hidden-xs" id="volumeMutedTooltip" data-title= {{volumeMutedTooltipTxt}}
           {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
-          -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-change="volumeChanged" id="volume-bar" class="hidden-xs"}}
+          -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-change=(action "volumeChanged") id="volume-bar" class="hidden-xs"}}
 
           <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
 
@@ -148,7 +148,7 @@
           </span>
 
           {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect
-          on-change="hueRangeChanged" pips=beatOptions.hueRange.pips}}
+          on-change=(action "hueRangeChanged") pips=beatOptions.hueRange.pips}}
       </div>
 
       <div id="sensitivity-settings" class="beat-option col-xs-4">
@@ -157,7 +157,7 @@
           Sensitivity
           </span>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change="thresholdChanged"
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action "thresholdChanged")
           pips=beatOptions.threshold.pips}}
       </div>
       
@@ -168,7 +168,7 @@
           </span>
 
           {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range
-          on-change="brightnessRangeChanged" pips=beatOptions.brightnessRange.pips}}
+          on-change=(action "brightnessRangeChanged") pips=beatOptions.brightnessRange.pips}}
       </div>
 
       <div class="col-xs-12 light-option extra-margin-top">

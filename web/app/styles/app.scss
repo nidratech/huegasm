@@ -76,13 +76,6 @@ button.md-warn {
 .display-flex {
   display: flex !important;
 }
-
-#intro-logo {
-  width: 55%;
-  margin-bottom: 4vh;
-  min-width: 250px;
-}
-
 #intro-background {
   min-height: 50vh;
   min-height: 200px;
@@ -103,12 +96,6 @@ button.md-warn {
     &:hover {
       color: rgba($blackish, 0.7) !important;
     }
-  }
-}
-
-@media(max-width:768px) {
-  #intro-logo {
-    margin-bottom: 10px;
   }
 }
 

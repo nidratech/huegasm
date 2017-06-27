@@ -302,6 +302,14 @@ export default Mixin.create({
     this.set('oldPlayQueueLength', playQueueLength);
   }),
 
+playerAreaClickIcon: computed('playing', function () {
+    if (this.get('playing')) {
+      return 'play-arrow';
+    } else {
+      return 'pause';
+    }
+  }),
+  
   onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'ambienceMode', 'blackoutMode', function (self, option) {
     option = option.replace('.[]', '');
     let value = this.get(option);

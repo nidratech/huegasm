@@ -36,7 +36,7 @@ body.dimmerOn {
     color: $whitish;
     background-color: $dimmerOnButtonColor;
   }
-  .ember-basic-dropdown-content a {
+  .ember-basic-dropdown-content a, .md-button {
       color: $whitish;
   }
   .playlist-item {

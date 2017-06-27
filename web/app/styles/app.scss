@@ -46,7 +46,6 @@ body, button {
   align-items: center;
   justify-content: space-between;
   padding: 0 15px;
-  //margin-bottom: 8rem;
 }
 
 @media(min-width:767px) {
@@ -76,6 +75,7 @@ button.md-warn {
 .display-flex {
   display: flex !important;
 }
+
 #intro-background {
   min-height: 50vh;
   min-height: 200px;

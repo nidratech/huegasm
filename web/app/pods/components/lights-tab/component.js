@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Component, observer, computed, on, run: { later, throttle }, $ } = Ember;
+const { Component, observer, computed, on, run: { later, throttle }, $, isEmpty } = Ember;
 
 export default Component.extend({
   classNames: ['col-sm-10', 'col-sm-offset-1', 'col-xs-12'],
@@ -84,22 +84,26 @@ export default Component.extend({
       xy = null,
       setRGB = true;
 
-    this.get('activeLights').forEach((i) => {
-      let light = lightsData[i];
+    if (!isEmpty(lightsData)) {
+      this.get('activeLights').forEach((i) => {
+        let light = lightsData[i];
 
-      if (xy !== null && xy[0] !== light.state.xy[0] && xy[1] !== light.state.xy[1]) {
-        setRGB = false;
+        if (light && light.state && light.state.xy) {
+          if (xy !== null && xy[0] !== light.state.xy[0] && xy[1] !== light.state.xy[1]) {
+            setRGB = false;
+          }
+
+          xy = light.state.xy;
+        }
+      });
+
+      if (setRGB && xy) {
+        let rgb = cieToRgb(xy[0], xy[1]);
+
+        $('.color').css('background', 'rgb(' + Math.abs(rgb[0]) + ',' + Math.abs(rgb[1]) + ',' + Math.abs(rgb[2]) + ')');
+      } else {
+        $('.color').css('background', 'rgb(' + 255 + ',' + 255 + ',' + 255 + ')');
       }
-
-      xy = light.state.xy;
-    });
-
-    if (setRGB && xy) {
-      let rgb = cieToRgb(xy[0], xy[1]);
-
-      $('.color').css('background', 'rgb(' + Math.abs(rgb[0]) + ',' + Math.abs(rgb[1]) + ',' + Math.abs(rgb[2]) + ')');
-    } else {
-      $('.color').css('background', 'rgb(' + 255 + ',' + 255 + ',' + 255 + ')');
     }
   })),
 

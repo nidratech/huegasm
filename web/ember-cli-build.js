@@ -1,14 +1,16 @@
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
-var Funnel = require('broccoli-funnel');
+/* eslint-env node */
+'use strict';
+
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const Funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
+  let app = new EmberApp(defaults, {
     fingerprint:{
       exclude: ['logo.png']
     }
   });
-  var extraAssets = new Funnel('bower_components/bootstrap-sass/assets/fonts/bootstrap/', {
+  let extraAssets = new Funnel('bower_components/bootstrap-sass/assets/fonts/bootstrap/', {
     srcDir: '/',
     include: ['**'],
     destDir: '/fonts/bootstrap'

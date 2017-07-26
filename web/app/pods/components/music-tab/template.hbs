@@ -157,8 +157,7 @@
           Sensitivity
           </span>
 
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action "thresholdChanged")
-          pips=beatOptions.threshold.pips}}
+          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action "thresholdChanged") pips=beatOptions.threshold.pips}}
       </div>
       
       <div class="beat-option col-xs-4">
@@ -167,8 +166,7 @@
           Brightness Range
           </span>
 
-          {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range
-          on-change=(action "brightnessRangeChanged") pips=beatOptions.brightnessRange.pips}}
+          {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range connect=hueRangeConnect on-change=(action "brightnessRangeChanged") pips=beatOptions.brightnessRange.pips}}
       </div>
 
       <div class="col-xs-12 light-option extra-margin-top">

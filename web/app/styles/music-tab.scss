@@ -181,6 +181,7 @@
   transition: 0.1s all ease-in-out;
   position: relative;
   overflow: auto;
+
   #dragHere {
     position: absolute;
     top: 27%;
@@ -190,7 +191,7 @@
   }
   [md-font-icon="library-music"] {
     position: absolute;
-    top: 40%;
+    top: 48%;
     font-size: 100px;
     opacity: 0.5;
     width: 100%;

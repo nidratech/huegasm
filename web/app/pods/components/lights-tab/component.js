@@ -1,3 +1,4 @@
+/*global rgbToCie cieToRgb*/
 import Ember from 'ember';
 
 const { Component, observer, computed, on, run: { later, throttle }, $, isEmpty } = Ember;

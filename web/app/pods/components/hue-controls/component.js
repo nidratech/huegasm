@@ -1,3 +1,4 @@
+/*global chrome introJs*/
 import Ember from 'ember';
 
 const { A, Component, computed, isEmpty, isNone, run: { later, scheduleOnce }, inject, $, set } = Ember;

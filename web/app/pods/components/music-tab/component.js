@@ -1,3 +1,4 @@
+/*global FileAPIReader Dancer SC ID3*/
 import Ember from 'ember';
 import helperMixin from './mixins/helpers';
 import visualizerMixin from './mixins/visualizer';
@@ -760,7 +761,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
         if (files.hasOwnProperty(key)) {
           let file = files[key];
 
-          if (file.type.startsWith('audio')) {
+          if (file.type.startsWith('audio') || file.type.startsWith('video')) {
             ID3.loadTags("local", updatePlayQueue.bind(file), {
               dataReader: new FileAPIReader(file),
               tags: ['title', 'artist', 'album', 'track', 'picture']

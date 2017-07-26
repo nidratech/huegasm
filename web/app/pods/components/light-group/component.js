@@ -115,7 +115,6 @@ export default Component.extend({
             src = 'pendant_square';
             break;
           case 'LTP002':
-          case 'LTP003':
             src = 'pendant_round';
             break;
           case 'LTP001':
@@ -130,7 +129,6 @@ export default Component.extend({
             src = 'ceiling_square';
             break;
           case 'LTC003':
-          case 'LTD001':
           case 'LTD001':
             src = 'ceiling_round';
             break;

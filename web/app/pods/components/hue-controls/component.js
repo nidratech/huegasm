@@ -189,7 +189,7 @@ export default Component.extend({
           {
             element: '#beat-option-row',
             intro: '<b>Sensitivity</b> - The sensitivity of the beat detector (higher sensitivity results in more registered beats)<br>' +
-            '<b>Hue Range</b> - The hue range that the lights may change to on beat.<br>' +
+            '<b>Color Range</b> - The color range that the lights may change to on beat.<br>' +
             '<b>Brightness Range</b> - The minimum (off-beat) and maximum (on-beat) brightness of the lights.<br>' +
             '<b>Flashing Transitions</b> - Quickly flash the lights on beat<br>' +
             '<b>Colorloop</b> - Slowly cycle the lights through all the colors while the music is playing<br>' +

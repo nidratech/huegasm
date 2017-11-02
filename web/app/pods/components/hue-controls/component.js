@@ -9,7 +9,6 @@ export default Component.extend({
   lightsData: null,
 
   firstVisitApp: true,
-  canTryChrome: true,
   activeLights: A(),
   tabList: ["Lights", "Music"],
   selectedTab: 1,
@@ -84,18 +83,6 @@ export default Component.extend({
 
     if (!isNone(storage.get('huegasm.selectedTab'))) {
       this.set('selectedTab', this.get('storage').get('huegasm.selectedTab'));
-    }
-
-    if (isChrome && chrome && chrome.runtime && chrome.runtime.sendMessage) {
-      chrome.runtime.sendMessage(
-        'mbjanbdhcpohhfecjgbdpcfhnnbofooj',
-        {},
-        (response) => {
-          if (response && response.installed) {
-            set(this, 'canTryChrome', false);
-          }
-        }
-      );
     }
   },
 

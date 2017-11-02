@@ -13,11 +13,9 @@
         {{/menu.trigger}}
         
         {{#menu.content width=3 as |content|}}
-          {{#if canTryChrome}}
-            {{#content.menu-item class="hidden-xs" onClick="tryExtension"}}
-              {{paper-icon "extension" class=dimmerOnClass}} Try the Chrome Extension
-            {{/content.menu-item}}
-          {{/if}}
+          {{#content.menu-item class="hidden-xs" onClick="tryExtension"}}
+            {{paper-icon "extension" class=dimmerOnClass}} Try the Chrome Extension
+          {{/content.menu-item}}
 
           {{#content.menu-item class="visible-xs" onClick="tryAndroid"}}
             {{paper-icon "extension" class=dimmerOnClass}} Try the Android Extension

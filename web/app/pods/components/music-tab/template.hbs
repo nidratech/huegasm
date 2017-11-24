@@ -94,33 +94,36 @@
         {{paper-icon "library-music" class=dimmerOnClass}}
       {{/if}}
 
-      {{#each playQueue as |item index|}}
+      {{#ember-collection
+        items=playQueue
+        cell-layout=(percentage-columns-layout playQueue.length playlistColumns 62) as |item|
+      }}
         <div class="playlist-item pointer track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
-          {{#if item.picture}}
-            <img class="album-art" src= {{item.picture}}>
+        {{#if item.picture}}
+          <img class="album-art" src= {{item.picture}}>
+        {{else}}
+          <img class="album-art" src="assets/images/missingArtwork.png">
+        {{/if}}
+
+        <div class="song-info">
+          {{#if item.title}}
+            <div class="song-title">{{item.title}}</div>
+            <div class="song-artist">
+              {{#if item.artistUrl}}
+                <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
+              {{else}}
+                {{item.artist}}
+              {{/if}}
+            </div>
           {{else}}
-            <img class="album-art" src="assets/images/missingArtwork.png">
+            {{item.fileName}}
           {{/if}}
-
-          <div class="song-info">
-            {{#if item.title}}
-              <div class="song-title">{{item.title}}</div>
-              <div class="song-artist">
-                {{#if item.artistUrl}}
-                  <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
-                {{else}}
-                  {{item.artist}}
-                {{/if}}
-              </div>
-            {{else}}
-              {{item.fileName}}
-            {{/if}}
-          </div>
-
-          <span data-toggle="tooltip" data-placement="top auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip"
-            {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
         </div>
-      {{/each}}
+
+        <span data-toggle="tooltip" data-placement="top auto" data-title="Remove" data-container="body" class="audio-remove-button pointer bootstrap-tooltip"
+          {{action "removeAudio" index bubbles=false}}>{{paper-icon "close" classNames="close"}}</span>
+      </div>
+    {{/ember-collection}}
   </div>
 </div>
 </div>

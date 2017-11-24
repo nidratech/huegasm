@@ -2662,9 +2662,9 @@ ember-cli@^2.14.0:
     walk-sync "^0.3.0"
     yam "0.0.22"
 
-ember-collection@^1.0.0-alpha.7:
+"ember-collection@https://github.com/emberjs/ember-collection":
   version "1.0.0-alpha.7"
-  resolved "https://registry.yarnpkg.com/ember-collection/-/ember-collection-1.0.0-alpha.7.tgz#172c2ddaa7d3482fac0781686b434c9c9c42d79a"
+  resolved "https://github.com/emberjs/ember-collection#d2a3565cb7ee32fd09092496ad76b7302c547063"
   dependencies:
     ember-cli-babel "^5.1.5"
     ember-cli-htmlbars "^1.0.1"

@@ -96,7 +96,7 @@
 
       {{#ember-collection
         items=playQueue
-        cell-layout=(percentage-columns-layout playQueue.length playlistColumns 62) as |item|
+        cell-layout=(percentage-columns-layout playQueue.length playlistColumns 62) as |item index|
       }}
         <div class="playlist-item pointer track{{index}} {{if (eq index playQueuePointer) "active"}} {{if dragging "hidden"}}" {{action "goToSong" index true bubbles=false}}>
         {{#if item.picture}}
@@ -109,11 +109,7 @@
           {{#if item.title}}
             <div class="song-title">{{item.title}}</div>
             <div class="song-artist">
-              {{#if item.artistUrl}}
-                <a href="#" {{action "gotoURL" item.artistUrl bubbles=false}}>{{item.artist}}</a>
-              {{else}}
-                {{item.artist}}
-              {{/if}}
+              {{item.artist}}
             </div>
           {{else}}
             {{item.fileName}}

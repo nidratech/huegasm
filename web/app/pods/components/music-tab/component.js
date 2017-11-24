@@ -506,8 +506,8 @@ export default Component.extend(helperMixin, visualizerMixin, {
       // need to manually remove the tooltip
       $('body .tooltip').remove();
 
-      if (index === this.get('playQueuePointer')) {
-        this.send('goToSong', index, true, true);
+      if (this.get('dancer').audio) {
+        this.clearCurrentAudio(true);
       }
     },
     playerAreaPlay() {

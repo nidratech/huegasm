@@ -71,6 +71,8 @@ export default Component.extend({
     let storage = this.get('storage'),
       firstVisitApp = storage.get('huegasm.firstVisitApp');
 
+    this.set('canTryChrome', /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor));
+
     if (!isEmpty(firstVisitApp)) {
       this.set('firstVisitApp', false);
     }

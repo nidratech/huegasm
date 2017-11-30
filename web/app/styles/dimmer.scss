@@ -12,7 +12,11 @@ body.dimmerOn {
   color: $whitish;
   background: $blackish;
   md-dialog {
-    background-color: rgba(0, 0, 0, 0.9) !important;
+    background-color: $blackish !important;
+    p,
+    .paper-icon {
+      color: $whitish !important;
+    }
   }
   md-input-container {
     label {
@@ -32,12 +36,14 @@ body.dimmerOn {
   .color {
     border: 1px solid white;
   }
-  .playlist-item, .ember-basic-dropdown-content md-menu-content {
+  .playlist-item,
+  .ember-basic-dropdown-content md-menu-content {
     color: $whitish;
     background-color: $dimmerOnButtonColor;
   }
-  .ember-basic-dropdown-content a, .md-button {
-      color: $whitish;
+  .ember-basic-dropdown-content a,
+  .md-button {
+    color: $whitish;
   }
   .playlist-item {
     &.active {
@@ -57,7 +63,7 @@ body.dimmerOn {
     z-index: 1;
   }
   .hue-light {
-    -webkit-filter: drop-shadow(0 0 5px #228DFF);
+    -webkit-filter: drop-shadow(0 0 5px #228dff);
     fill: $whitish;
     path {
       fill: $whitish;
@@ -77,6 +83,10 @@ body.dimmerOn {
 .paper-icon.dimmerOn {
   text-shadow: $glowingText;
   opacity: 0.9 !important;
+
+  &.no-blue-shadow {
+    text-shadow: 0 0 2px #fff, 0 0 4px #fff;
+  }
 }
 
 .logo {

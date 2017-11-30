@@ -15,21 +15,21 @@ export default Component.extend({
   // COLOR LOOP related stuff
   colorLoopOn: false,
 
-  lightsOnTxt: computed('lightsOn', function () {
+  lightsOnTxt: computed('lightsOn', function() {
     return this.get('lightsOn') ? 'On' : 'Off';
   }),
 
-  colorloopOnTxt: computed('colorLoopOn', function () {
+  colorloopOnTxt: computed('colorLoopOn', function() {
     return this.get('colorLoopOn') ? 'On' : 'Off';
   }),
 
   // determines the average brightness of the hue system for the brightness slider
-  lightsBrightness: computed('lightsData', 'activeLights.[]', function () {
+  lightsBrightness: computed('lightsData', 'activeLights.[]', function() {
     let lightsData = this.get('lightsData'),
       activeLights = this.get('activeLights'),
       lightsBrightness = 0;
 
-    activeLights.forEach(function (light) {
+    activeLights.forEach(function(light) {
       lightsBrightness += lightsData[light].state.bri;
     });
 
@@ -38,22 +38,22 @@ export default Component.extend({
 
   brightnessControlDisabled: computed.not('lightsOn'),
 
-  onColorLoopOnChange: observer('colorLoopOn', function () {
+  onColorLoopOnChange: observer('colorLoopOn', function() {
     let lightsData = this.get('lightsData'),
       activeLights = this.get('activeLights'),
       colorLoopsOn = this.get('colorLoopOn'),
       effect = colorLoopsOn ? 'colorloop' : 'none';
 
-    let colorLoopsOnSystem = activeLights.some(function (light) {
+    let colorLoopsOnSystem = activeLights.some(function(light) {
       return lightsData[light].state.effect === 'colorloop';
     });
 
     // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
     if (colorLoopsOn !== colorLoopsOnSystem) {
-      activeLights.forEach((light) => {
+      activeLights.forEach(light => {
         if (this.get('lightsData')[light].state.effect !== effect) {
           $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-            data: JSON.stringify({ 'effect': effect }),
+            data: JSON.stringify({ effect: effect }),
             contentType: 'application/json',
             type: 'PUT'
           });
@@ -62,15 +62,15 @@ export default Component.extend({
     }
   }),
 
-  rgbPreview: observer('rgb', function () {
+  rgbPreview: observer('rgb', function() {
     let rgb = this.get('rgb'),
       xy = rgbToCie(rgb[0], rgb[1], rgb[2]);
 
     this.set('colorLoopOn', false);
 
-    this.get('activeLights').forEach((light) => {
+    this.get('activeLights').forEach(light => {
       $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-        data: JSON.stringify({ "xy": xy }),
+        data: JSON.stringify({ xy: xy }),
         contentType: 'application/json',
         type: 'PUT'
       });
@@ -80,59 +80,61 @@ export default Component.extend({
     $('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
   }),
 
-  onActiveLightsChange: on('init', observer('activeLights.[]', function () {
+  onActiveLightsChange: observer('activeLights.[]', function() {
     let lightsData = this.get('lightsData'),
-      xy = null,
-      setRGB = true;
+      activeLights = this.get('activeLights'),
+      xy = null;
 
     if (!isEmpty(lightsData)) {
-      this.get('activeLights').forEach((i) => {
+      activeLights.forEach(i => {
         let light = lightsData[i];
 
         if (light && light.state && light.state.xy) {
-          if (xy !== null && xy[0] !== light.state.xy[0] && xy[1] !== light.state.xy[1]) {
-            setRGB = false;
+          if (xy === null) {
+            xy = [0, 0];
           }
-
-          xy = light.state.xy;
+          xy[0] += light.state.xy[0];
+          xy[1] += light.state.xy[1];
         }
       });
 
-      if (setRGB && xy) {
-        let rgb = cieToRgb(xy[0], xy[1]);
+      if (xy) {
+        let rgb = cieToRgb(xy[0] / activeLights.length, xy[1] / activeLights.length);
 
         $('.color').css('background', 'rgb(' + Math.abs(rgb[0]) + ',' + Math.abs(rgb[1]) + ',' + Math.abs(rgb[2]) + ')');
-      } else {
-        $('.color').css('background', 'rgb(' + 255 + ',' + 255 + ',' + 255 + ')');
       }
     }
-  })),
+  }),
 
   // determines whether the lights are on/off for the lights switch
-  lightsOnChange: on('init', observer('lightsData.@each.state.on', 'activeLights.[]', function () {
-    if (!this.get('strobeOn')) {
-      let lightsData = this.get('lightsData'), lightsOn = this.get('activeLights').some(function (light) {
-        return lightsData[light].state.on === true;
-      });
+  lightsOnChange: on(
+    'init',
+    observer('lightsData.@each.state.on', 'activeLights.[]', function() {
+      if (!this.get('strobeOn')) {
+        let lightsData = this.get('lightsData'),
+          lightsOn = this.get('activeLights').some(function(light) {
+            return lightsData[light].state.on === true;
+          });
 
-      this.set('lightsOn', lightsOn);
-    }
-  })),
+        this.set('lightsOn', lightsOn);
+      }
+    })
+  ),
 
-  onLightsOnChange: observer('lightsOn', function () {
+  onLightsOnChange: observer('lightsOn', function() {
     let lightsData = this.get('lightsData'),
       activeLights = this.get('activeLights'),
       lightsOn = this.get('lightsOn');
 
-    let lightsOnSystem = activeLights.some(function (light) {
+    let lightsOnSystem = activeLights.some(function(light) {
       return lightsData[light].state.on === true;
     });
 
     // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
     if (lightsOn !== lightsOnSystem) {
-      activeLights.forEach((light) => {
+      activeLights.forEach(light => {
         $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({ "on": lightsOn }),
+          data: JSON.stringify({ on: lightsOn }),
           contentType: 'application/json',
           type: 'PUT'
         });
@@ -146,7 +148,7 @@ export default Component.extend({
       lightsBrightness = this.get('lightsBrightness'),
       activeLights = this.get('activeLights');
 
-    activeLights.forEach(function (light) {
+    activeLights.forEach(function(light) {
       lightsBrightnessSystem += lightsData[light].state.bri;
     });
 
@@ -154,9 +156,9 @@ export default Component.extend({
 
     // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
     if (lightsBrightness !== lightsBrightnessSystem) {
-      activeLights.forEach((light) => {
+      activeLights.forEach(light => {
         $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-          data: JSON.stringify({ "bri": lightsBrightness }),
+          data: JSON.stringify({ bri: lightsBrightness }),
           contentType: 'application/json',
           type: 'PUT'
         });
@@ -164,19 +166,20 @@ export default Component.extend({
     }
   },
 
-  onBrightnessChanged: observer('lightsBrightness', function () {
+  onBrightnessChanged: observer('lightsBrightness', function() {
     let activeLights = this.get('activeLights').length;
 
-    throttle(this, this.changeLightsBrightness, activeLights * 69);
+    throttle(this, this.changeLightsBrightness, activeLights * 69, false);
   }),
 
   // sync the current light settings to the newly added light
-  onaActiveLightsChange: observer('syncLight', function () {
+  onaActiveLightsChange: observer('syncLight', function() {
     let options = {
-      on: this.get('lightsOn'),
-      bri: this.get('lightsBrightness'),
-      effect: this.get('colorLoopOn') ? 'colorloop' : 'none'
-    }, rgb = this.get('rgb'),
+        on: this.get('lightsOn'),
+        bri: this.get('lightsBrightness'),
+        effect: this.get('colorLoopOn') ? 'colorloop' : 'none'
+      },
+      rgb = this.get('rgb'),
       syncLight = this.get('syncLight');
 
     if (rgb[0] !== 255 && rgb[1] !== 255 && rgb[2] !== 255) {
@@ -192,6 +195,10 @@ export default Component.extend({
     });
   }),
 
+  didInsertElement() {
+    this.onActiveLightsChange();
+  },
+
   // **************** STROBE LIGHT START ****************
   strobeOn: false,
 
@@ -199,7 +206,7 @@ export default Component.extend({
   preStrobeOnLightsDataCache: null,
   nextLightIdx: 0,
 
-  onStrobeOnChange: observer('strobeOn', function () {
+  onStrobeOnChange: observer('strobeOn', function() {
     let lightsData = this.get('lightsData'),
       strobeOn = this.get('strobeOn');
 
@@ -222,17 +229,19 @@ export default Component.extend({
       }
 
       this.set('strobeOnInervalHandle', setInterval(this.strobeStep.bind(this), 500));
-    } else { // revert the light system to pre-strobe
-      let preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'), updateLight = (lightIndex) => {
-        $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
-          data: JSON.stringify({
-            on: preStrobeOnLightsDataCache[lightIndex].state.on,
-            sat: preStrobeOnLightsDataCache[lightIndex].state.sat
-          }),
-          contentType: 'application/json',
-          type: 'PUT'
-        });
-      };
+    } else {
+      // revert the light system to pre-strobe
+      let preStrobeOnLightsDataCache = this.get('preStrobeOnLightsDataCache'),
+        updateLight = lightIndex => {
+          $.ajax(this.get('apiURL') + '/lights/' + lightIndex + '/state', {
+            data: JSON.stringify({
+              on: preStrobeOnLightsDataCache[lightIndex].state.on,
+              sat: preStrobeOnLightsDataCache[lightIndex].state.sat
+            }),
+            contentType: 'application/json',
+            type: 'PUT'
+          });
+        };
 
       for (let key in lightsData) {
         if (lightsData.hasOwnProperty(key)) {
@@ -263,7 +272,7 @@ export default Component.extend({
       type: 'PUT'
     });
     $.ajax(this.get('apiURL') + '/lights/' + nextStrobeLight + '/state', {
-      data: JSON.stringify({ 'on': false, 'transitiontime': 0 }),
+      data: JSON.stringify({ on: false, transitiontime: 0 }),
       contentType: 'application/json',
       type: 'PUT'
     });
@@ -271,11 +280,11 @@ export default Component.extend({
     this.set('nextLightIdx', ++nextLightIdx);
   },
 
-  strobeOnTxt: computed('strobeOn', function () {
+  strobeOnTxt: computed('strobeOn', function() {
     return this.get('strobeOn') ? 'On' : 'Off';
   }),
 
-  dimmerOnClass: computed('dimmerOn', function () {
+  dimmerOnClass: computed('dimmerOn', function() {
     return this.get('dimmerOn') ? 'dimmerOn' : null;
   }),
 
@@ -285,9 +294,11 @@ export default Component.extend({
     },
 
     randomizeHues() {
-      $('.dice').velocity({ scale: 1.10 }, 100).velocity({ scale: 1 }, 100);
+      $('.dice')
+        .velocity({ scale: 1.1 }, 100)
+        .velocity({ scale: 1 }, 100);
 
-      this.get('activeLights').forEach((light) => {
+      this.get('activeLights').forEach(light => {
         let options = { hue: Math.floor(Math.random() * 65535) };
 
         if (this.get('lightsData')[light].state.on === false) {
@@ -300,6 +311,10 @@ export default Component.extend({
           type: 'PUT'
         });
       });
+
+      later(() => {
+        this.onActiveLightsChange();
+      }, 1000);
     }
   }
 });

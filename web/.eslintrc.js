@@ -13,5 +13,5 @@ module.exports = {
   globals: {
     chrome: false,
     introJs: false
-  },
+  }
 };

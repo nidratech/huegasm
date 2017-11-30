@@ -349,7 +349,9 @@ export default Mixin.create({
       this.set('blackoutMode', false);
     }
 
-    this.get('storage').set('huegasm.' + option, value);
+    if (!isNone(value)) {
+      this.get('storage').set('huegasm.' + option, value);      
+    }
   }),
 
   onRepeatChange: on(

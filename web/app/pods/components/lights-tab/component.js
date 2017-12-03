@@ -136,7 +136,7 @@ export default Component.extend({
       () => {
         this.set('lightsOnDisabled', false);
       },
-      400
+      800
     );
 
     // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state

@@ -180,7 +180,7 @@ export default Component.extend({
   }),
 
   // sync the current light settings to the newly added light
-  onaActiveLightsChange: observer('syncLight', function() {
+  onSyncLightsChanged: observer('syncLight', function() {
     let options = {
         on: this.get('lightsOn'),
         bri: this.get('lightsBrightness'),

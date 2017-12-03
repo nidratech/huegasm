@@ -2,7 +2,7 @@
   {{#paper-item}}
     {{paper-icon "power-settings-new" class=dimmerOnClass}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Turn the selected lights on/off">Power</p>
-    {{paper-switch value=lightsOn onChange=(action (mut lightsOn)) disabled=(or trial playing) skipProxy=trial label=lightsOnTxt}}
+    {{paper-switch value=lightsOn onChange=(action (mut lightsOn)) disabled=(or trial playing lightsOnDisabled) skipProxy=trial label=lightsOnTxt}}
   {{/paper-item}}
 
   {{#paper-item}}

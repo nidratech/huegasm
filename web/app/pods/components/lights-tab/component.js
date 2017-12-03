@@ -106,49 +106,56 @@ export default Component.extend({
     }
   }),
 
-  // determines whether the lights are on/off for the lights switch
-  lightsOnChange: on(
+  // sync the system lights on/off state with the Huegasm UI
+  systemLightsOnChange: on(
     'init',
     observer('lightsData.@each.state.on', 'activeLights.[]', function() {
       if (!this.get('strobeOn')) {
-        let lightsData = this.get('lightsData'),
-          lightsOn = this.get('activeLights').some(function(light) {
-            return lightsData[light].state.on === true;
-          });
+        let { lightsData, activeLights } = this.getProperties('lightsData', 'activeLights');
 
-        this.set('lightsOn', lightsOn);
+        this.set('lightsOn', activeLights.some(light => lightsData[light].state.on === true));
       }
     })
   ),
 
+  // sync the system lights on/off state from the Huegasm UI
   onLightsOnChange: observer('lightsOn', function() {
-    let lightsData = this.get('lightsData'),
-      activeLights = this.get('activeLights'),
-      lightsOn = this.get('lightsOn');
+    let activeLightsLength = this.get('activeLights').length;
 
-    let lightsOnSystem = activeLights.some(function(light) {
-      return lightsData[light].state.on === true;
-    });
+    this.set('lightsOnDisabled', true);
+
+    throttle(this, this.changeLightsOnOff, activeLightsLength * 69, false);
+  }),
+
+  changeLightsOnOff() {
+    let { lightsData, activeLights, lightsOn, apiURL } = this.getProperties('lightsData', 'activeLights', 'lightsOn', 'apiURL'),
+      lightsOnSystem = activeLights.some(light => lightsData[light].state.on === true);
+
+    later(
+      this,
+      () => {
+        this.set('lightsOnDisabled', false);
+      },
+      400
+    );
 
     // if the internal lights state is different than the one from lightsData (user manually toggled the switch), send the request to change the bulbs state
     if (lightsOn !== lightsOnSystem) {
-      activeLights.forEach(light => {
-        $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
+      activeLights.forEach(lightId => {
+        $.ajax(`${apiURL}/lights/${lightId}/state`, {
           data: JSON.stringify({ on: lightsOn }),
           contentType: 'application/json',
           type: 'PUT'
         });
       });
     }
-  }),
+  },
 
   changeLightsBrightness() {
-    let lightsData = this.get('lightsData'),
-      lightsBrightnessSystem = false,
-      lightsBrightness = this.get('lightsBrightness'),
-      activeLights = this.get('activeLights');
+    let { lightsData, lightsBrightness, activeLights } = this.getProperties('lightsData', 'lightsBrightness', 'activeLights'),
+      lightsBrightnessSystem = false;
 
-    activeLights.forEach(function(light) {
+    activeLights.forEach(light => {
       lightsBrightnessSystem += lightsData[light].state.bri;
     });
 
@@ -167,9 +174,9 @@ export default Component.extend({
   },
 
   onBrightnessChanged: observer('lightsBrightness', function() {
-    let activeLights = this.get('activeLights').length;
+    let activeLightsLength = this.get('activeLights').length;
 
-    throttle(this, this.changeLightsBrightness, activeLights * 69, false);
+    throttle(this, this.changeLightsBrightness, activeLightsLength * 69, false);
   }),
 
   // sync the current light settings to the newly added light

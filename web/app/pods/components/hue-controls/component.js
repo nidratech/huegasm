@@ -13,7 +13,7 @@ export default Component.extend({
   selectedTab: 1,
   pauseLightUpdates: false,
 
-  displayFailure: true,
+  displayNextFailure: true,
 
   notify: inject.service(),
 
@@ -79,7 +79,7 @@ export default Component.extend({
 
     if (!this.get('trial')) {
       this.updateLightData();
-      setInterval(this.updateLightData.bind(this), 2000);
+      setInterval(this.updateLightData.bind(this), 3000);
     }
 
     if (!isNone(storage.get('huegasm.selectedTab'))) {
@@ -91,14 +91,14 @@ export default Component.extend({
     let fail = () => {
       if (isNone(this.get('lightsData'))) {
         this.send('clearBridge');
-      } else if (this.get('displayFailure')) {
+      } else if (this.get('displayNextFailure')) {
         this.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>' });
-        this.set('displayFailure', false);
+        this.set('displayNextFailure', false);
 
         later(
           this,
-          function() {
-            this.set('displayFailure', true);
+          () => {
+            this.set('displayNextFailure', true);
           },
           30000
         );

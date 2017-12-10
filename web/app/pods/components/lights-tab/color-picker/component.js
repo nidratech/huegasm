@@ -1,9 +1,6 @@
 import Ember from 'ember';
 
-const {
-  Component,
-  $
-} = Ember;
+const { Component, $ } = Ember;
 
 export default Component.extend({
   elementId: 'color-picker',
@@ -12,17 +9,17 @@ export default Component.extend({
   canvasContext: null,
   pressingDown: false,
 
-  mouseUp(){
+  mouseUp() {
     this.set('pressingDown', false);
   },
 
-  mouseMove(event){
+  mouseMove(event) {
     if (this.get('pressingDown')) {
       this.mouseDown(event);
     }
   },
 
-  mouseDown(event){
+  mouseDown(event) {
     let canvasOffset = $(this.get('canvas')).offset(),
       canvasX = Math.floor(event.pageX - canvasOffset.left),
       canvasY = Math.floor(event.pageY - canvasOffset.top);
@@ -39,14 +36,14 @@ export default Component.extend({
   },
 
   // https://dzone.com/articles/creating-your-own-html5
-  didInsertElement(){
+  didInsertElement() {
     // handle color changes
     let canvas = $('#picker')[0],
       canvasContext = canvas.getContext('2d'),
       image = new Image();
 
     image.src = 'assets/images/colormap.png';
-    image.onload = function () {
+    image.onload = function() {
       canvasContext.drawImage(image, 0, 0, image.width, image.height); // draw the image on the canvas
     };
 

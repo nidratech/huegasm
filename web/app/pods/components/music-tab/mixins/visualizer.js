@@ -1,20 +1,16 @@
 import Ember from 'ember';
 
-const {
-  Mixin,
-  observer,
-  $
-} = Ember;
+const { Mixin, observer, $ } = Ember;
 
 export default Mixin.create({
   currentVisName: 'None',
 
   visNames: ['None', 'Bars', 'Wave'],
 
-  onCurrentVisNameChange: observer('currentVisName', function () {
+  onCurrentVisNameChange: observer('currentVisName', function() {
     let currentVisName = this.get('currentVisName');
 
-    if(currentVisName === 'None'){
+    if (currentVisName === 'None') {
       let canvasEl = $('#visualization')[0],
         ctx = canvasEl.getContext('2d');
 
@@ -24,19 +20,20 @@ export default Mixin.create({
     this.get('storage').set('huegasm.currentVisName', currentVisName);
   }),
 
-  didInsertElement(){
+  didInsertElement() {
     let dancer = this.get('dancer'),
       canvas = $('#visualization')[0],
       playerArea = $('#player-area'),
       ctx = canvas.getContext('2d'),
       spacing = 2,
-      h = playerArea.height(), w;
+      h = playerArea.height(),
+      w;
 
     canvas.height = h;
 
     // must be done to preserver resolution so that things don't appear blurry
     // note that the height is set to 400px via css so it doesn't need to be recalculated
-    let syncCanvasHeight = ()=>{
+    let syncCanvasHeight = () => {
       w = playerArea.width();
       canvas.width = w;
     };
@@ -51,7 +48,7 @@ export default Mixin.create({
         pageHidden = document.hidden || document.msHidden || document.webkitHidden || document.mozHidden;
 
       // dont do anything if the page is hidden or no visualization
-      if(currentVisName === 'None' || pageHidden || !this.get('active')){
+      if (currentVisName === 'None' || pageHidden || !this.get('active')) {
         return;
       }
 
@@ -71,7 +68,7 @@ export default Mixin.create({
         ctx.beginPath();
         ctx.moveTo(0, h / 2);
         for (let i = 0, l = waveform.length; i < l && i < count; i++) {
-          ctx.lineTo(i * ( spacing + width ), ( h / 2 ) + waveform[i] * ( h / 2 ));
+          ctx.lineTo(i * (spacing + width), h / 2 + waveform[i] * (h / 2));
         }
         ctx.stroke();
         ctx.closePath();
@@ -86,7 +83,7 @@ export default Mixin.create({
         ctx.fillStyle = gradient;
         let spectrum = dancer.getSpectrum();
         for (let i = 0, l = spectrum.length; i < l && i < count; i++) {
-          ctx.fillRect(i * ( spacing + width ), h, width, -spectrum[i] * h - 60);
+          ctx.fillRect(i * (spacing + width), h, width, -spectrum[i] * h - 60);
         }
       }
     });

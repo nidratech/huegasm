@@ -9,6 +9,7 @@ module.exports = {
     browser: true
   },
   rules: {
+    'no-debugger': 'off'
   },
   globals: {
     chrome: false,

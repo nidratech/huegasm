@@ -1,14 +1,6 @@
 import Ember from 'ember';
 
-const {
-  A,
-  Component,
-  computed,
-  isEmpty,
-  isNone,
-  observer,
-  $
-} = Ember;
+const { A, Component, computed, isEmpty, isNone, observer, $ } = Ember;
 
 export default Component.extend({
   elementId: 'active-lights',
@@ -17,7 +9,7 @@ export default Component.extend({
   activeLights: A(),
 
   // list of all the lights in the hue system
-  lightsList: computed('lightsData', 'activeLights.[]', 'dimmerOn', function () {
+  lightsList: computed('lightsData', 'activeLights.[]', 'dimmerOn', function() {
     let lightsData = this.get('lightsData'),
       activeLights = this.get('activeLights'),
       dimmerOn = this.get('dimmerOn'),
@@ -172,7 +164,7 @@ export default Component.extend({
     return lightsList;
   }),
 
-  onActiveLightsChange: observer('activeLights.[]', function () {
+  onActiveLightsChange: observer('activeLights.[]', function() {
     this.get('storage').set('huegasm.activeLights', this.get('activeLights'));
   }),
 
@@ -184,7 +176,7 @@ export default Component.extend({
       activeLightsCache = this.get('storage').get('huegasm.activeLights');
 
     if (!isNone(activeLightsCache)) {
-      activeLightsCache.forEach(function (i) {
+      activeLightsCache.forEach(function(i) {
         if (!isNone(lightsData) && lightsData.hasOwnProperty(i) && lightsData[i].state.reachable) {
           activeLights.pushObject(i);
         }
@@ -211,15 +203,15 @@ export default Component.extend({
       }
     },
     lightStartHover(id) {
-      if (!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)) {
+      if (!window.matchMedia || window.matchMedia('(min-width: 768px)').matches) {
         let activeLights = this.get('activeLights'),
-          hoveredLight = this.get('lightsList').filter(function (light) {
+          hoveredLight = this.get('lightsList').filter(function(light) {
             return light.activeClass !== 'unreachable' && light.id === id[0] && activeLights.indexOf(id) !== -1;
           });
 
         if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
           $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {
-            data: JSON.stringify({ "alert": "lselect" }),
+            data: JSON.stringify({ alert: 'lselect' }),
             contentType: 'application/json',
             type: 'PUT'
           });
@@ -232,14 +224,14 @@ export default Component.extend({
       }
     },
     lightStopHover(id) {
-      if (!window.matchMedia || (window.matchMedia("(min-width: 768px)").matches)) {
-        let hoveredLight = this.get('lightsList').filter(function (light) {
+      if (!window.matchMedia || window.matchMedia('(min-width: 768px)').matches) {
+        let hoveredLight = this.get('lightsList').filter(function(light) {
           return light.activeClass !== 'unreachable' && light.id === id[0];
         });
 
         if (!isEmpty(hoveredLight) && this.get('noHover') !== true) {
           $.ajax(this.get('apiURL') + '/lights/' + id + '/state', {
-            data: JSON.stringify({ "alert": "none" }),
+            data: JSON.stringify({ alert: 'none' }),
             contentType: 'application/json',
             type: 'PUT'
           });

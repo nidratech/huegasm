@@ -147,7 +147,9 @@ export default Mixin.create({
     '<div class="alert alert-danger" role="alert">The SoundCloud API is not seving the audio properly. More details <a href="https://www.soundcloudcommunity.com/soundcloud/topics/some-soundcloud-cdn-hosted-tracks-dont-have-access-control-allow-origin-header" target="_blank" rel="noopener noreferrer">HERE</a>.</div>',
   notStreamableHtml(fileNames) {
     let html =
-      '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' + fileNames.toString().replace(/,/g, '<br>') + '</div>';
+      '<div class="alert alert-danger" role="alert">The following file(s) could not be added because they are not allowed to be streamed:<br>' +
+      fileNames.toString().replace(/,/g, '<br>') +
+      '</div>';
 
     return html;
   },
@@ -319,7 +321,10 @@ export default Mixin.create({
     }
   }),
 
-  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'ambienceMode', 'blackoutMode', function(self, option) {
+  onOptionChange: observer('flashingTransitions', 'playQueue.[]', 'playQueuePointer', 'ambienceMode', 'blackoutMode', function(
+    self,
+    option
+  ) {
     option = option.replace('.[]', '');
     let value = this.get(option);
 
@@ -350,7 +355,7 @@ export default Mixin.create({
     }
 
     if (!isNone(value)) {
-      this.get('storage').set('huegasm.' + option, value);      
+      this.get('storage').set('huegasm.' + option, value);
     }
   }),
 

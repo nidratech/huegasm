@@ -51,7 +51,9 @@ export default Component.extend({
       // here's a weird way to automatically initialize bootstrap tooltips
       let observer = new MutationObserver(function(mutations) {
         let haveTooltip = !mutations.every(function(mutation) {
-          return isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip');
+          return (
+            isEmpty(mutation.addedNodes) || isNone(mutation.addedNodes[0].classList) || mutation.addedNodes[0].classList.contains('tooltip')
+          );
         });
 
         if (haveTooltip) {
@@ -92,7 +94,9 @@ export default Component.extend({
       if (isNone(this.get('lightsData'))) {
         this.send('clearBridge');
       } else if (this.get('displayNextFailure')) {
-        this.get('notify').warning({ html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>' });
+        this.get('notify').warning({
+          html: '<div class="alert alert-warning" role="alert">Error retrieving data from your lights. Yikes.</div>'
+        });
         this.set('displayNextFailure', false);
 
         later(
@@ -174,7 +178,8 @@ export default Component.extend({
           },
           {
             element: $('#playlist md-menu')[0],
-            intro: '<img src="/assets/images/soundcloudUrl.png" id="soundcloud-tutorial">You can add songs from SoundCloud by copy and pasting the URL shown here'
+            intro:
+              '<img src="/assets/images/soundcloudUrl.png" id="soundcloud-tutorial">You can add songs from SoundCloud by copy and pasting the URL shown here'
           },
           {
             element: '#player-area',
@@ -196,7 +201,9 @@ export default Component.extend({
           },
           {
             element: '#beat-container',
-            intro: 'An interactive speaker that will bump when a beat is registered. <br><br>' + '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
+            intro:
+              'An interactive speaker that will bump when a beat is registered. <br><br>' +
+              '<i><b>TIP</b>: Click on the center of the speaker to simulate a beat.</i>',
             position: 'top'
           },
           {

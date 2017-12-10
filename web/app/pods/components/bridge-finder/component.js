@@ -1,15 +1,6 @@
 import Ember from 'ember';
 
-const {
-  Component,
-  observer,
-  computed,
-  on,
-  isNone,
-  run: { later },
-  $,
-  String: { htmlSafe }
-} = Ember;
+const { Component, observer, computed, on, isNone, run: { later }, $, String: { htmlSafe } } = Ember;
 
 export default Component.extend({
   elementId: 'bridge-finder',
@@ -31,17 +22,20 @@ export default Component.extend({
   isAuthenticating: computed.notEmpty('bridgePingIntervalHandle'),
 
   // try to authenticate against the bridge here
-  onBridgeIpChange: on('init', observer('bridgeIp', function () {
-    if (!this.get('trial') && !this.get('isAuthenticating')) {
-      this.setProperties({
-        bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
-        bridgeUserNamePingIntervalProgress: 0
-      });
-    }
-  })),
+  onBridgeIpChange: on(
+    'init',
+    observer('bridgeIp', function() {
+      if (!this.get('trial') && !this.get('isAuthenticating')) {
+        this.setProperties({
+          bridgePingIntervalHandle: setInterval(this.pingBridgeUser.bind(this), this.get('bridgeUsernamePingIntervalTime')),
+          bridgeUserNamePingIntervalProgress: 0
+        });
+      }
+    })
+  ),
 
   didInsertElement() {
-    $(document).keypress((event) => {
+    $(document).keypress(event => {
       if (!isNone(this.get('manualBridgeIp')) && event.which === 13) {
         this.send('findBridgeByIp');
       }
@@ -66,7 +60,7 @@ export default Component.extend({
           } else if (result.length > 1) {
             let multipleBridgeIps = this.get('multipleBridgeIps');
 
-            result.forEach(function (item) {
+            result.forEach(function(item) {
               multipleBridgeIps.pushObject(item.internalipaddress);
             });
 
@@ -90,27 +84,34 @@ export default Component.extend({
 
     if (bridgeIp !== null && bridgeUserNamePingIntervalProgress < 100) {
       $.ajax('http://' + bridgeIp + '/api', {
-        data: JSON.stringify({ "devicetype": "huegasm" }),
+        data: JSON.stringify({ devicetype: 'huegasm' }),
         contentType: 'application/json',
         type: 'POST'
-      }).done((result, status) => {
-        if (!this.isDestroyed) {
-          if (status === 'success' && !result[0].error) {
-            this.clearBridgePingIntervalHandle();
-            this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
-            this.set('bridgeUsername', result[0].success.username);
+      })
+        .done((result, status) => {
+          if (!this.isDestroyed) {
+            if (status === 'success' && !result[0].error) {
+              this.clearBridgePingIntervalHandle();
+              this.get('storage').set('huegasm.bridgeUsername', result[0].success.username);
+              this.set('bridgeUsername', result[0].success.username);
+            }
           }
-        }
-      }).fail(() => {
-        this.clearBridgePingIntervalHandle();
-        this.setProperties({
-          bridgeConnectError: true,
-          bridgeConnectMessage: htmlSafe('Your network and/or computer security settings are preventing Huegasm from connecting to your Hue bridge.' +
-            '<br><span>Feel free to contact us at <a href="mailto:huegasm.app@gmail.com">huegasm.app@gmail.com</a> if this is unexpected and you need help debugging the problem.</span>')
         })
-      });
+        .fail(() => {
+          this.clearBridgePingIntervalHandle();
+          this.setProperties({
+            bridgeConnectError: true,
+            bridgeConnectMessage: htmlSafe(
+              'Your network and/or computer security settings are preventing Huegasm from connecting to your Hue bridge.' +
+                '<br><span>Feel free to contact us at <a href="mailto:huegasm.app@gmail.com">huegasm.app@gmail.com</a> if this is unexpected and you need help debugging the problem.</span>'
+            )
+          });
+        });
 
-      this.incrementProperty('bridgeUserNamePingIntervalProgress', this.get('bridgeUsernamePingIntervalTime') / bridgeUsernamePingMaxTime * 100);
+      this.incrementProperty(
+        'bridgeUserNamePingIntervalProgress',
+        this.get('bridgeUsernamePingIntervalTime') / bridgeUsernamePingMaxTime * 100
+      );
     } else {
       this.clearBridgePingIntervalHandle();
     }
@@ -140,18 +141,24 @@ export default Component.extend({
         });
       } else {
         $.ajax('http://' + manualBridgeIp + '/api', {
-          data: JSON.stringify({ "devicetype": "huegasm" }),
+          data: JSON.stringify({ devicetype: 'huegasm' }),
           contentType: 'application/json',
           type: 'POST'
-        }).fail(() => {
-          this.set('manualBridgeIpNotFound', true);
-          later(this, function () {
-            this.set('manualBridgeIpNotFound', false);
-          }, 5000);
-        }).then(() => {
-          this.send('chooseBridge', manualBridgeIp);
-        });
+        })
+          .fail(() => {
+            this.set('manualBridgeIpNotFound', true);
+            later(
+              this,
+              function() {
+                this.set('manualBridgeIpNotFound', false);
+              },
+              5000
+            );
+          })
+          .then(() => {
+            this.send('chooseBridge', manualBridgeIp);
+          });
       }
     }
-  },
+  }
 });

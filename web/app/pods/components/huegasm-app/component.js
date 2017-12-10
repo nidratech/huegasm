@@ -1,10 +1,6 @@
 import Ember from 'ember';
 
-const {
-  Component,
-  isEmpty,
-  $
-} = Ember;
+const { Component, isEmpty, $ } = Ember;
 
 export default Component.extend({
   bridgeIp: null,

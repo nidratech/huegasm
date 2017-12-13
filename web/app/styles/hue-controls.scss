@@ -14,6 +14,15 @@
 
 .promo-title {
   font-size: 18px;
+  text-align: center;
+}
+
+.promo-text {
+  font-size: 14px;
+
+  img {
+    margin-top: 20px;
+  }
 }
 
 .lights-control-tooltip + .tooltip {
@@ -74,7 +83,7 @@
   padding: 5px;
   background: rgba(0, 0, 0, 0.7);
   box-shadow: 5px 10px 15px 5px rgba(0, 0, 0, 0.3);
-  color: #FFFFFF;
+  color: #ffffff;
   position: absolute;
   width: 266px;
   height: 266px;
@@ -85,7 +94,8 @@
 
 .color-content {
   box-shadow: none !important;
-  md-menu-content, md-menu-item {
+  md-menu-content,
+  md-menu-item {
     background-color: transparent !important;
   }
 }
@@ -113,7 +123,9 @@
   margin-right: 20px;
 }
 
-.dice:hover, .dice:focus, .dice:active {
+.dice:hover,
+.dice:focus,
+.dice:active {
   animation-name: hvr-buzz-out;
   animation-duration: 0.75s;
   animation-timing-function: linear;
@@ -153,7 +165,7 @@
   }
 }
 
-@media(min-width:767px) {
+@media (min-width: 767px) {
   #lights-tab {
     font-size: 20px;
     .paper-icon {

@@ -71,7 +71,7 @@ export default Component.extend({
     this._super(...arguments);
 
     let storage = this.get('storage'),
-      firstVisitApp = storage.get('huegasm.firstVisitApp');
+      firstVisitApp = storage.get('huegasm.firstVisitApp1');
 
     this.set('canTryChrome', /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor));
 
@@ -299,7 +299,7 @@ export default Component.extend({
     },
     closeNotificationModal() {
       this.set('firstVisitApp', false);
-      this.get('storage').set('huegasm.firstVisitApp', false);
+      this.get('storage').set('huegasm.firstVisitApp1', false);
     }
   }
 });

@@ -1,0 +1,16 @@
+{{#if isShowingModal}}
+  {{#paper-dialog fullscreen=fullscreen onClose=(action "close") origin=dialogOrigin clickOutsideToClose=true}}
+    {{#paper-dialog-content}}
+      <p>Enter a direct audio stream URL.</p>
+      <p>ex. http://uk6.internet-radio.com:8213/;stream</p>
+
+      {{paper-input label="URL" class="full-width" icon="search" value=url onChange=(action (mut url))}}
+    {{/paper-dialog-content}}
+
+    {{#paper-dialog-actions class="layout-row"}}
+      <span class="flex"></span>
+       {{paper-button onClick=(action "close") label="Close"}} 
+       {{paper-button class="pull-right" onClick=(action "add") disabled=saveDisabled primary=true label="Add Music"}}
+    {{/paper-dialog-actions}}
+  {{/paper-dialog}}
+{{/if}}

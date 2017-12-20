@@ -113,6 +113,7 @@ export default Mixin.create({
   draggingOverPlayListArea: false,
   dragLeaveTimeoutHandle: null,
   isShowingAddSoundCloudModal: false,
+  isShowingUrlModal: false,
 
   flashingTransitions: false,
 
@@ -296,7 +297,8 @@ export default Mixin.create({
   }),
 
   timeTotalTxt: computed('timeTotal', function() {
-    return this.formatTime(this.get('timeTotal'));
+    let timeTotal = this.get('timeTotal');
+    return this.formatTime(timeTotal === Infinity ? null : timeTotal);
   }),
 
   onPlayQueueChange: observer('playQueue.length', function() {
@@ -330,9 +332,7 @@ export default Mixin.create({
 
     // can't really save local music
     if (option === 'playQueue') {
-      value = value.filter(song => {
-        return !song.url.startsWith('blob:');
-      });
+      value = value.filter(song => !song.url.startsWith('blob:'));
     } else if (option === 'blackoutMode') {
       let options = { on: true };
 
@@ -458,7 +458,11 @@ export default Mixin.create({
   },
 
   formatTime(time) {
-    return this.pad(Math.floor(time / 60), 2) + ':' + this.pad(time % 60, 2);
+    if (time !== null) {
+      return this.pad(Math.floor(time / 60), 2) + ':' + this.pad(time % 60, 2);
+    }
+
+    return time;
   },
 
   pad(num, size) {

@@ -24,7 +24,9 @@
           {{action "volumeMutedChanged"}}>{{paper-icon icon=volumeIcon class=volumeMutedClass}}</span><!--
           -->{{range-slider start=volume min=0 max=100 connect=filledConnect on-change=(action "volumeChanged") id="volume-bar" class="hidden-xs"}}
 
-          <div id="player-time-controls">{{timeElapsedTxt}} / {{timeTotalTxt}}</div>
+          <div id="player-time-controls">
+            {{timeElapsedTxt}} {{#unless (eq timeTotalTxt null)}}/ {{timeTotalTxt}}{{/unless}}
+          </div>
 
           {{#paper-menu as |menu|}}
             {{#menu.trigger}}
@@ -65,11 +67,14 @@
           {{/paper-button}}
         {{/menu.trigger}}
         {{#menu.content width=3 as |content|}}
-          {{#content.menu-item onClick="addLocalAudio" }}
-            {{paper-icon "attachment" class=shuffleClass}} Local File
-          {{/content.menu-item}}
           {{#content.menu-item onClick="toggleIsShowingAddSoundCloudModal" }}
             {{paper-icon "cloud" class=shuffleClass}} SoundCloud
+          {{/content.menu-item}}
+          {{#content.menu-item onClick="addLocalAudio" }}
+            {{paper-icon "folder" class=shuffleClass}} Local File
+          {{/content.menu-item}}
+          {{#content.menu-item onClick="toggleIsShowingAddUrlModal" }}
+            {{paper-icon "link" class=shuffleClass}} Stream URL
           {{/content.menu-item}}
         {{/menu.content}}
       {{/paper-menu}}
@@ -211,3 +216,4 @@
 </div>
 
 {{music-tab/add-soundcloud-sound-modal action="handleNewSoundCloudURL" isShowingModal=isShowingAddSoundCloudModal}}
+{{music-tab/add-url-sound-modal action="handleNewURL" isShowingModal=isShowingAddUrlModal}}

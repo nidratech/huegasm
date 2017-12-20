@@ -490,6 +490,9 @@ export default Component.extend(helperMixin, visualizerMixin, {
     toggleIsShowingAddSoundCloudModal() {
       this.toggleProperty('isShowingAddSoundCloudModal');
     },
+    toggleIsShowingAddUrlModal() {
+      this.toggleProperty('isShowingAddUrlModal');
+    },
     slideTogglePlayerBottom() {
       let elem = this.$('#player-bottom');
 
@@ -755,8 +758,20 @@ export default Component.extend(helperMixin, visualizerMixin, {
         }
       }
     },
-    addLocalAudio: function() {
+    addLocalAudio() {
       $('#file-input').click();
+    },
+    handleNewURL(url) {
+      if (url) {
+        this.get('playQueue').pushObject({
+          fileName: url,
+          url,
+          title: url,
+          local: true
+        });
+      }
+
+      this.set('isShowingAddUrlModal', false);
     },
     shuffleChanged(value) {
       this.changePlayerControl('shuffle', isNone(value) ? !this.get('shuffle') : value);
@@ -816,7 +831,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
             url: URL.createObjectURL(this),
             artist: tags.artist,
             title: tags.title,
-            picture: picture,
+            picture,
             local: true
           });
 

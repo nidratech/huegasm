@@ -173,7 +173,7 @@ export default Component.extend({
           {
             element: '#playlist',
             intro:
-              'You can add and select music to play from your playlist here. You may listen to local audio files or stream music from Soundcloud.<br><br>' +
+              'You can add and select music to play from your playlist here. You may listen to local audio files, online audio streams or stream music from SoundCloud.<br><br>' +
               '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
           },
           {

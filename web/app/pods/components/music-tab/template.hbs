@@ -135,81 +135,83 @@
   </div>
 </div>
 
-<div id="player-bottom" class="row {{if dimmerOn "dimmerOn"}} {{if playerBottomDisplayed "display-flex"}}">
-  <div id="beat-area" class="col-sm-7 col-xs-12">
-    {{#if usingBeatPreferences}}
-      <span data-toggle="tooltip" data-placement="top" data-title="Using the saved sensitivity preference from the last time you listened to this song"
-        class="bootstrap-tooltip" id="save-beat-preferences-star">
-        {{paper-icon "star" class=dimmerOnClass}}
-        </span>
-    {{/if}}
-
-    <div class="row" id="beat-option-row">
-      <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="top" data-title="The range of hues (colors) that the lights may change to on beat."
-          class="option-description bootstrap-tooltip">
-          Color Range
+<div id="player-bottom">
+  <div id="player-bottom-container"  class="row {{if dimmerOn "dimmerOn"}}">
+    <div id="beat-area" class="col-sm-7 col-xs-12">
+      {{#if usingBeatPreferences}}
+        <span data-toggle="tooltip" data-placement="top" data-title="Using the saved sensitivity preference from the last time you listened to this song"
+          class="bootstrap-tooltip" id="save-beat-preferences-star">
+          {{paper-icon "star" class=dimmerOnClass}}
           </span>
+      {{/if}}
 
-          {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect
-          on-change=(action "hueRangeChanged") pips=beatOptions.hueRange.pips}}
-      </div>
+      <div class="row" id="beat-option-row">
+        <div class="beat-option col-xs-4">
+          <span data-toggle="tooltip" data-placement="top" data-title="The range of hues (colors) that the lights may change to on beat."
+            class="option-description bootstrap-tooltip">
+            Color Range
+            </span>
 
-      <div id="sensitivity-settings" class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector (more sensitivity results in more registered beats)"
-          class="option-description bootstrap-tooltip">
-          Sensitivity
-          </span>
-
-          {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action "thresholdChanged") pips=beatOptions.threshold.pips}}
-      </div>
-      
-      <div class="beat-option col-xs-4">
-        <span data-toggle="tooltip" data-placement="top" data-title="The minimum (off-beat) and maximum (on-beat) brightness of the lights"
-          class="option-description bootstrap-tooltip">
-          Brightness Range
-          </span>
-
-          {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range connect=hueRangeConnect on-change=(action "brightnessRangeChanged") pips=beatOptions.brightnessRange.pips}}
-      </div>
-
-      <div class="col-xs-12 light-option extra-margin-top">
-        <div>
-          <div data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-            {{paper-checkbox label="Flashing Transitions" value=flashingTransitions onChange=(action (mut flashingTransitions))}}
-          </div>
-
-          <div data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-            {{paper-checkbox label="Colorloop" value=colorLoopOn onChange=(action (mut colorLoopOn))}}
-          </div>
+            {{range-slider start=hueRange orientation="vertical" step=beatOptions.hueRange.step range=beatOptions.hueRange.range connect=hueRangeConnect
+            on-change=(action "hueRangeChanged") pips=beatOptions.hueRange.pips}}
         </div>
 
-        <div>
-          <div data-toggle="tooltip" data-placement="top auto" data-title="With ambience turned on your lights will sporadically change color." class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-            {{paper-checkbox label="Ambience" value=ambienceMode onChange=(action (mut ambienceMode))}}
+        <div id="sensitivity-settings" class="beat-option col-xs-4">
+          <span data-toggle="tooltip" data-placement="top" data-title="The sensitivity of the beat detector (more sensitivity results in more registered beats)"
+            class="option-description bootstrap-tooltip">
+            Sensitivity
+            </span>
+
+            {{range-slider start=threshold orientation="vertical" step=beatOptions.threshold.step range=beatOptions.threshold.range on-change=(action "thresholdChanged") pips=beatOptions.threshold.pips}}
+        </div>
+        
+        <div class="beat-option col-xs-4">
+          <span data-toggle="tooltip" data-placement="top" data-title="The minimum (off-beat) and maximum (on-beat) brightness of the lights"
+            class="option-description bootstrap-tooltip">
+            Brightness Range
+            </span>
+
+            {{range-slider start=brightnessRange orientation="vertical" step=beatOptions.brightnessRange.step range=beatOptions.brightnessRange.range connect=hueRangeConnect on-change=(action "brightnessRangeChanged") pips=beatOptions.brightnessRange.pips}}
+        </div>
+
+        <div class="col-xs-12 light-option extra-margin-top">
+          <div>
+            <div data-toggle="tooltip" data-placement="top auto" data-title="Quickly flash the lights on beat" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+              {{paper-checkbox label="Flashing Transitions" value=flashingTransitions onChange=(action (mut flashingTransitions))}}
+            </div>
+
+            <div data-toggle="tooltip" data-placement="top auto" data-title="Slowly cycle the lights through all the colors" class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+              {{paper-checkbox label="Colorloop" value=colorLoopOn onChange=(action (mut colorLoopOn))}}
+            </div>
           </div>
 
-          <div data-toggle="tooltip" data-placement="top auto" data-title="With blackout turned on your lights will turn off after flashing on a detected beat." class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
-            {{paper-checkbox label="Blackout" value=blackoutMode onChange=(action (mut blackoutMode))}}
+          <div>
+            <div data-toggle="tooltip" data-placement="top auto" data-title="With ambience turned on your lights will sporadically change color." class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+              {{paper-checkbox label="Ambience" value=ambienceMode onChange=(action (mut ambienceMode))}}
+            </div>
+
+            <div data-toggle="tooltip" data-placement="top auto" data-title="With blackout turned on your lights will turn off after flashing on a detected beat." class="bootstrap-tooltip" {{action "hideTooltip" on="mouseLeave"}}>
+              {{paper-checkbox label="Blackout" value=blackoutMode onChange=(action (mut blackoutMode))}}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="beat-container" class="col-sm-5 col-xs-12">
-    <div class="bezel">
-      <div class="rivet1"></div>
-      <div class="rivet2"></div>
-      <div class="rivet3"></div>
-      <div class="rivet4"></div>
-      <div class="rivet5"></div>
-      <div class="rivet6"></div>
-      <div class="rivet7"></div>
-      <div class="rivet8"></div>
+    <div id="beat-container" class="col-sm-5 col-xs-12">
+      <div class="bezel">
+        <div class="rivet1"></div>
+        <div class="rivet2"></div>
+        <div class="rivet3"></div>
+        <div class="rivet4"></div>
+        <div class="rivet5"></div>
+        <div class="rivet6"></div>
+        <div class="rivet7"></div>
+        <div class="rivet8"></div>
 
-      <div id="beat-speaker-center-outer">
-        <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}></div>
+        <div id="beat-speaker-center-outer">
+          <div id="beat-speaker-center-inner" class="pointer" {{action "clickSpeaker"}}></div>
+        </div>
       </div>
     </div>
   </div>

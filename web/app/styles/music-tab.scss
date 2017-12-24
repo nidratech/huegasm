@@ -321,13 +321,11 @@
   background: white;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  display: flex;
-  align-items: center;
-}
 
-#beat-container {
-  display: flex;
-  margin-bottom: 10px;
+  #player-bottom-container {
+    display: flex;
+    align-items: center;
+  }
 }
 
 #beat-area .light-group {
@@ -476,8 +474,11 @@
 
 // mobile overrides
 @media (max-width: 767px) {
-  div#player-bottom {
-    display: block !important;
+  #player-bottom-container {
+    flex-direction: column;
+  }
+  [data-ember-action] {
+    cursor: pointer;
   }
   #beat-area {
     height: initial;

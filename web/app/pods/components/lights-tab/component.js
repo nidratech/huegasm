@@ -62,21 +62,26 @@ export default Component.extend({
     }
   }),
 
-  rgbPreview: observer('rgb', function() {
-    let rgb = this.get('rgb'),
-      xy = rgbToCie(rgb[0], rgb[1], rgb[2]);
+  changeLightsColor() {
+    let { activeLights, apiURL, xy } = this.getProperties('activeLights', 'apiURL', 'xy');
 
-    this.set('colorLoopOn', false);
-
-    this.get('activeLights').forEach(light => {
-      $.ajax(this.get('apiURL') + '/lights/' + light + '/state', {
-        data: JSON.stringify({ xy: xy }),
+    activeLights.forEach(light => {
+      $.ajax(`${apiURL}/lights/${light}/state`, {
+        data: JSON.stringify({ xy }),
         contentType: 'application/json',
         type: 'PUT'
       });
     });
+  },
+
+  rgbPreview: observer('rgb', function() {
+    let { rgb, activeLights } = this.getProperties('rgb', 'activeLights');
 
     this.set('colorLoopOn', false);
+
+    throttle(this, this.changeLightsColor, activeLights.length * 69, false);
+
+    this.setProperties({ colorLoopOn: false, xy: rgbToCie(rgb[0], rgb[1], rgb[2]) });
     $('.color').css('background', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
   }),
 

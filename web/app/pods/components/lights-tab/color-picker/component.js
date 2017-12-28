@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Component, $ } = Ember;
+const { Component, $, run: { next } } = Ember;
 
 export default Component.extend({
   elementId: 'color-picker',
@@ -31,7 +31,19 @@ export default Component.extend({
     this.set('pressingDown', true);
 
     if (!(pixel[0] === 0 && pixel[1] === 0 && pixel[2] === 0)) {
-      this.set('rgb', [pixel[0], pixel[1], pixel[2]]);
+      this.setProperties({
+        rgb: [pixel[0], pixel[1], pixel[2]],
+        showPointer: true
+      });
+
+      next(() => {
+        $('#picker-pointer').css({
+          opacity: 1,
+          top: canvasY,
+          left: canvasX,
+          background: 'rgb(' + pixel[0] + ',' + pixel[1] + ',' + pixel[2] + ')'
+        });
+      });
     }
   },
 
@@ -48,8 +60,8 @@ export default Component.extend({
     };
 
     this.setProperties({
-      canvas: canvas,
-      canvasContext: canvasContext
+      canvas,
+      canvasContext
     });
   }
 });

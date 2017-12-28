@@ -102,6 +102,19 @@
 
 #picker {
   cursor: crosshair;
+  border-radius: 50%;
+}
+
+#picker-pointer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border: 2px solid white;
+  border-radius: 50%;
+  opacity: 0;
+  cursor: pointer;
 }
 
 #loop-addition {

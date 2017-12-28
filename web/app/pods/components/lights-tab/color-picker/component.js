@@ -9,6 +9,21 @@ export default Component.extend({
   canvasContext: null,
   pressingDown: false,
 
+  // for mobile
+  touchStop() {
+    this.set('pressingDown', false);
+  },
+
+  touchMove(event) {
+    if (this.get('pressingDown')) {
+      this.mouseDown(event);
+    }
+  },
+
+  touchStart() {
+    this.set('pressingDown', true);
+  },
+
   mouseUp() {
     this.set('pressingDown', false);
   },
@@ -21,8 +36,10 @@ export default Component.extend({
 
   mouseDown(event) {
     let canvasOffset = $(this.get('canvas')).offset(),
-      canvasX = Math.floor(event.pageX - canvasOffset.left),
-      canvasY = Math.floor(event.pageY - canvasOffset.top);
+      pageOffsetX = event.pageX === undefined ? event.originalEvent.touches[0].pageX : event.pageX,
+      pageOffsetY = event.pageY === undefined ? event.originalEvent.touches[0].pageY : event.pageY,
+      canvasX = Math.floor(pageOffsetX - canvasOffset.left),
+      canvasY = Math.floor(pageOffsetY - canvasOffset.top);
 
     // get current pixel
     let imageData = this.get('canvasContext').getImageData(canvasX, canvasY, 1, 1),

@@ -1,18 +1,18 @@
 {{#paper-list}}
   {{#paper-item}}
-    {{paper-icon "power-settings-new" class=dimmerOnClass}}
+    {{paper-icon "power-settings-new" class=(concat dimmerOnClass " default-cursor")}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Turn the selected lights on/off">Power</p>
     {{paper-switch value=lightsOn onChange=(action (mut lightsOn)) disabled=(or trial playing lightsOnDisabled) skipProxy=trial label=lightsOnTxt}}
   {{/paper-item}}
 
   {{#paper-item}}
-    {{paper-icon "brightness-4" class=dimmerOnClass}}
+    {{paper-icon "brightness-4" class=(concat dimmerOnClass " default-cursor")}}
     <p data-toggle="tooltip" data-placement="top auto" class="layout flex-60 bootstrap-tooltip lights-control-tooltip" data-title="The brightness level of the selected lights">Brightness</p>
     {{paper-slider class="flex" step=10 min=1 max=254 value=lightsBrightness onChange=(action (mut lightsBrightness)) disabled=brightnessControlDisabled}}
   {{/paper-item}}
 
   {{#paper-item elementId="color-row" }}
-    {{paper-icon "color-lens" class=dimmerOnClass}}
+    {{paper-icon "color-lens" class=(concat dimmerOnClass " default-cursor")}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="The color of the selected lights">Color</p>
 
     {{#paper-menu offset="0 -50" as |menu|}}
@@ -30,19 +30,19 @@
   {{/paper-item}}
 
   {{#paper-item}}
-    {{paper-icon "flare" class=dimmerOnClass}}
+    {{paper-icon "flare" class=(concat dimmerOnClass " default-cursor")}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Selected lights will flash in sequential order">Strobe</p>
     {{paper-switch value=strobeOn onChange=(action (mut strobeOn)) disabled=(or trial playing) skipProxy=trial label=strobeOnTxt}}
   {{/paper-item}}
 
   {{#paper-item}}
-    {{paper-icon "color-lens" class=dimmerOnClass}} {{paper-icon "loop" id="loop-addition" class=dimmerOnClass}}
+    {{paper-icon "color-lens" class=(concat dimmerOnClass " default-cursor")}} {{paper-icon "loop" id="loop-addition" class=dimmerOnClass}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Selected lights will slowly cycle through all the colors">Colorloop</p>
     {{paper-switch value=colorLoopOn onChange=(action (mut colorLoopOn)) disabled=(or trial playing) skipProxy=trial label=colorloopOnTxt}}
   {{/paper-item}}
 
   {{#paper-item}}
-    {{paper-icon "shuffle" class=dimmerOnClass}}
+    {{paper-icon "shuffle" class=(concat dimmerOnClass " default-cursor")}}
     <p data-toggle="tooltip" data-placement="top auto" class="bootstrap-tooltip lights-control-tooltip" data-title="Randomize the hues (colors) of your selected lights.">Randomize Hues</p>
 
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="dice" {{action "randomizeHues"}}>

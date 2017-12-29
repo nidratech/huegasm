@@ -1,4 +1,4 @@
-/*global rgbToCie cieToRgb*/
+/*global rgbToCie*/
 import Ember from 'ember';
 
 const { Component, observer, computed, on, run: { later, throttle }, $, isEmpty } = Ember;
@@ -195,7 +195,7 @@ export default Component.extend({
       syncLight = this.get('syncLight');
 
     if (rgb[0] !== 255 && rgb[1] !== 255 && rgb[2] !== 255) {
-      options['xy'] = this.rgbToXy(rgb[0], rgb[1], rgb[2]);
+      options['xy'] = this.rgbToCie(rgb[0], rgb[1], rgb[2]);
     }
 
     options['transitiontime'] = 0;

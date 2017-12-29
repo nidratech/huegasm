@@ -311,7 +311,7 @@ export default Component.extend({
         .velocity({ scale: 1 }, 100);
 
       this.get('activeLights').forEach(light => {
-        let options = { hue: Math.floor(Math.random() * 65535) };
+        let options = { hue: Math.floor(Math.random() * 65535), sat: 254 };
 
         if (this.get('lightsData')[light].state.on === false) {
           options.on = true;

@@ -130,6 +130,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
 
         if (!isNone(hue)) {
           options.hue = hue;
+          options.sat = 254;
         }
 
         if (this.get('blackoutMode')) {
@@ -601,6 +602,7 @@ export default Component.extend(helperMixin, visualizerMixin, {
                 data: JSON.stringify({
                   on: preMusicLightsDataCache[lightIndex].state.on,
                   hue: preMusicLightsDataCache[lightIndex].state.hue,
+                  sat: preMusicLightsDataCache[lightIndex].state.sat,
                   bri: preMusicLightsDataCache[lightIndex].state.bri
                 }),
                 contentType: 'application/json',

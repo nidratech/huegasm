@@ -15,7 +15,6 @@ export default Mixin.create({
     threshold: {
       range: { min: 0, max: 0.5 },
       step: 0.01,
-      defaultValue: 0.3,
       pips: {
         mode: 'values',
         values: [0, 0.5],
@@ -39,7 +38,6 @@ export default Mixin.create({
     hueRange: {
       range: { min: 0, max: 65535 },
       step: 1,
-      defaultValue: 0.3,
       pips: {
         mode: 'values',
         values: [0, 25500, 46920, 65535],
@@ -65,7 +63,6 @@ export default Mixin.create({
     brightnessRange: {
       range: { min: 1, max: 254 },
       step: 1,
-      defaultValue: 0,
       pips: {
         mode: 'values',
         values: [1, 63, 127, 190, 254],

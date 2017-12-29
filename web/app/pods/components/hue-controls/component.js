@@ -174,7 +174,7 @@ export default Component.extend({
             element: '#playlist',
             intro:
               'You can add and select music to play from your playlist here. You may listen to local audio files, online audio streams or stream music from SoundCloud.<br><br>' +
-              '<i><b>TIP</b>: Songs added through Soundcloud will be saved for when you visit this page again.</i>'
+              '<i><b>TIP</b>: Songs added through Soundcloud or direct URLs will be saved for when you visit this page again.</i>'
           },
           {
             element: $('#playlist md-menu')[0],

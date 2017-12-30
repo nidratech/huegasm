@@ -195,7 +195,7 @@ export default Component.extend({
       syncLight = this.get('syncLight');
 
     if (rgb[0] !== 255 && rgb[1] !== 255 && rgb[2] !== 255) {
-      options['xy'] = this.rgbToCie(rgb[0], rgb[1], rgb[2]);
+      options['xy'] = rgbToCie(rgb[0], rgb[1], rgb[2]);
     }
 
     options['transitiontime'] = 0;

@@ -8,22 +8,14 @@
     <div class="ready-block">
       <div id="intro-background">
         <div id="intro-wrapper">
-          <p id="intro">
-            Your lights meet your music
-          </p>
           <p id="intro-paragraph">
-            Huegasm is a free web application for managing and synchronizing your <a target="_blank" href="http://www2.meethue.com">Philips Hue lights</a>            with the beat of your music.
+            Please be aware that this web application is no longer maintained, while we shift focus to our browser and mobile apps.
           </p>
         </div>
       </div>
 
-      <p>Click <a href="#" {{action "isReady"}}>START</a> to get started using Huegasm.</p>
-
       <div class="relative">
         {{paper-button raised=true primary=true warn=true onClick=(action "isReady") class="go-button center-block" label="START"}}
-        <a href="https://www.youtube.com/watch?v=zi9J6Qg-MPw" class="video-icon" target="_blank">
-          {{paper-icon "ondemand video" size=28}}
-        </a>
       </div>
     </div>
   {{/if}}

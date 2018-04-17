@@ -9,7 +9,7 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "ember server",
+    "start": "ember server --port=4201",
     "build": "ember build --env=production",
     "deploy": "ember deploy production"
   },
@@ -19,7 +19,7 @@
   "author": "Nidratech Ltd.",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
-    "ember-cli": "^2.14.0",
+    "ember-cli": "~2.18.0",
     "ember-cli-app-version": "^3.0.0",
     "ember-cli-babel": "^6.0.0",
     "ember-cli-dependency-checker": "^2.0.0",
@@ -44,7 +44,7 @@
     "ember-notify": "^5.0.4",
     "ember-paper": "^1.0.0-alpha.19",
     "ember-resolver": "^4.0.0",
-    "ember-source": "^2.11.0",
+    "ember-source": "~2.18.0",
     "ember-truth-helpers": "^2.0.0",
     "loader.js": "^4.0.7"
   }

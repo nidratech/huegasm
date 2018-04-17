@@ -7,6 +7,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('android-privacy-policy');
+  this.route('web-app');
 });
 
 export default Router;

@@ -13,6 +13,7 @@ module.exports = {
   },
   globals: {
     chrome: false,
-    introJs: false
+    introJs: false,
+    cieToRgb: false
   }
 };

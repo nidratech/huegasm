@@ -15,9 +15,11 @@
 }
 
 .available-on {
+  margin-top: 2vh;
+
   &-container {
     text-align: left;
-    margin-top: 1vh;
+    margin-top: 3vh;
   }
 
   &-list a {
@@ -64,7 +66,6 @@
   }
 
   .available-on-list a {
-    display: block;
     margin-top: 2vh;
   }
 }

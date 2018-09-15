@@ -6,8 +6,17 @@ const Funnel = require('broccoli-funnel');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
-    fingerprint:{
-      exclude: ['logo.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'apple-touch-icon.png', 'favicon-16x16.png', 'favicon-32x32.png', 'mstile-150x150.png']
+    fingerprint: {
+      exclude: [
+        'logo.png',
+        'android-chrome-192x192.png',
+        'android-chrome-512x512.png',
+        'apple-touch-icon.png',
+        'favicon-16x16.png',
+        'favicon-32x32.png',
+        'mstile-150x150.png',
+        'feature-graphic.png'
+      ]
     }
   });
   let extraAssets = new Funnel('bower_components/bootstrap-sass/assets/fonts/bootstrap/', {
@@ -18,7 +27,7 @@ module.exports = function(defaults) {
 
   app.import('vendor/dancer.js');
   app.import('vendor/cie-rgb-converter.js');
-  
+
   app.import('bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
   app.import('bower_components/intro.js/intro.js');
   app.import('bower_components/intro.js/introjs.css');

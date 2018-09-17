@@ -24,15 +24,19 @@
 
   &-list a {
     margin-right: 2vw;
-
-    &.play-store-icon img {
-      width: 130px;
-    }
-
-    &.app-store-icon img {
-      width: 110px;
-    }
   }
+}
+
+.chrome-store-icon img {
+  width: 170px;
+}
+
+.play-store-icon img {
+  width: 130px;
+}
+
+.app-store-icon img {
+  width: 110px;
 }
 
 .embed-container {

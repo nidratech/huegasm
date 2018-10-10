@@ -22,8 +22,11 @@
 
 #bridge-finder,
 .ready-block {
-  text-align: center;
   font-size: 16px;
+
+  #intro {
+    text-align: center;
+  }
 }
 
 #bridge-finder {
@@ -64,6 +67,13 @@
 
   &:hover {
     background-color: darken(#f44336, 7%) !important;
+  }
+}
+
+@media (min-width: 769px) {
+  #bridge-finder,
+  .ready-block {
+    text-align: center;
   }
 }
 

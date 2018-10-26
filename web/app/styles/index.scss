@@ -1,6 +1,6 @@
 #intro {
   font-size: 32px;
-  margin-top: 4vh;
+  margin-top: 2vh;
 
   &-background {
     margin-bottom: 5vh;
@@ -29,14 +29,22 @@
 
 .chrome-store-icon img {
   width: 170px;
+  margin-left: -8px;
 }
 
 .play-store-icon img {
   width: 130px;
+  margin-left: -8px;
 }
 
 .app-store-icon img {
   width: 110px;
+}
+
+.available-on-list {
+  .web-legacy-link, .play-store-icon img, .app-store-icon img {
+    margin-bottom: 5px;
+  }
 }
 
 .embed-container {
@@ -74,10 +82,6 @@
 
 @media (max-width: 768px) {
   .available-on-container {
-    margin-top: 2vh;
-  }
-
-  .available-on-list a {
     margin-top: 2vh;
   }
 }

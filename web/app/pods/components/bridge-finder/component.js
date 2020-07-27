@@ -47,7 +47,7 @@ export default Component.extend({
     this._super(...arguments);
 
     if (this.get('bridgeIp') === null) {
-      $.ajax('https://www.meethue.com/api/nupnp', {
+      $.ajax('https://discovery.meethue.com/', {
         timeout: 30000
       })
         .done((result, status) => {
